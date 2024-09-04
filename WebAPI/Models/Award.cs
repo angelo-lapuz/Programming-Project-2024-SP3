@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public string Img { get; set; }
 
-        // TODO - double check condition datatype
+        // TODO - double check condition 
         public string Condition { get; set; }
     }
 }
