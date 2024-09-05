@@ -6,6 +6,7 @@ namespace WebAPI.Models
     public class Post
     {
         public int PostID { get; set; }
+        [Required]
         public int UserID { get; set; }
         public virtual User User { get; set; }
         public string Content { get; set; }
