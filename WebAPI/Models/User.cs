@@ -12,8 +12,7 @@
         public int TaskID { get; set; }
         public virtual Task Task { get; set; }
 
-        // TODO - can be a list of Like datatypes
-        public int Likes { get; set; }
         public virtual List<Post> Posts { get; set; }
+        public virtual List<Like> Likes { get; set; }
     }
 }
