@@ -5,6 +5,7 @@ namespace WebAPI.Models
 {
     public class Like
     {
+        public int LikeID { get; set; }
         [Required]
         public int PostID { get; set; }
         public virtual Post Post { get; set; }
