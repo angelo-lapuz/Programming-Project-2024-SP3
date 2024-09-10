@@ -12,7 +12,7 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PeakHubContext))]
-    [Migration("20240909152211_InitialCreate")]
+    [Migration("20240910142859_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,9 +21,9 @@ namespace WebAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("WebAPI.Models.Award", b =>
                 {
@@ -31,16 +31,16 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AwardID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("AwardID"));
 
                     b.Property<string>("Condition")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Img")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("AwardID");
 
@@ -53,10 +53,10 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BoardID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BoardID"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("BoardID");
 
@@ -69,7 +69,7 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("LikeID"));
 
                     b.Property<int>("PostID")
                         .HasColumnType("int");
@@ -92,25 +92,25 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("PostID"));
 
                     b.Property<int>("BoardID")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
                     b.Property<string>("MediaLink")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("MediaType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("TransactionTimeUtc")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserID")
                         .HasColumnType("int");
@@ -130,7 +130,7 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TaskID"));
 
                     b.Property<string>("AccountType")
                         .IsRequired()
@@ -138,16 +138,16 @@ namespace WebAPI.Migrations
                         .HasColumnType("char");
 
                     b.Property<string>("Coords")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Details")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("IMG")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("TaskID");
 
@@ -160,29 +160,29 @@ namespace WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<int>("AwardID")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(94)
-                        .HasColumnType("char");
+                        .HasColumnType("varchar(94)");
 
                     b.Property<string>("ProfileIMG")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("TaskID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserID");
 
