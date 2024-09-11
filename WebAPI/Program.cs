@@ -10,6 +10,8 @@ builder.Services.AddDbContext<PeakHubContext>(options =>
     new MySqlServerVersion(new Version(8, 0, 25))));
 
 builder.Services.AddScoped<UserManager>();
+builder.Services.AddScoped<TaskManager>();
+builder.Services.AddScoped<PostManager>();
 
 
 builder.Services.AddControllers();

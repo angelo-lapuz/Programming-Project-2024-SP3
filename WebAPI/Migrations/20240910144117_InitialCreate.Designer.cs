@@ -12,7 +12,7 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PeakHubContext))]
-    [Migration("20240910142859_InitialCreate")]
+    [Migration("20240910144117_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,7 +42,12 @@ namespace WebAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("AwardID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Awards");
                 });
@@ -149,7 +154,12 @@ namespace WebAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("TaskID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Tasks");
                 });
@@ -161,9 +171,6 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserID"));
-
-                    b.Property<int>("AwardID")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -177,20 +184,20 @@ namespace WebAPI.Migrations
                     b.Property<string>("ProfileIMG")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("TaskID")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("AwardID");
-
-                    b.HasIndex("TaskID");
-
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("WebAPI.Models.Award", b =>
+                {
+                    b.HasOne("WebAPI.Models.User", null)
+                        .WithMany("Awards")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Like", b =>
@@ -231,23 +238,11 @@ namespace WebAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.User", b =>
+            modelBuilder.Entity("WebAPI.Models.Task", b =>
                 {
-                    b.HasOne("WebAPI.Models.Award", "Award")
-                        .WithMany()
-                        .HasForeignKey("AwardID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Models.Task", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Award");
-
-                    b.Navigation("Task");
+                    b.HasOne("WebAPI.Models.User", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Board", b =>
@@ -257,9 +252,13 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Models.User", b =>
                 {
+                    b.Navigation("Awards");
+
                     b.Navigation("Likes");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }
