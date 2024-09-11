@@ -1,4 +1,16 @@
+using System.Net.Http.Headers;
+using System.Net.Mime;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Configure api client.
+builder.Services.AddHttpClient("api", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5164");
+    client.DefaultRequestHeaders.Accept.Add(
+    new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
