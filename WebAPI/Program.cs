@@ -12,6 +12,9 @@ builder.Services.AddDbContext<PeakHubContext>(options =>
 builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<TaskManager>();
 builder.Services.AddScoped<PostManager>();
+builder.Services.AddScoped<LikeManager>();
+builder.Services.AddScoped<BoardManager>();
+builder.Services.AddScoped<AwardManager>();
 
 
 builder.Services.AddControllers();
