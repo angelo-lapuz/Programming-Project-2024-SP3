@@ -6,13 +6,13 @@ namespace WebAPI.Models
     public class Post
     {
         public int PostID { get; set; }
+        [Required]
         public int UserID { get; set; }
         public virtual User User { get; set; }
         public string Content { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
-        [Column(TypeName = "datetime2")]
         public DateTime TransactionTimeUtc { get; set; }
         
         // TODO - Can be a list of Likes
