@@ -18,23 +18,30 @@ namespace PeakHub.Controllers
             return View();
         }
 
-        // POST: SignUp/Create
+        // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(User user)
+        public IActionResult Index(SignUpViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var user = new User
+                {
+                    UserName = viewModel.UserName,
+                    Email = viewModel.Email,
+                    Password = viewModel.Password,
+                };
+
                 var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
                 var response = Client.PostAsync("api/users", content).Result;
 
 
                 if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            return View(viewModel);
         }
     }
 }
