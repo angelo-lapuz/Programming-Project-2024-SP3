@@ -1,0 +1,18 @@
+﻿@page
+@model PeakHub.Models.User
+@{
+}
+
+<body>
+    <form asp-action="Create" method="post">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+        <span asp-asp-validation-for="UserName" class="text-danger"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-asp-validation-for="Password" class="text-danger"></span>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-asp-validation-for="Email" class="text-danger"></span>
+    </form>
+</body>
