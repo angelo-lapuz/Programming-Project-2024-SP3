@@ -18,10 +18,16 @@ namespace PeakHub.Controllers
             return View();
         }
 
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(SignUpViewModel viewModel)
+        public IActionResult Create(SignUpViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -42,6 +48,21 @@ namespace PeakHub.Controllers
             }
 
             return View(viewModel);
+        }
+
+        public bool VerifyUserName(string userName)
+        {
+            var response = await Client.GetAsync("api/movies");
+            //var response = await MovieApi.InitializeClient().GetAsync("api/movies");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception();
+
+            // Storing the response details received from web api.
+            var result = await response.Content.ReadAsStringAsync();
+
+            // Deserializing the response received from web api and storing into a list.
+            var movies = JsonConvert.DeserializeObject<List<MovieDto>>(result);
         }
     }
 }
