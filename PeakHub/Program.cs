@@ -12,6 +12,14 @@ builder.Services.AddHttpClient("api", client =>
     new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });
 
+// Store session into Web-Server memory.
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Make the session cookie essential.
+    options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -29,6 +37,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
