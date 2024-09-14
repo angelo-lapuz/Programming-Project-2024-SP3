@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimpleHashing.Net;
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
@@ -24,6 +25,12 @@ namespace PeakHub.Controllers
             return View();
         }
 
+        // Takes input given by user from form, verifies is username and email
+        // aren't in the database, if one or both are found in the database,
+        // a error message is added to the ModelState which is then returned back
+        // to the Creat view. If there email and usenrame arent found and there are
+        // no errors, SimpleHashing is used to hash the password and a user is
+        // created in the database.
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -34,11 +41,14 @@ namespace PeakHub.Controllers
 
             if (ModelState.IsValid && !userNameFound && !emailFound)
             {
+                ISimpleHash simpleHash = new SimpleHash();
+                string hashedPassword = simpleHash.Compute(viewModel.Password);
+
                 var user = new User
                 {
                     UserName = viewModel.UserName,
                     Email = viewModel.Email,
-                    Password = viewModel.Password,
+                    Password = hashedPassword,
                 };
 
                 var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
