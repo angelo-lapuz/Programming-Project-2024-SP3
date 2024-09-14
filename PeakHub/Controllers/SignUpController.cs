@@ -27,9 +27,12 @@ namespace PeakHub.Controllers
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(SignUpViewModel viewModel)
+        public async Task<IActionResult> Create(SignUpViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            bool userNameFound = await VerifyUserName(viewModel.UserName);
+            bool emailFound = await FindEmail(viewModel.Email);
+
+            if (ModelState.IsValid && !userNameFound && !emailFound)
             {
                 var user = new User
                 {
@@ -46,14 +49,62 @@ namespace PeakHub.Controllers
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction("Index", "Home");
             }
+            if (userNameFound) 
+            {
+                ModelState.AddModelError("UserName", "Username exists");
+            }
+            if (emailFound) 
+            {
+                ModelState.AddModelError("Email", "Email already in use");
+            }
 
             return View(viewModel);
         }
 
-        public bool VerifyUserName(string userName)
+        // Calls GetUsers() to get all the users from the database
+        // and iterates through the list to find matching username
+        // returns true if found / false if not.
+        public async Task<bool> VerifyUserName(string userName) 
         {
-            var response = await Client.GetAsync("api/movies");
-            //var response = await MovieApi.InitializeClient().GetAsync("api/movies");
+            List<User> users = await GetUsers();
+            bool userFound = false;
+
+            foreach (var user in users)
+            {
+                if (user.UserName == userName)
+                {
+                    userFound = true;
+                }
+            }
+
+            return userFound;
+        }
+
+        // Calls GetUsers() to get all the users from the database
+        // and iterates through the list to find matching email
+        // returns true if found / false if not.
+        public async Task<bool> FindEmail(string email)
+        {
+            List<User> users = await GetUsers();
+            bool emailFound = false;
+
+            foreach (var user in users)
+            {
+                if (user.Email == email)
+                {
+                    emailFound = true;
+                }
+            }
+
+            return emailFound;
+        }
+
+        // Gets all users using the Get method in the WebAPI project
+        // and adds them to a list.
+        public async Task<List<User>> GetUsers()
+        {
+            var response = await Client.GetAsync("api/users");
+
 
             if (!response.IsSuccessStatusCode)
                 throw new Exception();
@@ -62,7 +113,9 @@ namespace PeakHub.Controllers
             var result = await response.Content.ReadAsStringAsync();
 
             // Deserializing the response received from web api and storing into a list.
-            var movies = JsonConvert.DeserializeObject<List<MovieDto>>(result);
+            var users = JsonConvert.DeserializeObject<List<User>>(result);
+
+            return users;
         }
     }
 }

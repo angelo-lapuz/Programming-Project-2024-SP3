@@ -8,6 +8,7 @@ namespace PeakHub.Models
         [Display(Name = "User ID")]
         public int UserID { get; set; }
         [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
         [Required]
         public string Email { get; set; }
