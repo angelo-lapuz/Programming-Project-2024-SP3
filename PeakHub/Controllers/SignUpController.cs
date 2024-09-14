@@ -30,7 +30,7 @@ namespace PeakHub.Controllers
         // a error message is added to the ModelState which is then returned back
         // to the Creat view. If there email and usenrame arent found and there are
         // no errors, SimpleHashing is used to hash the password and a user is
-        // created in the database.
+        // created.
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -57,7 +57,9 @@ namespace PeakHub.Controllers
 
 
                 if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index", "Home");
+                {
+                    return RedirectToAction("Login", "Login");
+                }
             }
             if (userNameFound) 
             {
@@ -127,5 +129,30 @@ namespace PeakHub.Controllers
 
             return users;
         }
+
+        public async Task<int> GetUserID(string userName)
+        {
+            var response = await Client.GetAsync("api/users");
+
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception();
+
+            // Storing the response details received from web api.
+            var result = await response.Content.ReadAsStringAsync();
+
+            // Deserializing the response received from web api and storing into a list.
+            var users = JsonConvert.DeserializeObject<List<User>>(result);
+            int id = 0;
+            foreach (var user in users)
+            {
+                if (user.UserName == userName)
+                {
+                    id = user.UserID;
+                }
+            }
+            return id;
+        }
+
     }
 }

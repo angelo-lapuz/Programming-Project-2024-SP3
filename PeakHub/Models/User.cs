@@ -14,6 +14,7 @@ namespace PeakHub.Models
         public string Email { get; set; }
 
         [Required]
+        [Column(TypeName = "char")]
         [StringLength(94)]
         public string Password { get; set; }
 

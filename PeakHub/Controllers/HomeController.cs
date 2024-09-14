@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PeakHub.Models;
 using System.Diagnostics;
+using PeakHub.ViewModels;
 
 namespace PeakHub.Controllers
 {
@@ -8,14 +10,45 @@ namespace PeakHub.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHttpClientFactory _clientFactory;
+        private HttpClient Client => _clientFactory.CreateClient("api");
+
+        private int? UserID => HttpContext.Session.GetInt32("UserID");
+        private string Name => HttpContext.Session.GetString("Username");
+
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
+            _clientFactory = clientFactory;
         }
 
-        public IActionResult Index()
+
+
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            HomeViewModel viewModel = new HomeViewModel();
+            if (UserID == null)
+            {
+                viewModel.UserID = null;
+                viewModel.UserName = null;
+            }
+            else
+            {
+                var response = await Client.GetAsync($"api/users/{UserID}");
+
+                if (!response.IsSuccessStatusCode)
+                    throw new Exception();
+
+                var result = await response.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<User>(result);
+
+                viewModel.UserID = user.UserID;
+                viewModel.UserName = user.UserName;
+            }
+
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

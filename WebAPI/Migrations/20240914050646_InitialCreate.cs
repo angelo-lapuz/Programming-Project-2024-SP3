@@ -40,7 +40,7 @@ namespace WebAPI.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "varchar(94)", maxLength: 94, nullable: false)
+                    Password = table.Column<string>(type: "char(94)", maxLength: 94, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProfileIMG = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")

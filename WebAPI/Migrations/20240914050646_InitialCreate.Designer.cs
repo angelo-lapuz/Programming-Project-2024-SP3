@@ -12,7 +12,7 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PeakHubContext))]
-    [Migration("20240910144117_InitialCreate")]
+    [Migration("20240914050646_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -179,7 +179,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(94)
-                        .HasColumnType("varchar(94)");
+                        .HasColumnType("char");
 
                     b.Property<string>("ProfileIMG")
                         .HasColumnType("longtext");
