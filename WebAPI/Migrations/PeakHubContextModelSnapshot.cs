@@ -176,7 +176,7 @@ namespace WebAPI.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(94)
-                        .HasColumnType("varchar(94)");
+                        .HasColumnType("char");
 
                     b.Property<string>("ProfileIMG")
                         .HasColumnType("longtext");
