@@ -1,0 +1,15 @@
+﻿@model PeakHub.ViewModels.LoginViewModel;
+@{
+}
+<body>
+        <form asp-action="Login" method="post">
+            @Html.ValidationMessage("loginError", "", new { @class = "text-danger" })
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <input type="submit" value="Login" class="btn btn-primary" />
+        </form>
+</body>

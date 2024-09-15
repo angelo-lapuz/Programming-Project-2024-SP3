@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.Models
+namespace PeakHub.Models
 {
     public class User
     {
         [Display(Name = "User ID")]
         public int UserID { get; set; }
         [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
         [Required]
         public string Email { get; set; }
