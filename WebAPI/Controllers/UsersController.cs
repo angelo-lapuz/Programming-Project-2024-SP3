@@ -2,6 +2,7 @@
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
 
+
 namespace WebApi.Controllers;
 
 // See here for more information:
@@ -12,21 +13,18 @@ namespace WebApi.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly UserManager _repo;
+    private readonly ILogger<UsersController> _logger;
 
-    public UsersController(UserManager repo)
+    
+    public UsersController(UserManager repo, ILogger<UsersController> logger)
     {
         _repo = repo;
+        _logger = logger;
     }
 
-    // GET: api/users
-    [HttpGet]
-    public IEnumerable<User> Get()
-    {
-        return _repo.GetAll();
-    }
 
     // GET api/users/1
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public User Get(int id)
     {
         return _repo.Get(id);
@@ -47,10 +45,35 @@ public class UsersController : ControllerBase
     }
 
     // DELETE api/users/1
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public long Delete(int id)
     {
         return _repo.Delete(id);
     }
+
+    // when to check if a username or email exists in the database
+    [HttpGet("Verify/{username}/{email}")]
+    public IActionResult Verify(string username, string email)
+    {
+
+        //get username / email
+        var user = _repo.GetByUsernameAndEmail(username, email);
+
+        // return new JSON result with the username and email 
+        return Ok(new
+        {
+            UsernameExists = user != null && user.UserName == username,
+            EmailExists = user != null && user.Email == email
+        });
+
+    }
+
+    // used when logging in
+    [HttpGet("{username}/{password}")]
+    public User Login(string username, string password)
+    {
+        return _repo.VerifyLogin(username, password);
+    }
+
 }
 
