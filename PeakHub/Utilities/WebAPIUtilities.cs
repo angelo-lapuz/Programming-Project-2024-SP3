@@ -11,66 +11,28 @@ namespace PeakHub.Utilities
 
         public WebAPIUtilities(IHttpClientFactory clientFactory) => _clientFactory = clientFactory;
 
-        // Calls GetUsers() to get all the users from the database
-        // and iterates through the list to find matching username
-        // returns true if found / false if not.
-        public async Task<bool> VerifyUserName(string userName)
+       
+
+        public async Task<bool> CheckUserEmailAndName(string userName, string email)
         {
-            List<User> users = await GetUsers();
-            bool userFound = false;
+            var response = await Client.GetAsync($"api/Auth/VerifyUserNameAndEmail/{email}{userName}");
 
-            foreach (var user in users)
-            {
-                if (user.UserName == userName)
-                {
-                    userFound = true;
-                }
-            }
-
-            return userFound;
+            return response.IsSuccessStatusCode ? true : false;
         }
 
-        // Calls GetUsers() to get all the users from the database
-        // and iterates through the list to find matching email
-        // returns true if found / false if not.
-        public async Task<bool> FindEmail(string email)
-        {
-            List<User> users = await GetUsers();
-            bool emailFound = false;
-
-            foreach (var user in users)
-            {
-                if (user.Email == email)
-                {
-                    emailFound = true;
-                }
-            }
-
-            return emailFound;
-        }
-
-        public async Task<bool> VerifyPassword(string userName, string password)
+        // Verifies the password for a given user
+        public bool VerifyPassword(string password, string hashedPassword)
         {
             ISimpleHash simpleHash = new SimpleHash();
-            List<User> users = await GetUsers();
-            bool isPasswordValid = false;
-            foreach (var user in users)
-            {
-                if (user.UserName == userName)
-                {
-                    isPasswordValid = simpleHash.Verify(password, user.Password);
-                }
-            }
-            return isPasswordValid;
+            return simpleHash.Verify(password, hashedPassword);
         }
 
 
         // Gets all users using the Get method in the WebAPI project
         // and adds them to a list.
-        public async Task<List<User>> GetUsers()
+        public async Task<User> GetUser(string userName)
         {
-            var response = await Client.GetAsync("api/users");
-
+            var response = await Client.GetAsync($"api/users/{userName}");
 
             if (!response.IsSuccessStatusCode)
                 throw new Exception();
@@ -78,10 +40,23 @@ namespace PeakHub.Utilities
             // Storing the response details received from web api.
             var result = await response.Content.ReadAsStringAsync();
 
-            // Deserializing the response received from web api and storing into a list.
-            var users = JsonConvert.DeserializeObject<List<User>>(result);
+            // Deserializing the response received from web api 
+            var user = JsonConvert.DeserializeObject<User>(result);
 
-            return users;
+            return user;
         }
+
+        public async Task<User> login(string userName, string password)
+        {
+            var response = await Client.GetAsync($"api/auth/VerifyLogin/{userName}{password}");
+
+            var result = await response.Content.ReadAsStringAsync();
+
+          
+            var user = JsonConvert.DeserializeObject<User>(result);
+
+            return user;
+        }
+       
     }
 }

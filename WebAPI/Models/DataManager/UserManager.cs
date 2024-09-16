@@ -1,5 +1,9 @@
-﻿using WebAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
 using WebAPI.Models.Repository;
+using SimpleHashing.Net;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+
 
 namespace WebAPI.Models.DataManager;
 
@@ -44,5 +48,30 @@ public class UserManager : IDataRepository<User, int>
         _context.SaveChanges();
 
         return id;
+    }
+
+    // checks if the username and password are valid compared to what is stored in the database
+    public User? VerifyLogin(string username, string password)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+
+        if (user != null)
+        {
+            ISimpleHash simpleHash = new SimpleHash();
+            bool isPasswordValid = simpleHash.Verify(password, user.Password);
+
+            if (isPasswordValid)
+            {
+                return user;
+            }
+        }
+        return null;
+    }
+
+
+    // checks if there is a username Or email in the database
+    public User? GetByUsernameAndEmail(String username, String email)
+    {
+        return _context.Users.Where(u => u.UserName == username || u.Email == email).FirstOrDefault();
     }
 }
