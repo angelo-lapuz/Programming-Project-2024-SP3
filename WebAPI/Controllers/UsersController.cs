@@ -55,7 +55,6 @@ public class UsersController : ControllerBase
     [HttpGet("Verify/{username}/{email}")]
     public IActionResult Verify(string username, string email)
     {
-
         //get username / email
         var user = _repo.GetByUsernameAndEmail(username, email);
 
@@ -65,7 +64,6 @@ public class UsersController : ControllerBase
             UsernameExists = user != null && user.UserName == username,
             EmailExists = user != null && user.Email == email
         });
-
     }
 
     // used when logging in
@@ -74,6 +72,7 @@ public class UsersController : ControllerBase
     {
         return _repo.VerifyLogin(username, password);
     }
+
 
 }
 

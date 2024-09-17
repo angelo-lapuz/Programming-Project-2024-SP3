@@ -47,7 +47,6 @@ namespace PeakHub.Controllers
         public async Task<IActionResult> Create(SignUpViewModel viewModel)
         {
             var response = await Client.GetAsync($"api/users/Verify/{viewModel.UserName}/{viewModel.Email}");
-
             var resultContent = await response.Content.ReadAsStringAsync();
 
             dynamic result = JsonConvert.DeserializeObject(resultContent);
