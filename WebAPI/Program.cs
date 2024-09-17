@@ -4,10 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(7141);  // Listen on port 7141 for all IPs
-});
+
 
 
 // Add services to the container.

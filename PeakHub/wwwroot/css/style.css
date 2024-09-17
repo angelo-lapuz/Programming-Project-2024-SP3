@@ -1,0 +1,96 @@
+
+
+/* GENERAL STYLING*/
+main {
+    flex-grow: 1;
+}
+
+html, body {
+    background-color: #696969;
+    height: 100%;
+    color: white;
+}
+
+
+.header-images img:first-child {
+    width: 333px;
+    height: 94px;
+}
+
+.header-images img {
+    display: block;
+    margin: 10px auto; 
+}
+
+.form-label {
+    color: white; 
+}
+
+.form-control {
+    background-color: #F1F1F1; 
+    border: none;
+}
+
+.btn-primary {
+    background-color: #2A8D68; 
+    border-color: #2A8D68;
+}
+
+    .btn-primary:hover {
+        background-color: #238458; 
+    }
+
+.header-images img {
+    width: 60px;
+    height: auto;
+    margin: 10px;
+}
+
+.text-danger {
+    color: #FF5C5C; 
+}
+
+
+
+/* LOGIN STYLING*/
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #08403A;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* NAVBAR STYLING*/
+
+.navbar {
+    background-color: #08403A !important; 
+    border-bottom: 1px solid #2A8D68; 
+}
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+        color: white !important; 
+    }
+
+        .navbar .nav-link:hover {
+            color: #2A8D68 !important;
+        }
+
+.navbar-toggler-icon {
+    filter: invert(1); 
+}
+
+/* SIGNUP CSS*/
+.signup-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #08403A;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
