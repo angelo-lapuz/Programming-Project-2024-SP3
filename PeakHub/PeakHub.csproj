@@ -11,4 +11,8 @@
     <PackageReference Include="SimpleHashing.Net" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
 </Project>
