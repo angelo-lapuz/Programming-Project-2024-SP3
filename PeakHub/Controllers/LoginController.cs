@@ -12,8 +12,14 @@ namespace PeakHub.Controllers
     {
         private readonly IHttpClientFactory _clientFactory;
         private HttpClient Client => _clientFactory.CreateClient("api");
+        private readonly ILogger<LoginController> _logger;
+        WebAPIUtilities utilities => new(_clientFactory);
 
-        public LoginController(IHttpClientFactory clientFactory) => _clientFactory = clientFactory;
+        public LoginController(IHttpClientFactory clientFactory, ILogger<LoginController> logger)
+        {
+            _clientFactory = clientFactory;
+            _logger = logger;
+        }
         public IActionResult Index()
         {
             return View();
@@ -24,45 +30,41 @@ namespace PeakHub.Controllers
             return View();
         }
 
-        // Takes input given by user from form, verifies is username and email
-        // aren't in the database, if one or both are found in the database,
-        // a error message is added to the ModelState which is then returned back
-        // to the Creat view. If there email and usenrame arent found and there are
-        // no errors, SimpleHashing is used to hash the password and a user is
-        // created in the database.
+        // checks if the username and password are correct changes the session to the user id and username
+        // if the login is successful, if not an error message is added to the ModelState
+        // and the view is returned.
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
-            WebAPIUtilities utilities = new WebAPIUtilities(_clientFactory);
-
-            bool userNameFound = await utilities.VerifyUserName(viewModel.UserName);
-
-
-            if (ModelState.IsValid && userNameFound)
+            if (!ModelState.IsValid)
             {
-                bool passwordsMatch = await utilities.VerifyPassword(viewModel.UserName, viewModel.Password);
-
-                if (!passwordsMatch) 
-                {
-                    ModelState.AddModelError("LoginError", "Invalid Login details");
-                    return View(viewModel);
-                }
-
-                List<User> users = await utilities.GetUsers();
-
-                foreach (var user in users) 
-                {
-                    HttpContext.Session.SetInt32("UserID", user.UserID);
-                    HttpContext.Session.SetString("Username", user.UserName);
-                }
-
-                return RedirectToAction("Index", "Home");
+                return View(viewModel);
             }
 
+            // calling API and encoding username and password to prevent capture in plain text
+            var response = await Client.GetAsync($"api/users/{Uri.EscapeDataString(viewModel.UserName)}/{Uri.EscapeDataString(viewModel.Password)}");
 
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<User>(result);
+
+                if (user != null)
+                {
+                    // Store user details in session
+                    HttpContext.Session.SetInt32("UserID", user.UserID);
+                    HttpContext.Session.SetString("Username", user.UserName);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            // If login fails, add error to the ModelState
+            ModelState.AddModelError("LoginError", "Invalid login details");
             return View(viewModel);
+
         }
     }
 }
