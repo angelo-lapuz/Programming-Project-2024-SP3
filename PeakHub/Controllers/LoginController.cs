@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PeakHub.Utilities;
 using PeakHub.ViewModels;
 using PeakHub.Models;
 using SimpleHashing.Net;
@@ -13,7 +12,6 @@ namespace PeakHub.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private HttpClient Client => _clientFactory.CreateClient("api");
         private readonly ILogger<LoginController> _logger;
-        WebAPIUtilities utilities => new(_clientFactory);
 
         public LoginController(IHttpClientFactory clientFactory, ILogger<LoginController> logger)
         {
