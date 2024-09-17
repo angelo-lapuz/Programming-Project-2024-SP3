@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
 using System.Text;
-using PeakHub.Utilities;
 
 namespace PeakHub.Controllers
 {
@@ -23,7 +22,6 @@ namespace PeakHub.Controllers
             _logger = logger;
         }
 
-        WebAPIUtilities utilities => new WebAPIUtilities(_clientFactory);
 
         public IActionResult Index()
         {
