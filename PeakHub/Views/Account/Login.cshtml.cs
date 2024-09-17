@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace PeakHub.Views.Login
+namespace PeakHub.Views.Account
 {
     public class LoginModel : PageModel
     {

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PeakHub.Models;
 using SimpleHashing.Net;
+using System.Net.Mail;
 
 namespace PeakHub.Utilities
 {
@@ -82,6 +83,62 @@ namespace PeakHub.Utilities
             var users = JsonConvert.DeserializeObject<List<User>>(result);
 
             return users;
+        }
+
+        // -------------------------------------------------------------------------------- //
+        // -------------------------------------------------------------------------------- //
+
+        // Adam's Additions / Upgrades [For LogIn + SignUp]
+
+        // Get User via Username
+        public async Task<User> GetUser(string userName) {
+            var response = await Client.GetAsync($"api/users/username/{userName}");
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<User>(result);
+            }
+
+            return null;
+        }
+
+        // Check if Username Exists
+        public async Task<bool> VerifyUsername(string userName) {
+            var response = await Client.GetAsync($"api/users/username/{userName}");
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+                User user = JsonConvert.DeserializeObject<User>(result);
+
+                return user != null;
+            }
+
+            return false;
+        }
+
+        // Check if Email Exists
+        public async Task<bool> VerifyEmail(string email) {
+            var response = await Client.GetAsync($"api/users/email/{email}");
+
+            if (response.IsSuccessStatusCode) {
+                var result = await response.Content.ReadAsStringAsync();
+                User user = JsonConvert.DeserializeObject<User>(result);
+
+                return user != null;
+            }
+
+            return false;
+        }
+
+        // Check Password Validity [Not Necessary]
+        public async Task<bool> VerifyPass(string userName, string pass) {
+            User user = await GetUser(userName);
+
+            if (user != null) {
+                SimpleHash simpleHash = new();
+                return simpleHash.Verify(pass, user.Password);
+            }
+
+            return false;
         }
     }
 }

@@ -1,15 +1,20 @@
 ﻿@model PeakHub.ViewModels.LoginViewModel;
-@{
-}
+
 <body>
-        <form asp-action="Login" method="post">
-            @Html.ValidationMessage("loginError", "", new { @class = "text-danger" })
+    <div id="content" class="column">
+        <form asp-action="Account_Login" asp-controller="Account" method="post" class="column account">
             <label asp-for="UserName"></label>
             <input asp-for="UserName" />
             <span asp-validation-for="UserName" class="text-danger"></span>
+
             <label asp-for="Password"></label>
             <input asp-for="Password" />
             <span asp-validation-for="Password" class="text-danger"></span>
+
+            @Html.ValidationMessage("loginError", "", new { @class = "text-danger" })
             <input type="submit" value="Login" class="btn btn-primary" />
         </form>
+
+        @Html.ActionLink("No Account? Sign Up Now!", "Signup", "Account");
+    </div>
 </body>

@@ -45,4 +45,12 @@ public class UserManager : IDataRepository<User, int>
 
         return id;
     }
+
+    // Adam's Additions [For Sign Up Checking]
+    public User GetByUsername(string username) {
+        return _context.Users.FirstOrDefault(u => u.UserName == username);
+    }
+    public User GetByEmail(string email) {
+        return _context.Users.FirstOrDefault(u => u.Email == email);
+    }
 }

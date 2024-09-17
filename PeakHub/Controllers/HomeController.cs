@@ -25,7 +25,7 @@ namespace PeakHub.Controllers
 
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Dashboard()
         {
             HomeViewModel viewModel = new HomeViewModel();
             if (UserID == null)

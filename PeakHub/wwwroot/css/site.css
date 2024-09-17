@@ -18,5 +18,28 @@ html {
 }
 
 body {
+  width: 99vw;
+  height: 99vh;
   margin-bottom: 60px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.account {
+    width: 40%;
+    text-align: center;
+}
+
+.account input {
+    margin: 1%;
+}
+
+#content {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 }

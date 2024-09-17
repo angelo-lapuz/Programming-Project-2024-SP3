@@ -1,0 +1,31 @@
+﻿@model PeakHub.ViewModels.SignUpViewModel;
+
+<body>
+    <div id="content" class="column">
+        <form asp-action="Account_Register" asp-controller="Account" method="post" class="column account">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <label asp-for="Password"></label>
+            <input asp-for="Password" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" type="password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+            <input type="submit" value="Create Account" class="btn btn-primary" />
+        </form>
+
+        @Html.ActionLink("Have an Account? Log In Now!", "Login", "Account")
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>

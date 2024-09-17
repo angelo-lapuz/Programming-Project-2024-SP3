@@ -52,5 +52,20 @@ public class UsersController : ControllerBase
     {
         return _repo.Delete(id);
     }
+
+    // Adam's Additions [For Sign Up Checking]
+    [HttpGet("username/{username}")]
+    public ActionResult<User> GetByUsername(string username) {
+        var user = _repo.GetByUsername(username);
+        if (user == null) { return NotFound(); }
+        return Ok(user);
+    }
+
+    [HttpGet("email/{email}")]
+    public ActionResult<User> GetByEmail(string email) {
+        var user = _repo.GetByEmail(email);
+        if (user == null) { return NotFound(); }
+        return Ok(user); 
+    }
 }
 

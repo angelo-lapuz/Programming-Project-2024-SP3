@@ -33,32 +33,28 @@ namespace PeakHub.Controllers
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel viewModel)
-        {
+        public async Task<IActionResult> Log_in(LoginViewModel viewModel) {
             WebAPIUtilities utilities = new WebAPIUtilities(_clientFactory);
 
             bool userNameFound = await utilities.VerifyUserName(viewModel.UserName);
 
 
-            if (ModelState.IsValid && userNameFound)
-            {
+            if (ModelState.IsValid && userNameFound) {
                 bool passwordsMatch = await utilities.VerifyPassword(viewModel.UserName, viewModel.Password);
 
-                if (!passwordsMatch) 
-                {
+                if (!passwordsMatch) {
                     ModelState.AddModelError("LoginError", "Invalid Login details");
                     return View(viewModel);
                 }
 
                 List<User> users = await utilities.GetUsers();
 
-                foreach (var user in users) 
-                {
+                foreach (var user in users) {
                     HttpContext.Session.SetInt32("UserID", user.UserID);
                     HttpContext.Session.SetString("Username", user.UserName);
                 }
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Home");
             }
 
 
