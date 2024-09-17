@@ -74,4 +74,5 @@ public class UserManager : IDataRepository<User, int>
     {
         return _context.Users.Where(u => u.UserName == username || u.Email == email).FirstOrDefault();
     }
+
 }
