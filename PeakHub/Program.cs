@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity.UI.Services;
+using PeakHub.Utilities;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using static PeakHub.Utilities.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,9 @@ builder.Services.AddSession(options =>
     // Make the session cookie essential.
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
