@@ -23,7 +23,7 @@ namespace PeakHub.Models
         //public int TaskID { get; set; }
         //public virtual Task Task { get; set; }
 
-        public virtual List<Task> Tasks { get; set; }
+        public virtual List<Peak> Tasks { get; set; }
 
         public virtual List<Post> Posts { get; set; }
         public virtual List<Like> Likes { get; set; }

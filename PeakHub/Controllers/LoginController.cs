@@ -19,7 +19,9 @@ namespace PeakHub.Controllers {
             _logger = logger;
             _emailSender = emailSender;
         }
+
         public IActionResult Index() { return View(); }
+
         public IActionResult Login()  { return View(); }
 
         // checks if the username and password are correct changes the session to the user id and username
@@ -30,8 +32,6 @@ namespace PeakHub.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel viewModel) {
 
-
-           await _emailSender.SendEmailAsync("maxtrounce96@gmail.com", "Test", "Test");
 
             if (!ModelState.IsValid) return View(viewModel);
 

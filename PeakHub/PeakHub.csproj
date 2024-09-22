@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\cleaned_peaks.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\cleaned_peaks.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SimpleHashing.Net" Version="2.1.0" />
   </ItemGroup>
