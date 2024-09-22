@@ -25,6 +25,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddScoped<Loader>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

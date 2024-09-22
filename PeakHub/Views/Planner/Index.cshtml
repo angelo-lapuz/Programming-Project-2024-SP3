@@ -1,0 +1,14 @@
+﻿
+@{
+    @using PeakHub.Models;
+    
+   
+    var tasks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(ViewBag.Peaks.ToString());    
+}
+<h1>Hhello world</h1>
+@{
+    foreach (var task in tasks)
+    {
+        <p>@task.Name</p>
+    }
+}

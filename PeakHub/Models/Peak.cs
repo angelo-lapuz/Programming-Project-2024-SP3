@@ -3,18 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PeakHub.Models
 {
-    public class Task
+    public class Peak
     {
         public int TaskID { get; set; }
         public string Name { get; set; }
         public string IMG { get; set; }
         public string Details { get; set; }
+
+        public string Section { get; set; }
         public string Coords { get; set; }
 
         [Required]
         [Column(TypeName = "char")]
         [StringLength(1)]
-        [Display(Name = "Account Type")]
-        public char AccountType { get; set; }
+        [Display(Name = "Difficulty")]
+        public char Difficulty { get; set; }
     }
 }
