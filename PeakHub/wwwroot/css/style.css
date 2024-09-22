@@ -93,4 +93,67 @@ html, body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+#main-container {
+    display: flex;
+}
+
+#filter-container {
+    width: 10%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.filter-box {
+    display: flex;
+    flex-direction: column;
+}
+
+    .filter-box input, .filter-box select {
+        margin-top: 5px;
+        padding: 5px;
+    }
+
+#map-container {
+    width: 80%;
+    padding: 10px;
+}
+
+#map {
+    height: 75vh;
+    width: 100%;
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.sections-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.section-box {
+    width: 150px;
+    height: 100px;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    margin: 10px;
+}
+
+    .section-box:hover {
+        background-color: #e0e0e0;
+    }
+
+button {
+    padding: 10px;
+    cursor: pointer;
+}
 

@@ -1,0 +1,46 @@
+﻿@{
+    @using PeakHub.Models;
+
+    var tasks = Newtonsoft.Json.JsonConvert.DeserializeObject<Peak>(ViewBag.Peaks.ToString());
+}
+<h1>Hello world</h1>
+@{
+ 
+ <h1>Tasks.Name</h1>
+ 
+var peaksJson = ViewBag.Peaks;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map1</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+
+    <style>
+    </style>
+</head>
+<body>
+<div id="main-container">
+    <div id="filter-container">
+    </div>
+
+    <div id="map-container">
+        <div id="map"></div>
+        <div class="sections-container" id="section-boxes"></div>
+    </div>
+</div>
+
+<script>
+    var peaksData = @Html.Raw(peaksJson);
+</script>
+
+<script src="wwwroot/js/map.js"></script>
+
+</body>
+</html>
+
+}
