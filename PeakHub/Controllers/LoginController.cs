@@ -2,17 +2,22 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
-using SimpleHashing.Net;
-using System.Text;
+ 
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace PeakHub.Controllers {
-    public class LoginController : Controller {
+    public class LoginController : Controller
+    {
         private readonly IHttpClientFactory _clientFactory;
         private HttpClient Client => _clientFactory.CreateClient("api");
         private readonly ILogger<LoginController> _logger;
-        public LoginController(IHttpClientFactory clientFactory, ILogger<LoginController> logger) {
+        private readonly IEmailSender _emailSender;
+
+        public LoginController(IHttpClientFactory clientFactory, ILogger<LoginController> logger, IEmailSender emailSender)
+        {
             _clientFactory = clientFactory;
             _logger = logger;
+            _emailSender = emailSender;
         }
         public IActionResult Index() { return View(); }
         public IActionResult Login()  { return View(); }
@@ -24,6 +29,10 @@ namespace PeakHub.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel viewModel) {
+
+
+           await _emailSender.SendEmailAsync("maxtrounce96@gmail.com", "Test", "Test");
+
             if (!ModelState.IsValid) return View(viewModel);
 
             // calling API and encoding username and password to prevent capture in plain text
