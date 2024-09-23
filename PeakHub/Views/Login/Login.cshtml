@@ -13,34 +13,108 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
+    <style>
+        /* Fullscreen background */
+        body {
+            background: url('~/img/background.JPG') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        /* Page layout */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 5%;
+        }
+
+        /* Left side with large logo */
+        .left-logo img {
+            max-width: 400px;
+            height: auto;
+        }
+
+        /* Right side with login form and PeakHub logo */
+        .right-login {
+            max-width: 350px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background for form */
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+            .right-login img {
+                max-width: 200px;
+                display: block;
+                margin: 0 auto 20px;
+            }
+
+        /* Form Styling */
+        .form-control {
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #007f3b;
+            border-color: #007f3b;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+            .btn-primary:hover {
+                background-color: #005f2a;
+            }
+
+        .btn-secondary {
+            background-color: #00cc00;
+            border-color: #00cc00;
+            width: 100%;
+        }
+
+            .btn-secondary:hover {
+                background-color: #009900;
+            }
+
+        /* Text Link */
+        .forgot-password {
+            text-align: center;
+            display: block;
+            color: #005f3a;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+            .forgot-password:hover {
+                text-decoration: underline;
+            }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="login-container text-center">
-            <div class="header-images d-flex flex-column align-items-center">
-                <img src="~/img/logo.png" alt="Logo">
-            </div>
+        <!-- Left side with large mountain logo -->
+        <div class="left-logo">
+            <img src="~/img/logo.png" alt="PeakHub Logo">
+        </div>
 
-            <form asp-action="Login" method="post" class="mt-4">
-                <div class="mb-3">
-                    @Html.ValidationMessage("loginError", "", new { @class = "text-danger" })
-                </div>
+        <!-- Right side with login form -->
+        <div class="right-login">
+            <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
 
-                <div class="mb-3">
-                    <label asp-for="UserName" class="form-label"></label>
-                    <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
+            <!-- Login Form -->
+            <form asp-action="Login" method="post">
+                <input asp-for="UserName" class="form-control" placeholder="Username" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
 
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label"></label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter Password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
 
-                <div class="d-grid">
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
+                <input type="submit" value="Sign In" class="btn btn-primary" />
+
+                <a href="#" class="forgot-password">Forgot Password?</a>
+
+                <a href="#" class="btn btn-secondary">Create Account</a>
             </form>
         </div>
     </div>
