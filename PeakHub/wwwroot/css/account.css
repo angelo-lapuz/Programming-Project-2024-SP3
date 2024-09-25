@@ -40,7 +40,10 @@ body {
     align-items: center;
     flex-direction: column;
 }
-.right-form form * { padding: 2%; }
+.right-form form * { 
+    margin: 1%;
+    padding: 2%; 
+}
 
 /* Form Logo Layout */
 
@@ -52,17 +55,17 @@ body {
 /* Button Layout */
 
 .btn-primary {
-    background-color: #007f3b;
-    border-color: #007f3b;
     width: 100%;
-    margin-bottom: 1rem;
+    background-color: #008800;
 }
 
 .btn-secondary {
-    background-color: #00cc00;
-    border-color: #00cc00;
     width: 100%;
+    background-color: #5CA15C;
 }
+
+.btn-primary, .btn-secondary { border: groove 2px #000000; }
+.btn-primary:hover, .btn-secondary:hover { background-color: #005F2A; }
 
 .btn-row {
     width: 100%;
@@ -70,21 +73,28 @@ body {
     flex-direction: row;
     justify-content: space-evenly;
 }
+
 .btn-row * { width: 45%; }
 
-.btn-primary:hover { background-color: #005f2a; }
-.btn-secondary:hover { background-color: #009900; }
+/* Text Layout */
 
-/* Text Link */
+span {
+    font-weight: bold;
+    font-style: oblique;
+}
 
 .forgot-password {
-    text-align: center;
+    margin: 1%;
     display: block;
-    color: #005f3a;
+    color: #990000;
     text-decoration: none;
-    margin-bottom: 1rem;
 }
-.forgot-password:hover { text-decoration: underline; }
+
+.forgot-password:hover {
+    color: #FF0000; 
+    font-size: large;
+    text-decoration: underline;
+}
 
 /* Media Type - Mobile */
 /* NOTE - Adjust the 'max-width' for best fit -- Adam! */
