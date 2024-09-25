@@ -33,9 +33,9 @@ html, body {
     border-color: #2A8D68;
 }
 
-    .btn-primary:hover {
-        background-color: #238458;
-    }
+.btn-primary:hover {
+    background-color: #238458;
+}
 
 .header-images img {
     width: 60px;
@@ -52,7 +52,7 @@ html, body {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.5); 
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -77,10 +77,10 @@ html, body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .btn-primary:hover {
-        background-color: #00492e;
-        box-shadow: 0px 4px 10px rgba(0, 95, 58, 0.5);
-    }
+.btn-primary:hover {
+    background-color: #00492e;
+    box-shadow: 0px 4px 10px rgba(0, 95, 58, 0.5);
+}
 
 .btn-secondary {
     background-color: #009900;
@@ -89,10 +89,10 @@ html, body {
     font-size: 1rem;
 }
 
-    .btn-secondary:hover {
-        background-color: #007700;
-        box-shadow: 0px 4px 10px rgba(0, 153, 0, 0.5);
-    }
+.btn-secondary:hover {
+    background-color: #007700;
+    box-shadow: 0px 4px 10px rgba(0, 153, 0, 0.5);
+}
 
 /* Forgot Password Link */
 .forgot-password {
@@ -103,9 +103,9 @@ html, body {
     margin-bottom: 1rem;
 }
 
-    .forgot-password:hover {
-        text-decoration: underline;
-    }
+.forgot-password:hover {
+    text-decoration: underline;
+}
 
 /* NAVBAR STYLING */
 .navbar {
@@ -113,14 +113,13 @@ html, body {
     border-bottom: 1px solid #2A8D68;
 }
 
-    .navbar .navbar-brand,
-    .navbar .nav-link {
-        color: white !important;
-    }
+.navbar .navbar-brand, .navbar .nav-link {
+    color: white !important;
+}
 
-        .navbar .nav-link:hover {
-            color: #2A8D68 !important;
-        }
+.navbar .nav-link:hover {
+    color: #2A8D68 !important;
+}
 
 .navbar-toggler-icon {
     filter: invert(1);
