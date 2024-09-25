@@ -1,10 +1,12 @@
 ﻿using WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Task = WebAPI.Models.Task;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace WebAPI.Data
 {
-    public class PeakHubContext : DbContext
+    public class PeakHubContext : IdentityDbContext<User>
     {
         public PeakHubContext(DbContextOptions<PeakHubContext> options) : base(options) { }
 
