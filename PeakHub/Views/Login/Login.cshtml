@@ -2,8 +2,7 @@
 @{ Layout = "_AccountLayout"; }
 
 <!-- Login Form -->
-<form asp-action="Login" method="post">
-    <!-- Right side with login form -->
+<form id="loginForm" asp-action="Login" method="post">
     <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
 
     <input asp-for="UserName" class="form-control" placeholder="Username" />
@@ -13,10 +12,33 @@
     <span asp-validation-for="Password" class="text-danger"></span>
 
     <input type="submit" value="Sign In" class="btn btn-primary" />
-    <a href="#" class="forgot-password">Forgot Password?</a>
+    <a href="#" id="forgotBtn" class="forgot-password">Forgot Password?</a>
     
     <div class="btn-row">
         <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
         <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
     </div>
 </form>
+
+<!-- Forgot Password Form -->
+<form id="forgotForm" asp-action="ForgotPassword" method="post">
+    <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
+
+    <input asp-for="UserName_forgot" class="form-control" placeholder="Username" />
+    <span asp-validation-for="UserName_forgot" class="text-danger"></span>
+
+    <input asp-for="Password_forgot" type="password" class="form-control" placeholder="Enter New Password" />
+    <span asp-validation-for="Password_forgot" class="text-danger"></span>
+
+    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm New Password" />
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+    <div class="btn-col btn-row">
+        <input type="submit" value="Change Password" class="btn btn-primary" />
+        <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
+    </div>
+</form>
+
+<!-- Necessary Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/account.js" ></script>

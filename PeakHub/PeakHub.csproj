@@ -8,12 +8,18 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\img\logo.png" />
+    <Content Remove="wwwroot\js\account.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\account.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\img\background.JPG" />
     <None Include="wwwroot\img\logo.png" />
     <None Include="wwwroot\img\peakhub.png" />
+    <None Include="wwwroot\js\account.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -30,6 +30,8 @@ body {
 
 /* Form Layout */
 
+#forgotForm { width: 0; opacity: 0; }
+
 .right-form form {
     width: 50%;
     padding: 2%;
@@ -39,7 +41,10 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    transition: opacity 0.5s ease, width 0.5s ease;
 }
+
 .right-form form * { 
     margin: 1%;
     padding: 2%; 
@@ -67,14 +72,15 @@ body {
 .btn-primary, .btn-secondary { border: groove 2px #000000; }
 .btn-primary:hover, .btn-secondary:hover { background-color: #005F2A; }
 
-.btn-row {
+.btn-row, .btn-col {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: space-evenly;
 }
 
-.btn-row * { width: 45%; }
+.btn-row { flex-direction: row; }
+.btn-row * { width: 45%; margin: 1%; }
 
 /* Text Layout */
 
@@ -115,13 +121,21 @@ span {
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {
     body { flex-direction: column; }
-    .left-logo, .right-form { width: 100%; }
-
+    
     .left-logo { height: 30%; }
     .right-form { height: 70%; }
+    .left-logo, .right-form { width: 100%; }
 
     .left-logo img { 
         height: 80%; 
         width: auto;
     }
+}
+
+/* Media Type - Mobile to Tablet */
+/* NOTE - Adjust the 'max' width for best fit -- Adam! */
+
+@media only screen and (max-width: 1575px) {
+    .btn-col { flex-direction: column; }
+    .btn-col * { width: 85%; margin: 1%; }
 }
