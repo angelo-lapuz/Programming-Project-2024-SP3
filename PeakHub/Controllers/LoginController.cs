@@ -70,14 +70,23 @@ namespace PeakHub.Controllers
                         return View(viewModel);
                     }
 
-                    var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
 
+                    var loginResult = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
 
-                    // Store user details in session
-                    HttpContext.Session.SetInt32("UserID", user.UserID);
-                    HttpContext.Session.SetString("Username", user.UserName);
+                    if (loginResult.Succeeded) 
+                    {
+                        // Store user details in session
+                        HttpContext.Session.SetInt32("UserID", user.UserID);
+                        HttpContext.Session.SetString("Username", user.UserName);
 
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        // If login fails, add error to the ModelState
+                        ModelState.AddModelError("LoginError", "Invalid login details");
+                        return View(viewModel);
+                    }
                 }
             }
 
