@@ -63,8 +63,6 @@ namespace PeakHub.Controllers
 
                 if (user != null)
                 {
-                    // sends verification email to user logging in
-                    await _emailSender.SendEmailAsync(user.Email, "Login", "Verify email");
 
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
