@@ -1,46 +1,47 @@
 ﻿@{
     @using PeakHub.Models;
+    @using Newtonsoft.Json;
+    Layout = "_Layout";
 
-    var tasks = Newtonsoft.Json.JsonConvert.DeserializeObject<Peak>(ViewBag.Peaks.ToString());
+    var Peaks = JsonConvert.SerializeObject(ViewBag.Peaks);
+    var Peak = JsonConvert.SerializeObject(ViewBag.Peak);
 }
-<h1>Hello world</h1>
-@{
- 
- <h1>Tasks.Name</h1>
- 
-var peaksJson = ViewBag.Peaks;
+
+<h1>This is the Peak Page!!!</h1>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map1</title>
+    <title>Map and Peaks</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 
-    <style>
-    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 </head>
 <body>
-<div id="main-container">
-    <div id="filter-container">
-    </div>
 
-    <div id="map-container">
-        <div id="map"></div>
-        <div class="sections-container" id="section-boxes"></div>
-    </div>
-</div>
+    <script>
+        var peaksData = @Html.Raw(Peaks);
+        var currentPeak = @Html.Raw(Peak);
+    </script>
 
-<script>
-    var peaksData = @Html.Raw(peaksJson);
-</script>
+    <div id="main-container">
+        
+           
+      
 
-<script src="wwwroot/js/map.js"></script>
+        <!-- Map Section -->
+        <div id="map-container">
+            <div id="map"></div>
+            <div class="sections-container" id="section-boxes"></div>
+        </div>
+   
+
+    <script src="~/js/map.js"></script>
 
 </body>
 </html>
-
-}

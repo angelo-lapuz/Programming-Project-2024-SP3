@@ -11,7 +11,6 @@ namespace PeakHub.Utilities
 {
     public class Loader
     {
-
         public  List<Peak> getAll()
         {
             using var reader = new StreamReader("wwwroot/cleaned_peaks.csv");
@@ -26,10 +25,13 @@ namespace PeakHub.Utilities
 
             while (csv.Read())
             {
+             
                 var task = new Peak
                 {
+                    PeakID = csv.GetField<int>("Rank"),
                     Name = csv.GetField<string>("Peak"),
                     Details = $"Elevation: {csv.GetField<string>("Elevation")}, Ascents: {csv.GetField<string>("Ascents")}",
+                    Elevation = csv.GetField<int>("Elevation"),
                     Coords = csv.GetField<string>("Latitude/Longitude"),
                     Difficulty = csv.GetField<string>("Difficulty")[0],
                     Section = csv.GetField<string>("Section")
@@ -39,6 +41,21 @@ namespace PeakHub.Utilities
             }
             return tasks;
         }
+
+        public Peak GetPeak(int id)
+        {
+            var peaks = getAll();
+
+            foreach (var peak in peaks)
+            {
+                if (peak.PeakID == id)
+                {
+                    return peak;  
+                }
+            }
+            return null;  
+        }
+
 
     }
 }

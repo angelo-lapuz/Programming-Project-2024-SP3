@@ -1,34 +1,79 @@
-﻿
-@{
+﻿@{
     @using PeakHub.Models;
     @using Newtonsoft.Json;
-   
-    var tasks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(ViewBag.Peaks.ToString());    
+    Layout = "_Layout";
+    var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
 }
-<h1>Hhello world</h1>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map and Peaks</title>
 
-    <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
 
-    <style>
-
-        #map {
-            height: 75vh;
-            width: 100%;
-            border: 2px solid #ccc;
-            margin-bottom: 20px;
-        }
-    </style>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body><div id="map"></div>  <script> 
-        var peaksData = @Html.Raw(JsonConvert.SerializeObject(tasks));
-    </script><script src="~/js/map.js"></script> </body>
+<body>
 
+    <script>
+        var peaksData = @Html.Raw(tasks);
+    </script>
+
+    <div id="container">
+        <aside id="filter-container">
+            <div class="filter-box">
+                <label for="search-name">Search by name:</label>
+                <input type="text" id="search-name" placeholder="Enter peak name">
+            </div>
+            <div class="filter-box">
+                <label for="filter-difficulty">Difficulty:</label>
+                <select id="filter-difficulty">
+                    <option value="">Select difficulty</option>
+                    <option value="E">Easy</option>
+                    <option value="M">Moderate</option>
+                    <option value="H">Hard</option>
+                </select>
+            </div>
+            <div class="filter-box">
+                <label for="filter-elevation">Min Elevation (m):</label>
+                <input type="number" id="filter-elevation" placeholder="Enter elevation (m)">
+            </div>
+            <button id="apply-filters">Apply Filters</button>
+            
+        </aside>
+       
+        
+        <div id="map-container">
+
+            <div id="plannerBtns"style="justify-content: center" >
+
+                <button id="draw-route">Draw Route</button>
+                <button id="undo">Undo</button>
+                <button id="finish">Finish</button>
+                <button id="clear">Clear</button>
+            </div>
+            
+            <div id="map">
+
+                
+
+            </div>
+            <div id="chart-container">
+                <canvas id="elevationChart"></canvas>
+            </div>
+        </div>
+
+        <aside id="section-boxes" class="sections-container">
+            
+        </aside>
+    </div>
+
+    <script src="~/js/map.js"></script>
+</body>
+</html>

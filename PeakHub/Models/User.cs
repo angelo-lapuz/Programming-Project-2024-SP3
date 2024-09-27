@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace PeakHub.Models
 {
-    public class User
+    public class User :IdentityUser
     {
         [Display(Name = "User ID")]
         public int UserID { get; set; }

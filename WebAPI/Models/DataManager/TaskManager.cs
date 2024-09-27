@@ -3,7 +3,7 @@ using WebAPI.Models.Repository;
 
 namespace WebAPI.Models.DataManager;
 
-public class TaskManager : IDataRepository<Task, int>
+public class TaskManager : IDataRepository<Peak, int>
 {
     private readonly PeakHubContext _context;
 
@@ -12,17 +12,17 @@ public class TaskManager : IDataRepository<Task, int>
         _context = context;
     }
 
-    public Task Get(int id)
+    public Peak Get(int id)
     {
         return _context.Tasks.Find(id);
     }
 
-    public IEnumerable<Task> GetAll()
+    public IEnumerable<Peak> GetAll()
     {
         return _context.Tasks.ToList();
     }
 
-    public int Add(Task task)
+    public int Add(Peak task)
     {
         _context.Tasks.Add(task);
         _context.SaveChanges();
@@ -38,7 +38,7 @@ public class TaskManager : IDataRepository<Task, int>
         return id;
     }
 
-    public int Update(int id, Task task)
+    public int Update(int id, Peak task)
     {
         _context.Update(task);
         _context.SaveChanges();
