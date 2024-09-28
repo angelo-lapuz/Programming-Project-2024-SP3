@@ -14,9 +14,9 @@ namespace WebAPI.Models
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime TransactionTimeUtc { get; set; }
-        
+
         // TODO - Can be a list of Likes
-        public int Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
         public string MediaType { get; set; }
         public string MediaLink { get; set; }
         public int BoardID { get; set; }
