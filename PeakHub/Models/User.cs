@@ -7,18 +7,6 @@ namespace PeakHub.Models
 {
     public class User : IdentityUser
     {
-        [Display(Name = "User ID")]
-        public string UserID { get; set; }
-
-        //[Required]
-        //public string UserName { get; set; }
-        //[Required]
-        //public string Email { get; set; }
-
-        [Required]
-        [Column(TypeName = "char")]
-        [StringLength(94)]
-        public string Password { get; set; }
 
         public virtual List<Award> Awards { get; set; }
         public string ProfileIMG { get; set; }
