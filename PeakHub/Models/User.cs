@@ -8,7 +8,7 @@ namespace PeakHub.Models
     public class User : IdentityUser
     {
         [Display(Name = "User ID")]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
 
         //[Required]
         //public string UserName { get; set; }
