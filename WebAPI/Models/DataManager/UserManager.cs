@@ -6,11 +6,11 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 
 namespace WebAPI.Models.DataManager;
 
-public class UserManager : IDataRepository<User, int> {
+public class UserManager : IDataRepository<User, string> {
     private readonly PeakHubContext _context;
     public UserManager(PeakHubContext context) { _context = context; }
 
-    public User Get(int id) {
+    public User Get(string id) {
         return _context.Users.Find(id);
     }
 
@@ -18,13 +18,13 @@ public class UserManager : IDataRepository<User, int> {
         return _context.Users.ToList();
     }
 
-    public int Add(User user) {
+    public string Add(User user) {
         _context.Users.Add(user);
         _context.SaveChanges();
         return user.UserID;
     }
 
-    public int Delete(int id) {
+    public int Delete(string id) {
         _context.Users.Remove(_context.Users.Find(id));
         _context.SaveChanges();
         return id;
