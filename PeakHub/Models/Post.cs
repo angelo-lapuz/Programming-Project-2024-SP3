@@ -7,7 +7,7 @@ namespace PeakHub.Models
     {
         public int PostID { get; set; }
         [Required]
-        public int UserID { get; set; }
+        public string UserID { get; set; }
         public virtual User User { get; set; }
         public string Content { get; set; }
 
