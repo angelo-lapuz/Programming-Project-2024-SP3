@@ -17,5 +17,7 @@ namespace WebAPI.Models
         [Display(Name = "Account Type")]
         public char Difficulty { get; set; }
         public virtual ICollection<User> Users { get; set; }
+
+        public string Routes { get; set; }
     }
 }
