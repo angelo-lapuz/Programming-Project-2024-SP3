@@ -16,5 +16,7 @@ namespace PeakHub.Models
         [StringLength(1)]
         [Display(Name = "Account Type")]
         public char AccountType { get; set; }
+
+        public string Routes { get; set; }
     }
 }
