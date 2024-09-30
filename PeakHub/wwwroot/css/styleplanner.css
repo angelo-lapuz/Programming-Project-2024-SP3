@@ -1,13 +1,23 @@
+
+:root {
+    --grey: #e1daca;
+    --lightgreen: #2f6546;
+    --darkgreen: #133234;
+    --yellow: f3e147;
+    --red: 912f45;
+}
+
 main {
     flex-grow: 1;
 }
 
 html, body {
-    background-color: #696969;
+    background-color: var(--grey);
     height: 100%;
     color: white;
     margin: 0;
     padding: 0;
+    font-size: 1rem;
 }
 
 .header-images img:first-child {
@@ -89,69 +99,89 @@ html, body {
 
 /* Planner / Map CSS */
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+.container {
     width: 100%;
-    background-color: var(--grey);
-    color: white;
-    
-}
-
-#container {
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    grid-template-areas:
-        "filter map sections";
+    max-width: 1300px;
     height: 100vh;
     gap: 0;
-    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 #filter-container {
-    grid-area: filter;
-    background-color: #2A8D68;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%; 
+    width: 100vw;
+    background-color: var(--darkgreen);
+    box-sizing: border-box;
+}
+
+#filter-toggle {
+    width: 100%;
+    background-color: var(--lightgreen);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#filter-options {
+    display: none;
+    grid-template-columns:70% 20%;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+
+#search-name {
+    text-align: center;
+}
+
+/* Slider styling */
+/* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
+input[type="range"] {
+    width: 100%;
 }
 
 #map-container {
-    grid-area: map;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
     width: 100%; 
+    height: 80vh;
+    overflow: hidden;
+
+}
+
+#plannerBtns {
+    width: 100%;
+    position: absolute;
+    bottom: 22.5%;
+    z-index: 10;
+    text-align: center;
 }
 
 #map {
-    background: #aadffa;
-    height: 75vh;
     width: 100%;
-    border: 2px solid #ccc;
-    margin-bottom: 10px;
+    height: 100%;
+    background: #aadffa;
+    z-index: 0;
 }
 
 #chart-container {
-    grid-area: chart;
-    height: 30vh;
+    position: absolute;
+    bottom: 0;
     width: 100%;
+    height: 20%;
     background-color: white;
     color: black;
-    padding: 20px;
     border-radius: 8px;
-    border: 1px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+
+
 }
 
 .sections-container {
+    display: none;
     grid-area: sections;
-    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 20px;
@@ -174,10 +204,6 @@ html, body {
         background-color: #e0e0e0;
     }
 
-.filter-box {
-    margin-bottom: 20px;
-}
-
 .form-label {
     color: white;
 }
@@ -196,18 +222,3 @@ html, body {
         background-color: #238458;
     }
 
-#plannerBtns, button {
-    
-    background-color: green;
-    color: white;
-    text-align: center;
-    display: inline-block;
-    font-size: 14px;
-
-}
-#plannerBtns, button:hover {
-    background-color: grey;
-    color:aqua;
-    transform: scale(1.2);
-
-} 
