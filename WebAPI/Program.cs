@@ -1,6 +1,8 @@
 using WebAPI.Data;
 using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

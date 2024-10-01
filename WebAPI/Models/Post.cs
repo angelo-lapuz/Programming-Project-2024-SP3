@@ -13,8 +13,9 @@ namespace WebAPI.Models
 
         [Required]
         [DataType(DataType.DateTime)]
+        [Column(TypeName = "datetime(6)")] 
         public DateTime TransactionTimeUtc { get; set; }
-        
+
         // TODO - Can be a list of Likes
         public int Likes { get; set; }
         public string MediaType { get; set; }
