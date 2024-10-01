@@ -4,15 +4,13 @@
 // Write your JavaScript code.
 
 
+var filterOptions = document.querySelector('.filter-options');
+var filterToggleArrow = document.getElementById('filter-toggle-bg-img');
+
 document.getElementById('filter-toggle').addEventListener('click', function () {
 
-    var filterOptions = document.getElementById('filter-options');
-    if (filterOptions.style.display === 'none' || filterOptions.style.display === '') {
-        filterOptions.style.display = 'grid';
-    } else {
-        filterOptions.style.display = 'none';
-    }
-
+    filterOptions.classList.toggle("show");
+    filterToggleArrow.classList.toggle("rotate");
 });
 
 const difficultyMap = {
@@ -40,4 +38,19 @@ elevationSlider.addEventListener('input', function () {
 });
 
 
+var routingContainer = document.querySelector('.routing-container');
+
+document.getElementById('routing-toggle').addEventListener('click', function () {
+    routingContainer.classList.toggle("slide");
+});
+
+
+document.querySelector('.hamburger-menu').addEventListener('click', function () {
+    document.querySelector('.navbar-collapse').classList.toggle("toggle");
+    document.querySelector('.hamburger-menu-dash1').classList.toggle("toggle");
+    document.querySelector('.hamburger-menu-dash2').classList.toggle("toggle");
+    document.querySelector('.hamburger-menu-dash3').classList.toggle("toggle");
+    document.querySelector('.hamburger-menu').classList.toggle("toggle");
+    
+});
 

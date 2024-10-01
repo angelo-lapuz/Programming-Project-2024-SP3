@@ -28,35 +28,48 @@
     <div class="container">
         <div id="filter-container">
             
-            <div id="filter-options">
-                <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
-                <span id="difficulty-value">Difficulty</span>
-                <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
-                <span id="elevation-value">Elevation (m)</span>
-                <input type="text" id="search-name" placeholder="Enter Peak name">
-                <input type="hidden" id="filter-difficulty" />
-                <button id="apply-filters">Apply</button>             
+            <div class="filter-options">
+                <div id="filter-selections">
+                    <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
+                    <span id="difficulty-value">Difficulty</span>
+                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
+                    <span id="elevation-value">Elevation (m)</span>
+                    <input type="text" id="search-name" placeholder="Enter Peak name">
+                    <input type="hidden" id="filter-difficulty" />
+                    <button id="apply-filters">Apply</button>  
+                </div>
             </div>
-            <button id="filter-toggle">Filters</button>
+            <div id="filter-toggle-component">
+                <div id="filter-toggle-bg"><img id="filter-toggle-bg-img" src="~/img/arrow2.png" alt="" /></div>
+                <div id="filter-toggle-ring"></div>
+                <button id="filter-toggle"><img src="~/img/filter-icon.png" alt="filters" /></button>
+            </div>
 
         </div>
 
 
         <div id="map-container">
-
-            <div id="plannerBtns" >
-                <button id="draw-route">Draw Route</button>
-                <button id="undo">Undo</button>
-                <button id="finish">Finish</button>
-                <button id="clear">Clear</button>
-            </div>
-            
             <div id="map"></div>
-
-            <div id="chart-container">
-                <canvas id="elevationChart"></canvas>
+        </div>
+        
+        <div id="routing">
+            <div class="routing-container">
+                <div id="plannerBtns">
+                    <button id="draw-route" class="planner-buttos">Draw Route</button>
+                    <button id="undo" class="planner-button">Undo</button>
+                    <button id="finish" class="planner-button">Finish</button>
+                    <button id="clear" class="planner-button">Clear</button>
+                </div>
+                <div id="chart-container">
+                    <canvas id="elevationChart"></canvas>
+                </div>
             </div>
         </div>
+
+        <div id="routing-toggle-component">
+            <button id="routing-toggle">Routing</button>
+        </div>
+
 
         <div id="section-boxes" class="sections-container"></div>
     </div>

@@ -1,3 +1,8 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 :root {
     --grey: #e1daca;
@@ -20,115 +25,213 @@ html, body {
     font-size: 1rem;
 }
 
-.header-images img:first-child {
-    width: 333px;
-    height: 94px;
+
+header 
+{
+    position: relative;
+    background-color: var(--lightgreen);
+    width: 100%;
+    z-index: 200;
+    height: 3rem;
+
 }
 
-.header-images img {
-    display: block;
-    margin: 10px auto;
+.container-fluid, .navbar {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.form-label {
-    color: white;
+
+.hamburger-menu
+{
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 2.5rem;
+    border: 1px solid var(--darkgreen);
+    background-color: var(--lightgreen);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    border-radius: 4px;
+    padding: 0.3rem 0; 
+    align-content: space-around;
+    cursor: pointer;
 }
 
-.form-control {
-    background-color: #F1F1F1;
-    border: none;
+.hamburger-menu.toggle {
+    background-color: var(--grey);
 }
 
-.btn-primary {
-    background-color: #2A8D68;
-    border-color: #2A8D68;
-}
-
-    .btn-primary:hover {
-        background-color: #238458;
-    }
-
-.header-images img {
-    width: 60px;
-    height: auto;
-    margin: 10px;
-}
-
-.text-danger {
-    color: #FF5C5C;
-}
-
-/* LOGIN STYLING */
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #08403A;
+.hamburger-menu-dash1, .hamburger-menu-dash2, .hamburger-menu-dash3 {
+    content: "";
+    width: 2rem;
+    height: 3px;
+    background-color: var(--grey);
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
 }
 
-/* NAVBAR STYLING */
-.navbar {
-    background-color: #08403A !important;
-    border-bottom: 1px solid #2A8D68;
+.hamburger-menu-dash1, .hamburger-menu-dash3 {
+    transition: rotate 0.25s ease-in, background-color 0.25s ease-in;
+    transform-origin: left;
 }
 
-    .navbar .navbar-brand,
-    .navbar .nav-link {
-        color: white !important;
-    }
-
-        .navbar .nav-link:hover {
-            color: #2A8D68 !important;
-        }
-
-.navbar-toggler-icon {
-    filter: invert(1);
+.hamburger-menu-dash1.toggle {
+    rotate: 35deg;
+    width: 2.37rem;
+    height: 4px;
+    translate: 3px -1px;
+    background-color: var(--darkgreen);
 }
 
-/* SIGNUP CSS */
-.signup-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #08403A;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.hamburger-menu-dash2 {
+    opacity: 100;
+    transition: opacity 0.25s ease-in, width 0.25s ease-in;
 }
+
+
+.hamburger-menu-dash2.toggle {
+    width: 0rem;
+    opacity: 0;
+}
+
+.hamburger-menu-dash3.toggle {
+    rotate: -35deg;
+    width: 2.37rem;
+    height: 4px;
+    translate: 3px 1px;
+    background-color: var(--darkgreen);
+}
+    
+.navbar-collapse {
+    background-color: var(--grey);
+    position: absolute;
+    top: 3rem;
+    width: 100%;
+    height: 0rem;
+    transition: height 0.25s ease-in;
+    overflow: hidden;
+}
+
+.navbar-collapse.toggle {
+    height: 10rem;
+}
+
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0.5rem auto;
+    text-align: center;
+}
+
+
 
 /* Planner / Map CSS */
 
 .container {
     width: 100%;
     max-width: 1300px;
-    height: 100vh;
     gap: 0;
     margin: 0;
     padding: 0;
 }
 
 #filter-container {
-    width: 100vw;
+    position: relative;
+    width: 100%;
+    background-color: var(--darkgreen);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+/* Filter toggle component */
+
+#filter-toggle-component {
+    position: absolute;
+    top: 0;
+    height: 2rem;
+    width: 100%;
+    position: relative;
+    background-color: var(--lightgreen);
+      
+}
+
+#filter-toggle-bg {
+    height: 4rem;
+    width: 4rem;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    z-index: 20;
+    background-color: var(--lightgreen);
+    border: 1px solid var(--darkgreen);
+    box-sizing: border-box;
+}
+
+
+
+#filter-toggle-ring, #filter-toggle {
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    z-index: 20;
     background-color: var(--darkgreen);
     box-sizing: border-box;
 }
 
 #filter-toggle {
-    width: 100%;
-    background-color: var(--lightgreen);
-    color: white;
-    text-align: center;
     cursor: pointer;
-    font-size: 1rem;
+    background-color: var(--lightgreen);
 }
 
-#filter-options {
-    display: none;
-    grid-template-columns:70% 20%;
-    padding: 1rem;
-    gap: 1.5rem;
+#filter-toggle img, #filter-toggle-bg-img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease-in;
+    transform: rotate(0deg);
 }
+
+#filter-toggle-bg-img.rotate {
+    transform: rotate(180deg);
+}
+
+.filter-options {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+}
+
+#filter-selections {
+    display: grid;
+    height: fit-content;
+    grid-template-columns: 70% 20%;
+    gap: 1rem;
+    padding: 0.5rem;
+    justify-content: space-around;
+}
+
+#filter-options > * {
+    align-self: center;
+}
+
+.filter-options.show {
+    height: 8rem;
+}
+
+
 
 #search-name {
     text-align: center;
@@ -141,20 +244,13 @@ input[type="range"] {
 }
 
 #map-container {
-    position: relative;
-    width: 100%; 
-    height: 80vh;
-    overflow: hidden;
-
-}
-
-#plannerBtns {
-    width: 100%;
     position: absolute;
-    bottom: 22.5%;
-    z-index: 10;
-    text-align: center;
+    top: 0;
+    width: 100%; 
+    height: 100%;
 }
+
+
 
 #map {
     width: 100%;
@@ -163,11 +259,58 @@ input[type="range"] {
     z-index: 0;
 }
 
-#chart-container {
+#routing {
+    position: absolute;
+    bottom: 0;
+    height: 25%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.routing-container {
+    position:absolute;
+    top: 100%;
+    height: 25%;
+    width: 100%;
+    border: 1px solid var(--darkgreen);
+    background-color: var(--lightgreen);
+    border-radius: 10px 10px 0 0;
+    transition: bottom 0.5s linear;
+}
+
+.routing-container.slide {
+    top:0%;
+}
+
+#plannerBtns {
+    width: 100%;
+    z-index: 10;
+    text-align: center;
+}
+
+
+/*routing toggle*/
+#routing-toggle-component {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 20%;
+    height: 2rem;
+    background-color: var(--lightgreen);
+    text-align: center;
+}
+
+#routing-toggle {
+    width: 5rem;
+}
+
+#plannerBtns > button {
+    font-size: 0.9rem;
+    width: 6rem;
+}
+
+#chart-container {
+    width: 100%;
+    height: 20vh;
     background-color: white;
     color: black;
     border-radius: 8px;
@@ -175,6 +318,7 @@ input[type="range"] {
     align-items: center;
     justify-content: center;
     z-index: 10;
+    border: 1px solid var(--darkgreen);
 
 
 }
@@ -222,3 +366,12 @@ input[type="range"] {
         background-color: #238458;
     }
 
+
+
+.pushable-container {
+    position: relative;
+}
+
+.pushable-bg {
+    position: absolute
+}
