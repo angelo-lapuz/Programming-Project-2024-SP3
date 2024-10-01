@@ -1,0 +1,136 @@
+/* GENERAL STYLING */
+main {
+    flex-grow: 1;
+}
+
+html, body {
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('../img/background.JPG') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+}
+
+.header-images img:first-child {
+    width: 333px;
+    height: 94px;
+}
+
+.header-images img {
+    display: block;
+    margin: 10px auto;
+}
+
+.form-label {
+    color: white;
+}
+
+.form-control {
+    background-color: #F1F1F1;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #2A8D68;
+    border-color: #2A8D68;
+}
+
+.btn-primary:hover {
+    background-color: #238458;
+}
+
+.header-images img {
+    width: 60px;
+    height: auto;
+    margin: 10px;
+}
+
+.text-danger {
+    color: #FF5C5C;
+}
+
+/* LOGIN STYLING */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.peakhub-logo img {
+    max-width: 180px;
+    margin-bottom: 10px;
+}
+
+.logo-container img {
+    max-width: 100px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #005f3a;
+    border-color: #005f3a;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #00492e;
+    box-shadow: 0px 4px 10px rgba(0, 95, 58, 0.5);
+}
+
+.btn-secondary {
+    background-color: #009900;
+    border-color: #009900;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: #007700;
+    box-shadow: 0px 4px 10px rgba(0, 153, 0, 0.5);
+}
+
+/* Forgot Password Link */
+.forgot-password {
+    font-size: 0.9rem;
+    color: #005f3a;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* NAVBAR STYLING */
+.navbar {
+    background-color: #08403A !important;
+    border-bottom: 1px solid #2A8D68;
+}
+
+.navbar .navbar-brand, .navbar .nav-link {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #2A8D68 !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* SIGNUP CSS */
+.signup-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #08403A;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
