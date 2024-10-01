@@ -1,0 +1,141 @@
+﻿/* Body */
+body {
+    width: 99vw;
+    height: 99vh;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("../img/background.JPG") no-repeat center fixed;
+    background-size: cover;
+}
+
+/* Frames */
+
+.left-logo { width: 55%; }
+.right-form { width: 45%; }
+
+.left-logo, .right-form {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Image Logo Layout */
+
+.left-logo img {
+    width: 55%;
+    height: auto;
+}
+
+/* Form Layout */
+
+#forgotForm { width: 0; opacity: 0; display: none; }
+
+.right-form form {
+    width: 50%;
+    padding: 2%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    transition: opacity 0.5s ease, width 0.5s ease;
+}
+
+.right-form form * { 
+    margin: 1%;
+    padding: 2%; 
+}
+
+/* Form Logo Layout */
+
+.right-form img {
+    width: 80%;
+    padding-bottom: 2%;
+}
+
+/* Button Layout */
+
+.btn-primary {
+    width: 100%;
+    background-color: #008800;
+}
+
+.btn-secondary {
+    width: 100%;
+    background-color: #5CA15C;
+}
+
+.btn-primary, .btn-secondary { border: groove 2px #000000; }
+.btn-primary:hover, .btn-secondary:hover { background-color: #005F2A; }
+
+.btn-row, .btn-col {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.btn-row { flex-direction: row; }
+.btn-row * { width: 45%; margin: 1%; }
+
+/* Text Layout */
+
+span {
+    font-weight: bold;
+    font-style: oblique;
+}
+
+.forgot-password {
+    margin: 1%;
+    display: block;
+    color: #990000;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    color: #FF0000; 
+    font-size: large;
+    text-decoration: underline;
+}
+
+/* Media Type - Mobile */
+/* NOTE - Adjust the 'max-width' for best fit -- Adam! */
+
+@media only screen and (max-width: 750px) {
+    .left-logo { display: none; }
+
+    .right-form {
+        width: 100%;
+        height: 100%;
+    }
+
+    .right-form form { width: 90%; }
+}
+
+/* Media Type - Tablet */
+/* NOTE - Adjust the 'max' and 'min' width for best fit -- Adam! */
+
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+    body { flex-direction: column; }
+    
+    .left-logo { height: 30%; }
+    .right-form { height: 70%; }
+    .left-logo, .right-form { width: 100%; }
+
+    .left-logo img { 
+        height: 80%; 
+        width: auto;
+    }
+}
+
+/* Media Type - Mobile to Tablet */
+/* NOTE - Adjust the 'max' width for best fit -- Adam! */
+
+@media only screen and (max-width: 1575px) {
+    .btn-col { flex-direction: column; }
+    .btn-col * { width: 85%; margin: 1%; }
+}
