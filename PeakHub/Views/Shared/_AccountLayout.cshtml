@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Peakhub : @ViewData["title"]</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
+    </head>
+
+    <body>
+        <!-- Left side with large mountain logo -->
+        <div class="left-logo">
+            <img src="~/img/logo.png" alt="PeakHub Logo">
+        </div>
+
+        <!-- Main Form Content -->
+        <main class="right-form" role="main">
+            @RenderBody()
+        </main>
+    </body>
+</html>
