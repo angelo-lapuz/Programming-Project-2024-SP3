@@ -28,10 +28,11 @@ namespace PeakHub.Controllers
         public async Task<IActionResult> Index()
         {
             HomeViewModel viewModel = new HomeViewModel();
-            if (UserID == null)
+            if (!User.Identity.IsAuthenticated)
             {
                 viewModel.UserID = null;
                 viewModel.UserName = null;
+
             }
             else
             {

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace PeakHub.Models
+namespace WebAPI.Models
 {
-    public class Task
+    public class Peak
     {
-        public int TaskID { get; set; }
+        public int PeakID { get; set; }
         public string Name { get; set; }
         public string IMG { get; set; }
         public string Details { get; set; }

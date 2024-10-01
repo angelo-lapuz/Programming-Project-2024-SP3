@@ -6,9 +6,6 @@ using Pomelo.EntityFrameworkCore.MySql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-
 // Add services to the container.
 builder.Services.AddDbContext<PeakHubContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("PeakDBD"),
@@ -20,6 +17,10 @@ builder.Services.AddScoped<PostManager>();
 builder.Services.AddScoped<LikeManager>();
 builder.Services.AddScoped<BoardManager>();
 builder.Services.AddScoped<AwardManager>();
+
+
+
+
 
 
 builder.Services.AddControllers();
