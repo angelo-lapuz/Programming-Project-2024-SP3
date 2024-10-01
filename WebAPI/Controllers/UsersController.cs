@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text.Encodings.Web;
+using System.Text;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
+using WebAPI.ViewModels;
 
 
 namespace WebApi.Controllers;
@@ -22,23 +27,26 @@ public class UsersController : ControllerBase {
         _userManager = userManager;
     }
 
-    // GET api/users/1
-    [HttpGet("{id:int}")]
-    public User Get(int id) { return _repo.Get(id); }
-
-    // POST api/users
-    [HttpPost]
-    public void Post([FromBody] User user) { _repo.Add(user); }
-
     // PUT api/users
     [HttpPut]
     public void Put([FromBody] User user) { 
         _repo.Update(user.Id, user);
     }
 
-    // DELETE api/users/1
-    [HttpDelete("{id:int}")]
-    public long Delete(int id) { return _repo.Delete(id); }
+    // add a new user
+    public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 
+    {
+        var user = new User { UserName = model.UserName, Email = model.Email };
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (result.Succeeded) 
+        {
+            _logger.LogInformation("User created a new account with password.");
+            return Ok("User created succesfully.");
+        }
+
+        _logger.LogWarning("Could not create account");
+        return BadRequest("Could not create account.");
+    }
 
     // when to check if a username or email exists in the database
     [HttpGet("Verify/{username}/{email}")]
