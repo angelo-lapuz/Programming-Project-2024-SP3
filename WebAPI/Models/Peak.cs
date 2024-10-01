@@ -15,6 +15,9 @@ namespace WebAPI.Models
         [Column(TypeName = "char")]
         [StringLength(1)]
         [Display(Name = "Account Type")]
-        public char AccountType { get; set; }
+        public char Difficulty { get; set; }
+        public virtual ICollection<User> Users { get; set; }
+
+        public string Routes { get; set; }
     }
 }

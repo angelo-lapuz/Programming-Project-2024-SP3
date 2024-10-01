@@ -8,5 +8,7 @@
 
         // TODO - double check condition 
         public string Condition { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }
