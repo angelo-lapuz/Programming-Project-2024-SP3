@@ -5,6 +5,7 @@ using PeakHub.Models;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace PeakHub.Controllers
 {
@@ -75,8 +76,9 @@ namespace PeakHub.Controllers
 
                     if (loginResult.Succeeded) 
                     {
+
                         // Store user details in session
-                        HttpContext.Session.SetInt32("UserID", user.UserID);
+                        HttpContext.Session.SetString("UserID", user.Id);
                         HttpContext.Session.SetString("Username", user.UserName);
 
                         return RedirectToAction("Index", "Home");
