@@ -1,0 +1,26 @@
+﻿@model PeakHub.ViewModels.SignUpViewModel
+@{ Layout = "_AccountLayout"; }
+
+<form asp-action="Create" method="post">
+    <!-- Right side with login form -->
+    <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
+
+    <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
+    <span asp-validation-for="UserName" class="text-danger"></span>
+
+    <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+
+    <input asp-for="Password" type="password" class="form-control" placeholder="Enter Password" />
+    <span asp-validation-for="Password" class="text-danger"></span>
+
+    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+    <input type="submit" value="Create" class="btn btn-primary" />
+    
+    <div class="btn-row">
+        <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
