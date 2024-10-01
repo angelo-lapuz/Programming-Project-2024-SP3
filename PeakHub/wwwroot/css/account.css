@@ -30,7 +30,7 @@ body {
 
 /* Form Layout */
 
-#forgotForm { width: 0; opacity: 0; }
+#forgotForm { width: 0; opacity: 0; display: none; }
 
 .right-form form {
     width: 50%;
