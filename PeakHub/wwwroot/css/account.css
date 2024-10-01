@@ -5,7 +5,7 @@ body {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    background: url("../img/background.JPG") no-repeat center fixed;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("../img/background.JPG") no-repeat center fixed;
     background-size: cover;
 }
 
