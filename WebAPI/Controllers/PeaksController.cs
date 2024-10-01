@@ -10,44 +10,44 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TasksController : ControllerBase
+public class PeaksController : ControllerBase
 {
-    private readonly TaskManager _repo;
+    private readonly PeakManager _repo;
 
-    public TasksController(TaskManager repo)
+    public PeaksController(PeakManager repo)
     {
         _repo = repo;
     }
 
-    // GET: api/tasks
+    // GET: api/peaks
     [HttpGet]
     public IEnumerable<Peak> Get()
     {
         return _repo.GetAll();
     }
 
-    // GET api/tasks/1
+    // GET api/peaks/1
     [HttpGet("{id}")]
     public Peak Get(int id)
     {
         return _repo.Get(id);
     }
 
-    // POST api/tasks
+    // POST api/peaks
     [HttpPost]
     public void Post([FromBody] Peak task)
     {
-        _repo.Add(task);
+        _repo.Add(peak);
     }
 
-    // PUT api/tasks
+    // PUT api/peaks
     [HttpPut]
     public void Put([FromBody] Peak task)
     {
         _repo.Update(task.PeakID, task);
     }
 
-    // DELETE api/tasks/1
+    // DELETE api/peaks/1
     [HttpDelete("{id}")]
     public long Delete(int id)
     {

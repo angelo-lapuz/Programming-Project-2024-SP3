@@ -1,6 +1,7 @@
 using WebAPI.Data;
 using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Pomelo.EntityFrameworkCore.MySql;
 
 
@@ -12,21 +13,29 @@ builder.Services.AddDbContext<PeakHubContext>(options =>
     new MySqlServerVersion(new Version(8, 0, 25))));
 
 builder.Services.AddScoped<UserManager>();
-builder.Services.AddScoped<TaskManager>();
+builder.Services.AddScoped<PeakManager>();
 builder.Services.AddScoped<PostManager>();
 builder.Services.AddScoped<LikeManager>();
 builder.Services.AddScoped<BoardManager>();
 builder.Services.AddScoped<AwardManager>();
 
 
-
-
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
+})
+.AddEntityFrameworkStores<PeakHubContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

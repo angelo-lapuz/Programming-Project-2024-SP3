@@ -6,7 +6,11 @@ using PeakHub.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 
-namespace PeakHub.Controllers {
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
+
+namespace PeakHub.Controllers
+{
     public class LoginController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -44,7 +48,8 @@ namespace PeakHub.Controllers {
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel viewModel) {
+        public async Task<IActionResult> Login(LoginViewModel viewModel)
+        {
 
 
             if (!ModelState.IsValid) return View(viewModel);
@@ -52,7 +57,8 @@ namespace PeakHub.Controllers {
             // calling API and encoding username and password to prevent capture in plain text
             var response = await Client.GetAsync($"api/users/{Uri.EscapeDataString(viewModel.UserName)}/{Uri.EscapeDataString(viewModel.Password)}");
 
-            if (response.IsSuccessStatusCode) {
+            if (response.IsSuccessStatusCode)
+            {
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
