@@ -10,7 +10,7 @@ namespace WebAPI.Data
         public PeakHubContext(DbContextOptions<PeakHubContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Peak> Peaks { get; set; }
+        public DbSet<Peak> Tasks { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Board> Boards { get; set; }

@@ -2,6 +2,9 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
+ 
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
@@ -26,8 +29,6 @@ namespace PeakHub.Controllers
         // is the account confirmed, is it admin, is it a token account
         private readonly UserManager<IdentityUser> _userManager;
 
-
-
         public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IHttpClientFactory clientFactory, ILogger<LoginController> logger, IEmailSender emailSender)
         {
             _clientFactory = clientFactory;
@@ -39,7 +40,7 @@ namespace PeakHub.Controllers
 
         public IActionResult Index() { return View(); }
 
-        public IActionResult Login() { return View(); }
+        public IActionResult Login()  { return View(); }
 
         // checks if the username and password are correct changes the session to the user id and username
         // if the login is successful, if not an error message is added to the ModelState
@@ -61,32 +62,24 @@ namespace PeakHub.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
-                if (user != null)
-                {
+                if (user != null) {
 
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    if(!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        ModelState.AddModelError("LoginError", "Email not confirmed");
+                      ModelState.AddModelError("LoginError", "Email not confirmed");
                         return View(viewModel);
                     }
 
 
-                    var loginResult = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
 
-                    if (loginResult.Succeeded) 
-                    {
-                        // Store user details in session
-                        HttpContext.Session.SetInt32("UserID", user.UserID);
-                        HttpContext.Session.SetString("Username", user.UserName);
+                    var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
 
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        // If login fails, add error to the ModelState
-                        ModelState.AddModelError("LoginError", "Invalid login details");
-                        return View(viewModel);
-                    }
+
+
+                    // Store user details in session
+                    HttpContext.Session.SetInt32("UserID", user.UserID);
+                    HttpContext.Session.SetString("Username", user.UserName);
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -95,9 +88,6 @@ namespace PeakHub.Controllers
             return View(viewModel);
 
         }
-
-
-
 
         public async Task<IActionResult> Logout()
         {

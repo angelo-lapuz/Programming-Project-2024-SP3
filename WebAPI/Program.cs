@@ -2,11 +2,10 @@ using WebAPI.Data;
 using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Pomelo.EntityFrameworkCore.MySql;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 // Add services to the container.
 builder.Services.AddDbContext<PeakHubContext>(options =>

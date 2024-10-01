@@ -2,7 +2,6 @@
 using MimeKit;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 
 
 namespace PeakHub.Utilities
@@ -16,11 +15,11 @@ namespace PeakHub.Utilities
         public EmailSender(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
+            
         }
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            Console.WriteLine("Sending email");
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail));
