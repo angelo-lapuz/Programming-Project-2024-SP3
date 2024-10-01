@@ -1,4 +1,3 @@
-/* GENERAL STYLING */
 main {
     flex-grow: 1;
 }
@@ -134,3 +133,128 @@ html, body {
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Planner / Map CSS */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #696969;
+    color: white;
+    
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+        "filter map sections";
+    height: 100vh;
+    gap: 0;
+    box-sizing: border-box;
+}
+
+#filter-container {
+    grid-area: filter;
+    background-color: #2A8D68;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%; 
+}
+
+#map-container {
+    grid-area: map;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; 
+}
+
+#map {
+    background: #aadffa;
+    height: 75vh;
+    width: 100%;
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
+}
+
+#chart-container {
+    grid-area: chart;
+    height: 30vh;
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sections-container {
+    grid-area: sections;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #2A8D68;
+}
+
+.section-box {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #08403A;
+    margin-bottom: 10px;
+}
+
+    .section-box:hover {
+        background-color: #e0e0e0;
+    }
+
+.filter-box {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    color: white;
+}
+
+.form-control {
+    background-color: #F1F1F1;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #2A8D68;
+    border-color: #2A8D68;
+}
+
+    .btn-primary:hover {
+        background-color: #238458;
+    }
+
+#plannerBtns, button {
+    
+    background-color: green;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+
+}
+#plannerBtns, button:hover {
+    background-color: grey;
+    color:aqua;
+    transform: scale(1.2);
+
+} 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
-using Task = WebAPI.Models.Task;
+using Peak = WebAPI.Models.Peak;
 
 namespace WebApi.Controllers;
 
@@ -21,30 +21,30 @@ public class TasksController : ControllerBase
 
     // GET: api/tasks
     [HttpGet]
-    public IEnumerable<Task> Get()
+    public IEnumerable<Peak> Get()
     {
         return _repo.GetAll();
     }
 
     // GET api/tasks/1
     [HttpGet("{id}")]
-    public Task Get(int id)
+    public Peak Get(int id)
     {
         return _repo.Get(id);
     }
 
     // POST api/tasks
     [HttpPost]
-    public void Post([FromBody] Task task)
+    public void Post([FromBody] Peak task)
     {
         _repo.Add(task);
     }
 
     // PUT api/tasks
     [HttpPut]
-    public void Put([FromBody] Task task)
+    public void Put([FromBody] Peak task)
     {
-        _repo.Update(task.TaskID, task);
+        _repo.Update(task.PeakID, task);
     }
 
     // DELETE api/tasks/1
