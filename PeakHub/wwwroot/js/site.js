@@ -4,14 +4,16 @@
 // Write your JavaScript code.
 
 
-var filterOptions = document.querySelector('.filter-options');
-var filterToggleArrow = document.getElementById('filter-toggle-bg-img');
+let resizeTimer;
+window.addEventListener('resize', function () {
+    document.body.classList.add('no-transition');
 
-document.getElementById('filter-toggle').addEventListener('click', function () {
-
-    filterOptions.classList.toggle("show");
-    filterToggleArrow.classList.toggle("rotate");
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+        document.body.classList.remove('no-transition');
+    }, 250); // delay in ms to wait for the resize to finish
 });
+
 
 const difficultyMap = {
     1: 'All',
@@ -25,32 +27,59 @@ var difficultyValue = document.getElementById('difficulty-value');
 
 var difficultyInput = document.getElementById('filter-difficulty');
 
-difficultySlider.addEventListener('input', function () {
-    const difficultyLabel = difficultyMap[difficultySlider.value];
-    difficultyValue.textContent = difficultyLabel;
-    difficultyInput.value = (difficultyLabel === 'All') ? '' : difficultyLabel.charAt(0);
-});
+if (difficultySlider) { 
+    difficultySlider.addEventListener('input', function () {
+        const difficultyLabel = difficultyMap[difficultySlider.value];
+        difficultyValue.textContent = difficultyLabel;
+        difficultyInput.value = (difficultyLabel === 'All') ? '' : difficultyLabel.charAt(0);
+    });
+}
 
 var elevationSlider = document.getElementById('filter-elevation');
 var elevationValue = document.getElementById('elevation-value');
-elevationSlider.addEventListener('input', function () {
-    elevationValue.textContent = `${elevationSlider.value} m`;
-});
 
+if (elevationSlider) {
+    elevationSlider.addEventListener('input', function () {
+        elevationValue.textContent = `${elevationSlider.value} m`;
+    });
+}
 
-var routingContainer = document.querySelector('.routing-container');
-
-document.getElementById('routing-toggle').addEventListener('click', function () {
-    routingContainer.classList.toggle("slide");
-});
 
 
 document.querySelector('.hamburger-menu').addEventListener('click', function () {
-    document.querySelector('.navbar-collapse').classList.toggle("toggle");
+    document.querySelector('.navbar-links').classList.toggle('show');
     document.querySelector('.hamburger-menu-dash1').classList.toggle("toggle");
     document.querySelector('.hamburger-menu-dash2').classList.toggle("toggle");
     document.querySelector('.hamburger-menu-dash3').classList.toggle("toggle");
     document.querySelector('.hamburger-menu').classList.toggle("toggle");
     
+});
+
+var filterToggle = document.querySelector('.filter-toggle');
+var filterContainer = document.querySelector('.filter-container');
+filterToggle.addEventListener('click', function () {
+    filterContainer.classList.toggle("show");
+    routeContainer.classList.toggle("showLRes");
+
+});
+
+var infoBtn = document.querySelector('.info-button');
+var infoBox = document.querySelector('.info-data');
+
+infoBtn.addEventListener('click', function () {
+
+    infoBox.classList.toggle("show");
+});
+
+infoBox.addEventListener('click', function () {
+    infoBox.classList.toggle("show");
+});
+
+var routeToggle = document.querySelector('.route-toggle');
+var routeContainer = document.querySelector('.route-container');
+
+routeToggle.addEventListener('click', function () {
+    routeContainer.classList.toggle("show");
+
 });
 

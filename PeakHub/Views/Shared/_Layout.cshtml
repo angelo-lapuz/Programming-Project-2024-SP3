@@ -9,40 +9,43 @@
 </head>
 <body>
     <header>
+        <div class="brand-logo">
+            <a class="brand-logo-link" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
+        </div>
         <nav class="navbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
-                <button class="hamburger-menu" type="button">
-                    <div class="hamburger-menu-dash1"></div>
-                    <div class="hamburger-menu-dash2"></div>
-                    <div class="hamburger-menu-dash3"></div>
-                </button>
-                <div class="navbar-collapse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+            
+            <div class="nav-filler"></div>
+            <div class="navbar-links">
+                <ul class="navbar-list">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
-                        </li>
-                    </ul>
-                </div>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
+                    </li>
+                </ul>
             </div>
+            <button class="hamburger-menu" type="button">
+                <div class="hamburger-menu-dash1"></div>
+                <div class="hamburger-menu-dash2"></div>
+                <div class="hamburger-menu-dash3"></div>
+            </button>
+
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
+    <main>
+        @RenderBody()
+    </main>
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
