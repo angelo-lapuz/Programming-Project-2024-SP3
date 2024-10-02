@@ -40,16 +40,9 @@ namespace PeakHub.Controllers {
                 ISimpleHash simpleHash = new SimpleHash();
                 string hashedPassword = simpleHash.Compute(viewModel.Password);
 
-                var user = new User {
-                    UserName = viewModel.UserName,
-                    Email = viewModel.Email,
-                    Password = hashedPassword,
-                };
+              
 
-                var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-                response = Client.PostAsync("api/users", content).Result;
-
-                if (response.IsSuccessStatusCode) return RedirectToAction("Login", "Login");
+     
             }
 
             return View(viewModel);

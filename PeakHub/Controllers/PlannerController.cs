@@ -15,7 +15,7 @@ namespace PeakHub.Controllers
 
         public IActionResult Index()
         {
-           var peaks =  _loader.getAll();
+            var peaks = _loader.getAll();
 
             ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
 

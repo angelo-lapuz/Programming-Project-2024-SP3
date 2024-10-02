@@ -2,40 +2,33 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
- 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace PeakHub.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IHttpClientFactory _clientFactory;
-        private HttpClient Client => _clientFactory.CreateClient("api");
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<LoginController> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly HttpClient _httpClient;
 
-
-        /// <summary>
-        /// / sign in for like signing in - is auth, 2fa enabled 
-        /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
-
-
-        // / <summary>
-        // is the account confirmed, is it admin, is it a token account
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IHttpClientFactory clientFactory, ILogger<LoginController> logger, IEmailSender emailSender)
+        public LoginController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ILogger<LoginController> logger,
+            IEmailSender emailSender,
+            IHttpClientFactory httpClientFactory)
         {
-            _clientFactory = clientFactory;
+            _userManager = userManager;
+            _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _signInManager = signInManager;
-            _userManager = userManager;
+            _httpClient = httpClientFactory.CreateClient("api");
         }
 
         public IActionResult Index() { return View(); }
@@ -55,7 +48,7 @@ namespace PeakHub.Controllers
             if (!ModelState.IsValid) return View(viewModel);
 
             // calling API and encoding username and password to prevent capture in plain text
-            var response = await Client.GetAsync($"api/users/{Uri.EscapeDataString(viewModel.UserName)}/{Uri.EscapeDataString(viewModel.Password)}");
+            var response = await _httpClient.GetAsync($"api/users/{Uri.EscapeDataString(viewModel.UserName)}/{Uri.EscapeDataString(viewModel.Password)}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -73,12 +66,7 @@ namespace PeakHub.Controllers
 
 
                     var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
-
-
-
-                    // Store user details in session
-                    HttpContext.Session.SetInt32("UserID", user.UserID);
-                    HttpContext.Session.SetString("Username", user.UserName);
+           
                     return RedirectToAction("Index", "Home");
                 }
             }
