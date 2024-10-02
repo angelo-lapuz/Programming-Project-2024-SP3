@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
+using Peak = WebAPI.Models.Peak;
 
 namespace WebApi.Controllers;
 
@@ -34,16 +35,16 @@ public class PeaksController : ControllerBase
 
     // POST api/peaks
     [HttpPost]
-    public void Post([FromBody] Peak peak)
+    public void Post([FromBody] Peak task)
     {
         _repo.Add(peak);
     }
 
     // PUT api/peaks
     [HttpPut]
-    public void Put([FromBody] Peak peak)
+    public void Put([FromBody] Peak task)
     {
-        _repo.Update(peak.PeakID, peak);
+        _repo.Update(task.PeakID, task);
     }
 
     // DELETE api/peaks/1
