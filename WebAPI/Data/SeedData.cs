@@ -14,15 +14,7 @@ namespace WebAPI.Data
             if (context.Users.Any())
                 return; // DB has been seeded.
 
-            context.Users.AddRange(
-                new User
-                {
-                    UserName = "admin",
-                    Email = "admin@admin.com",
-                    Password = "abc123"
-                }
-            );
-
+         
             context.SaveChanges();
         }
     }

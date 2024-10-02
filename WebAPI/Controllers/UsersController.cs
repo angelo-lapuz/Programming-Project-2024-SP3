@@ -10,11 +10,13 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase {
+public class UsersController : ControllerBase
+{
     private readonly UserManager _repo;
     private readonly ILogger<UsersController> _logger;
-    
-    public UsersController(UserManager repo, ILogger<UsersController> logger) {
+
+    public UsersController(UserManager repo, ILogger<UsersController> logger)
+    {
         _repo = repo;
         _logger = logger;
     }
@@ -29,8 +31,11 @@ public class UsersController : ControllerBase {
 
     // PUT api/users
     [HttpPut]
-    public void Put([FromBody] User user) {
-        _repo.Update(user.UserID, user);
+    public void Put([FromBody] User user)
+    {
+        // TODO
+        // change to other user manager
+       // _repo.Update(user);
     }
 
     // DELETE api/users/1
@@ -39,32 +44,37 @@ public class UsersController : ControllerBase {
 
     // when to check if a username or email exists in the database
     [HttpGet("Verify/{username}/{email}")]
-    public IActionResult Verify(string username, string email) {
+    public IActionResult Verify(string username, string email)
+    {
         // get username / email
         List<User> users = _repo.GetByUsernameAndEmail(username, email);
         bool nameTaken = false, emailTaken = false;
 
         // Adam -- Sort Data
-        if (users.Count == 2) {
+        if (users.Count == 2)
+        {
             nameTaken = true;
             emailTaken = true;
         }
-        else if (users.Count == 1) {
+        else if (users.Count == 1)
+        {
             User user = users[0];
             if (user.UserName == username) nameTaken = true;
             if (user.Email == email) emailTaken = true;
         }
 
         // return new JSON result with the username and email 
-        return Ok(new {
-            UsernameExists = nameTaken, EmailExists = emailTaken
+        return Ok(new
+        {
+            UsernameExists = nameTaken,
+            EmailExists = emailTaken
         });
     }
 
     // used when logging in
-    [HttpGet("{username}/{password}")]
-    public User Login(string username, string password) {
-        return _repo.VerifyLogin(username, password);
-    }
+    /* [HttpGet("{username}/{password}")]
+     public User Login(string username, string password) {
+         //return _repo.VerifyLogin(username, password);
+     }
+ }*/
 }
-

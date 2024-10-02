@@ -1,14 +1,16 @@
-﻿namespace WebAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace WebAPI.Models
 {
     public class Award
     {
         public int AwardID { get; set; }
         public string Name { get; set; }
         public string Img { get; set; }
-
-        // TODO - double check condition 
         public string Condition { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
     }
 }
