@@ -4,11 +4,13 @@ using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace PeakHub.Controllers {
     public class SignUpController : Controller {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<User> _userManager;
         private HttpClient Client => _clientFactory.CreateClient("api");
 
         public SignUpController(IHttpClientFactory clientFactory, ILogger<HomeController> logger) {
@@ -37,19 +39,22 @@ namespace PeakHub.Controllers {
             if ((bool)result.EmailExists) ModelState.AddModelError("Email", "Email already in use");
 
             if (ModelState.IsValid) {
-                ISimpleHash simpleHash = new SimpleHash();
-                string hashedPassword = simpleHash.Compute(viewModel.Password);
+                // convert viewmodel to json to be sent to api/users/create
+                var content = new StringContent(JsonConvert.SerializeObject(viewModel), Encoding.UTF8, "application/json");
+                response = await Client.PostAsync("api/users/Create", content);
 
-                var user = new User {
-                    UserName = viewModel.UserName,
-                    Email = viewModel.Email,
-                    Password = hashedPassword,
-                };
-
-                var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-                response = Client.PostAsync("api/users", content).Result;
-
-                if (response.IsSuccessStatusCode) return RedirectToAction("Login", "Login");
+                // return to login page if created successfully
+                if (response.IsSuccessStatusCode) 
+                {
+                 
+                    return RedirectToAction("Login", "Login");
+                } 
+                else
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    _logger.LogError(errorMessage);
+                    ModelState.AddModelError(string.Empty,"Signup failed, try again.");
+                }
             }
 
             return View(viewModel);

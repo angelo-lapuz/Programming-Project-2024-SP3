@@ -23,7 +23,7 @@
             </div>
 
             <form asp-action="Create" method="post" class="mt-4">
-
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="mb-3">
                     <label asp-for="UserName" class="form-label"></label>
                     <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
