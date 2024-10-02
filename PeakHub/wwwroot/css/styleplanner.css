@@ -30,6 +30,8 @@ body {
     background-position: center; /* Center the image */
     background-attachment: fixed; /* Make the image static */
     background-repeat: no-repeat; /* Prevent tiling of the image */
+    font-family: "Roboto", sans-serif;
+    color: var(--darkgreen);
 }
 
 header, main {
@@ -57,6 +59,21 @@ header {
     position: absolute;
     top: 0.5rem;
     left: 1rem;
+    font-family: "Bevan", serif;
+    color: var(--grey);
+}
+
+.brand-logo img {
+    position: absolute;
+    left: 4.5rem;
+    width: 2rem;
+    transform: rotate(10deg);
+}
+
+.brand-logo-link {
+    display: inline-block;
+    transform: rotate(-20deg);
+
 }
 
 nav {
@@ -145,6 +162,7 @@ nav {
     background-color: var(--grey);
     transition: height var(--animation-timing) ease-in;
     overflow: hidden;
+    
 }
 
 .navbar-links.show {
@@ -166,6 +184,22 @@ nav {
     height: 3rem;
     line-height: 3rem;
     text-align: center;
+    color: var(--darkgreen);
+}
+
+a {
+    text-decoration: none; 
+    color: var(--darkgreen); 
+}
+
+a:visited {
+    color: var(--darkgreen);
+}
+
+a:hover {
+    display: block;
+    background-color: var(--darkgreen);
+    color: var(--grey);
 }
 
 /* END of nav */
@@ -441,6 +475,17 @@ input[type="range"] {
     .hamburger-menu {
         display: none;
     }
+
+    a, a:visited {
+        color: var(--grey);
+    }
+
+    a:hover {
+        display:block;
+        background-color: var(--grey);
+        color: var(--darkgreen);
+    }
+
 
 }
 
