@@ -18,9 +18,5 @@
     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
     <input type="submit" value="Create" class="btn btn-primary" />
-    
-    <div class="btn-row">
-        <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
-    </div>
+    <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
 </form>

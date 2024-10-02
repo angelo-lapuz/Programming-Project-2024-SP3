@@ -14,10 +14,7 @@
     <input type="submit" value="Sign In" class="btn btn-primary" />
     <a href="#" id="forgotBtn" class="forgot-password">Forgot Password?</a>
     
-    <div class="btn-row">
-        <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
-    </div>
+    <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
 </form>
 
 <!-- Forgot Password Form -->
@@ -33,10 +30,8 @@
     <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm New Password" />
     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
-    <div class="btn-col btn-row">
-        <input type="submit" value="Change Password" class="btn btn-primary" />
-        <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
-    </div>
+    <input type="submit" value="Change Password" class="btn btn-primary" />
+    <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
 </form>
 
 <!-- Necessary Scripts -->

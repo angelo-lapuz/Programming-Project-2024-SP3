@@ -2,11 +2,9 @@
 function getFormWidth() {
     var screenWidth = window.innerWidth;
 
-    if (screenWidth <= 750) {
-        return '90%';
-    } else {
-        return '50%';
-    }
+    if (screenWidth <= 750) { return '90%'; }
+    else if (screenWidth <= 1000) { return '60%;' }
+    else { return '30%'; }
 }
 
 $(document).ready(function () {

@@ -11,13 +11,11 @@
     </head>
 
     <body>
-        <!-- Left side with large mountain logo -->
-        <div class="left-logo">
-            <img src="~/img/logo.png" alt="PeakHub Logo">
-        </div>
+        <!-- Navigationn -->
+        @await Html.PartialAsync("_Navbar")
 
         <!-- Main Form Content -->
-        <main class="right-form" role="main">
+        <main class="account-page" role="main">
             @RenderBody()
         </main>
     </body>
