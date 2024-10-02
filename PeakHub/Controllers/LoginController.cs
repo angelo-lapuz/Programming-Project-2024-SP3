@@ -2,10 +2,13 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
-
+ 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace PeakHub.Controllers
 {
@@ -26,8 +29,6 @@ namespace PeakHub.Controllers
         // / <summary>
         // is the account confirmed, is it admin, is it a token account
         private readonly UserManager<IdentityUser> _userManager;
-
-
 
         public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IHttpClientFactory clientFactory, ILogger<LoginController> logger, IEmailSender emailSender)
         {
@@ -62,17 +63,19 @@ namespace PeakHub.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
-                if (user != null)
-                {
+                if (user != null) {
 
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    if(!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        ModelState.AddModelError("LoginError", "Email not confirmed");
+                      ModelState.AddModelError("LoginError", "Email not confirmed");
                         return View(viewModel);
                     }
 
 
-                    var loginResult = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
+
+                    var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
+
+
 
                     if (loginResult.Succeeded) 
                     {
@@ -97,9 +100,6 @@ namespace PeakHub.Controllers
             return View(viewModel);
 
         }
-
-
-
 
         public async Task<IActionResult> Logout()
         {
