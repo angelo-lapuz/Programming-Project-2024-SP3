@@ -26,10 +26,10 @@
     </script>
 
     <div class="container">
-        <div id="filter-container">
-            
+        <div class="filter-container">
             <div class="filter-options">
-                <div id="filter-selections">
+                <button class="filter-toggle">Filters</button>
+                <div class="filter-selections">
                     <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
                     <span id="difficulty-value">Difficulty</span>
                     <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
@@ -38,37 +38,35 @@
                     <input type="hidden" id="filter-difficulty" />
                     <button id="apply-filters">Apply</button>  
                 </div>
+                <div class="filter-results">filter results list</div>
             </div>
-            <div id="filter-toggle-component">
-                <div id="filter-toggle-bg"><img id="filter-toggle-bg-img" src="~/img/arrow2.png" alt="" /></div>
-                <div id="filter-toggle-ring"></div>
-                <button id="filter-toggle"><img src="~/img/filter-icon.png" alt="filters" /></button>
-            </div>
-
         </div>
 
 
-        <div id="map-container">
+        <div class="map-container">
+            <button class="info-button">i</button>
+            <div class="info-data"></div>
             <div id="map"></div>
         </div>
         
-        <div id="routing">
-            <div class="routing-container">
-                <div id="plannerBtns">
+        <div class="route-container">
+            <div class="route-content">
+                <div class="plannerBtns">
                     <button id="draw-route" class="planner-buttos">Draw Route</button>
                     <button id="undo" class="planner-button">Undo</button>
                     <button id="finish" class="planner-button">Finish</button>
                     <button id="clear" class="planner-button">Clear</button>
                 </div>
-                <div id="chart-container">
+                <div class="chart-container">
                     <canvas id="elevationChart"></canvas>
                 </div>
             </div>
+            <div class="route-toggle-component">
+                <button class="route-toggle">Routing</button>
+            </div>
         </div>
 
-        <div id="routing-toggle-component">
-            <button id="routing-toggle">Routing</button>
-        </div>
+        
 
 
         <div id="section-boxes" class="sections-container"></div>
