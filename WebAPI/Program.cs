@@ -3,6 +3,7 @@ using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Pomelo.EntityFrameworkCore.MySql;
+using WebAPI.Utilities;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,8 @@ builder.Services.AddScoped<PostManager>();
 builder.Services.AddScoped<LikeManager>();
 builder.Services.AddScoped<BoardManager>();
 builder.Services.AddScoped<AwardManager>();
+builder.Services.AddScoped<EmailSender>();
+
 
 
 builder.Services.AddControllers();
