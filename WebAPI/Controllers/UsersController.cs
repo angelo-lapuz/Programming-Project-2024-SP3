@@ -7,6 +7,7 @@ using System.Text;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
 using WebAPI.ViewModels;
+using WebAPI.Utilities;
 
 
 namespace WebApi.Controllers;
@@ -20,11 +21,13 @@ public class UsersController : ControllerBase {
     private readonly UserManager _repo;
     private readonly ILogger<UsersController> _logger;
     private readonly UserManager<User> _userManager;
+    private readonly EmailSender _emailSender;
 
-    public UsersController(UserManager repo, ILogger<UsersController> logger, UserManager<User> userManager) {
+    public UsersController(UserManager repo, ILogger<UsersController> logger, UserManager<User> userManager, EmailSender emailSender) {
         _repo = repo;
         _logger = logger;
         _userManager = userManager;
+        _emailSender = emailSender;
     }
 
     // PUT api/users
@@ -34,18 +37,27 @@ public class UsersController : ControllerBase {
     }
 
     // add a new user
-    public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 
+    [HttpPost("Create")]
+    public async void Create([FromBody] RegisterViewModel model) 
     {
-        var user = new User { UserName = model.UserName, Email = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
-        if (result.Succeeded) 
-        {
-            _logger.LogInformation("User created a new account with password.");
-            return Ok("User created succesfully.");
-        }
+        var user = new User 
+        { 
+            UserName = model.UserName, 
+            Email = model.Email, 
+            EmailConfirmed = false 
+        };
 
-        _logger.LogWarning("Could not create account");
-        return BadRequest("Could not create account.");
+        var result = await _userManager.CreateAsync(user, model.Password);
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var confirmationLink = Url.Action(
+            nameof(ConfirmEmail),
+            "Users",
+            new {userId = user.Id, token},
+            protocol: Request.Scheme
+        );
+
+        var emailBody = $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>";
+        await _emailSender.SendEmailAsync(user.Email, "Confirm your Email", emailBody);
     }
 
     // when to check if a username or email exists in the database
