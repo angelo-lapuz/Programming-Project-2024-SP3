@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
 
+
 namespace PeakHub.Controllers
 {
     public class LoginController : Controller
@@ -33,7 +34,7 @@ namespace PeakHub.Controllers
 
         public IActionResult Index() { return View(); }
 
-        public IActionResult Login()  { return View(); }
+        public IActionResult Login() { return View(); }
 
         // checks if the username and password are correct changes the session to the user id and username
         // if the login is successful, if not an error message is added to the ModelState
@@ -66,8 +67,25 @@ namespace PeakHub.Controllers
 
 
                     var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
-           
-                    return RedirectToAction("Index", "Home");
+
+
+                    if (loginResult.Succeeded) 
+                    {
+
+                        // Store user details in session
+                        HttpContext.Session.SetString("UserID", user.Id);
+                        HttpContext.Session.SetString("Username", user.UserName);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        // If login fails, add error to the ModelState
+                        ModelState.AddModelError("LoginError", "Invalid login details");
+                        return View(viewModel);
+                    }
+
+
                 }
             }
 
