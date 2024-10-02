@@ -47,6 +47,24 @@ html, body {
     color: #FF5C5C;
 }
 
+/* NAVBAR */
+.navbar {
+    background-color: #08403A !important;
+    border-bottom: 1px solid #2A8D68;
+}
+
+.navbar .navbar-brand, .navbar .nav-link {
+    color: white !important;
+}
+
+.navbar .nav-link:hover {
+    color: #2A8D68 !important;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
 /* LOGIN STYLING */
 .login-container {
     max-width: 400px;
