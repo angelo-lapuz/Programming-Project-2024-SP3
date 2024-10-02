@@ -13,8 +13,7 @@ namespace PeakHub.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private HttpClient Client => _clientFactory.CreateClient("api");
 
-        private int? UserID => HttpContext.Session.GetInt32("UserID");
-        private string Name => HttpContext.Session.GetString("Username");
+
 
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
@@ -28,25 +27,7 @@ namespace PeakHub.Controllers
         public async Task<IActionResult> Index()
         {
             HomeViewModel viewModel = new HomeViewModel();
-            if (!User.Identity.IsAuthenticated)
-            {
-                viewModel.UserID = null;
-                viewModel.UserName = null;
-
-            }
-            else
-            {
-                var response = await Client.GetAsync($"api/users/{UserID}");
-
-                if (!response.IsSuccessStatusCode)
-                    throw new Exception();
-
-                var result = await response.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<User>(result);
-
-                viewModel.UserID = user.UserID;
-                viewModel.UserName = user.UserName;
-            }
+           
 
 
             return View(viewModel);

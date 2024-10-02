@@ -15,6 +15,8 @@ namespace PeakHub.Models
 
         public int Elevation { get; set; }
 
+        public string Routes { get; set; }
+
         [Required]
         [Column(TypeName = "char")]
         [StringLength(1)]
