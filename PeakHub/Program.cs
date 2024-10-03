@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using PeakHub.Utilities;
 using System.Net.Http.Headers;
 using System.Net.Mime;
-using static PeakHub.Utilities.EmailSender;
 using PeakHub.Models;
 using Microsoft.AspNetCore.Identity;
 using WebAPI.Data;
@@ -33,9 +32,6 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<Loader>();
 
-// Email configuration
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 // Configure the database context
 builder.Services.AddDbContext<PeakHubContext>(options =>
@@ -56,6 +52,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 // Add distributed memory cache (to store sessions)
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddScoped<UserManager<User>>();
+builder.Services.AddScoped<SignInManager<User>>();
+
 
 // Add controllers with views
 builder.Services.AddControllersWithViews();
