@@ -14,7 +14,7 @@
     --darkgreen: #133234;
     --yellow: f3e147;
     --red: 912f45;
-    --animation-timing: 0.25s;
+    --animation-timing: 0.25s ease-in-out;
     --navbar-height-s: 3rem;
     --max-width: 1300px;
 }
@@ -73,7 +73,8 @@ header {
 .brand-logo-link {
     display: inline-block;
     transform: rotate(-20deg);
-
+    color: var(--grey) !important;
+    text-shadow: -2px 2px black;
 }
 
 nav {
@@ -84,70 +85,79 @@ nav {
 
 /* Hamburger icon styling */
 
+
 .hamburger-menu {
-    display: flex;
     position: absolute;
     right: 1rem;
     top: 1.5rem;
     transform: translateY(-50%);
-    width: 3rem;
-    height: 2.5rem;
-    border: 1px solid var(--darkgreen);
-    background-color: var(--lightgreen);
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    border-radius: 4px;
-    padding: 0.3rem 0;
-    align-content: space-around;
     cursor: pointer;
+    background-color: var(--animation-timing);
+    width: 3rem;
+    border: 1px solid var(--darkgreen);
+    height: 2.5rem;
+    border-radius: 3px;
 }
 
-.hamburger-menu.toggle {
-    background-color: var(--darkgreen);
-}
-
-.hamburger-menu-dash1, .hamburger-menu-dash2, .hamburger-menu-dash3 {
+.hamburger-menu::before,
+.hamburger-menu::after,
+.hamburger-menu input {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     content: "";
+    margin: 0 auto;
     width: 2rem;
-    height: 3px;
+    height: 4px;
     background-color: var(--grey);
-    margin: auto;
+    transition: opacity var(--animation-timing), background-color var(--animation-timing), rotate var(--animation-timing);
 }
 
-.hamburger-menu-dash1, .hamburger-menu-dash3 {
-    transition: rotate 0.25s ease-in, background-color 0.25s ease-in;
-    transform-origin: left;
+.hamburger-menu input {
+    appearance: none;
+    padding: 0;
+    outline: none;
+    pointer-events: none;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.hamburger-menu-dash1.toggle {
-    rotate: 35deg;
-    width: 2.37rem;
-    height: 4px;
-    translate: 3px -1px;
+.hamburger-menu::before {
+    top: 6px;
 }
 
-.hamburger-menu-dash2 {
-    opacity: 100;
-    transition: opacity 0.25s ease-in, width 0.25s ease-in;
+.hamburger-menu::after {
+    bottom: 6px;
 }
 
-
-.hamburger-menu-dash2.toggle {
-    width: 0rem;
+.hamburger-menu input:checked {
     opacity: 0;
+    width: 0;
 }
 
-.hamburger-menu-dash3.toggle {
+.hamburger-menu:has(input:checked)::before {
     rotate: -35deg;
-    width: 2.37rem;
-    height: 4px;
-    translate: 3px 1px;
+    width: 2.4rem;
+    translate: -3px;
+    
 }
 
-.hamburger-menu.selected {
-    background-color: var(--darkgreen);
+.hamburger-menu:has(input:checked)::after {
+    rotate: 35deg;
+    width: 2.4rem;
+    translate: -3px;
 }
+
+.hamburger-menu:has(input:checked) {
+    box-shadow: 0px 0px 2px 2px var(--darkgreen);
+}
+
+.hamburger-menu:has(input:checked) + .navbar-links {
+    height: 15rem;
+}
+
 
 /* END hamburger icon */
 
@@ -156,13 +166,12 @@ nav {
 }
 
 .navbar-links {
-    height: 0;
+    height: 0rem;
     width: 100%;
     text-align: center;
     background-color: var(--grey);
-    transition: height var(--animation-timing) ease-in;
+    transition: height var(--animation-timing);
     overflow: hidden;
-    
 }
 
 .navbar-links.show {
@@ -223,7 +232,7 @@ a:hover {
     top: calc(0 + var(--header-height));
     right: 0;
     background-color: var(--darkgreen);
-    transition: height var(--animation-timing) ease-in;
+    transition: height var(--animation-timing);
     overflow: hidden;
     z-index: 2;
 }
@@ -349,7 +358,7 @@ input[type="range"] {
     bottom: 0;
     left: 0;
     overflow: hidden;
-    transition: height var(--animation-timing) ease-in, width var(--animation-timing) ease-in;
+    transition: height var(--animation-timing), width var(--animation-timing);
 }
 
 .route-container.show {
@@ -385,7 +394,8 @@ input[type="range"] {
 }
 
 .plannerBtns > button {
-    width: 7rem;
+    font-size: 0.75rem;
+    width: 5rem;
 }
 
 .chart-container {
@@ -405,7 +415,7 @@ input[type="range"] {
     .filter-container {
         width: 1rem;
         height: 100%;
-        transition: width var(--animation-timing) ease-in;
+        transition: width var(--animation-timing);
     }
 
     .filter-options {
@@ -474,6 +484,10 @@ input[type="range"] {
 
     .hamburger-menu {
         display: none;
+    }
+
+    .plannerBtns > button {
+        width: 7rem;
     }
 
     a, a:visited {
