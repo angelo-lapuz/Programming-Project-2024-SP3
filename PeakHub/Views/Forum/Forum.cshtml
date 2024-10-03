@@ -1,5 +1,4 @@
 ﻿@model PeakHub.ViewModels.ForumViewModel
-@{ Layout = "_Layout"; }
 
 <div id="forumContent">
     <section id="forumMenu_1">
@@ -12,9 +11,11 @@
             <h3>@Model.Username</h3>
         </div>
 
-        @foreach (var postViewModel in @Model.Posts) {
-            @Html.PartialAsync("_Post", postViewModel)
-        }
+        <div id="forumPosts">
+            @foreach (var postViewModel in @Model.Posts) {
+                @await Html.PartialAsync("_Post", postViewModel)
+            }
+        </div>
     </section>
 
     <section id="forumMenu_2">
