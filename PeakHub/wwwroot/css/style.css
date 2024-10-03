@@ -258,3 +258,51 @@ html, body {
     transform: scale(1.2);
 
 } 
+
+/* FORUM */
+#forumContent {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+#forumContent section { height: 100%; }
+
+[id*='forumMenu'] {
+    width: 20%;
+    background-color: #2C2C2C;
+}
+
+#forumMain {
+    width: 60%;
+    background-color: #FFFFFF;
+}
+
+/* FORUM POSTS */
+.postBox, .postContent, .postInfo { width: 100%; }
+
+.postContent {
+    padding: 2% 1%;
+    background-color: #2C2C2C;
+}
+
+.postInfo {
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+.postInfo img {
+    height: 80%;
+    width: auto;
+}
+
+.postLeft { 
+    width: 65%; 
+    align-self: flex-start;
+}
+.postRight { 
+    width: 25%; 
+    align-self: flex-end;
+}
