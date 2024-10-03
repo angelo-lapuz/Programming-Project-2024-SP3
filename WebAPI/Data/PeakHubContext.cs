@@ -10,7 +10,7 @@ namespace WebAPI.Data
         public PeakHubContext(DbContextOptions<PeakHubContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Peak> Tasks { get; set; }
+        public DbSet<Peak> Peaks { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Board> Boards { get; set; }
@@ -43,15 +43,15 @@ namespace WebAPI.Data
             builder.Entity<User>()
                 .HasMany(u => u.Posts)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserID);
+                .HasForeignKey(p => p.UserId);
 
             builder.Entity<Like>()
-                .HasKey(l => new { l.UserID, l.PostID });
+                .HasKey(l => new { l.UserId, l.PostID });
 
             builder.Entity<Like>()
                 .HasOne(l => l.User)
                 .WithMany(u => u.Likes)
-                .HasForeignKey(l => l.UserID);
+                .HasForeignKey(l => l.UserId);
 
             builder.Entity<Like>()
                 .HasOne(l => l.Post)

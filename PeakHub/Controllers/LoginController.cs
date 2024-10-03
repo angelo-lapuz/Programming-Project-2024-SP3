@@ -2,41 +2,31 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
- 
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace PeakHub.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IHttpClientFactory _clientFactory;
-        private HttpClient Client => _clientFactory.CreateClient("api");
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<LoginController> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly HttpClient _httpClient;
 
-
-        /// <summary>
-        /// / sign in for like signing in - is auth, 2fa enabled 
-        /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
-
-
-        // / <summary>
-        // is the account confirmed, is it admin, is it a token account
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public LoginController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IHttpClientFactory clientFactory, ILogger<LoginController> logger, IEmailSender emailSender)
+        public LoginController(
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ILogger<LoginController> logger,
+            IHttpClientFactory httpClientFactory)
         {
-            _clientFactory = clientFactory;
-            _logger = logger;
-            _emailSender = emailSender;
-            _signInManager = signInManager;
             _userManager = userManager;
+            _signInManager = signInManager;
+            _logger = logger;
+            _httpClient = httpClientFactory.CreateClient("api");
         }
 
         public IActionResult Index() { return View(); }
@@ -49,61 +39,52 @@ namespace PeakHub.Controllers
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel viewModel)
+        public async Task<IActionResult> Login(AccountViewModel model)
         {
+            var loginModel = model.LoginModel;
 
+            if (!ModelState.IsValid) return View(model);
 
-            if (!ModelState.IsValid) return View(viewModel);
+            _logger.LogInformation("Sending login request to API.");
 
-            // calling API and encoding username and password to prevent capture in plain text
-            var response = await Client.GetAsync($"api/users/{Uri.EscapeDataString(viewModel.UserName)}/{Uri.EscapeDataString(viewModel.Password)}");
+            // Call the API to verify credentials and log in the user
+            var response = await _httpClient.PostAsJsonAsync("api/users/login", loginModel);
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
-                if (user != null) {
+                // Store user details in session (if needed)
+                HttpContext.Session.SetString("UserID", user.Id);
+                HttpContext.Session.SetString("Username", user.UserName);
 
-                    if(!await _userManager.IsEmailConfirmedAsync(user))
-                    {
-                      ModelState.AddModelError("LoginError", "Email not confirmed");
-                        return View(viewModel);
-                    }
-
-
-
-                    var currentUser = await _signInManager.PasswordSignInAsync(user.UserName, viewModel.Password, false, false);
-
-
-
-                    if (loginResult.Succeeded) 
-                    {
-
-                        // Store user details in session
-                        HttpContext.Session.SetString("UserID", user.Id);
-                        HttpContext.Session.SetString("Username", user.UserName);
-
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        // If login fails, add error to the ModelState
-                        ModelState.AddModelError("LoginError", "Invalid login details");
-                        return View(viewModel);
-                    }
-                }
+                return RedirectToAction("Index", "Home");
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ModelState.AddModelError("LoginModel.UserName", "Please confirm your email to sign in.");
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                ModelState.AddModelError("LoginModel.UserName", "Invalid username or password.");
+            }
+            else
+            {
+                ModelState.AddModelError("LoginModel.UserName", "An unexpected error occurred, please try again.");
             }
 
-            // If login fails, add error to the ModelState
-            ModelState.AddModelError("LoginError", "Invalid login details");
-            return View(viewModel);
-
+            return View(model);
         }
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            var response = await _httpClient.PostAsync("api/users/logout", null);
+            if (response.IsSuccessStatusCode)
+            {
+                HttpContext.Session.Clear();  
+                _logger.LogInformation("User logged out successfully.");
+            }
             return RedirectToAction("Index", "Home");
         }
 

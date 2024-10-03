@@ -2,7 +2,6 @@
 using WebAPI.Data;
 using WebAPI.Models.Repository;
 using SimpleHashing.Net;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Models.DataManager;
@@ -74,9 +73,6 @@ public class UserManager : IDataRepository<User, int>
                     .AsSplitQuery()
                     .FirstOrDefault(u => u.Id == id);
     }
-
-
-
 
     // checks if there is a username Or email in the database
     public List<User> GetByUsernameAndEmail(String username, String email)

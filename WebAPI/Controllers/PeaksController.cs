@@ -35,16 +35,16 @@ public class PeaksController : ControllerBase
 
     // POST api/peaks
     [HttpPost]
-    public void Post([FromBody] Peak task)
+    public void Post([FromBody] Peak peak)
     {
         _repo.Add(peak);
     }
 
     // PUT api/peaks
     [HttpPut]
-    public void Put([FromBody] Peak task)
+    public void Put([FromBody] Peak peak)
     {
-        _repo.Update(task.PeakID, task);
+        _repo.Update(peak.PeakID, peak);
     }
 
     // DELETE api/peaks/1

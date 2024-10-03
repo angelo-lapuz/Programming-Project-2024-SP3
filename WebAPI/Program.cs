@@ -2,8 +2,11 @@ using WebAPI.Data;
 using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Pomelo.EntityFrameworkCore.MySql;
 using WebAPI.Utilities;
+using WebAPI.Models; 
+using static WebAPI.Utilities.EmailSender;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,9 @@ builder.Services.AddDbContext<PeakHubContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("PeakDBD"),
     new MySqlServerVersion(new Version(8, 0, 25))));
 
+builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<UserManager>();
+builder.Services.AddScoped<SignInManager<User>>();  
 builder.Services.AddScoped<PeakManager>();
 builder.Services.AddScoped<PostManager>();
 builder.Services.AddScoped<LikeManager>();
@@ -21,14 +26,8 @@ builder.Services.AddScoped<BoardManager>();
 builder.Services.AddScoped<AwardManager>();
 builder.Services.AddScoped<EmailSender>();
 
-
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+// Identity configuration with custom User model
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedEmail = true;
     options.Password.RequireDigit = true;
@@ -39,6 +38,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<PeakHubContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -57,7 +64,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -67,8 +73,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Authentication and Authorization
+app.UseAuthentication();  
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
