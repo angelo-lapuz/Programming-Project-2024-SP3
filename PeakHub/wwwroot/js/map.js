@@ -330,8 +330,6 @@ document.getElementById('filter-difficultySlider').addEventListener('input', fun
 
     document.getElementById('filter-difficulty').value = (difficultyMap[this.value]) === 'All' ? '' : difficultyMap[this.value].charAt(0);
 
-    console.log('difficulty: ' + difficultyMap[this.value].charAt(0));
-
     applyFilters();
     
 });
@@ -352,11 +350,6 @@ function applyFilters() {
 
     markerLayer.clearLayers(); 
 
-    console.log('name: ' + nameFilter);
-    console.log('difficulty: ' + difficultyFilter);
-    console.log('elevation: ' + elevationFilter);
-
-
     var filteredPeaks = peaksData.filter(function (peak) {
         var matchesName = nameFilter === "" || peak.Name.toLowerCase().includes(nameFilter);
         var matchesDifficulty = difficultyFilter === "" || peak.Difficulty === difficultyFilter;
@@ -365,5 +358,33 @@ function applyFilters() {
     });
 
     showSectionPeaks(filteredPeaks);
+
+    const tableBody = document.querySelector('.filter-results-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; 
+
+    
+    filteredPeaks.forEach(function (peak) {
+        var coords = peak.Coords.split(',');
+        var lat = parseFloat(coords[0]);
+        var lng = parseFloat(coords[1]);
+
+
+        var newRow = tableBody.insertRow();
+
+        var nameCell = newRow.insertCell(0);
+        var sectionCell = newRow.insertCell(1);
+
+        nameCell.textContent = peak.Name;
+        sectionCell.textContent = peak.Section;
+
+        newRow.addEventListener('click', function () {
+
+            // Stolen from Max's code above. HEH
+            map.setView([lat, lng], 12); 
+            // MAX are we able to make the pop up appear when it zooms into the peak. The one when a user clicks on the pin.
+           
+        });
+      
+    });
 
 }
