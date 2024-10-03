@@ -9,7 +9,7 @@ namespace WebAPI.Models
         public string Name { get; set; }
         public string IMG { get; set; }
         public string Details { get; set; }
-        public string Section { get; set; }
+        public string Region { get; set; }
         public string Coords { get; set; }
         public int Elevation { get; set; }
         public string Routes { get; set; }
