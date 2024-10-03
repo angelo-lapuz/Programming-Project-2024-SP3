@@ -2,7 +2,8 @@
 
 namespace PeakHub.ViewModels{
     public class LoginViewModel  {
-            [Required]
+
+        [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 

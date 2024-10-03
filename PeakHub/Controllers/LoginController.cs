@@ -47,7 +47,6 @@ namespace PeakHub.Controllers
 
             _logger.LogInformation("Sending login request to API.");
 
-            // Call the API to verify credentials and log in the user
             var response = await _httpClient.PostAsJsonAsync("api/users/login", loginModel);
 
             if (response.IsSuccessStatusCode)
@@ -55,7 +54,6 @@ namespace PeakHub.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
-                // Store user details in session (if needed)
                 HttpContext.Session.SetString("UserID", user.Id);
                 HttpContext.Session.SetString("Username", user.UserName);
 
