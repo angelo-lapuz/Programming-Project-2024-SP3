@@ -46,15 +46,6 @@ if (elevationSlider) {
 
 
 
-document.querySelector('.hamburger-menu').addEventListener('click', function () {
-    document.querySelector('.navbar-links').classList.toggle('show');
-    document.querySelector('.hamburger-menu-dash1').classList.toggle("toggle");
-    document.querySelector('.hamburger-menu-dash2').classList.toggle("toggle");
-    document.querySelector('.hamburger-menu-dash3').classList.toggle("toggle");
-    document.querySelector('.hamburger-menu').classList.toggle("toggle");
-    
-});
-
 var filterToggle = document.querySelector('.filter-toggle');
 var filterContainer = document.querySelector('.filter-container');
 filterToggle.addEventListener('click', function () {
@@ -83,3 +74,9 @@ routeToggle.addEventListener('click', function () {
 
 });
 
+var hamburgerBox = document.querySelector('.hamburger-menu input');
+var navBar = document.querySelector('.navbar-links');
+
+hamburgerBox.addEventListener('change', function () {
+    navBar.classList.toggle('show');
+})

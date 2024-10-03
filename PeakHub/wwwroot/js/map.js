@@ -322,11 +322,40 @@ function addClickEvent(box, polygon, sectionName) {
 
 
 document.getElementById('apply-filters').addEventListener('click', function () {
+    applyFilters();
+});
+
+// auto filters when difficulty slider changes
+document.getElementById('filter-difficultySlider').addEventListener('input', function () {
+
+    document.getElementById('filter-difficulty').value = (difficultyMap[this.value]) === 'All' ? '' : difficultyMap[this.value].charAt(0);
+
+    console.log('difficulty: ' + difficultyMap[this.value].charAt(0));
+
+    applyFilters();
+    
+});
+
+// as above but with elevation slider
+document.getElementById('filter-elevation').addEventListener('input', function () {
+
+    document.getElementById('filter-elevation').value = this.value;
+
+    applyFilters();
+
+});
+
+function applyFilters() {
     var nameFilter = document.getElementById('search-name').value.toLowerCase();
     var difficultyFilter = document.getElementById('filter-difficulty').value;
     var elevationFilter = document.getElementById('filter-elevation').value;
 
     markerLayer.clearLayers(); 
+
+    console.log('name: ' + nameFilter);
+    console.log('difficulty: ' + difficultyFilter);
+    console.log('elevation: ' + elevationFilter);
+
 
     var filteredPeaks = peaksData.filter(function (peak) {
         var matchesName = nameFilter === "" || peak.Name.toLowerCase().includes(nameFilter);
@@ -335,5 +364,6 @@ document.getElementById('apply-filters').addEventListener('click', function () {
         return matchesName && matchesDifficulty && matchesElevation;
     });
 
-    showSectionPeaks(filteredPeaks); 
-});
+    showSectionPeaks(filteredPeaks);
+
+}
