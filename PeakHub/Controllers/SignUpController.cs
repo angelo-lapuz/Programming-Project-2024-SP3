@@ -5,6 +5,7 @@ using PeakHub.ViewModels;
 using PeakHub.Models;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Http;
 
 namespace PeakHub.Controllers {
     public class SignUpController : Controller {
@@ -30,13 +31,22 @@ namespace PeakHub.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SignUpViewModel viewModel) {
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
             var response = await Client.GetAsync($"api/users/Verify/{viewModel.UserName}/{viewModel.Email}");
             var resultContent = await response.Content.ReadAsStringAsync();
 
             dynamic result = JsonConvert.DeserializeObject(resultContent);
 
-            if ((bool)result.UsernameExists) ModelState.AddModelError("UserName", "Username exists");
-            if ((bool)result.EmailExists) ModelState.AddModelError("Email", "Email already in use");
+            bool usernameExists = result.usernameExists != null ? (bool)result.usernameExists : false;
+            bool emailExists = result.emailExists != null ? (bool)result.emailExists : false;
+
+            if (usernameExists) ModelState.AddModelError("UserName", "Username already exists");
+            if (emailExists) ModelState.AddModelError("Email", "Email already in use");
 
             if (ModelState.IsValid) {
                 // convert viewmodel to json to be sent to api/users/create
@@ -46,22 +56,17 @@ namespace PeakHub.Controllers {
                 // return to login page if created successfully
                 if (response.IsSuccessStatusCode) 
                 {
-                 
                     return RedirectToAction("Login", "Login");
                 } 
                 else
                 {
                     var errorMessage = await response.Content.ReadAsStringAsync();
                     _logger.LogError(errorMessage);
-                    ModelState.AddModelError(string.Empty,"Signup failed, try again.");
+                    ModelState.AddModelError(string.Empty,errorMessage);
                 }
             }
 
             return View(viewModel);
         }
-
-
-
-
     }
 }
