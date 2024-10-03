@@ -74,9 +74,6 @@ public class UserManager : IDataRepository<User, int>
                     .FirstOrDefault(u => u.Id == id);
     }
 
-
-
-
     // checks if there is a username Or email in the database
     public List<User> GetByUsernameAndEmail(String username, String email)
     {

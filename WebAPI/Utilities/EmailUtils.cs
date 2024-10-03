@@ -2,8 +2,6 @@
 using MimeKit;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
-
 
 namespace WebAPI.Utilities
 
