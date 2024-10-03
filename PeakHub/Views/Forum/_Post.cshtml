@@ -1,0 +1,24 @@
+﻿@model PeakHub.ViewModels.PostViewModel
+@{ Layout = "_Layout"; }
+
+<!-- Used to Populate a Post's Design -->
+
+<div class="postBox">
+    <div class="postContent">
+        <p>@Model.Post.Content</p>
+    </div>
+    <div class="postInfo">
+        <div class="postLeft">
+            <img src="@Model.ProfileImg" alt="User's Profile Image" />
+            <div class="postUser">
+                <h3>@Model.Username</h3>
+                <p>@Model.Post.TransactionTimeUtc</p>
+            </div>
+        </div>
+
+        <div class="postRight">
+            <h3>@Model.Post.Likes.Count()</h3>\
+            <img src="" alt="Like Icon" /> <!-- Icon for LIKES -->
+        </div>
+    </div>
+</div>
