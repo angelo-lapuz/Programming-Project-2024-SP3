@@ -33,12 +33,23 @@
                     <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
                     <span id="difficulty-value">Difficulty</span>
                     <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
-                    <span id="elevation-value">Elevation (m)</span>
+                    <span id="elevation-value">Elevation</span>
                     <input type="text" id="search-name" placeholder="Enter Peak name">
                     <input type="hidden" id="filter-difficulty" />
                     <button id="apply-filters">Apply</button>  
                 </div>
-                <div class="filter-results">filter results list</div>
+                <div class="filter-results">
+                    <table class="filter-results-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Region</th>
+                            </tr>
+                        </thead>
+                        <tbody class="filter-table-body">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -68,8 +79,12 @@
 
         
 
-
-        <div id="section-boxes" class="sections-container"></div>
+        <div class="sections-container">
+            <span>REGION LINKS</span>
+            <div id="section-boxes" class="regions-box"></div>
+            <button class="region-links-toggle">Regions</button>
+        </div>
+        
     </div>
 
     <script src="~/js/map.js"></script>

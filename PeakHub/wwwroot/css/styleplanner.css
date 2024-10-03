@@ -63,19 +63,68 @@ header {
     color: var(--grey);
 }
 
-.brand-logo img {
+.brand-logo-img {
     position: absolute;
     left: 4.5rem;
     width: 2rem;
-    transform: rotate(10deg);
+    
+
+}
+
+    .brand-logo-img img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transform: rotate(10deg);
+        animation: rock 1s alternate infinite, roll 1s alternate infinite;
+        z-index: 3;
+        border-radius: 50%;
+        box-shadow: -1px 2px 1px black;
+    }
+
+@keyframes rock {
+    0% {
+        transform: rotate(-20deg);
+        box-shadow: -1px 1px 1px black;
+    }
+
+    100% {
+        transform: rotate(20deg);
+        box-shadow: -1px 1px 1px black;
+    }
+}
+
+@keyframes roll {
+    0% {
+        left: -10px;
+    }
+    100% {
+        left: 0px;
+    }
+
 }
 
 .brand-logo-link {
     display: inline-block;
     transform: rotate(-20deg);
     color: var(--grey) !important;
-    text-shadow: -2px 2px black;
+    
+    animation: bounce 1s alternate infinite;
 }
+
+@keyframes bounce {
+    0% {
+        rotate: -12deg;
+        text-shadow: -3px 1px black;
+    }
+    100% {
+        rotate: -4deg;
+        text-shadow: -2px 2px black;
+    }
+}
+
+
 
 nav {
     position: relative;
@@ -295,13 +344,36 @@ input[type="range"] {
 .filter-results {
     display: none;
     position: absolute;
-    left: 1.5rem;
-    width: 17.5rem;
+    left: 2rem;
+    width: 22rem;
     height: calc(100% - var(--navbar-height-s) - 12rem);
     background-color: var(--grey);
     text-align: center;
     align-content: center;
     border-radius: 5px;
+    font-size: 0.8rem;
+    overflow-Y:scroll;
+}
+
+.filter-results-table {
+    margin: 0 auto;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.filter-results-table th {
+    border: 1px solid black;
+}
+
+.filter-table-body tr:hover {
+    background-color: var(--lightgreen);
+    cursor: pointer;
+}
+
+.filter-table-body tr td {
+    border: 1px solid black;
+    text-align: left;
 }
 
 /* END of filter function */
@@ -408,6 +480,55 @@ input[type="range"] {
 }
 
 
+.sections-container {
+    display: none;
+    width: 11rem;
+    height: 20rem;
+    position:absolute;
+    top: 5%;
+    left:-10.5rem;
+    background-color: var(--darkgreen);
+    color: white;
+    text-align: center;
+}
+
+.sections-container.show {
+    left:0rem;
+}
+
+.region-links-toggle {
+    position: absolute;
+    right:0;
+    top: 50%;
+    rotate: 90deg;
+    transform-origin: right;
+    transform: translateX(50%);
+}
+
+.regions-box > * {
+    text-align: center;
+    margin-top: 0.5rem;
+    color: var(--darkgreen);
+    cursor: pointer;
+}
+
+.regions-box >*:hover {
+    background-color: var(--lightgreen);
+    color: var(--grey);
+}
+
+.regions-box {
+    background-color: var(--grey);
+    width: 10rem;
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
 @media only screen and (min-width: 900px) {
 
     
@@ -431,14 +552,14 @@ input[type="range"] {
     }
 
     .filter-container.show {
-        width: 20rem;
+        width: 25rem;
         height: 100%;
     }
 
 
 
     .filter-selections {
-        width: 18rem;
+        width: 24rem;
         height: 8rem;
         margin: auto;
         grid-template-columns: 90%;
@@ -500,8 +621,9 @@ input[type="range"] {
         color: var(--darkgreen);
     }
 
-
-}
+    .sections-container {
+        display: block;
+    }
 
 
 

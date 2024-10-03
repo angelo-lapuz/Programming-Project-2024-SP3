@@ -48,31 +48,40 @@ if (elevationSlider) {
 
 var filterToggle = document.querySelector('.filter-toggle');
 var filterContainer = document.querySelector('.filter-container');
-filterToggle.addEventListener('click', function () {
-    filterContainer.classList.toggle("show");
-    routeContainer.classList.toggle("showLRes");
 
-});
+if (filterToggle) {
+    filterToggle.addEventListener('click', function () {
+        filterContainer.classList.toggle("show");
+        routeContainer.classList.toggle("showLRes");
+
+    });
+}
 
 var infoBtn = document.querySelector('.info-button');
 var infoBox = document.querySelector('.info-data');
 
-infoBtn.addEventListener('click', function () {
+if (infoBtn) {
+    infoBtn.addEventListener('click', function () {
 
-    infoBox.classList.toggle("show");
-});
+        infoBox.classList.toggle("show");
+    });
+}
 
-infoBox.addEventListener('click', function () {
-    infoBox.classList.toggle("show");
-});
+if (infoBox) {
+    infoBox.addEventListener('click', function () {
+        infoBox.classList.toggle("show");
+    });
+}
 
 var routeToggle = document.querySelector('.route-toggle');
 var routeContainer = document.querySelector('.route-container');
 
-routeToggle.addEventListener('click', function () {
-    routeContainer.classList.toggle("show");
+if (routeToggle) {
+    routeToggle.addEventListener('click', function () {
+        routeContainer.classList.toggle("show");
 
-});
+    });
+}
 
 var hamburgerBox = document.querySelector('.hamburger-menu input');
 var navBar = document.querySelector('.navbar-links');
@@ -80,3 +89,14 @@ var navBar = document.querySelector('.navbar-links');
 hamburgerBox.addEventListener('change', function () {
     navBar.classList.toggle('show');
 })
+
+var regionsToggle = document.querySelector('.region-links-toggle');
+var regionsBox = document.querySelector('.sections-container');
+
+if (regionsToggle) {
+
+    regionsToggle.addEventListener('click', function () {
+
+        regionsBox.classList.toggle('show');
+    });
+}
