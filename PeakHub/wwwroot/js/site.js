@@ -32,6 +32,7 @@ if (difficultySlider) {
         const difficultyLabel = difficultyMap[difficultySlider.value];
         difficultyValue.textContent = difficultyLabel;
         difficultyInput.value = (difficultyLabel === 'All') ? '' : difficultyLabel.charAt(0);
+
     });
 }
 
