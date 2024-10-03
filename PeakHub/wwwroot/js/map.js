@@ -350,6 +350,8 @@ function applyFilters() {
 
     markerLayer.clearLayers(); 
 
+    
+
     var filteredPeaks = peaksData.filter(function (peak) {
         var matchesName = nameFilter === "" || peak.Name.toLowerCase().includes(nameFilter);
         var matchesDifficulty = difficultyFilter === "" || peak.Difficulty === difficultyFilter;
@@ -379,9 +381,13 @@ function applyFilters() {
 
         newRow.addEventListener('click', function () {
 
-            // Stolen from Max's code above. HEH
             map.setView([lat, lng], 12); 
-            // MAX are we able to make the pop up appear when it zooms into the peak. The one when a user clicks on the pin.
+            markerLayer.eachLayer(function (marker) {
+                var markerLatLng = marker.getLatLng();
+                if (markerLatLng.lat === lat && markerLatLng.lng === lng) {
+                    marker.openPopup();
+                }
+            });
            
         });
       
