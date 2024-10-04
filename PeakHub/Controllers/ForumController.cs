@@ -6,13 +6,8 @@ namespace PeakHub.Controllers {
         public IActionResult Forum() {
             string username = "gr8Trekkist";
             string profileImg = Url.Content("~/img/forum_sample.jpg");
-            List<PostViewModel> posts = PostGenerator(10);
+            List<PostViewModel> posts = PostGenerator(15);
             List<int> postsLikedByUser = new();
-
-            foreach (PostViewModel post in posts) {
-                Console.WriteLine($"Username: {post.Username}       | Img Link: {post.ProfileImg}");
-                Console.WriteLine($"PostID = {post.Post.PostID}     | UserID = {post.Post.UserId}");
-            }
 
             ForumViewModel viewModel = new ForumViewModel {
                 Username = username,

@@ -1,0 +1,15 @@
+﻿@model PeakHub.ViewModels.BoardViewModel
+@{ Layout = "_Layout"; }
+
+<div id="boardContent">
+    <div id="boardSearch">
+        <!-- Implement Search Bar : HERE -->
+        <h4>Search Bar</h4>
+    </div>
+
+    <div id="boardItems">
+        @foreach(Board board in @Model.Boards) {
+            @await Html.PartialAsync("_Item", board);
+        }
+    </div>
+</div>

@@ -4,6 +4,8 @@
     {
         public int BoardID { get; set; }
         public string Name { get; set; }
+        public string Section { get; set; }
+        public string Image { get; set; }
         public virtual List<Post> Posts { get; set; }
     }
 }

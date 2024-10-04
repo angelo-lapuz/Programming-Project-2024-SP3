@@ -258,7 +258,71 @@ html, body {
     color:aqua;
     transform: scale(1.2);
 
-} 
+}
+
+/* BOARD */
+#boardContent {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#boardSearch {
+    width: 50%;
+    height: 10%;
+    background: #CCC;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#boardItems {
+    width: 50%;
+    height: 90%;
+    overflow-y: auto;
+}
+
+/* Board Items */
+.itemBox {
+    margin: 1%;
+    width: 80%;
+    height: 15%;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.itemBox img {
+    width: 20%;
+    height: 85%;
+    padding: 1%;
+    border-radius: 25px;
+}
+
+.itemData {
+    width: 82%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.itemData p { 
+    margin: 0;    
+    padding: 0; 
+    width: 100%;
+}
+
+.itemData strong {
+    display: block;
+    font-size: large; 
+    margin-bottom: 1%;
+    padding-bottom: 1%;
+    border-bottom: 2px groove #00000050;
+}
 
 /* FORUM */
 #forumContent {
@@ -312,6 +376,24 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* FORUM / BOARD SCROLLBAR */
+#forumPosts::-webkit-scrollbar, #boardItems::-webkit-scrollbar { width: 4px;  }
+
+#forumPosts::-webkit-scrollbar-track, #boardItems::-webkit-scrollbar-track {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background: #0563A7;
+}
+
+#forumPosts::-webkit-scrollbar-thumb, #boardItems::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: 4px solid #FFF;
+}
+
+#forumPosts::-webkit-scrollbar-thumb:hover, #boardItems::-webkit-scrollbar-thumb:hover {
+    border: 4px groove #FF0;
 }
 
 /* FORUM POSTS */
