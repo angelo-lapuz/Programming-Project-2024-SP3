@@ -27,8 +27,6 @@ namespace PeakHub.Controllers
         public async Task<IActionResult> Index()
         {
             HomeViewModel viewModel = new HomeViewModel();
-           
-
 
             return View(viewModel);
         }
