@@ -476,3 +476,33 @@ html, body {
     margin-right: 10%;
     align-self: center;
 }
+
+/* BOARD / FORUM Screen Responsiveness */
+@media only screen and (max-width: 1000px) {
+    #boardContent, #forumContent { 
+        width: 100%;
+    }
+
+    /* Board Only */
+    #boardSearch, #boardItems { width: 100%; }
+    .itemBox img { min-width: 30%; }
+
+    /* Forum Only */
+    [id*='forumMenu'] { display: none; }
+    #forumMain { width: 100%; }
+
+    .postBox { width: 100%; }
+
+    .postContent {
+        border-radius: 0;
+    }
+
+    .postInfo img { 
+        width: 25%;
+        height: 7vh; 
+    }
+
+    .postRight img {
+        height: 5vh;
+    }
+}
