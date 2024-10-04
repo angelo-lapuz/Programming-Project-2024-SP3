@@ -5,10 +5,10 @@ using PeakHub.ViewModels;
 namespace PeakHub.Controllers {
     public class BoardController : Controller {
         public IActionResult Board() {
-            BoardLoader loader = new();
+            ForumContent loader = new();
 
             BoardViewModel viewModel = new BoardViewModel {
-                Boards = loader.getBoards()
+                Boards = loader.GetBoards()
             };
 
             return View(viewModel);

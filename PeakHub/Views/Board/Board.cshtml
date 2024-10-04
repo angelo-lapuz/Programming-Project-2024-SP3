@@ -4,12 +4,32 @@
 <div id="boardContent">
     <div id="boardSearch">
         <!-- Implement Search Bar : HERE -->
-        <h4>Search Bar</h4>
+        <input type="text" id="searchInput" placeholder="Search by Name or Section" />
     </div>
 
     <div id="boardItems">
-        @foreach(Board board in @Model.Boards) {
+        @foreach(var board in @Model.Boards) {
             @await Html.PartialAsync("_Item", board);
         }
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Search Bar Implementation
+    $("#searchInput").on("keyup", function () { 
+        var searchTerm = $(this).val().toLowerCase(); // Get Input 
+
+        // Check Items
+        $('#boardItems .itemBox').each(function () {
+            var boardName = $(this).find('strong').text().toLowerCase(); // Get Board Name
+            var boardSection = $(this).find('i').text().toLowerCase(); // Get Board Section
+
+            // Display Matches Only
+            if (boardName.includes(searchTerm) || boardSection.includes(searchTerm)) {
+                $(this).show(); 
+            } 
+            else { $(this).hide(); }
+        });
+    });
+</script>

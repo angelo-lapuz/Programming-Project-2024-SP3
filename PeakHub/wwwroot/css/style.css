@@ -324,6 +324,20 @@ html, body {
     border-bottom: 2px groove #00000050;
 }
 
+/* Board SearchBar */
+#searchInput {
+    width: 80%;
+    padding: 2%;
+    background: #FFF;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 2px groove #00000050;
+}
+
+#searchInput:focus {
+    box-shadow: 0 0 5px #0011FF;
+}
+
 /* FORUM */
 #forumContent {
     width: 100%;

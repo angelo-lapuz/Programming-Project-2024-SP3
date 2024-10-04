@@ -2,6 +2,6 @@
 
 namespace PeakHub.ViewModels {
     public class BoardViewModel {
-        public List<Board> Boards { get; set; }
+        public List<BoardItemViewModel> Boards { get; set; }
     }
 }
