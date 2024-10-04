@@ -1,0 +1,13 @@
+﻿@model PeakHub.ViewModels.EmailConfirmationViewModel
+
+<h2>Email Confirmation</h2>
+
+@if (Model.IsSuccess)
+{
+    <p>Your email has been successfully confirmed! You can now <a href="@Url.Action("Login", "Login")">login</a>.</p>
+}
+else
+{
+    <p>@Model.ErrorMessage</p>
+    <p>Please try again or contact support.</p>
+}

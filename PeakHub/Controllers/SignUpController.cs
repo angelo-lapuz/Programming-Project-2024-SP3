@@ -12,7 +12,7 @@ namespace PeakHub.Controllers {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
-        private HttpClient Client => _clientFactory.CreateClient("api");
+        private HttpClient _httpClient => _clientFactory.CreateClient("api");
 
         public SignUpController(IHttpClientFactory clientFactory, ILogger<HomeController> logger) {
             _clientFactory = clientFactory;
@@ -37,7 +37,7 @@ namespace PeakHub.Controllers {
                 return View(viewModel);
             }
 
-            var response = await Client.GetAsync($"api/users/Verify/{viewModel.UserName}/{viewModel.Email}");
+            var response = await _httpClient.GetAsync($"api/users/Verify/{viewModel.UserName}/{viewModel.Email}");
             var resultContent = await response.Content.ReadAsStringAsync();
 
             dynamic result = JsonConvert.DeserializeObject(resultContent);
@@ -51,7 +51,7 @@ namespace PeakHub.Controllers {
             if (ModelState.IsValid) {
                 // convert viewmodel to json to be sent to api/users/create
                 var content = new StringContent(JsonConvert.SerializeObject(viewModel), Encoding.UTF8, "application/json");
-                response = await Client.PostAsync("api/users/Create", content);
+                response = await _httpClient.PostAsync("api/users/Create", content);
 
                 // return to login page if created successfully
                 if (response.IsSuccessStatusCode) 
@@ -68,5 +68,41 @@ namespace PeakHub.Controllers {
 
             return View(viewModel);
         }
+
+       // displays ConfirmEmail view rather than havethis done through the API
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            // calling api
+            var response = await _httpClient.GetAsync($"api/users/ConfirmEmail/{userId}/{Uri.EscapeDataString(token)}");
+            
+            var viewModel = new EmailConfirmationViewModel();
+
+            // confirmed email address
+            if (response.IsSuccessStatusCode)
+            {
+                viewModel.IsSuccess = true;
+            }
+            // failed to confirm email address
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                viewModel.IsSuccess = false;
+                viewModel.ErrorMessage = errorMessage;
+            }
+
+            return View("Confirm", viewModel);
+        }
+
+        public IActionResult ConfirmEmailSuccess()
+        {
+            return View();
+        }
+
+        public IActionResult ConfirmEmailFailed(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+            return View();
+        }
     }
+
 }

@@ -55,18 +55,19 @@ public class UsersController : ControllerBase
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
-        _logger.LogInformation("result was" + result);
         if (result.Succeeded)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action(
-                nameof(ConfirmEmail),
-                "Users",
-                new { userId = user.Id, token },
-                protocol: Request.Scheme
-            );
+            var confirmationLink = $"https://localhost:7103/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(token)}";
 
-            var emailBody = $"Please confirm your email by clicking <a href='{confirmationLink}'>here</a>";
+            var emailBody = $@"
+            <html>
+            <body>
+            <p>Please confirm your email by clicking the link below:</p>
+            <p><a href='{confirmationLink}'>Confirm Email</a></p>
+            </body>
+            </html>";
+
             await _emailSender.SendEmailAsync(user.Email, "Confirm your Email", emailBody);
 
             return Ok("User created successfully. Please check your email for confirmation.");
@@ -74,9 +75,6 @@ public class UsersController : ControllerBase
 
         return BadRequest(result.Errors);
     }
-
-
-
 
 
     [HttpPost("login")]
@@ -112,17 +110,17 @@ public class UsersController : ControllerBase
             return BadRequest("Invalid username or password.");
         }
     }
+    /// <summary>
+    /// ConfirmEmail is used in the signup process to confirm the users email address using .net Identity
+    /// 
+    /// </summary>
+    /// <returns></returns>
 
-
-        // GET api/users/confirmemail
-    [HttpGet("confirmemail")]
+    // GET api/users/confirmemail
+    [HttpGet("ConfirmEmail/{userId}/{token}")]
     public async Task<IActionResult> ConfirmEmail(string userId, string token)
     {
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-        {
-            return BadRequest("User ID and token are required.");
-        }
-
+      
         var user = await _userManager.FindByIdAsync(userId); 
         // if user hasn't been found 
         if (user == null) 
@@ -130,7 +128,7 @@ public class UsersController : ControllerBase
             return NotFound($"User with ID '{userId}' not found.");
         }
         // check if email has been verified / confirmed
-        var result = await _userManager.ConfirmEmailAsync(user, token);
+        var result = await _userManager.ConfirmEmailAsync(user, Uri.UnescapeDataString(token));
         if (result.Succeeded) 
         {
             return Ok("Email confirmed successfully.");
