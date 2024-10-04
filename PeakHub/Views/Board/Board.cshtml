@@ -32,4 +32,10 @@
             else { $(this).hide(); }
         });
     });
+
+    // Moving to Forum Page
+    $(".itemBox").on("click", function () {
+        var boardID = $(this).data("id");
+        window.location.href = `/Forum/Forum?boardID=${boardID}`;
+    });
 </script>

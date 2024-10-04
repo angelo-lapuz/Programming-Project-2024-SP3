@@ -6,10 +6,17 @@ using System.Security.Policy;
 
 namespace PeakHub.Utilities {
     public class ForumContent {
+        // Temp User Storage
+        public struct UserTemp {
+            public string username { get; set; }
+            public string profileImg { get; set; }
+        }
+
+        // Board Page - Get Boards
         public List<BoardItemViewModel> GetBoards() {
             List<BoardItemViewModel> boards = new();
 
-            using var reader = new StreamReader("wwwroot/boards.csv");
+            using var reader = new StreamReader("wwwroot/dummyData/boards.csv");
             using var csv = new CsvHelper.CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {
                 HasHeaderRecord = true
             });
@@ -29,40 +36,108 @@ namespace PeakHub.Utilities {
             return boards;
         }
 
-        public List<PostViewModel> PostGenerator(int amount) {
-            List<PostViewModel> posts = new();
+        // Forum Page
 
-            // Dummy Post Content
-            string postContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+        public List<UserTemp> GetUsers() {
+            List<UserTemp> users = new();
 
-            // Dummy User Info
-            var users = new (string id, string username, string profileImg)[] {
-                ("1234", "theTrekMaster", "/img/sample_1.jpeg"),
-                ("5678", "theTrekman", "/img/sample_2.jpeg"),
-                ("9012", "trekExtrodinaire", "/img/sample_3.jpg")
-            };
+            using var reader = new StreamReader("wwwroot/dummyData/dummy_users.csv");
+            using var csv = new CsvHelper.CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {
+                HasHeaderRecord = true
+            });
 
-            for (int i = 0; i < amount; i++) {
-                var user = users[i % users.Length];
+            csv.Read();
+            csv.ReadHeader();
 
-                posts.Add(new PostViewModel {
-                    Username = user.username,
-                    ProfileImg = user.profileImg,
-                    LikeIcon = "/img/Like_Icon.png",
-                    Post = new Post {
-                        PostID = i,
-                        UserId = user.id,
-                        Content = postContent,
-                        TransactionTimeUtc = DateTime.Now,
-                        Likes = new(),
-                        MediaType = "",
-                        MediaLink = "",
-                        BoardID = i
-                    }
+            while (csv.Read()) {
+                users.Add(new UserTemp { 
+                    username = csv.GetField<string>("Username"), 
+                    profileImg =  csv.GetField<string>("Profile Image") 
                 });
             }
 
+            return users;
+        }
+
+        public List<Like> GetLikes() {
+            List<Like> likes = new();
+
+            using var reader = new StreamReader("wwwroot/dummyData/dummy_likes.csv");
+            using var csv = new CsvHelper.CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {
+                HasHeaderRecord = true
+            });
+
+            csv.Read();
+            csv.ReadHeader();
+
+            while (csv.Read()) {
+                likes.Add(new Like { 
+                    LikeID = csv.GetField<int>("LikeID"),
+                    PostID = csv.GetField<int>("PostID"),
+                    UserID = csv.GetField<string>("UserID")
+                });
+            }
+
+            return likes;
+        }
+
+        public List<Like> SiftLikes(int postID, List<Like> likes) {
+            return likes.Where(like => like.PostID == postID).ToList();
+        }
+
+        public List<Post> GetPosts(int boardID) {
+            List<Like> likes = GetLikes();
+            List<Post> posts = new();
+
+            using var reader = new StreamReader("wwwroot/dummyData/dummy_posts.csv");
+            using var csv = new CsvHelper.CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {
+                HasHeaderRecord = true
+            });
+
+            csv.Read();
+            csv.ReadHeader();
+
+            while (csv.Read()) { 
+                int PostID = csv.GetField<int>("PostID");
+                int BoardID = csv.GetField<int>("BoardID");
+
+                if (BoardID == boardID) {
+                    posts.Add(new Post {
+                        PostID = PostID,
+                        UserId = csv.GetField<string>("UserID"),
+                        TransactionTimeUtc = csv.GetField<DateTime>("TransactionTimeUTC"),
+                        MediaLink = csv.GetField<string>("Media Link"),
+                        MediaType = csv.GetField<string>("Media Type"),
+                        BoardID = BoardID,
+                        Content = csv.GetField<string>("Content"),
+                        Likes = SiftLikes(PostID, likes)
+                    });
+                }
+            }
+
             return posts;
+        }
+
+        public List<PostViewModel> PostGenerator(int boardID) {
+            List<Post> posts = GetPosts(boardID);
+            List<UserTemp> users = GetUsers();
+            List<PostViewModel> postViewModels = new();
+
+            var userDictionary = users.ToDictionary(u => u.username, u => u);
+
+            foreach (Post post in posts) {
+                UserTemp user = userDictionary.TryGetValue(post.UserId, out var foundUser) ? foundUser
+                    : new UserTemp { username = "gr8Trekkist", profileImg = "/img/forum_sample.jpg" };
+
+                postViewModels.Add(new PostViewModel {
+                    Username = user.username,
+                    ProfileImg = user.profileImg,
+                    Post = post,
+                    LikeIcon = "/img/Like_Icon.png"
+                });
+            }
+
+            return postViewModels;
         }
     }
 }
