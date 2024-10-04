@@ -36,6 +36,31 @@ namespace PeakHub.Utilities {
             return boards;
         }
 
+        public BoardItemViewModel GetBoard(int id) {
+            using var reader = new StreamReader("wwwroot/dummyData/boards.csv");
+            using var csv = new CsvHelper.CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture) {
+                HasHeaderRecord = true
+            });
+
+            csv.Read();
+            csv.ReadHeader();
+
+            while (csv.Read()) {
+                int ID = csv.GetField<int>("Rank");
+
+                if (ID == id) {
+                    return new BoardItemViewModel {
+                        ID = csv.GetField<int>("Rank"),
+                        Name = csv.GetField<string>("Peak"),
+                        Section = csv.GetField<string>("Section"),
+                        Image = csv.GetField<string>("ImageLink")
+                    };
+                }
+            }
+
+            return null;
+        }
+
         // Forum Page
 
         public List<UserTemp> GetUsers() {

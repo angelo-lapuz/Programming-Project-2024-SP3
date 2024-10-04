@@ -2,7 +2,13 @@
 
 <div id="forumContent">
     <section id="forumMenu_1">
-        <h3>Boards</h3>
+        <div>
+            <img src="@Model.Board.Image" alt="Board Image" />
+            <h4>@Model.Board.Name</h4>
+            <p>@Model.Board.Section</p>
+        </div>
+
+        <a href="@Url.Action("Board", "Board")" class="btn btn-primary">Go Back</a>
     </section>
 
     <section id="forumMain">
@@ -12,8 +18,12 @@
         </div>
 
         <div id="forumPosts">
-            @foreach (var postViewModel in @Model.Posts) {
-                @await Html.PartialAsync("_Post", postViewModel)
+            @if(Model.Posts.Count > 0) {
+                foreach (var postViewModel in @Model.Posts) {
+                    @await Html.PartialAsync("_Post", postViewModel)
+                }
+            } else {
+                <h2>No Posts! Please Populate</h2>
             }
         </div>
     </section>

@@ -11,6 +11,7 @@ namespace PeakHub.Controllers {
                 ForumViewModel viewModel = new ForumViewModel {
                     Username = "gr8Trekkist",
                     ProfileImg = "/img/forum_sample.jpg",
+                    Board = loader.GetBoard(boardID),
                     Posts = loader.PostGenerator(boardID),
                     PostsLikedByUser = new()
                 };

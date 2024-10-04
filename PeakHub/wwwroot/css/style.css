@@ -288,12 +288,17 @@ html, body {
 /* Board Items */
 .itemBox {
     margin: 1%;
-    width: 80%;
+    width: 95%;
     height: 15%;
     color: black;
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+.itemBox:hover { 
+    background: #C2C2C2; 
+    border-radius: 25px;
+    border: 2px groove #00000050;
 }
 
 .itemBox img {
@@ -304,7 +309,7 @@ html, body {
 }
 
 .itemData {
-    width: 82%;
+    width: 78%;
     height: 50%;
     display: flex;
     flex-direction: column;
@@ -349,17 +354,6 @@ html, body {
 }
 #forumContent section { height: 100%; }
 
-[id*='forumMenu'] {
-    width: 18%;
-    color: black;
-    background-color: #00000015;
-}
-
-[id*='forumMenu'] h3 { 
-    height: 10%;
-    background-color: #00000020; 
-}
-
 #forumMain {
     width: 64%;
     height: 100%;
@@ -385,6 +379,7 @@ html, body {
 #forumPosts {
     height: 85%;
     padding: 2%;
+    color: black;
     overflow-y: auto;
 
     display: flex;
@@ -475,6 +470,33 @@ html, body {
     border-radius: 0;
     margin-right: 10%;
     align-self: center;
+}
+
+/* Forum Menus */
+[id*='forumMenu'] {
+    width: 18%;
+    color: black;
+    padding-top: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #00000015;
+}
+
+#forumMenu_1 {
+    justify-content: space-between;
+}
+
+#forumMenu_1 a { width: 90%; }
+
+#forumMenu_1 img {
+    width: 80%;
+    margin-bottom: 5%;
+}
+
+#forumMenu_1 h4 {
+    padding-bottom: 2%;
+    border-bottom: 2px groove #00000050;
 }
 
 /* BOARD / FORUM Screen Responsiveness */
