@@ -6,7 +6,9 @@ namespace PeakHub.Models
 {
     public class User : IdentityUser
     {
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
         public virtual List<Award> Awards { get; set; }
         public string ProfileIMG { get; set; }
         public virtual List<Peak> Peaks { get; set; }
