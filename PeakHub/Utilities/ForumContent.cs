@@ -110,6 +110,11 @@ namespace PeakHub.Utilities {
             return likes.Where(like => like.PostID == postID).ToList();
         }
 
+        public bool HasUserLikesPost(Post post, string userID) {
+            Like like = post.Likes.FirstOrDefault(like => like.UserID == userID);
+            return (like != null) ? true : false;
+        } 
+
         public List<Post> GetPosts(int boardID) {
             List<Like> likes = GetLikes();
             List<Post> posts = new();
@@ -143,7 +148,7 @@ namespace PeakHub.Utilities {
             return posts;
         }
 
-        public List<PostViewModel> PostGenerator(int boardID) {
+        public List<PostViewModel> PostGenerator(int boardID, string userID) {
             List<Post> posts = GetPosts(boardID);
             List<UserTemp> users = GetUsers();
             List<PostViewModel> postViewModels = new();
@@ -157,8 +162,8 @@ namespace PeakHub.Utilities {
                 postViewModels.Add(new PostViewModel {
                     Username = user.username,
                     ProfileImg = user.profileImg,
-                    Post = post,
-                    LikeIcon = "/img/Like_Icon.png"
+                    UserHasLikes = HasUserLikesPost(post, userID),
+                    Post = post
                 });
             }
 

@@ -32,3 +32,27 @@
         <h3>Filters</h3>
     </section>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Updating a Like Count on Click
+    $("[id*='like_']").on("click", function () {
+        var postID = $(this).attr("id").split("_")[1];
+        var likeCount = parseInt($("#count_" + postID).text());
+
+        var hasLiked = false;
+        if ($(this).hasClass("activeLike")) { hasLiked = true; }
+
+        if (hasLiked) {
+            likeCount -= 1;
+            $(this).removeClass("activeLike");
+            $(this).addClass("inactiveLike");
+        } else {
+            likeCount += 1;
+            $(this).removeClass("inactiveLike");
+            $(this).addClass("activeLike");
+        }
+
+        $("#count_" + postID).text(likeCount);
+    });
+</script>

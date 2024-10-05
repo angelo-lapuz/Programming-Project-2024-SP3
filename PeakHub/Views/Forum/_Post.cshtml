@@ -1,10 +1,21 @@
 ﻿@model PeakHub.ViewModels.PostViewModel
+@{
+    // Likes Icon
+    string likeActivity = (Model.UserHasLikes) ? "activeLike" : "inactiveLike";
+
+    // Media
+    bool hasMedia = (Model.Post.MediaLink != null) ? true : false;
+}
 <!-- Used to Populate a Post's Design -->
 
 <div class="postBox">
     <div class="postContent">
         <p>@Model.Post.Content</p>
+        @if(hasMedia) {
+            <img src="@Model.Post.MediaLink" alt="User's Media Image" />
+        }
     </div>
+
     <div class="postInfo">
         <div class="postLeft">
             <img src="@Model.ProfileImg" alt="User's Profile Image" />
@@ -15,8 +26,8 @@
         </div>
 
         <div class="postRight">
-            <h4>@Model.Post.Likes.Count()</h4>
-            <img src="@Model.LikeIcon" alt="Like Icon" /> <!-- Icon for LIKES -->
+            <h4 id="count_@Model.Post.PostID">@Model.Post.Likes.Count()</h4>
+            <i id="like_@Model.Post.PostID" class="fas fa-thumbs-up @likeActivity"></i>
         </div>
     </div>
 </div>

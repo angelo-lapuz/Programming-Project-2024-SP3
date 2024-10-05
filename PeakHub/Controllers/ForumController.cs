@@ -9,10 +9,10 @@ namespace PeakHub.Controllers {
                 ForumContent loader = new();
 
                 ForumViewModel viewModel = new ForumViewModel {
-                    Username = "gr8Trekkist",
-                    ProfileImg = "/img/forum_sample.jpg",
+                    Username = "AlexYo629",
+                    ProfileImg = "https://picsum.photos/seed/21/200",
                     Board = loader.GetBoard(boardID),
-                    Posts = loader.PostGenerator(boardID),
+                    Posts = loader.PostGenerator(boardID, "AlexYo629"),
                     PostsLikedByUser = new()
                 };
 

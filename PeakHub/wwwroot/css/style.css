@@ -409,6 +409,7 @@ html, body {
 .postBox { 
     width: 70%; 
     margin: 1%;
+    margin-bottom: 5%;
 }
 
 .postContent, .postInfo { 
@@ -420,6 +421,9 @@ html, body {
     color: black;
     padding: 4% 2%;
     min-height: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: 2px white solid;
     background-color: #00000010;
     border-radius: 15px 15px 0px 0px;
@@ -464,13 +468,15 @@ html, body {
     align-self: center;
 }
 
-.postRight img {
-    width: auto;
-    height: 6vh;
-    border-radius: 0;
-    margin-right: 10%;
+.postRight i {
+    font-size: 40px;
+    margin-right: 5px;
     align-self: center;
 }
+.postRight i:hover { color: blue; }
+.inactiveLike { color: #00000095; }
+.activeLike { color: #0563A7; }
+
 
 /* Forum Menus */
 [id*='forumMenu'] {
