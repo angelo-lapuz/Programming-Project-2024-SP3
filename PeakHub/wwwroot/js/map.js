@@ -322,11 +322,35 @@ function addClickEvent(box, polygon, sectionName) {
 
 
 document.getElementById('apply-filters').addEventListener('click', function () {
+    applyFilters();
+});
+
+// auto filters when difficulty slider changes
+document.getElementById('filter-difficultySlider').addEventListener('input', function () {
+
+    document.getElementById('filter-difficulty').value = (difficultyMap[this.value]) === 'All' ? '' : difficultyMap[this.value].charAt(0);
+
+    applyFilters();
+    
+});
+
+// as above but with elevation slider
+document.getElementById('filter-elevation').addEventListener('input', function () {
+
+    document.getElementById('filter-elevation').value = this.value;
+
+    applyFilters();
+
+});
+
+function applyFilters() {
     var nameFilter = document.getElementById('search-name').value.toLowerCase();
     var difficultyFilter = document.getElementById('filter-difficulty').value;
     var elevationFilter = document.getElementById('filter-elevation').value;
 
     markerLayer.clearLayers(); 
+
+    
 
     var filteredPeaks = peaksData.filter(function (peak) {
         var matchesName = nameFilter === "" || peak.Name.toLowerCase().includes(nameFilter);
@@ -335,5 +359,38 @@ document.getElementById('apply-filters').addEventListener('click', function () {
         return matchesName && matchesDifficulty && matchesElevation;
     });
 
-    showSectionPeaks(filteredPeaks); 
-});
+    showSectionPeaks(filteredPeaks);
+
+    const tableBody = document.querySelector('.filter-results-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; 
+
+    
+    filteredPeaks.forEach(function (peak) {
+        var coords = peak.Coords.split(',');
+        var lat = parseFloat(coords[0]);
+        var lng = parseFloat(coords[1]);
+
+
+        var newRow = tableBody.insertRow();
+
+        var nameCell = newRow.insertCell(0);
+        var sectionCell = newRow.insertCell(1);
+
+        nameCell.textContent = peak.Name;
+        sectionCell.textContent = peak.Section;
+
+        newRow.addEventListener('click', function () {
+
+            map.setView([lat, lng], 12); 
+            markerLayer.eachLayer(function (marker) {
+                var markerLatLng = marker.getLatLng();
+                if (markerLatLng.lat === lat && markerLatLng.lng === lng) {
+                    marker.openPopup();
+                }
+            });
+           
+        });
+      
+    });
+
+}
