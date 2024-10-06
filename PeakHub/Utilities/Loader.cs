@@ -34,7 +34,7 @@ namespace PeakHub.Utilities
                     Elevation = csv.GetField<int>("Elevation"),
                     Coords = csv.GetField<string>("Latitude/Longitude"),
                     Difficulty = csv.GetField<string>("Difficulty")[0],
-                    Region = csv.GetField<string>("Section")
+                    Region = csv.GetField<string>("Section"),
 
                 };
                 tasks.Add(task);

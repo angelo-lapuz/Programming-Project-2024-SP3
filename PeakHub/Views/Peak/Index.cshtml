@@ -2,12 +2,9 @@
     @using PeakHub.Models;
     @using Newtonsoft.Json;
     Layout = "_Layout";
-
-    var Peaks = JsonConvert.SerializeObject(ViewBag.Peaks);
-    var Peak = JsonConvert.SerializeObject(ViewBag.Peak);
+    var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
+    var peak = JsonConvert.SerializeObject(ViewBag.peak);
 }
-
-<h1>This is the Peak Page!!!</h1>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,27 +18,94 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
     <script>
-        var peaksData = @Html.Raw(Peaks);
-        var currentPeak = @Html.Raw(Peak);
+        var peaksData = @Html.Raw(tasks);
+        var currentPeak = @Html.Raw(peak);
     </script>
 
-    <div id="main-container">
-        
-           
-      
+       @* 
+            <div class="container">
+                <div class="filter-container">
+                    <div class="filter-options">
+                        <button class="filter-toggle">Filters</button>
+                        <div class="filter-selections">
+                            <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
+                            <span id="difficulty-value">Difficulty</span>
+                            <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
+                            <span id="elevation-value">Elevation</span>
+                            <input type="text" id="search-name" placeholder="Enter Peak name">
+                            <input type="hidden" id="filter-difficulty" />
+                            <button id="apply-filters">Apply</button>
+                        </div>
+                        <div class="filter-results">
+                            <table class="filter-results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Region</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="filter-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Map Section -->
-        <div id="map-container">
-            <div id="map"></div>
-            <div class="sections-container" id="section-boxes"></div>
+            <div class="map-container">
+                <button class="info-button">i</button>
+                <div class="info-data"></div>
+                <div id="map"></div>
+            </div>
+
+            <div class="route-container">
+                <div class="route-content">
+                    <div class="plannerBtns">
+                        <button id="draw-route" class="planner-buttos">Draw Route</button>
+                        <button id="undo" class="planner-button">Undo</button>
+                        <button id="finish" class="planner-button">Finish</button>
+                        <button id="clear" class="planner-button">Clear</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="elevationChart"></canvas>
+                    </div>
+                </div>
+                <div class="route-toggle-component">
+                    <button class="route-toggle">Routing</button>
+                </div>
+            </div>
+
+            <div class="sections-container">
+                <span>REGION LINKS</span>
+                <div id="section-boxes" class="regions-box"></div>
+                <button class="region-links-toggle">Regions</button>
+            </div>
+            </div> *@
+
+        
+
+    <div class="carosel-container">
+        <div class ="carosel-image">
+        @foreach( var img in ViewBag.Images as List<string>)
+        {
+            <img src='/img/images/@img' alt="peak image">
+            <p>@img</p>
+        }    
         </div>
-   
+        <div class="carosel-control left" onclick="previousImg()"></div>
+        <div class="carosel-control right" onclick="nextImg()"</div>
+
+    </div>
+
+    <div class="details">
+        @ViewBag.peak.Name;
+    </div>
 
     <script src="~/js/map.js"></script>
-
+    <script src="~/js/Info.js"></script>
 </body>
 </html>

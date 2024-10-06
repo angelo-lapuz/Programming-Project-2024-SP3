@@ -244,18 +244,51 @@ html, body {
         background-color: #238458;
     }
 
-#plannerBtns, button {
-    
-    background-color: green;
+
+#peakmap{
+    background: #aadffa;
+    height: 10vh;
+    width: 30%;
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.carosel-container{
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin:auto;
+    position: relative;
+}
+
+.carosel-image{
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carosel-image img{
+    width: 100%;
+}
+
+.carosel-control{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
     color: white;
-    text-align: center;
-    display: inline-block;
-    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.carosel-control .left{
+    left:10px;
 
 }
-#plannerBtns, button:hover {
-    background-color: grey;
-    color:aqua;
-    transform: scale(1.2);
 
-} 
+.carosel-control .right{
+    right:10px;
+}
+
+
+

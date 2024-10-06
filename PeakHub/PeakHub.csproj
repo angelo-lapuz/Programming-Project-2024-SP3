@@ -9,6 +9,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\img\logo.png" />
     <Content Remove="wwwroot\js\account.js" />
+    <Content Remove="wwwroot\js\Info.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <None Include="wwwroot\img\background.JPG" />
     <None Include="wwwroot\img\logo.png" />
     <None Include="wwwroot\img\peakhub.png" />
+    <None Include="wwwroot\js\Info.js" />
     <None Include="wwwroot\js\account.js" />
   </ItemGroup>
 
