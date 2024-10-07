@@ -1,4 +1,27 @@
-﻿@page
-@model PeakHub.Views.Profile.IndexModel
-@{
+﻿@model PeakHub.Models.User;
+
+<span>@ViewBag.UserName</span>
+
+@if (ViewBag.Peaks.Count <= 0)
+{
+    <span>no peaks</span>
+}
+else
+{
+    foreach (var peaks in ViewBag.Peaks)
+    {
+        <span>@peaks.Name</span>
+    }
+}
+
+@if (ViewBag.Awards.Count <= 0)
+{
+    <span>no awards</span>
+}
+else
+{
+    foreach (var awards in ViewBag.Awards)
+    {
+        <span>@awards.Name</span>
+    }
 }
