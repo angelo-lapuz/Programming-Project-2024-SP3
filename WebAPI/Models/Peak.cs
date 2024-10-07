@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 namespace WebAPI.Models
 {
     public class Peak
@@ -20,6 +20,8 @@ namespace WebAPI.Models
         [StringLength(1)]
         [Display(Name = "Difficulty")]
         public char Difficulty { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
 
 

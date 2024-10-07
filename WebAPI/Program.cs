@@ -13,8 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<PeakHubContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD")) 
-);
+{
+    options.UseLazyLoadingProxies();
+    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD"));
+});
 
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<UserManager>();
