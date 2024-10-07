@@ -4,6 +4,7 @@ using WebAPI.Models;
 using WebAPI.Models.DataManager;
 using WebAPI.ViewModels;
 using WebAPI.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace WebApi.Controllers;
@@ -155,6 +156,21 @@ public class UsersController : ControllerBase
         _logger.LogInformation("User logged out.");
         return Ok();
     }
+
+    [Authorize]
+    [HttpGet("GetUser")]
+    public async Task<IActionResult> GetLoggedInUser()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+        return Ok(user);
+    }
+
 
     //// used when logging in
     //[HttpGet("{username}/{password}")]
