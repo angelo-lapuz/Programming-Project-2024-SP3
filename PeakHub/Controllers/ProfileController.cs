@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using System.Text;
 
 namespace PeakHub.Controllers
 {
@@ -30,7 +31,7 @@ namespace PeakHub.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(Editviewmodel model)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
             // gets user object from db
             var response = await _httpClient.GetAsync($"api/users/GetUser");
@@ -38,8 +39,8 @@ namespace PeakHub.Controllers
 
             user.FirstName = model.FirstName;
 
-
-            var response = await _httpClient.PutAsync($"api/users/{user}");
+            var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            var updatedUser = await _httpClient.PutAsync($"api/users/", content);
             
             return View();
         }
