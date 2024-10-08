@@ -1,9 +1,12 @@
-﻿namespace WebAPI.Models
+﻿using System.Collections.Generic;
+
+namespace WebAPI.Models
 {
     public class Board
     {
         public int BoardID { get; set; }
         public string Name { get; set; }
-        public virtual List<Post> Posts { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
     }
 }

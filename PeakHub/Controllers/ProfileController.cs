@@ -30,8 +30,8 @@ namespace PeakHub.Controllers
             var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
             ViewBag.UserName = user.UserName;
-            ViewBag.Peaks = user.Peaks;
-            ViewBag.Awards = user.Awards;
+            ViewBag.Peaks = user.UserPeaks.Select(up =>up.Peak).ToList();
+            ViewBag.Awards = user.UserAwards;
 
             return View();
         }
