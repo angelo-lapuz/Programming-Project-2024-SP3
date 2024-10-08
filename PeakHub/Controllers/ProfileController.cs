@@ -11,12 +11,11 @@ namespace PeakHub.Controllers
     public class ProfileController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ProfileController> _logger;
         private HttpClient _httpClient => _clientFactory.CreateClient("api");
-        private readonly ILogger<LoginController> _logger;
 
 
-        public ProfileController(IHttpClientFactory clientFactory, ILogger<LoginController> logger)
+        public ProfileController(IHttpClientFactory clientFactory, ILogger<ProfileController> logger)
 
         {
             _clientFactory = clientFactory;
