@@ -49,11 +49,13 @@ if (elevationSlider) {
 
 var filterToggle = document.querySelector('.filter-toggle');
 var filterContainer = document.querySelector('.filter-container');
+var mapContainer = document.querySelector('.map-container');
 
 if (filterToggle) {
     filterToggle.addEventListener('click', function () {
         filterContainer.classList.toggle("show");
         routeContainer.classList.toggle("showLRes");
+        mapContainer.classList.toggle("show");
 
     });
 }
@@ -101,3 +103,7 @@ if (regionsToggle) {
         regionsBox.classList.toggle('show');
     });
 }
+
+
+let vid = document.getElementById("bg-video");
+vid.playbackRate = 0.75;

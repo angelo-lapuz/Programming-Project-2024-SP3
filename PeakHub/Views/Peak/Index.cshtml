@@ -7,8 +7,6 @@
     var Peak = JsonConvert.SerializeObject(ViewBag.Peak);
 }
 
-<h1>This is the Peak Page!!!</h1>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 </head>
 <body>
+    
 
     <script>
         var peaksData = @Html.Raw(Peaks);
@@ -30,9 +29,9 @@
     </script>
 
     <div id="main-container">
-        
-           
-      
+
+        <h1>This is the Peak Page!!!</h1>
+
 
         <!-- Map Section -->
         <div id="map-container">

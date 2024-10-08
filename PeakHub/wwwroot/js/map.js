@@ -150,6 +150,7 @@ async function getElevation(lat, lon) {
 }
 function drawElevationChart(elevations) {
     var ctx = document.getElementById('elevationChart').getContext('2d');
+
     if (window.elevationChart && typeof window.elevationChart.destroy === 'function') {
         window.elevationChart.destroy();
     }
@@ -166,6 +167,8 @@ function drawElevationChart(elevations) {
             }]
         },
         options: {
+            Response: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     title: {
@@ -327,6 +330,7 @@ document.getElementById('filter-difficultySlider').addEventListener('input', fun
 
     document.getElementById('filter-difficulty').value = (difficultyMap[this.value]) === 'All' ? '' : difficultyMap[this.value].charAt(0);
 
+
     applyFilters();
 
 });
@@ -344,6 +348,7 @@ function applyFilters() {
     var nameFilter = document.getElementById('search-name').value.toLowerCase();
     var difficultyFilter = document.getElementById('filter-difficulty').value;
     var elevationFilter = document.getElementById('filter-elevation').value;
+    document.querySelector('.filter-results').style.display = "block";
 
     markerLayer.clearLayers();
 

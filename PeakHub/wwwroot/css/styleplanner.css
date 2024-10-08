@@ -10,6 +10,7 @@
 
 :root {
     --grey: #e1daca;
+    --grey-glass: rgb(225,218,202,0.5);
     --lightgreen: #2f6546;
     --darkgreen: #133234;
     --yellow: f3e147;
@@ -30,8 +31,8 @@ body {
     background-position: center; /* Center the image */
     background-attachment: fixed; /* Make the image static */
     background-repeat: no-repeat; /* Prevent tiling of the image */
-    font-family: "Roboto", sans-serif;
     color: var(--darkgreen);
+    font-family: "Roboto", sans-serif;
 }
 
 header, main {
@@ -109,7 +110,6 @@ header {
     display: inline-block;
     transform: rotate(-20deg);
     color: var(--grey) !important;
-    
     animation: bounce 1s alternate infinite;
 }
 
@@ -262,6 +262,41 @@ a:hover {
 
 /* END of nav */
 
+/* HOME PAGE */
+/*
+.bg-vid {
+    display: block;
+    position: absolute;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}*/
+
+video {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+    background-position: center;
+    background-size: cover;
+    transform: translateX(calc((100% - 100vw) / 2));
+}
+
+
+
+
+
+
+
 
 .container {
     position: relative;
@@ -282,7 +317,7 @@ a:hover {
     right: 0;
     background-color: var(--darkgreen);
     transition: height var(--animation-timing);
-    overflow: hidden;
+
     z-index: 2;
 }
 
@@ -384,6 +419,7 @@ input[type="range"] {
     width: 100%;
     height: 100%;
     top: 0;
+    transition: width 0.25s ease-in-out;
 }
 
 #map {
@@ -473,12 +509,17 @@ input[type="range"] {
 .chart-container {
     width: 95%;
     height: 12rem;
-    background-color: var(--grey);
     margin: 0 auto;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.5), -5px 5px 5px rgba(0, 0, 128, 0.5);
+    /*background-color: var(--grey);
+    box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.5), -5px 5px 5px rgba(0, 0, 128, 0.5);*/
+    background: var(--grey-glass);
+    box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
+    
 
 .sections-container {
     display: none;
@@ -531,11 +572,18 @@ input[type="range"] {
 
 @media only screen and (min-width: 900px) {
 
-    
+
 
     .filter-container {
-        width: 1rem;
+        /*background: linear-gradient(to right, transparent, rgb(255,255,255, 0.5) 2%, var(--grey));
+        box-shadow: 0px 0px 5px var(--grey);*/
+        width: 0rem;
         height: 100%;
+        background: var(--grey-glass);
+        box-shadow: 0 4px 20px rgba(0, 0, 100, 0.1);
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         transition: width var(--animation-timing);
     }
 
@@ -547,12 +595,12 @@ input[type="range"] {
     .filter-toggle {
         left: 0;
         bottom: 50%;
-        transform: translate(0%, -75%);
+        transform: translate(0%, -175%);
         rotate: 270deg;
     }
 
     .filter-container.show {
-        width: 25rem;
+        width: 24rem;
         height: 100%;
     }
 
@@ -565,20 +613,25 @@ input[type="range"] {
         grid-template-columns: 90%;
         justify-content: space-around;
         align-content: space-around;
-        left: 1rem;
         font-size: 1rem;
+        color: var(--darkgreen);
     }
 
-    
+    /*
+    .map-container.show {
+        width: calc(100% - 24rem);
+
+    }*/
 
 
     .filter-results {
-        display: inline;
+        display: none;
         bottom: 1rem;
+        left: 1rem;
     }
 
     .route-container.showLRes {
-        width: calc(100% - 20rem);
+        width: calc(100% - 24rem);
     }
 
     .nav-filler {

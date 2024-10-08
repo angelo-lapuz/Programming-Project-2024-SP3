@@ -10,13 +10,18 @@
     <link rel="stylesheet" href="~/css/styleplanner.css" asp-append-version="true" />
 </head>
 <body>
+
+    <video id="bg-video" autoplay muted loop>
+        <source src="~/img/TheAbels-portrait.mp4" type="video/mp4" />
+    </video>
+
     <header>
         <div class="brand-logo">
-            <div class="brand-logo-img">
-                <img src="/img/logo2.png" />
-            </div>
-            <a class="brand-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-                PeakHUB</a>
+            <a class="brand-logo-img" asp-controller="Home" asp-action="Index">
+                <img src="/img/logo2.png"/>
+            </a>
+            <div class="brand-logo-link" >
+                PeakHUB</div>
             
         </div>
         <nav class="navbar">
@@ -25,7 +30,10 @@
             <div class="navbar-links">
                 <ul class="navbar-list">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Peak" asp-action="Index">The Abels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -34,9 +42,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
-                    </li>
+                    
                 </ul>
             </div>
             <label class="hamburger-menu">
