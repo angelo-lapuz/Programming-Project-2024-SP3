@@ -46,6 +46,7 @@ public class UsersController : ControllerBase
         return Ok("User updated successfully");
     }
 
+
     // add a new user
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 

@@ -13,11 +13,15 @@ namespace PeakHub.Controllers
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HomeController> _logger;
         private HttpClient _httpClient => _clientFactory.CreateClient("api");
+        private readonly ILogger<LoginController> _logger;
 
-        public ProfileController(IHttpClientFactory clientFactory, ILogger<HomeController> logger)
+
+        public ProfileController(IHttpClientFactory clientFactory, ILogger<LoginController> logger)
+
         {
             _clientFactory = clientFactory;
             _logger = logger;
+
         }
 
         public async Task<IActionResult> Index()
@@ -86,11 +90,10 @@ namespace PeakHub.Controllers
             }
             else
             {
-                // return ? on fail // do other stuff - maybe Viewmodel errors
+                 // return ? on fail // do other stuff - maybe Viewmodel errors
                 _logger.LogInformation("failed");
                 return BadRequest(new { error = "Failed to update user with new route." });
             }
         }
-
     }
 }
