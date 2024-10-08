@@ -13,17 +13,9 @@ namespace WebAPI.Models
         public string Coords { get; set; }
         public int Elevation { get; set; }
         public string Routes { get; set; }
-
-
-        [Required]
-        [Column(TypeName = "char")]
-        [StringLength(1)]
-        [Display(Name = "Difficulty")]
-        public char Difficulty { get; set; }
+        public string Difficulty { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<User> Users { get; set; }
-
-
+        public virtual ICollection<UserPeak> UserPeaks { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,11 @@ namespace WebAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
                     ProfileIMG = table.Column<string>(type: "TEXT", nullable: true),
+                    Routes = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -94,7 +98,7 @@ namespace WebAPI.Migrations
                     Coords = table.Column<string>(type: "TEXT", nullable: true),
                     Elevation = table.Column<int>(type: "INTEGER", nullable: false),
                     Routes = table.Column<string>(type: "TEXT", nullable: true),
-                    Difficulty = table.Column<char>(type: "char", maxLength: 1, nullable: false)
+                    Difficulty = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,21 +215,21 @@ namespace WebAPI.Migrations
                 name: "UserAwards",
                 columns: table => new
                 {
-                    AwardsAwardID = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<string>(type: "TEXT", nullable: false)
+                    AwardID = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserID = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAwards", x => new { x.AwardsAwardID, x.UsersId });
+                    table.PrimaryKey("PK_UserAwards", x => new { x.AwardID, x.UserID });
                     table.ForeignKey(
-                        name: "FK_UserAwards_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserAwards_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserAwards_Awards_AwardsAwardID",
-                        column: x => x.AwardsAwardID,
+                        name: "FK_UserAwards_Awards_AwardID",
+                        column: x => x.AwardID,
                         principalTable: "Awards",
                         principalColumn: "AwardID",
                         onDelete: ReferentialAction.Cascade);
@@ -265,21 +269,21 @@ namespace WebAPI.Migrations
                 name: "UserPeaks",
                 columns: table => new
                 {
-                    PeaksPeakID = table.Column<int>(type: "INTEGER", nullable: false),
-                    UsersId = table.Column<string>(type: "TEXT", nullable: false)
+                    PeakID = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserID = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPeaks", x => new { x.PeaksPeakID, x.UsersId });
+                    table.PrimaryKey("PK_UserPeaks", x => new { x.PeakID, x.UserID });
                     table.ForeignKey(
-                        name: "FK_UserPeaks_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UserPeaks_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPeaks_Peaks_PeaksPeakID",
-                        column: x => x.PeaksPeakID,
+                        name: "FK_UserPeaks_Peaks_PeakID",
+                        column: x => x.PeakID,
                         principalTable: "Peaks",
                         principalColumn: "PeakID",
                         onDelete: ReferentialAction.Cascade);
@@ -372,14 +376,14 @@ namespace WebAPI.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAwards_UsersId",
+                name: "IX_UserAwards_UserID",
                 table: "UserAwards",
-                column: "UsersId");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPeaks_UsersId",
+                name: "IX_UserPeaks_UserID",
                 table: "UserPeaks",
-                column: "UsersId");
+                column: "UserID");
         }
 
         /// <inheritdoc />
