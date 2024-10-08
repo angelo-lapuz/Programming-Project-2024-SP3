@@ -40,6 +40,14 @@ public class UsersController : ControllerBase
 
     }
 
+    [HttpPost("UpdateUser")]
+    public async Task<IActionResult> Update([FromBody] User user)
+    {
+        _repo.Update(user.Id, user);
+        return Ok("User updated successfully");
+    }
+
+
     // add a new user
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 
