@@ -11,11 +11,13 @@ namespace PeakHub.Controllers
     public class ProfileController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly ILogger<HomeController> _logger;
         private HttpClient _httpClient => _clientFactory.CreateClient("api");
 
-        public ProfileController(IHttpClientFactory clientFactory)
+        public ProfileController(IHttpClientFactory clientFactory, ILogger<HomeController> logger)
         {
             _clientFactory = clientFactory;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -40,10 +42,30 @@ namespace PeakHub.Controllers
             return View(user);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> EditDetails(EditDetailsViewModel model)
+        //{
+        //    // gets user object from db
+        //    var response = await _httpClient.GetAsync($"api/users/GetUser");
+        //    var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
+
+        //    user.FirstName = model.FirstName;
+        //    user.LastName = model.LastName;
+        //    user.Address = model.Address;
+        //    //user.PhoneNumber = model.PhoneNumber;
+
+        //    var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+        //    var updatedUser = await _httpClient.PutAsJsonAsync($"api/users/UpdateUser", content);
+        //    return View(user);
+        //}
+
         [HttpPost]
         public async Task<IActionResult> EditDetails(EditDetailsViewModel model)
         {
             // gets user object from db
+
+            _logger.LogInformation("Sending login request to API.");
+
             var response = await _httpClient.GetAsync($"api/users/GetUser");
             var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
@@ -52,9 +74,23 @@ namespace PeakHub.Controllers
             user.Address = model.Address;
             //user.PhoneNumber = model.PhoneNumber;
 
-            var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            var updatedUser = await _httpClient.PutAsJsonAsync($"api/users/UpdateUser", content);
-            return View(user);
+            _logger.LogInformation("user = " + user);
+            var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
+
+            _logger.LogInformation(result.ToString());
+            if (result.IsSuccessStatusCode)
+            {
+                // return on success // do other stuff
+                _logger.LogInformation("success");
+                return View(user);
+            }
+            else
+            {
+                // return ? on fail // do other stuff - maybe Viewmodel errors
+                _logger.LogInformation("failed");
+                return BadRequest(new { error = "Failed to update user with new route." });
+            }
         }
+
     }
 }

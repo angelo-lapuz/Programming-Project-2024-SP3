@@ -34,10 +34,16 @@ public class UsersController : ControllerBase
 
     // PUT api/users
     [HttpPut]
-
     public void Put([FromBody] User user) { 
         _repo.Update(user.Id, user);
 
+    }
+
+    [HttpPost("UpdateUser")]
+    public async Task<IActionResult> Update([FromBody] User user)
+    {
+        _repo.Update(user.Id, user);
+        return Ok("User updated successfully");
     }
 
     // add a new user
