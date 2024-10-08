@@ -31,18 +31,30 @@ namespace PeakHub.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Edit(EditViewModel model)
+        public async Task<IActionResult> EditDetails()
+        {
+            // gets user object from db
+            var response = await _httpClient.GetAsync($"api/users/GetUser");
+            var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditDetails(EditDetailsViewModel model)
         {
             // gets user object from db
             var response = await _httpClient.GetAsync($"api/users/GetUser");
             var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
             user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Address = model.Address;
+            //user.PhoneNumber = model.PhoneNumber;
 
             var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            var updatedUser = await _httpClient.PutAsync($"api/users/", content);
-            
-            return View();
+            var updatedUser = await _httpClient.PutAsJsonAsync($"api/users/UpdateUser", content);
+            return View(user);
         }
     }
 }
