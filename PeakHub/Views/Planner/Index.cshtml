@@ -14,7 +14,7 @@
     {
         ViewBag.userL = true;
     }
-    
+
 }
 
 <!DOCTYPE html>
@@ -34,10 +34,13 @@
 <body>
 
     <script>
-        var peaksData = @Html.Raw(tasks);
+        var peaksData = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Peaks));
+         var userPeaks = @Html.Raw(JsonConvert.SerializeObject(ViewBag.userPeaks));
         var userRoutes = JSON.parse(@Html.Raw(userroutes));
         var user = @ViewBag.userL.ToString().ToLower();
     </script>
+  
+    
 
     <div class="container">
         <div class="filter-container">

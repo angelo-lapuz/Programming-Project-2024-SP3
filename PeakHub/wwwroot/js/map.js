@@ -15,6 +15,8 @@ var sectionPolygons = {}; // used to store polygons for each section
 var selectedSection = null; // used to store the currently selected section
 var peaksData = JSON.parse(peaksData); // used to store the peaks data - pulled from Viewbag in index.cshtml
 var userRoutes = userRoutes; // used to store the user's saved routes - pulled from Viewbag in index.cshtml
+var userPeaks = JSON.parse(userPeaks);
+
 
 var markerLayer = L.layerGroup().addTo(map); // used to store the markers for the peaks
 var drawnItems = new L.FeatureGroup(); // used to store the drawn routes
@@ -503,27 +505,50 @@ function drawElevationChart(elevations) {
     });
 }
 
-// used to display the peaks on the map
 function showSectionPeaks(peaks) {
 
-    // clearing marker layer of any current peaks
+    // Clear any existing markers
     markerLayer.clearLayers();
 
-    // for every peak given, create a marker and add it to the marker layer
+    // For every peak given, create a marker and add it to the marker layer
     peaks.forEach(function (peak) {
-        // get peak coords
+        // Get peak coords
         var coords = peak.Coords.split(',');
         var lat = parseFloat(coords[0]);
         var lng = parseFloat(coords[1]);
 
-        // check if the coordinates are valid
+        // Check if the coordinates are valid
         if (!isNaN(lat) && !isNaN(lng)) {
-            // add the the L.marker to the marker layer - bind the popup to the marker (shows the peak details when clicked on)
-            L.marker([lat, lng]).bindPopup(`<b>${peak.Name}</b><br> Elevation: ${peak.Details} <br> Difficulty: ${peak.Difficulty} <br><a href="/Peak/Index/${peak.PeakID}" onclick="window.location='/Peak/Index/${peak.PeakID}'; return false;">View Peak</a>`)
-                .addTo(markerLayer)
+            
+            let filterValue = 'hue-rotate(0deg)'; 
+
+            // will only change color if user is logged in and userPeaks is not null
+            if (user && userPeaks) {
+                let completedPeak = userPeaks.some(function (userPeak) {
+                    return userPeak.PeakID === peak.PeakID;
+                });
+
+                if (completedPeak) {
+                    // set color to green
+                    filterValue = 'hue-rotate(260deg)'; 
+                } else {
+                    // set color to reddish
+                    filterValue = 'hue-rotate(-220deg)';
+                }
+            }
+ 
+            // Create the marker and add it to the map
+            let marker = L.marker([lat, lng]).bindPopup(`
+                <b>${peak.Name}</b><br> Elevation: ${peak.Elevation}m <br> Difficulty: ${peak.Difficulty} <br>
+                <a href="/Peak/Index/${peak.PeakID}" onclick="window.location='/Peak/Index/${peak.PeakID}'; return false;">View Peak</a>`)
+                .addTo(markerLayer);
+
+            // Apply inline style to change color
+            marker._icon.style.filter = filterValue;
         }
     });
 }
+
 
 
 /// SECTION BOXES

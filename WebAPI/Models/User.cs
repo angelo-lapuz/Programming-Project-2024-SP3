@@ -37,6 +37,7 @@ namespace WebAPI.Models
         public virtual User User { get; set; }
 
         public int AwardID { get; set; }
+        [JsonIgnore]
         public virtual Award Award { get; set; }
     }
 
@@ -52,6 +53,7 @@ namespace WebAPI.Models
         public virtual User User { get; set; }
 
         public int PeakID { get; set; }
+
         public virtual Peak Peak { get; set; }
     }
 
