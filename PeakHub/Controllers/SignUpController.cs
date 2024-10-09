@@ -60,8 +60,8 @@ namespace PeakHub.Controllers {
                 } 
                 else
                 {
+                    ModelState.AddModelError("Register.UserName", "An unexpected error occurred, please try again.");
                     var errorMessage = await response.Content.ReadAsStringAsync();
-                    _logger.LogError(errorMessage);
                     ModelState.AddModelError(string.Empty,errorMessage);
                 }
             }

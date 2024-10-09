@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace WebAPI.Models
 {
@@ -16,6 +17,10 @@ namespace WebAPI.Models
 
         public virtual List<Award> Awards { get; set; }
         public string ProfileIMG { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Routes { get; set; }
         public virtual List<Peak> Peaks { get; set; }
         public virtual List<Post> Posts { get; set; }
         public virtual List<Like> Likes { get; set; }
@@ -26,7 +31,9 @@ namespace WebAPI.Models
     /// </summary>
     public class AwardUser
     {
+        public int AwardUserID { get; set; }
         public string UserID { get; set; }
+        [JsonIgnore]
         public virtual User User { get; set; }
 
         public int AwardID { get; set; }
@@ -38,7 +45,10 @@ namespace WebAPI.Models
     /// </summary>
     public class PeakUser
     {
+        public int userPeakID { get; set; }
         public string UserID { get; set; }
+
+        [JsonIgnore]
         public virtual User User { get; set; }
 
         public int PeakID { get; set; }

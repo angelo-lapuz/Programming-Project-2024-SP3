@@ -627,6 +627,35 @@ input[type="range"] {
 
 
 
+    .routeList-container {
+        position: absolute;
+        right: 20px; 
+        top: 150px; 
+        width: 200px; 
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .route-box {
+        margin-bottom: 5px;
+        padding: 10px;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+        .route-box:hover {
+            background-color: #d0d0d0;
+        }
+
+
+
+
+
 /*
 
 

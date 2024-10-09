@@ -3,6 +3,18 @@
     @using Newtonsoft.Json;
     Layout = "_Layout";
     var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
+    var userroutes = JsonConvert.SerializeObject(ViewBag.Routes);
+
+    // chehcks if user is logged in - used to disable other features
+    if(ViewBag.userL == null)
+    {
+        ViewBag.userL = false;
+    }
+    else
+    {
+        ViewBag.userL = true;
+    }
+    
 }
 
 <!DOCTYPE html>
@@ -23,6 +35,8 @@
 
     <script>
         var peaksData = @Html.Raw(tasks);
+        var userRoutes = JSON.parse(@Html.Raw(userroutes));
+        var user = @ViewBag.userL.ToString().ToLower();
     </script>
 
     <div class="container">
@@ -36,7 +50,7 @@
                     <span id="elevation-value">Elevation</span>
                     <input type="text" id="search-name" placeholder="Enter Peak name">
                     <input type="hidden" id="filter-difficulty" />
-                    <button id="apply-filters">Apply</button>  
+                    <button id="apply-filters">Apply</button>
                 </div>
                 <div class="filter-results">
                     <table class="filter-results-table">
@@ -53,13 +67,12 @@
             </div>
         </div>
 
-
         <div class="map-container">
             <button class="info-button">i</button>
             <div class="info-data"></div>
             <div id="map"></div>
         </div>
-        
+
         <div class="route-container">
             <div class="route-content">
                 <div class="plannerBtns">
@@ -67,6 +80,7 @@
                     <button id="undo" class="planner-button">Undo</button>
                     <button id="finish" class="planner-button">Finish</button>
                     <button id="clear" class="planner-button">Clear</button>
+                    <button id="saveBtn" class="saveBtn">Save</button>
                 </div>
                 <div class="chart-container">
                     <canvas id="elevationChart"></canvas>
@@ -77,14 +91,17 @@
             </div>
         </div>
 
-        
-
         <div class="sections-container">
             <span>REGION LINKS</span>
             <div id="section-boxes" class="regions-box"></div>
             <button class="region-links-toggle">Regions</button>
         </div>
-        
+
+        <div class="routeList-container">
+            <span>ROUTE LIST</span>
+            <div id="route-box" class="route-box"></div>
+        </div>
+
     </div>
 
     <script src="~/js/map.js"></script>

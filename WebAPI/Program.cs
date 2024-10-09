@@ -3,6 +3,7 @@ using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore.Proxies;
 using Pomelo.EntityFrameworkCore.MySql;
 using WebAPI.Utilities;
 using WebAPI.Models; 
@@ -13,8 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<PeakHubContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD")) 
-);
+{
+    options.UseLazyLoadingProxies();
+    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD"));
+});
 
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<UserManager>();
@@ -70,6 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

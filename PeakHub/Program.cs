@@ -30,7 +30,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<Loader>();
+builder.Services.AddScoped<Tools>();
 
 
 // Configure the database context

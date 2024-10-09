@@ -45,7 +45,6 @@ namespace PeakHub.Controllers
 
             if (!ModelState.IsValid) return View(model);
 
-            _logger.LogInformation("Sending login request to API.");
 
             var response = await _httpClient.PostAsJsonAsync("api/users/login", loginModel);
 
@@ -54,19 +53,22 @@ namespace PeakHub.Controllers
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
-                HttpContext.Session.SetString("UserID", user.Id);
-                HttpContext.Session.SetString("Username", user.UserName);
-
                 return RedirectToAction("Index", "Home");
             }
+
+            // user has not confirmed email
             else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 ModelState.AddModelError("LoginModel.UserName", "Please confirm your email to sign in.");
             }
+
+            // invalid username or password
             else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 ModelState.AddModelError("LoginModel.UserName", "Invalid username or password.");
             }
+
+            // unexpected error could be various things, no api, db error, etc.
             else
             {
                 ModelState.AddModelError("LoginModel.UserName", "An unexpected error occurred, please try again.");
@@ -75,13 +77,13 @@ namespace PeakHub.Controllers
             return View(model);
         }
 
+        // logs the user out and clears the session
         public async Task<IActionResult> Logout()
         {
             var response = await _httpClient.PostAsync("api/users/logout", null);
             if (response.IsSuccessStatusCode)
             {
                 HttpContext.Session.Clear();  
-                _logger.LogInformation("User logged out successfully.");
             }
             return RedirectToAction("Index", "Home");
         }
