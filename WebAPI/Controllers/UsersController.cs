@@ -7,7 +7,7 @@ using WebAPI.Utilities;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace WebApi.Controllers;
+namespace WebAPI.Controllers;
 
 // See here for more information:
 // https://learn.microsoft.com/en-au/aspnet/core/web-api/?view=aspnetcore-7.0
@@ -36,7 +36,6 @@ public class UsersController : ControllerBase
     [HttpPut]
     public void Put([FromBody] User user) { 
         _repo.Update(user.Id, user);
-
     }
 
     // GET: api/users/{id}

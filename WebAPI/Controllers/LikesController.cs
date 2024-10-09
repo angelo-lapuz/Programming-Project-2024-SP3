@@ -2,7 +2,7 @@
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
 
-namespace WebApi.Controllers;
+namespace WebAPI.Controllers;
 
 // See here for more information:
 // https://learn.microsoft.com/en-au/aspnet/core/web-api/?view=aspnetcore-7.0
@@ -63,6 +63,20 @@ public class LikesController : ControllerBase
     [HttpGet("posts/{postID}")]
     public int LikesForPost(int postID) {
         return _repo.LikesForPost(postID);
+    }
+
+    // Delete Like: api/likes/remove/{postID}/{userID}
+    [HttpDelete("remove/{postID}/{userID}")]
+    public bool RemoveExistingLike(int postID, string userID) {
+        _repo.DeleteLike(postID, userID);
+        return true;
+    }
+
+    // Add Like: api/likes/add/{postID}/{userID}
+    [HttpPut("add/{postID}/{userID}")]
+    public IActionResult LikeAPost(int postID, string userID) {
+        _repo.LikePost(postID, userID);
+        return Ok();
     }
 }
 

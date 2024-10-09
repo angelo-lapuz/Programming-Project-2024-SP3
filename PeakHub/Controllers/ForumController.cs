@@ -61,7 +61,8 @@ namespace PeakHub.Controllers {
                     return new UserViewModel {
                         userID = user.Id,
                         username = user.UserName,
-                        profileImg = user.ProfileIMG
+                        profileImg = (user.ProfileIMG != null) ? 
+                            user.ProfileIMG : "https://images.pexels.com/photos/6757691/pexels-photo-6757691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                     };
                 }
             }
@@ -83,6 +84,30 @@ namespace PeakHub.Controllers {
 
         public async Task<int> LikesForPost(int postID) {
             return await _httpClient.GetFromJsonAsync<int>($"api/likes/posts/{postID}");
+        }
+
+        // -------------------------------------------------------------------------------- //
+
+        [HttpPost]
+        public async Task<IActionResult> LikePost(int postID, string userID) {
+            var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{userID}", new { });
+
+            if (result.IsSuccessStatusCode) {
+                int likeCount = await LikesForPost(postID);
+                return Json(new { message = "Sucess! A Brilliant Success!", likes = likeCount });
+            }
+            else return Json(new { message = "Failure! A Devastating Failure!" });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> UnlikePost(int postID, string userID) {
+            var result = await _httpClient.DeleteFromJsonAsync<bool>($"api/likes/remove/{postID}/{userID}");
+
+            if (result) {
+                int likeCount = await LikesForPost(postID);
+                return Json(new { message = "Sucess! A Brilliant Success!", likeCount });
+            }
+            else return Json(new { message = "Failure! A Devastating Failure!" });
         }
     }
 }

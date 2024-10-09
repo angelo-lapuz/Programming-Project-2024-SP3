@@ -38,6 +38,24 @@ public class LikeManager : IDataRepository<Like, int>
         return id;
     }
 
+    public void DeleteLike(int postID, string userID) {
+        var like = _context.Likes.FirstOrDefault(l => l.PostID == postID && l.UserId == userID);
+
+        if (like != null) {
+            _context.Likes.Remove(like);
+            _context.SaveChanges();
+        }
+    }
+
+    public void LikePost(int postID, string userID) {
+        bool hasUserLiked = HasUserLikedPost(postID, userID);
+
+        if (!hasUserLiked) {
+            _context.Likes.Add(new Like { PostID = postID, UserId = userID });
+            _context.SaveChanges();
+        }
+    }
+
     public int Update(int id, Like like)
     {
         _context.Update(like);

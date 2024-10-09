@@ -2,7 +2,7 @@
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
 
-namespace WebApi.Controllers;
+namespace WebAPI.Controllers;
 
 // See here for more information:
 // https://learn.microsoft.com/en-au/aspnet/core/web-api/?view=aspnetcore-7.0

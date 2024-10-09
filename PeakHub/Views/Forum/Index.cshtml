@@ -15,6 +15,7 @@
 
     <section id="forumMain">
         <div id="forumHeader">
+            <input id="userID" type="hidden" value="@Model.User.userID" />
             <img src="@Model.User.profileImg" alt="Your Profile Image" />
             <h3>@Model.User.username</h3>
         </div>
@@ -36,24 +37,34 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Updating a Like Count on Click
+    // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
     $("[id*='like_']").on("click", function () {
+        var userID = $("#userID").val();
+        if (userID == "0") return;
+
         var postID = $(this).attr("id").split("_")[1];
         var likeCount = parseInt($("#count_" + postID).text());
+        var hasLiked = $(this).hasClass("activeLike");
 
-        var hasLiked = false;
-        if ($(this).hasClass("activeLike")) { hasLiked = true; }
+        var action = hasLiked ? "UnlikePost" : "LikePost";
+        var type = hasLiked ? "DELETE" : "POST";
 
-        if (hasLiked) {
-            likeCount -= 1;
-            $(this).removeClass("activeLike");
-            $(this).addClass("inactiveLike");
-        } else {
-            likeCount += 1;
-            $(this).removeClass("inactiveLike");
-            $(this).addClass("activeLike");
-        }
+        // AJAX Request 
+        $.ajax({
+            url: `/Forum/${action}`,
+            type: `${type}`,
+            data: { postID: parseInt(postID), userID: userID },
+            success: function (response) {
+                console.log(response.message);
+                $("#count_" + postID).text(response.likes);
 
-        $("#count_" + postID).text(likeCount);
+                if (action == "LikePost") {
+                    $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
+                } else {
+                    $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
+                }
+            },
+            error: function (response) { console.log(response.message); }
+        });
     });
 </script>
