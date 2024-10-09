@@ -105,7 +105,7 @@ namespace PeakHub.Controllers {
 
             if (result) {
                 int likeCount = await LikesForPost(postID);
-                return Json(new { message = "Sucess! A Brilliant Success!", likeCount });
+                return Json(new { message = "Sucess! A Brilliant Success!", likes = likeCount });
             }
             else return Json(new { message = "Failure! A Devastating Failure!" });
         }

@@ -1,7 +1,15 @@
 ﻿/* Button [TEMP] */
 [class*='btn-'] {
     margin: 5%;
+    padding: 2%;
     color: #FFF;
+    border-radius: 5px;
+    border: 2px groove #0005;
+}
+
+[class*='btn-']:hover {
+    color: #f3e147;
+    background: rgb(225,218,202,0.5);
 }
 
 .btn-primary {
@@ -19,7 +27,8 @@
 
 /* ALL Content */
 [id*='Content'] {
-    background: #FFF;
+    padding: 1%;
+    background: rgb(225,218,202,0.5);
 }
 
 /* BOARD */
@@ -33,41 +42,45 @@
 
 #boardSearch {
     width: 50%;
-    height: 10%;
-    background: #CCC;
+    height: 15%;
+    background: #133234;
     color: black;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 15px 15px 0px 0px;
 }
 
 #boardItems {
     width: 50%;
     height: 90%;
     overflow-y: auto;
+    background: #2f6546;
 }
 
 /* Board Items */
 .itemBox {
     margin: 1%;
+    margin-bottom: 2%;
     width: 95%;
     height: 15%;
-    color: black;
+    color: #FFF;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
     .itemBox:hover {
-        background: #C2C2C2;
+        color: #f3e147;
+        background: #133234;
         border-radius: 25px;
         border: 2px groove #00000050;
         box-shadow: 5px 5px 10px #000;
     }
 
     .itemBox img {
-        width: 20%;
-        height: 85%;
+        width: 18%;
+        height: 95%;
         padding: 1%;
         border-radius: 25px;
     }
@@ -91,7 +104,7 @@
         font-size: large;
         margin-bottom: 1%;
         padding-bottom: 1%;
-        border-bottom: 2px groove #00000050;
+        border-bottom: 2px groove #FFF;
     }
 
 /* Board SearchBar */
@@ -101,7 +114,7 @@
     background: #FFF;
     border-radius: 15px;
     transition: all 0.3s ease;
-    border: 2px groove #00000050;
+    border: 2px groove #13323450;
 }
 
     #searchInput:focus {
@@ -112,6 +125,7 @@
 #forumContent {
     width: 100%;
     height: 85vh;
+    color: #FFF;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -128,7 +142,7 @@
 
 #forumHeader {
     height: 10%;
-    background-color: #0563A7;
+    background: #133234;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -146,34 +160,36 @@
     }
 
 #forumPosts {
-    height: 85%;
+    height: 90%;
     padding: 2%;
     color: black;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: #e1daca99;
 }
 
-    /* FORUM / BOARD SCROLLBAR */
-    #forumPosts::-webkit-scrollbar, #boardItems::-webkit-scrollbar {
-        width: 4px;
-    }
+/* FORUM / BOARD SCROLLBAR */
+#forumPosts::-webkit-scrollbar, #boardItems::-webkit-scrollbar {
+    width: 4px;
+}
 
-    #forumPosts::-webkit-scrollbar-track, #boardItems::-webkit-scrollbar-track {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        background: #0563A7;
-    }
+#forumPosts::-webkit-scrollbar-track, #boardItems::-webkit-scrollbar-track {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
-    #forumPosts::-webkit-scrollbar-thumb, #boardItems::-webkit-scrollbar-thumb {
-        border-radius: 5px;
-        border: 4px solid #FFF;
-    }
+#forumPosts::-webkit-scrollbar-thumb, #boardItems::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: 4px solid;
+}
+#boardItems::-webkit-scrollbar-thumb { border-color: #f3e147; }
+#forumPosts::-webkit-scrollbar-thumb { border-color: #912f45; }
 
-        #forumPosts::-webkit-scrollbar-thumb:hover, #boardItems::-webkit-scrollbar-thumb:hover {
-            border: 4px groove #FF0;
-        }
+#forumPosts::-webkit-scrollbar-thumb:hover, #boardItems::-webkit-scrollbar-thumb:hover {
+    border: 4px groove #912f45;
+}
 
 /* FORUM POSTS */
 .postBox {
@@ -190,37 +206,33 @@
 .postContent {
     color: black;
     padding: 4% 2%;
-    min-height: 25vh;
+    min-height: 30vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px white solid;
-    background-color: #00000010;
-    border-radius: 15px 15px 0px 0px;
+    background-color: #e1daca;
+    border-radius: 15px 15px 0 0;
+    border-top: 2px #FFF9 groove;
+    border-bottom: 2px #FFF9 groove;
 }
 
 .postInfo {
-    color: black;
-    height: 10vh;
+    padding: 0 2%;
+    color: white;
+    height: 12vh;
     display: flex;
-    border-top: 2px black groove;
+    background: #912f45;
+    border-radius: 0 0 15px 15px;
+    border-bottom: 2px #FFF9 groove;
 }
+.postInfo div * { margin: 1%; }
 
-.postUser {
-    width: 80%;
-}
-
-    .postUser * {
-        padding-left: 2%;
-    }
-
-    .postUser h4 {
-        margin: 0;
-    }
+.postUser { width: 80%; }
+.postUser * { padding-left: 5%; }
 
 .postInfo img {
-    width: 20%;
-    height: 8vh;
+    width: auto;
+    height: 85%;
     border-radius: 25px;
 }
 
@@ -235,48 +247,42 @@
     width: 30%;
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    
 }
 
-    .postRight h4 {
-        margin: 0;
-        width: 20%;
-        align-self: center;
-    }
-
-    .postRight i {
-        font-size: 40px;
-        margin-right: 5px;
-        align-self: center;
-    }
-
-        .postRight i:hover {
-            color: blue;
-        }
-
-.inactiveLike {
-    color: #00000095;
+.postRight h3 {
+    margin: 0;
+    align-self: center;
 }
 
-.activeLike {
-    color: #0563A7;
+.postRight i {
+    width: 40%;
+    font-size: 40px;
+    align-self: center;
 }
+
+.postRight i:hover { color: #f3e147 !important; }
+.inactiveLike { color: #FFF7 !important; }
+.activeLike { color: #e1daca !important; }
 
 
 /* Forum Menus */
 [id*='forumMenu'] {
     width: 18%;
-    color: black;
+    color: #FFF;
     padding-top: 2%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #00000015;
+    background: #2f6546;
 }
 
 #forumMenu_1 {
     justify-content: space-between;
+    border-radius: 15px 0 0 0;
 }
+
+#forumMenu_2 { border-radius: 0 15px 0 0; }
 
     #forumMenu_1 a {
         width: 90%;
@@ -289,7 +295,7 @@
 
     #forumMenu_1 h4 {
         padding-bottom: 2%;
-        border-bottom: 2px groove #00000050;
+        border-bottom: 2px groove #2f6546;
     }
 
 /* BOARD / FORUM Screen Responsiveness */
