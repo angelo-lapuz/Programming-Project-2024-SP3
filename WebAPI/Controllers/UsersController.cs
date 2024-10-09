@@ -179,18 +179,21 @@ public class UsersController : ControllerBase
     }
 
     // checks if password given matches password of user stored.
-    [Authorize]
-    [HttpGet("VerifyPassword")]
+    [HttpGet("VerifyPassword/{password}")]
     public async Task<IActionResult> VerifyPassword(string password)
     {
         var user = await _userManager.GetUserAsync(User);
 
         var checkPassword = await _userManager.CheckPasswordAsync(user, password);
+        if (!checkPassword)
+        {
+            return null;
+        }
 
-        return Ok(new { PasswordMatch = checkPassword});
+        return Ok();
+
     }
 
-    [Authorize]
     [HttpGet("ChangePassword")]
     public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {

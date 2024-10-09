@@ -106,35 +106,38 @@ namespace PeakHub.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            var response = await _httpClient.GetAsync($"api/users/VerifyPassword/{model.OldPassword}");
-            var resultContent = await response.Content.ReadAsStringAsync();
-
-            dynamic result = JsonConvert.DeserializeObject(resultContent);
-
-            bool passwordsMatch = result.PasswordMatch;
-
-            if (!passwordsMatch) ModelState.AddModelError("OldPassword", "Username already exists");
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+            var response = await _httpClient.GetAsync($"api/users/VerifyPassword/{model.OldPassword}");
+
+            //var resultContent = await response.Content.ReadAsStringAsync();
+            //dynamic result = JsonConvert.DeserializeObject(resultContent);
+
+            if (response != null)
+            {
+                _logger.LogInformation(response.ToString());
                 // convert viewmodel to json to be sent to api/users/ChangePassword
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
                 response = await _httpClient.PostAsync("api/users/ChangePassword", content);
 
                 // return to profile page if changed successfully
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    ViewBag.PasswordChangeStatus = "Password changed successfully.";
-                    return View(model);
-                }
-                else
-                {
+
                     var errorMessage = await response.Content.ReadAsStringAsync();
                     _logger.LogError(errorMessage);
                     ModelState.AddModelError(string.Empty, errorMessage);
                 }
-
+                ViewBag.PasswordChangeStatus = "Password changed successfully.";
+                return View(model);
             }
+            else
+            {
+                ModelState.AddModelError("OldPassword", "Failed to change password");
+            }
+
             return View(model);
         }
     }
