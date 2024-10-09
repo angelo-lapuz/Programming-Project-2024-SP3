@@ -38,14 +38,65 @@ public class UsersController : ControllerBase
         _repo.Update(user.Id, user);
 
     }
-
-   
-
+  
     [HttpPost("UpdateUser")]
     public async Task<IActionResult> Update([FromBody] User user)
     {
         _repo.Update(user.Id, user);
         return Ok("User updated successfully");
+    }
+
+
+
+    [HttpPost("ForgotPassword")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+    {
+
+        if (model == null || !ModelState.IsValid)
+        {
+            return BadRequest("Invalid user registration data.");
+        }
+
+        var user = await _userManager.FindByEmailAsync(model.Email);
+
+        if (user == null)
+        {
+            return BadRequest("User not found.");
+        }
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var resetLink = $"https://localhost:7103/Login/ResetPassword?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+
+        var emailBody = $@"<html>
+            <body>
+            <p> reset your password by clicking the link below:</p>
+            <p><a href='{resetLink}'>Reset Password</a></p>
+            </body>
+            </html>";
+
+        await _emailSender.SendEmailAsync(user.Email, "Reset your Password", emailBody);
+
+        return Ok("Password reset link sent successfully.");
+    }
+
+
+    [HttpPost("ResetPassword")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+    {
+      
+        var user = await _userManager.FindByIdAsync(model.UserId);
+
+        if (user == null)
+        {
+            return BadRequest("User not found.");
+        }
+
+        var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+        if (result.Succeeded)
+        {
+            return Ok("Password reset successfully.");
+        }
+
+        return BadRequest("Failed to reset password.");
     }
 
 

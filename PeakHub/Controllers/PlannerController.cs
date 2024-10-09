@@ -11,14 +11,14 @@ namespace PeakHub.Controllers
 {
     public class PlannerController : Controller
     {
-        private readonly Tools _loader;
+        private readonly Tools _tools;
         private readonly HttpClient _httpClient;
         private readonly ILogger<PlannerController> _logger;
 
 
-        public PlannerController(Tools loader, ILogger<PlannerController> logger, IHttpClientFactory httpClientFactory)
+        public PlannerController(Tools tools, ILogger<PlannerController> logger, IHttpClientFactory httpClientFactory)
         {
-            _loader = loader;
+            _tools = tools;
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("api");
         }
@@ -35,7 +35,7 @@ namespace PeakHub.Controllers
             }
 
 
-            User user =  _loader.GetUser().GetAwaiter().GetResult();
+            User user =  _tools.GetUser().GetAwaiter().GetResult();
 
             if (user != null)
             {
@@ -52,7 +52,7 @@ namespace PeakHub.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveRoute([FromBody] SaveRouteDTO route)
         {
-            var user = await _loader.GetUser();
+            var user = await _tools.GetUser();
 
             if (user == null)
             {
@@ -92,10 +92,11 @@ namespace PeakHub.Controllers
         }
 
 
+
         [HttpPost]
         public async Task<IActionResult> DeleteRoute(int routeIndex)
         {
-            var user = _loader.GetUser().GetAwaiter().GetResult();
+            var user = _tools.GetUser().GetAwaiter().GetResult();
 
             if (user == null)
             {

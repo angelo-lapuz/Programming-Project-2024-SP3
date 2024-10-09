@@ -56,7 +56,7 @@ if (window.location.href.includes("Peak/Index/")) {
     } else {
         console.log('Invalid coordinates for current peak: ', currentPeak.Name);
     }
-} 
+}
 // checking if the user has routes and if they are logged in
 checkRoutes();
 checkUser();
@@ -86,7 +86,7 @@ map.on('click', function (event) {
 function checkUser() {
     if (!user) {
         document.querySelector('.route-container').style.display = 'none';
-        
+
     }
 }
 
@@ -178,7 +178,9 @@ function clear() {
     polylines = [];
     points = [];
     currentPolyline = null;
-    
+    markers = []; // used to show peaks on the map
+    elevations = []; // used to store elevation data for a route
+
 }
 // saves the user route to the database - stored as JSON objects as string in user class to avoid another m:m table
 saveBtn.addEventListener('click', function () {
@@ -198,7 +200,7 @@ saveBtn.addEventListener('click', function () {
             // as route data is an array of arrays, it needs to be stringified back into JSON 
             body: JSON.stringify({ route: routeData })
         })
-        // getting the response from the /Planner/SaveRoute endpoint
+            // getting the response from the /Planner/SaveRoute endpoint
             .then(response => {
 
                 // checking if the response is ok (could be Unauthorized, Forbidden, etc.)
@@ -208,7 +210,7 @@ saveBtn.addEventListener('click', function () {
                         throw new Error(data.error || 'Failed to save route');
                     });
                 }// Parse the response as JSON
-                return response.json(); 
+                return response.json();
             })
             .then(data => {
                 console.log("Parsed data:", data);
@@ -239,6 +241,7 @@ saveBtn.addEventListener('click', function () {
     } else {
         alert("No route to save");
     }
+    clear();
 });
 
 // called when deleting a route
@@ -282,7 +285,7 @@ function deleteRoute(index, routeBox) {
 function clearRouteBoxes() {
     // Clear all the existing route boxes
     var routeBoxContainer = document.getElementById('route-box');
-    routeBoxContainer.innerHTML = ''; 
+    routeBoxContainer.innerHTML = '';
 }
 
 
@@ -292,7 +295,6 @@ function createRouteBox(routeName, routeCoords, index) {
     // creating new bbox div element
     var box = document.createElement('div');
     box.className = 'route-box';
-    box.textContent = routeName;
 
     // used to click on the route name to draw the route
     var routeSpan = document.createElement('button');
@@ -309,7 +311,6 @@ function createRouteBox(routeName, routeCoords, index) {
 
     // adding event listeners to the routeSpan and deleteRouteBtn
     routeSpan.addEventListener('click', function () {
-        console.log("here");
         drawRoute(routeCoords)
     });
 
@@ -323,7 +324,7 @@ function createRouteBox(routeName, routeCoords, index) {
 
 // used to ddraw routes on the map - takes in a JSON object of coordinates
 function drawRoute(coordsJson) {
-    clear();    
+    clear();
     if (drawnItems) {
         drawnItems.clearLayers();
     }

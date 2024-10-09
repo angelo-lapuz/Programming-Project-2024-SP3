@@ -523,6 +523,7 @@ input[type="range"] {
     margin: 0 auto;
 }
 
+/*personal - routes */
 
 
 
@@ -531,7 +532,7 @@ input[type="range"] {
 
 @media only screen and (min-width: 900px) {
 
-    
+
 
     .filter-container {
         width: 1rem;
@@ -569,7 +570,7 @@ input[type="range"] {
         font-size: 1rem;
     }
 
-    
+
 
 
     .filter-results {
@@ -615,187 +616,87 @@ input[type="range"] {
         color: var(--grey);
     }
 
-    a:hover {
-        display:block;
-        background-color: var(--grey);
-        color: var(--darkgreen);
-    }
+        a:hover {
+            display: block;
+            background-color: var(--grey);
+            color: var(--darkgreen);
+        }
 
     .sections-container {
         display: block;
     }
 
 
-
     .routeList-container {
         position: absolute;
-        right: 20px; 
-        top: 150px; 
-        width: 200px; 
-        max-height: 300px;
+        left: -10.5rem; 
+        top: 5%;
+        width: 15rem;
+        max-height: 20rem;
+        background-color: var(--darkgreen);
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        transition: left 0.25s ease-in-out;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
         overflow-y: auto;
-        background-color: #f9f9f9;
-        border: 1px solid #ccc;
-        padding: 10px;
+        z-index: 10;
     }
+        .routeList-container.show {
+            right: 1rem;
+        }
 
     .route-box {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         padding: 10px;
-        background-color: #e0e0e0;
+        background-color: var(--lightgreen);
+        color: var(--grey);
         cursor: pointer;
         border-radius: 5px;
         text-align: center;
+        transition: background-color var(--animation-timing), box-shadow var(--animation-timing);
     }
 
-        .route-box:hover {
-            background-color: #d0d0d0;
-        }
-
-
-
-
-
-/*
-
-
-
-@media only screen and (min-width: 576px) and (max-width: 991px) {
-
-
-    html {
-        font-size: 1.25rem
-    }
-
-}
-
-
-@media only screen and (min-width: 992px) {
-
-    html {
-        font-size: 1.5rem
-    }
-
-    .navbar-collapse {
-        background-color: rgba(0, 0, 0, 0);
-        position: absolute;
-        top: 0rem;
-        width: 100%;
-        height: 3rem;
-    }
-
-    .navbar-nav {
-        flex-direction: row;
-    }
-
-    .hamburger-menu {
-        display: none;
-    }
-
-    .nav-item {
-        margin: 0.5rem auto;
-        text-align: center;
-        width: 10rem;
-        margin: 1rem 0 0;
-    }
-
-
-    .filter-container {
-        position: absolute;
-        right: -14.5rem;
-        width: 15rem;
-        height: calc(100% - 3rem);
-    }
-
-    .filter-container.show {
-        right: 0;
-    }
-
-    #filter-toggle-component {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        height: 2rem;
-        width: 2rem;
-        position: relative;
-        background-color: var(--lightgreen);
-        transform: translateY(-1.5rem)
-
-    }
-
-
-    #filter-toggle-bg {
-        height: 4rem;
-        width: 4rem;
-        position: absolute;
-        top: -50%;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 50%;
-        z-index: 20;
-        background-color: var(--lightgreen);
-        border: 1px solid var(--darkgreen);
-        box-sizing: border-box;
+    .routeList-toggle {
        
-    }
-
-
-
-    #filter-toggle-ring, #filter-toggle {
-        height: 2rem;
-        width: 2rem;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 50%;
-        z-index: 20;
-        background-color: var(--darkgreen);
-        box-sizing: border-box;
-    }
-
-    #filter-toggle {
-        cursor: pointer;
-        background-color: var(--lightgreen);
-    }
-
-    #filter-toggle img, #filter-toggle-bg-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.4s ease-in;
-        transform: rotate(0deg);
-    }
-
-    #filter-toggle-bg-img {
-        transform: rotate(90deg);
-    }
-
-    #filter-toggle-bg-img.rotate {
-        transform: rotate(270deg);
-    }
-
-
-    #filter-selections {
-        display: grid;
-        height: fit-content;
-        grid-template-columns: 70% 20%;
-        gap: 1rem;
-        padding: 0.5rem;
-        justify-content: space-around;
-    }
-
-    #filter-options > * {
-        align-self: center;
-    }
-
-    .filter-options.show {
-        height: 8rem;
-    }
+    position: absolute;
+    right: 0;
+    top: 50%;
+    rotate: 90deg;
+    transform-origin: right;
+    transform: translateX(50%);
 }
 
+    .route-box:hover {
+        background-color: var(--darkgreen);
+        color: var(--grey);
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        transform: scale(1.05); 
+    }
+    .route-name{
+        font-size: 1rem;
+        font-weightL bold;
+        color: var(--grey);
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .delete-route-btn{
+        margin-top: 10px;
+        font-size: 0.9rem;
+        padding: 5px;
+        background-color: var(--red);
+        color: var(--grey);
+        border: none;
+        border-radius:5px;
+        transition: background-color var(--animation-timing);
+    }
+    .delete-route-btn:hover {
+        background-color: #ff5c5c;
+    }
 
 
-*/
+
+
+

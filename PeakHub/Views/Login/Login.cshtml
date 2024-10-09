@@ -2,7 +2,12 @@
 @{
     Layout = "_AccountLayout";
 }
-
+@{
+    if (ViewBag.Status != null)
+    {
+        <h2> @ViewBag.Status</h2>
+    }
+}
 <!-- Login Form -->
 <form id="loginForm" asp-action="Login" method="post">
     <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
@@ -25,6 +30,8 @@
 </form>
 
 <!-- Forgot Password Form -->
+
+
 <form id="forgotForm" asp-action="ForgotPassword" method="post">
     <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
 

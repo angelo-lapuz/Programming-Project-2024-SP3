@@ -5,6 +5,7 @@ using PeakHub.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using PeakHub.Utilities;
 
 
 
@@ -16,13 +17,17 @@ namespace PeakHub.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ILogger<LoginController> _logger;
         private readonly HttpClient _httpClient;
+        private readonly Tools _tools;
+
 
         public LoginController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<LoginController> logger,
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            Tools tools)
         {
+            _tools = tools;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -76,6 +81,78 @@ namespace PeakHub.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string userId, string token)
+        {
+
+            if(userId == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                UserId = userId,
+                Token = token
+            };
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var response = await _httpClient.PostAsJsonAsync("api/users/resetpassword", model);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(AccountViewModel model)
+        {
+            var forgotPasswordModel = model.ForgotPasswordModel;
+
+            if (!ModelState.IsValid || forgotPasswordModel == null)
+            {
+                return View("Login", model);
+            }
+
+            var response = await _httpClient.PostAsJsonAsync("api/users/forgotpassword", forgotPasswordModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ViewBag.Status = "A reset password link has been sent to your inbox.";
+                return View("Login", model);
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ModelState.AddModelError("ForgotPasswordModel.Email", "Please confirm your email to reset your password.");
+            }
+            else
+            {
+                ModelState.AddModelError("ForgotPasswordModel.Email", "An unexpected error occurred. Please try again.");
+            }
+
+            return View("Login", model);
+        }
+
 
         // logs the user out and clears the session
         public async Task<IActionResult> Logout()

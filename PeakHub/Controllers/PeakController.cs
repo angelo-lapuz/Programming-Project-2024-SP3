@@ -25,6 +25,7 @@ namespace PeakHub.Controllers
             ViewBag.Peaks = null;
             ViewBag.Peak = null;
             ViewBag.Routes = null;
+            
 
             User user = _loader.GetUser().GetAwaiter().GetResult();
 

@@ -101,3 +101,18 @@ if (regionsToggle) {
         regionsBox.classList.toggle('show');
     });
 }
+
+
+var routeListToggle = document.querySelector('.routeList-toggle');
+var routeListContainer = document.querySelector('.routeList-container');
+
+// Check if both elements are found
+if (routeListToggle && routeListContainer) {
+    console.log('Route toggle and container found!'); // Debugging check
+    routeListToggle.addEventListener('click', function () {
+        console.log('Toggle clicked!'); // Debugging check
+        routeListContainer.classList.toggle("show");  // Toggles the visibility
+    });
+} else {
+    console.log('Error: Could not find routeList-toggle or routeList-container');
+}
