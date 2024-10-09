@@ -94,5 +94,41 @@ namespace PeakHub.Controllers
                 return BadRequest(new { error = "Failed to update user with new route." });
             }
         }
-    }
+
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            // gets user object from db
+            _logger.LogInformation("Sending login request to API.");
+
+            var response = await _httpClient.GetAsync($"api/users/GetUser");
+            var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Address = model.Address;
+            //user.PhoneNumber = model.PhoneNumber;
+
+            _logger.LogInformation("user = " + user);
+            var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
+
+            _logger.LogInformation(result.ToString());
+            if (result.IsSuccessStatusCode)
+            {
+                // return on success // do other stuff
+                _logger.LogInformation("success");
+                return View(user);
+            }
+            else
+            {
+                // return ? on fail // do other stuff - maybe Viewmodel errors
+                _logger.LogInformation("failed");
+                return BadRequest(new { error = "Failed to update user with new route." });
+            }
+        }
 }

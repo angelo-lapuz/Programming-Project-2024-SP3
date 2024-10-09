@@ -7,15 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Profile\ChangePassword.cshtml" />
     <Content Remove="wwwroot\img\logo.png" />
     <Content Remove="wwwroot\js\account.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Profile\ChangePassword.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\js\account.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Profile\ChangePassword.cshtml" />
     <None Include="wwwroot\img\background.JPG" />
     <None Include="wwwroot\img\logo.png" />
     <None Include="wwwroot\img\peakhub.png" />
@@ -36,6 +39,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Profile\ChangePassword.cshtml" />
   </ItemGroup>
 
 </Project>
