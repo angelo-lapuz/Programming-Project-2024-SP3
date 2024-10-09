@@ -31,10 +31,11 @@ namespace PeakHub.Controllers
 
             ViewBag.UserName = user.UserName;
             ViewBag.Peaks = user.UserPeaks.Select(up => up.Peak).ToList();
-            ViewBag.Awards = user.UserAwards;
+            ViewBag.Awards = user.UserAwards.Select(up => up.Award).ToList();
 
             return View();
         }
+
 
         public async Task<IActionResult> EditDetails()
         {

@@ -194,8 +194,8 @@ public class UsersController : ControllerBase
 
     }
 
-    [HttpGet("ChangePassword")]
-    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    [HttpPost("ChangePassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
     {
         var user = await _userManager.GetUserAsync(User);
 
