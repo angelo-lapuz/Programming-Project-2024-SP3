@@ -1,0 +1,59 @@
+﻿@model PeakHub.ViewModels.Forum.ForumViewModel
+<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="forumContent">
+    <section id="forumMenu_1">
+        <div>
+            <img src="@Model.Board.ImageLink" alt="Board Image" />
+            <h4>@Model.Board.Name</h4>
+            <p>@Model.Board.Section</p>
+        </div>
+
+        <a href="@Url.Action("Index", "Board")" class="btn btn-primary">Go Back</a>
+    </section>
+
+    <section id="forumMain">
+        <div id="forumHeader">
+            <img src="@Model.User.profileImg" alt="Your Profile Image" />
+            <h3>@Model.User.username</h3>
+        </div>
+
+        <div id="forumPosts">
+            @if (Model.Posts.Count > 0) {
+                foreach (var postViewModel in @Model.Posts) {
+                    @await Html.PartialAsync("_post", postViewModel)
+                }
+            }
+            else { <h2>No Posts! Please Populate</h2> }
+        </div>
+    </section>
+
+    <section id="forumMenu_2">
+        <h3>Filters</h3>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Updating a Like Count on Click
+    $("[id*='like_']").on("click", function () {
+        var postID = $(this).attr("id").split("_")[1];
+        var likeCount = parseInt($("#count_" + postID).text());
+
+        var hasLiked = false;
+        if ($(this).hasClass("activeLike")) { hasLiked = true; }
+
+        if (hasLiked) {
+            likeCount -= 1;
+            $(this).removeClass("activeLike");
+            $(this).addClass("inactiveLike");
+        } else {
+            likeCount += 1;
+            $(this).removeClass("inactiveLike");
+            $(this).addClass("activeLike");
+        }
+
+        $("#count_" + postID).text(likeCount);
+    });
+</script>

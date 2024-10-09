@@ -1,0 +1,44 @@
+﻿@model PeakHub.ViewModels.Forum.BoardViewModel
+@{ Layout = "_Layout"; }
+
+<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
+
+<div id="boardContent">
+    <div id="boardSearch">
+        <!-- Implement Search Bar : HERE -->
+        <input type="text" id="searchInput" placeholder="Search by Name or Section" />
+    </div>
+
+    <div id="boardItems">
+        @foreach (var board in @Model.Boards) {
+            @await Html.PartialAsync("_item", board)
+            ;
+        }
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Search Bar Implementation
+    $("#searchInput").on("keyup", function () {
+        var searchTerm = $(this).val().toLowerCase(); // Get Input
+
+        // Check Items
+        $('#boardItems .itemBox').each(function () {
+            var boardName = $(this).find('strong').text().toLowerCase(); // Get Board Name
+            var boardSection = $(this).find('i').text().toLowerCase(); // Get Board Section
+
+            // Display Matches Only
+            if (boardName.includes(searchTerm) || boardSection.includes(searchTerm)) {
+                $(this).show();
+            }
+            else { $(this).hide(); }
+        });
+    });
+
+    // Moving to Forum Page
+    $(".itemBox").on("click", function () {
+        var boardID = $(this).data("id");
+        window.location.href = `/Forum/Index?boardID=${boardID}`;
+    });
+</script>

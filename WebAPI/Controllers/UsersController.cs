@@ -39,7 +39,11 @@ public class UsersController : ControllerBase
 
     }
 
-   
+    // GET: api/users/{id}
+    [HttpGet("{id}")]
+    public async Task<User> GetUser(string id) {
+        return _repo.Get(id);
+    }
 
     [HttpPost("UpdateUser")]
     public async Task<IActionResult> Update([FromBody] User user)

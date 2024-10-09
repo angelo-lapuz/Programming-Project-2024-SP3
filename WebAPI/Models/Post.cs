@@ -17,7 +17,7 @@ namespace WebAPI.Models
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
         public string Content { get; set; }
 
         [Required]
@@ -31,7 +31,7 @@ namespace WebAPI.Models
 
         [ForeignKey("Board")]
         public int BoardID { get; set; }
-        public virtual Board Board { get; set; }
+        [JsonIgnore] public virtual Board Board { get; set; }
     }
 }
 

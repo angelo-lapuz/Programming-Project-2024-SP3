@@ -32,6 +32,12 @@ public class BoardsController : ControllerBase
         return _repo.Get(id);
     }
 
+    // GET api/boards/total
+    [HttpGet("total")]
+    public int GetBoardTotal() {
+        return _repo.GetBoardTotal();
+    }
+
     // POST api/boards
     [HttpPost]
     public void Post([FromBody] Board board)

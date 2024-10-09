@@ -45,4 +45,12 @@ public class LikeManager : IDataRepository<Like, int>
 
         return id;
     }
+
+    public bool HasUserLikedPost(int postID, string userID) {
+        return _context.Likes.Any(l => l.PostID == postID && l.UserId == userID);
+    }
+
+    public int LikesForPost(int postID) {
+        return _context.Likes.Where(l =>  l.PostID == postID).Count();
+    }
 }

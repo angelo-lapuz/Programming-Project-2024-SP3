@@ -52,6 +52,18 @@ public class LikesController : ControllerBase
     {
         return _repo.Delete(id);
     }
+
+    // GET: api/likes/{postID}/{userID}
+    [HttpGet("{postID}/{userID}")]
+    public bool HasUserLikedPost(int postID, string userID) {
+        return _repo.HasUserLikedPost(postID, userID);
+    }
+
+    // GET: api/likes/{postID}
+    [HttpGet("posts/{postID}")]
+    public int LikesForPost(int postID) {
+        return _repo.LikesForPost(postID);
+    }
 }
 
 

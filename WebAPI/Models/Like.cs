@@ -11,11 +11,11 @@ namespace WebAPI.Models
         [Required]
         [ForeignKey("Post")]
         public int PostID { get; set; }
-        public virtual Post Post { get; set; }
+        [JsonIgnore] public virtual Post Post { get; set; }
 
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace WebAPI.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Routes { get; set; }
-        public virtual List<Peak> Peaks { get; set; }
-        public virtual List<Post> Posts { get; set; }
-        public virtual List<Like> Likes { get; set; }
+        [JsonIgnore] public virtual List<Peak> Peaks { get; set; }
+        [JsonIgnore] public virtual List<Post> Posts { get; set; }
+        [JsonIgnore] public virtual List<Like> Likes { get; set; }
     }
 
     /// <summary>
@@ -33,11 +33,10 @@ namespace WebAPI.Models
     {
         public int AwardUserID { get; set; }
         public string UserID { get; set; }
-        [JsonIgnore]
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
 
         public int AwardID { get; set; }
-        public virtual Award Award { get; set; }
+        [JsonIgnore] public virtual Award Award { get; set; }
     }
 
     /// <summary>
@@ -48,11 +47,10 @@ namespace WebAPI.Models
         public int userPeakID { get; set; }
         public string UserID { get; set; }
 
-        [JsonIgnore]
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
 
         public int PeakID { get; set; }
-        public virtual Peak Peak { get; set; }
+        [JsonIgnore] public virtual Peak Peak { get; set; }
     }
 
 
