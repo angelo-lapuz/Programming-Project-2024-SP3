@@ -41,8 +41,6 @@
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Profile\ChangePassword.cshtml" />
-  </ItemGroup>
+
 
 </Project>
