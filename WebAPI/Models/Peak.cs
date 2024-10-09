@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 namespace WebAPI.Models
 {
     public class Peak
@@ -13,15 +13,9 @@ namespace WebAPI.Models
         public string Coords { get; set; }
         public int Elevation { get; set; }
         public string Routes { get; set; }
+        public string Difficulty { get; set; }
 
-
-        [Required]
-        [Column(TypeName = "char")]
-        [StringLength(1)]
-        [Display(Name = "Difficulty")]
-        public char Difficulty { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-
-
+        [JsonIgnore]
+        public virtual ICollection<UserPeak> UserPeaks { get; set; }
     }
 }

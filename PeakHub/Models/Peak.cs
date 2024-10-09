@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace PeakHub.Models
 {
     public class Peak
-    { 
+    {
         public int PeakID { get; set; }
         public string Name { get; set; }
         public string IMG { get; set; }
@@ -13,11 +13,7 @@ namespace PeakHub.Models
         public string Coords { get; set; }
         public int Elevation { get; set; }
         public string Routes { get; set; }
+        public string Difficulty { get; set; }
 
-        [Required]
-        [Column(TypeName = "char")]
-        [StringLength(1)]
-        [Display(Name = "Difficulty")]
-        public char Difficulty { get; set; }
     }
 }

@@ -7,17 +7,18 @@ namespace WebAPI.Models
 {
     public class Post
     {
-
         public Post()
         {
             Likes = new List<Like>();
         }
+
         public int PostID { get; set; }
 
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual User User { get; set; }
+
         public string Content { get; set; }
 
         [Required]
@@ -25,7 +26,8 @@ namespace WebAPI.Models
         public DateTime TransactionTimeUtc { get; set; }
 
         [JsonIgnore]
-        public virtual List<Like> Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+
         public string MediaType { get; set; }
         public string MediaLink { get; set; }
 
@@ -34,4 +36,3 @@ namespace WebAPI.Models
         public virtual Board Board { get; set; }
     }
 }
-

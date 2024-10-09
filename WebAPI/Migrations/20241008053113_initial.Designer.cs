@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
@@ -10,9 +11,11 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PeakHubContext))]
-    partial class PeakHubContextModelSnapshot : ModelSnapshot
+    [Migration("20241008053113_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,6 +164,36 @@ namespace WebAPI.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("UserAward", b =>
+                {
+                    b.Property<int>("AwardID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AwardID", "UserID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserAwards", (string)null);
+                });
+
+            modelBuilder.Entity("UserPeak", b =>
+                {
+                    b.Property<int>("PeakID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PeakID", "UserID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserPeaks", (string)null);
                 });
 
             modelBuilder.Entity("WebAPI.Models.Award", b =>
@@ -363,48 +396,6 @@ namespace WebAPI.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebAPI.Models.UserAward", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AwardID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AwardID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("UserAwards", (string)null);
-                });
-
-            modelBuilder.Entity("WebAPI.Models.UserPeak", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PeakID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserID")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PeakID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("UserPeaks", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -456,6 +447,36 @@ namespace WebAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UserAward", b =>
+                {
+                    b.HasOne("WebAPI.Models.Award", null)
+                        .WithMany()
+                        .HasForeignKey("AwardID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserPeak", b =>
+                {
+                    b.HasOne("WebAPI.Models.Peak", null)
+                        .WithMany()
+                        .HasForeignKey("PeakID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WebAPI.Models.Like", b =>
                 {
                     b.HasOne("WebAPI.Models.Post", "Post")
@@ -494,53 +515,9 @@ namespace WebAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebAPI.Models.UserAward", b =>
-                {
-                    b.HasOne("WebAPI.Models.Award", "Award")
-                        .WithMany("UserAwards")
-                        .HasForeignKey("AwardID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Models.User", "User")
-                        .WithMany("UserAwards")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Award");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.UserPeak", b =>
-                {
-                    b.HasOne("WebAPI.Models.Peak", "Peak")
-                        .WithMany("UserPeaks")
-                        .HasForeignKey("PeakID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Models.User", "User")
-                        .WithMany("UserPeaks")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Peak");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.Award", b =>
-                {
-                    b.Navigation("UserAwards");
-                });
-
             modelBuilder.Entity("WebAPI.Models.Board", b =>
                 {
                     b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.Peak", b =>
-                {
-                    b.Navigation("UserPeaks");
                 });
 
             modelBuilder.Entity("WebAPI.Models.Post", b =>
@@ -553,10 +530,6 @@ namespace WebAPI.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("Posts");
-
-                    b.Navigation("UserAwards");
-
-                    b.Navigation("UserPeaks");
                 });
 #pragma warning restore 612, 618
         }

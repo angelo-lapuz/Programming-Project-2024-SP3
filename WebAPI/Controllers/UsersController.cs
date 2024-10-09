@@ -4,6 +4,7 @@ using WebAPI.Models;
 using WebAPI.Models.DataManager;
 using WebAPI.ViewModels;
 using WebAPI.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace WebApi.Controllers;
@@ -33,11 +34,18 @@ public class UsersController : ControllerBase
 
     // PUT api/users
     [HttpPut]
-
     public void Put([FromBody] User user) { 
         _repo.Update(user.Id, user);
 
     }
+
+    [HttpPost("UpdateUser")]
+    public async Task<IActionResult> Update([FromBody] User user)
+    {
+        _repo.Update(user.Id, user);
+        return Ok("User updated successfully");
+    }
+
 
     // add a new user
     [HttpPost("Create")]
@@ -155,6 +163,21 @@ public class UsersController : ControllerBase
         _logger.LogInformation("User logged out.");
         return Ok();
     }
+
+    [Authorize]
+    [HttpGet("GetUser")]
+    public async Task<IActionResult> GetLoggedInUser()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+        return Ok(user);
+    }
+
 
     //// used when logging in
     //[HttpGet("{username}/{password}")]
