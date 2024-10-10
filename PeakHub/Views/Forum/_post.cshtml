@@ -17,7 +17,7 @@
             <img src="@Model.Post.User.ProfileIMG" alt="User's Profile Image" />
             <div class="postUser">
                 <h3>@Model.Post.User.UserName</h3>
-                <p>@Model.Post.TransactionTimeUtc</p>
+                <p>@Model.Post.ViewDate() <br /> @Model.Post.ViewTime()</p>
             </div>
         </div>
 

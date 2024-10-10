@@ -2,21 +2,27 @@
 using Newtonsoft.Json;
 using PeakHub.Models;
 using PeakHub.ViewModels.Forum;
+using PeakHub.Utilities;
 
-namespace PeakHub.Controllers {
-    public class ForumController : Controller {
+namespace PeakHub.Controllers
+{
+    public class ForumController : Controller
+    {
         private readonly HttpClient _httpClient;
-        public ForumController(IHttpClientFactory httpClient) =>
+        private readonly ILogger<ForumController> _logger;
+        public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger) {
             _httpClient = httpClient.CreateClient("api");
+            _logger = logger;
+        }
 
         public async Task<IActionResult> Index(int boardID) {
             if (await IsInvalidBoardID(boardID)) return RedirectToAction("Index", "Board");
 
             UserViewModel user = await GetUserDetails();
             Board board = await GetBoard(boardID);
-            List<Post> posts = board.Posts;        
+            List<Post> posts = board.Posts;
 
-            ForumViewModel viewModel = new ForumViewModel { 
+            ForumViewModel viewModel = new ForumViewModel {
                 Board = board,
                 User = user,
                 Posts = await GetForumPosts(posts, user.userID)
@@ -28,10 +34,10 @@ namespace PeakHub.Controllers {
         public async Task<List<ForumPostViewModel>> GetForumPosts(List<Post> posts, string userID) {
             List<ForumPostViewModel> viewPosts = new();
 
-            foreach(Post post in posts) {
+            foreach (Post post in posts) {
                 post.User = await GetPostUser(post.UserId);
 
-                viewPosts.Add(new ForumPostViewModel { 
+                viewPosts.Add(new ForumPostViewModel {
                     UserHasLiked = (await HasUserLikedPost(post.PostID, userID)),
                     LikeCount = await LikesForPost(post.PostID),
                     Post = post
@@ -40,16 +46,24 @@ namespace PeakHub.Controllers {
 
             return viewPosts;
         }
+        // -------------------------------------------------------------------------------- //
+        public async Task<Board> GetBoard(int boardID) =>
+            await _httpClient.GetFromJsonAsync<Board>($"api/boards/{boardID}");
 
-        public async Task<Board> GetBoard(int boardID) {
-            return await _httpClient.GetFromJsonAsync<Board>($"api/boards/{boardID}");
-        }
+        public async Task<User> GetPostUser(string userID) =>
+            await _httpClient.GetFromJsonAsync<User>($"api/users/{userID}");
+
+        public async Task<bool> HasUserLikedPost(int postID, string userID) =>
+            await _httpClient.GetFromJsonAsync<bool>($"api/likes/{postID}/{userID}");
+
+        public async Task<int> LikesForPost(int postID) =>
+            await _httpClient.GetFromJsonAsync<int>($"api/likes/posts/{postID}");
 
         public async Task<bool> IsInvalidBoardID(int boardID) {
             int boardTotal = await _httpClient.GetFromJsonAsync<int>("api/boards/total");
             return (boardID <= 0 || boardID > boardTotal);
         }
-
+        // -------------------------------------------------------------------------------- //
         public async Task<UserViewModel> GetUserDetails() {
             var response = await _httpClient.GetAsync("api/users/GetUser");
 
@@ -61,8 +75,8 @@ namespace PeakHub.Controllers {
                     return new UserViewModel {
                         userID = user.Id,
                         username = user.UserName,
-                        profileImg = (user.ProfileIMG != null) ? 
-                            user.ProfileIMG : "https://images.pexels.com/photos/6757691/pexels-photo-6757691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        profileImg = (user.ProfileIMG != null) ?
+                            user.ProfileIMG : "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
                     };
                 }
             }
@@ -70,24 +84,10 @@ namespace PeakHub.Controllers {
             return new UserViewModel {
                 userID = "0",
                 username = "Inconspicuous Andy",
-                profileImg = "https://images.pexels.com/photos/6757691/pexels-photo-6757691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                profileImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
             };
         }
-
-        public async Task<User> GetPostUser(string userID) {
-            return await _httpClient.GetFromJsonAsync<User>($"api/users/{userID}");
-        }
-
-        public async Task<bool> HasUserLikedPost(int postID, string userID) {
-            return await _httpClient.GetFromJsonAsync<bool>($"api/likes/{postID}/{userID}");
-        }
-
-        public async Task<int> LikesForPost(int postID) {
-            return await _httpClient.GetFromJsonAsync<int>($"api/likes/posts/{postID}");
-        }
-
         // -------------------------------------------------------------------------------- //
-
         [HttpPost]
         public async Task<IActionResult> LikePost(int postID, string userID) {
             var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{userID}", new { });
@@ -111,3 +111,4 @@ namespace PeakHub.Controllers {
         }
     }
 }
+

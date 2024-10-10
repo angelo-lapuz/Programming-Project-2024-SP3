@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PeakHub.Models;
 using PeakHub.ViewModels.Forum;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+using PeakHub.Utilities;
 
 namespace PeakHub.Controllers {
     public class BoardController : Controller {

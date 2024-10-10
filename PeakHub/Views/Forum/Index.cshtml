@@ -10,17 +10,39 @@
             <p>@Model.Board.Section</p>
         </div>
 
-        <a href="@Url.Action("Index", "Board")" class="btn btn-primary">Go Back</a>
+        <div>
+            @if (Model.User.userID != "0") {
+                <form asp-action="IndexPage" asp-controller="AddPost" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="UserID" value="@Model.User.userID" />
+                    <input type="hidden" name="boardID" value="@Model.Board.BoardID" />
+
+                    <button type="submit" class="btn-primary">Add Post</button>
+                </form>
+            }
+
+            <a href="@Url.Action("Index", "Board")" >
+                <button class="btn-primary">Go Back</button>
+            </a>
+        </div>
     </section>
 
     <section id="forumMain">
         <div id="forumHeader">
-            <input id="userID" type="hidden" value="@Model.User.userID" />
-            <img src="@Model.User.profileImg" alt="Your Profile Image" />
-            <h3>@Model.User.username</h3>
+            <div id="forumUser">
+                <input id="userID" type="hidden" value="@Model.User.userID" />
+                <img src="@Model.User.profileImg" alt="Your Profile Image" />
+                <h3>@Model.User.username</h3>
+            </div>
+
+            <a id="backIcon" href="@Url.Action("Index", "Board")">
+                <i class="fa-solid fa-arrow-left"></i>
+                <p>Go Back</p>
+            </a>
         </div>
 
-        <div id="forumPosts">
+        <div id="forumPosts" class="post-container">
             @if (Model.Posts.Count > 0) {
                 foreach (var postViewModel in @Model.Posts) {
                     @await Html.PartialAsync("_post", postViewModel)
@@ -49,7 +71,7 @@
         var action = hasLiked ? "UnlikePost" : "LikePost";
         var type = hasLiked ? "DELETE" : "POST";
 
-        // AJAX Request 
+        // AJAX Request
         $.ajax({
             url: `/Forum/${action}`,
             type: `${type}`,

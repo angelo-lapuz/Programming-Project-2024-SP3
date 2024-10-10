@@ -26,6 +26,9 @@ namespace PeakHub.Models
         [ForeignKey("Board")]
         public int BoardID { get; set; }
         [JsonIgnore] public virtual Board Board { get; set; }
+
+        public string ViewDate() => TransactionTimeUtc.ToString("dd/MM/yyyy");
+        public string ViewTime() => TransactionTimeUtc.ToString("hh:mm tt");
     }
 }
 
