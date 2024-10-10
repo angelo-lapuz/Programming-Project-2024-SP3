@@ -11,6 +11,6 @@ namespace WebAPI.Models
         public string Condition { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<UserAward> UserAwards { get; set; }
     }
 }

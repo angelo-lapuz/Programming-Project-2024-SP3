@@ -9,19 +9,20 @@ namespace WebAPI.Models
     {
         public User()
         {
-            Awards = new List<Award>();
-            Peaks = new List<Peak>();
+            UserAwards = new List<UserAward>();
+            UserPeaks = new List<UserPeak>();
             Posts = new List<Post>();
             Likes = new List<Like>();
         }
 
-        public virtual List<Award> Awards { get; set; }
+        
         public string ProfileIMG { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Routes { get; set; }
-        public virtual List<Peak> Peaks { get; set; }
+        public virtual List<UserPeak> UserPeaks { get; set; }
+        public virtual List<UserAward> UserAwards { get; set; }
         public virtual List<Post> Posts { get; set; }
         public virtual List<Like> Likes { get; set; }
     }
@@ -29,31 +30,29 @@ namespace WebAPI.Models
     /// <summary>
     ///  .net relationship table for many to many relationship between User and Award
     /// </summary>
-    public class AwardUser
+    public class UserAward
     {
-        public int AwardUserID { get; set; }
+        public int Id { get; set; }
         public string UserID { get; set; }
         [JsonIgnore]
         public virtual User User { get; set; }
 
         public int AwardID { get; set; }
-        [JsonIgnore]
         public virtual Award Award { get; set; }
     }
 
     /// <summary>
     /// .net relationship table for many to many relationship between User and Peak
     /// </summary>
-    public class PeakUser
+    public class UserPeak
     {
-        public int userPeakID { get; set; }
+        public int Id { get; set; }
         public string UserID { get; set; }
 
         [JsonIgnore]
         public virtual User User { get; set; }
 
         public int PeakID { get; set; }
-
         public virtual Peak Peak { get; set; }
     }
 

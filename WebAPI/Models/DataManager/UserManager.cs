@@ -62,17 +62,7 @@ public class UserManager : IDataRepository<User, int>
         return user.Id;
     }
 
-    public User getUser(string id)
-    {
-
-        return _context.Users
-                    .Include(u => u.Posts)
-                    .ThenInclude(p => p.Likes)
-                    .Include(u => u.Awards)
-                    .Include(u => u.Peaks)
-                    .AsSplitQuery()
-                    .FirstOrDefault(u => u.Id == id);
-    }
+ 
 
     // checks if there is a username Or email in the database
     public List<User> GetByUsernameAndEmail(String username, String email)

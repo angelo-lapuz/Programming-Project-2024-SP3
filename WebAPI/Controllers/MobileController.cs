@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
             _userManager = userManager;
         }
 
-
+/*
 
         // checkIn method takes in scanned Data from a QR code, and will process here
         // will check that details are coorrect and will update the user accordingly 
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
                 return NotFound(new { Message = "Invalid user" });
             }
 
-            var completedPeak = _repo.Peaks.Where(p => p.PeakID == scannedData.Id).Any(p => p.Users.Any(u => u.Id == scannedData.UserID));
+            var completedPeak = _repo.UserPeaks.Any(up => up.UserID == user.Id && up.PeakID == peak.PeakID);
 
             // peak already completed by user
             if (completedPeak)
@@ -66,24 +66,27 @@ namespace WebAPI.Controllers
                 return Conflict(new { Message = "Peak already completed by user" });
             }
 
-            user.Peaks.Add(peak);
+
+            user.UserPeaks.Add(new UserPeak { UserID = user.Id, PeakID = peak.PeakID });
             _repo.SaveChanges();
 
-            var totalPeaks = user.Peaks.Count;
+            var totalPeaks = user.UserPeaks.Count;
             List<int> awardMilestone = new List<int> { 0, 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 158 };
 
             foreach (int milestone in awardMilestone)
             {
                 if (totalPeaks == milestone)
                 {
-                    var userAward = _repo.Awards.FirstOrDefault(a => a.AwardID == milestone);
+                    var userAward = _repo.UserAwards.Any(ua => ua.UserID == user.Id && ua.AwardID == milestone);
+
                     if (userAward == null)
                     {
                         return BadRequest(new { Message = "Award not found" });
                     }
-                    if (!user.Awards.Any(a => a.AwardID == milestone))
+
+                    if (!userAward)
                     {
-                        user.Awards.Add(userAward);
+                        _repo.UserAwards.Add(new UserAward { UserID = user.Id, AwardID = milestone });
                         _repo.SaveChanges();
                     }
                 }
@@ -91,7 +94,7 @@ namespace WebAPI.Controllers
             _repo.SaveChanges();
             return Ok(new { Message = "Peak checked in successfully" });
         }
-
+*/
 
         public class ScannedData
         {

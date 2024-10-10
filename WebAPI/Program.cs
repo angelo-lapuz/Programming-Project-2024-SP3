@@ -50,6 +50,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCulture = new[] { new System.Globalization.CultureInfo("en-AU") };
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-AU");
+    options.SupportedCultures = supportedCulture;
+    options.SupportedUICultures = supportedCulture;
+});
+
+builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        });
+
+
+
+
 var app = builder.Build();
 
 // Seed data.

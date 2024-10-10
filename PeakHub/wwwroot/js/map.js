@@ -64,7 +64,7 @@ checkRoutes();
 checkUser();
 
 // defining the color and thickness of the polyline - used when drawing routes
-var polylineDrawer = new L.Draw.Polyline(map, {
+var polylineDrawer = new L.Draw.Polyline(map,{
     shapeOptions: {
         color: '#FF0000',
         weight: 5

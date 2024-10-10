@@ -5,6 +5,7 @@ using WebAPI.Models.DataManager;
 using WebAPI.ViewModels;
 using WebAPI.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace WebApi.Controllers;
@@ -42,7 +43,18 @@ public class UsersController : ControllerBase
     [HttpPost("UpdateUser")]
     public async Task<IActionResult> Update([FromBody] User user)
     {
-        _repo.Update(user.Id, user);
+       var currentUser = _repo.Get(user.Id);
+
+        currentUser.Email = user.Email;
+        currentUser.UserName = user.UserName;
+        currentUser.FirstName = user.FirstName;
+        currentUser.LastName = user.LastName;
+        currentUser.PhoneNumber = user.PhoneNumber;
+        currentUser.ProfileIMG = user.ProfileIMG;
+        currentUser.Address = user.Address;
+        currentUser.Routes = user.Routes;   
+     
+        _repo.Update(currentUser.Id, currentUser);
         return Ok("User updated successfully");
     }
 
@@ -72,6 +84,8 @@ public class UsersController : ControllerBase
             <p><a href='{resetLink}'>Reset Password</a></p>
             </body>
             </html>";
+
+       
 
         await _emailSender.SendEmailAsync(user.Email, "Reset your Password", emailBody);
 
@@ -117,6 +131,7 @@ public class UsersController : ControllerBase
 
         var result = await _userManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
+
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var confirmationLink = $"https://localhost:7103/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(token)}";
@@ -223,11 +238,13 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetLoggedInUser()
     {
         var currentUser = await _userManager.GetUserAsync(User);
+           
         
         if (currentUser == null)
         {
             return Unauthorized();
         }
+
         return Ok(currentUser);
     }
 

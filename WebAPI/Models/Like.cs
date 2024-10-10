@@ -7,7 +7,6 @@ namespace WebAPI.Models
 {
     public class Like
     {
-        // fix me 
         public int LikeID { get; set; }
 
         [Required]

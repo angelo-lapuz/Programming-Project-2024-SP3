@@ -41,7 +41,7 @@ namespace PeakHub.Controllers
             {
                 ViewBag.Routes = user.Routes;
                 ViewBag.userL = true;
-                ViewBag.userPeaks = Newtonsoft.Json.JsonConvert.SerializeObject(user.Peaks);
+                ViewBag.userPeaks = Newtonsoft.Json.JsonConvert.SerializeObject(user.UserPeaks.Select(up=>up.Peak));
 
 
             }

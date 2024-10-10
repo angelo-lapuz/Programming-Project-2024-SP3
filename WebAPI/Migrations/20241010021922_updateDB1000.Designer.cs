@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
@@ -10,9 +11,11 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(PeakHubContext))]
-    partial class PeakHubContextModelSnapshot : ModelSnapshot
+    [Migration("20241010021922_updateDB1000")]
+    partial class updateDB1000
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,6 +387,9 @@ namespace WebAPI.Migrations
                     b.Property<int>("AwardID")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AwardUserID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("UserID")
                         .HasColumnType("TEXT");
 
@@ -407,6 +413,9 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("UserID")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("userPeakID")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

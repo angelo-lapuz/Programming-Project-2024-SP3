@@ -16,6 +16,23 @@ namespace WebAPI.Data
         public DbSet<Board> Boards { get; set; }
         public DbSet<Award> Awards { get; set; }
 
+
+        public DbSet<UserPeak> UserPeaks { get; set; }
+        public DbSet<UserAward> UserAwards { get; set; }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=../PeakHub.db")
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                
+            }
+        }
+
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -30,23 +47,47 @@ namespace WebAPI.Data
             );
 
 
-            builder.Entity<User>()
-                .HasMany(u => u.Awards)
-                .WithMany(a => a.Users)
-                .UsingEntity(j => j.ToTable("UserAwards"));
+            builder.Entity<UserAward>()
+                   .HasKey(ua => ua.Id);
 
-            builder.Entity<User>()
-                .HasMany(u => u.Peaks)
-                .WithMany(p => p.Users)
-                .UsingEntity(j => j.ToTable("UserPeaks"));
+            builder.Entity<UserAward>()
+                .HasOne(ua => ua.User)
+                .WithMany(u => u.UserAwards)
+                .HasForeignKey(ua => ua.UserID);
+
+            builder.Entity<UserAward>()
+                .HasOne(ua => ua.Award)
+                .WithMany(a => a.UserAwards)
+                .HasForeignKey(ua => ua.AwardID);
+
+            builder.Entity<UserAward>()
+                .ToTable("UserAwards");
+
+            builder.Entity<UserPeak>()
+                .HasKey(up => up.Id);
+
+            builder.Entity<UserPeak>()
+                .HasOne(up => up.User)
+                .WithMany(u => u.UserPeaks)
+                .HasForeignKey(up => up.UserID);
+
+            builder.Entity<UserPeak>()
+                .HasOne(up => up.Peak)
+                .WithMany(p => p.UserPeaks)
+                .HasForeignKey(up => up.PeakID);
+
+            builder.Entity<UserPeak>()
+                .ToTable("UserPeaks");
 
             builder.Entity<User>()
                 .HasMany(u => u.Posts)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId);
 
-            builder.Entity<Like>()
-                .HasKey(l => new { l.UserId, l.PostID });
+            builder.Entity<Board>()
+                .HasMany(b => b.Posts)
+                .WithOne(p => p.Board)
+                .HasForeignKey(p => p.BoardID);
 
             builder.Entity<Like>()
                 .HasOne(l => l.User)
@@ -57,6 +98,10 @@ namespace WebAPI.Data
                 .HasOne(l => l.Post)
                 .WithMany(p => p.Likes)
                 .HasForeignKey(l => l.PostID);
+
+
+            builder.Entity<Like>()
+               .HasKey(l => new { l.LikeID });
         }
     }
 }
