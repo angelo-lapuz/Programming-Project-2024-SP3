@@ -3,12 +3,51 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <div id="forumContent">
+
     <section id="forumMenu_1">
         <div>
             <img src="@Model.Board.ImageLink" alt="Board Image" />
             <h4>@Model.Board.Name</h4>
             <p>@Model.Board.Section</p>
         </div>
+
+        @if (Model.User.userID != "0")
+        {
+            <div id="newPostSectionSidebar" class="compact-form">
+                <form method="post" enctype="multipart/form-data" asp-action="Create">
+                    @Html.AntiForgeryToken()
+
+                    <!-- User ID (Hidden) -->
+                    <input type="hidden" name="UserID" value="@Model.User.userID" />
+
+                    <!-- Board ID (Hidden) -->
+                    <input type="hidden" name="BoardID" value="@Model.Board.BoardID" />
+
+                    <!-- Post content input -->
+                    <div class="form-group">
+                        <textarea id="postContent" name="NewPostContent" class="form-control" placeholder="What's on your mind?" style="min-height: 50px;"></textarea>
+                    </div>
+
+                    <!-- Media upload input -->
+                    <div class="form-group text-center">
+                        <input type="file" id="mediaUpload" name="NewPostMediaFile" class="form-control-file" />
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-sm btn-success">Submit Post</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+
+        }
+        else
+        {
+            <p class="alert alert-warning">You must be logged in to create a post.</p>
+        }
 
         <a href="@Url.Action("Index", "Board")" class="btn btn-primary">Go Back</a>
     </section>
@@ -20,13 +59,18 @@
             <h3>@Model.User.username</h3>
         </div>
 
-        <div id="forumPosts">
-            @if (Model.Posts.Count > 0) {
-                foreach (var postViewModel in @Model.Posts) {
+        <div id="forumPosts" class="post-container">
+            @if (Model.Posts.Count > 0)
+            {
+                foreach (var postViewModel in @Model.Posts)
+                {
                     @await Html.PartialAsync("_post", postViewModel)
                 }
             }
-            else { <h2>No Posts! Please Populate</h2> }
+            else
+            {
+                <h2>No Posts! Please Populate</h2>
+            }
         </div>
     </section>
 
@@ -34,37 +78,3 @@
         <h3>Filters</h3>
     </section>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
-    $("[id*='like_']").on("click", function () {
-        var userID = $("#userID").val();
-        if (userID == "0") return;
-
-        var postID = $(this).attr("id").split("_")[1];
-        var likeCount = parseInt($("#count_" + postID).text());
-        var hasLiked = $(this).hasClass("activeLike");
-
-        var action = hasLiked ? "UnlikePost" : "LikePost";
-        var type = hasLiked ? "DELETE" : "POST";
-
-        // AJAX Request 
-        $.ajax({
-            url: `/Forum/${action}`,
-            type: `${type}`,
-            data: { postID: parseInt(postID), userID: userID },
-            success: function (response) {
-                console.log(response.message);
-                $("#count_" + postID).text(response.likes);
-
-                if (action == "LikePost") {
-                    $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
-                } else {
-                    $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
-                }
-            },
-            error: function (response) { console.log(response.message); }
-        });
-    });
-</script>
