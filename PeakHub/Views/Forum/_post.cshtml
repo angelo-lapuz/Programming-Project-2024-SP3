@@ -16,14 +16,14 @@
         <div class="postLeft">
             <img src="@Model.Post.User.ProfileIMG" alt="User's Profile Image" />
             <div class="postUser">
-                <h4>@Model.Post.User.UserName</h4>
+                <h3>@Model.Post.User.UserName</h3>
                 <p>@Model.Post.TransactionTimeUtc</p>
             </div>
         </div>
 
         <div class="postRight">
-            <h4 id="count_@Model.Post.PostID">@Model.LikeCount</h4>
             <i id="like_@Model.Post.PostID" class="fas fa-thumbs-up @likeActivity"></i>
+            <h3 id="count_@Model.Post.PostID">@Model.LikeCount</h3>
         </div>
     </div>
 </div>
