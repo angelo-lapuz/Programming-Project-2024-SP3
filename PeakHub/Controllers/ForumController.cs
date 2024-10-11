@@ -2,14 +2,12 @@
 using Newtonsoft.Json;
 using PeakHub.Models;
 using PeakHub.ViewModels.Forum;
-using PeakHub.Utilities;
 
-namespace PeakHub.Controllers
-{
-    public class ForumController : Controller
-    {
+namespace PeakHub.Controllers {
+    public class ForumController : Controller {
         private readonly HttpClient _httpClient;
         private readonly ILogger<ForumController> _logger;
+        private readonly string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
         public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger) {
             _httpClient = httpClient.CreateClient("api");
             _logger = logger;
@@ -36,6 +34,8 @@ namespace PeakHub.Controllers
 
             foreach (Post post in posts) {
                 post.User = await GetPostUser(post.UserId);
+                if (string.IsNullOrEmpty(post.User.ProfileIMG)) 
+                    post.User.ProfileIMG = defaultImg;
 
                 viewPosts.Add(new ForumPostViewModel {
                     UserHasLiked = (await HasUserLikedPost(post.PostID, userID)),
@@ -75,8 +75,7 @@ namespace PeakHub.Controllers
                     return new UserViewModel {
                         userID = user.Id,
                         username = user.UserName,
-                        profileImg = (user.ProfileIMG != null) ?
-                            user.ProfileIMG : "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
+                        profileImg = (!string.IsNullOrEmpty(user.ProfileIMG)) ? user.ProfileIMG : defaultImg
                     };
                 }
             }
@@ -84,7 +83,7 @@ namespace PeakHub.Controllers
             return new UserViewModel {
                 userID = "0",
                 username = "Inconspicuous Andy",
-                profileImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
+                profileImg = defaultImg
             };
         }
         // -------------------------------------------------------------------------------- //

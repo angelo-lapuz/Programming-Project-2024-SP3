@@ -6,10 +6,12 @@ using PeakHub.ViewModels.Forum;
 namespace PeakHub.Controllers {
     public class AddPostController : Controller {
         private readonly HttpClient _httpClient;
+        private readonly Lambda_Calls _lambda;
         private readonly ILogger<ForumController> _logger;
         
-        public AddPostController(IHttpClientFactory httpClient, ILogger<ForumController> logger) {
+        public AddPostController(IHttpClientFactory httpClient, Lambda_Calls lambda, ILogger<ForumController> logger) {
             _httpClient = httpClient.CreateClient("api");
+            _lambda = lambda;
             _logger = logger;
         }
         // -------------------------------------------------------------------------------- //
@@ -47,18 +49,16 @@ namespace PeakHub.Controllers {
                 return "[Error] Media must be either an Image, MP4, or WebM File";
 
             try {
-                var tempFilePath = Path.GetTempFileName();
-                using (var stream = new FileStream(tempFilePath, FileMode.Create)) {
-                    await mediaFile.CopyToAsync(stream);
+                byte[] fileContent;
+
+                using (var memoryStream = new MemoryStream()) {
+                    await mediaFile.CopyToAsync(memoryStream);
+                    fileContent = memoryStream.ToArray();
                 }
 
-                AWS_SecretsManager sm = new();
-                AWS_S3 _s3 = new(await sm.GetCreds());
-
-                string fileLink = await _s3.UploadToS3("post", key, tempFilePath, mediaFile.ContentType);
+                string fileLink = await _lambda.UploadToS3("post", key, fileContent, mediaFile.ContentType);
                 if (string.IsNullOrEmpty(fileLink)) throw new Exception("File Key Missing");
 
-                if (System.IO.File.Exists(tempFilePath)) System.IO.File.Delete(tempFilePath);
                 return fileLink;
             }
             catch (Exception ex) {
