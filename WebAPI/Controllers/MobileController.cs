@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography.Pkcs;
-using WebApi.Controllers;
+using WebAPI.Controllers;
 using WebAPI.Data;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
