@@ -118,6 +118,7 @@ body { overflow: hidden; }
     height: 15%;
     color: #FFF;
     display: flex;
+    text-align: left;
     flex-direction: row;
     align-items: center;
 }
