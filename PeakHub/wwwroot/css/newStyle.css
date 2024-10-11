@@ -1,0 +1,1034 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+/* removes anchor link decorations */
+a {
+    text-decoration: none; 
+}
+
+/* disables transition effect */
+.no-transition * {
+    transition: none !important;
+}
+
+/* custom variables */
+:root {
+    --grey: #e1daca;
+    --grey-glass: rgb(225,218,202,0.5);
+    --lightgreen: #2f6546;
+    --darkgreen: #133234;
+    --yellow: #f3e147;
+    --black-glass-50: rgb(0,0,0,0.5);
+    --red: #912f45;
+    --animation-timing: 0.25s ease-in-out;
+    --max-width: 1300px;
+    --temp: black;
+    --navbar-height-s: 8rem;
+    --shadow-down: 0px 2px 2px black;
+    --who-what-where: calc(var(--navbar-height-s) / 2);
+}
+
+/* classes for style */
+
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.full-screen {
+    width: 100%;
+    height: auto;
+}
+
+.buttonA, .buttonA-G, .buttonB {
+    border: 2px solid white;
+    border-radius: 999px;
+    padding: 1rem 3rem;
+    text-align: center;
+    box-shadow: 0px 2px 2px black, inset 0px 2px 2px black;
+    text-shadow: 0px 2px 2px black;
+    transition: all 0.5s ease-in-out;
+}
+
+
+.buttonA-G {
+    color: var(--darkgreen);
+    border: 2px solid var(--darkgreen);
+}
+
+.buttonB {
+    padding: 1rem 2rem;
+}
+
+.chevron-container, .chevron-container-up {
+    height: 3rem;
+    aspect-ratio: 1/1;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translate(-50%, 0px);
+    box-shadow: 0px 2px 2px black, inset 0px 2px 2px black;
+    opacity: 80%;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.chevron-container-up {
+    rotate: 180deg;
+    bottom: 0;
+    transform: translate(50%, -475%);
+    box-shadow: none;
+}
+
+.chevron-container-up div {
+    box-shadow: none;
+}
+
+.chevron-container.left {
+    box-shadow: 2px 0px 2px black, inset 2px 0px 2px black;
+}
+
+.chevron-container.right {
+    box-shadow: -2px 0px 2px black, inset -2px 0px 2px black;
+}
+
+.chevron {
+    content: "";
+    height: 1rem;
+    aspect-ratio: 1/1;
+    position: absolute;
+    top: 10%;
+    left: 45%;
+    transform: translate(-55%);
+    rotate: -45deg;
+    border-left: 3px solid white;
+    border-bottom: 3px solid white;
+    transform-origin: center;
+    box-shadow: -2px 2px 2px black;
+    transition: all 3s ease-in-out;
+}
+
+.chevron.left {
+    box-shadow: 0px 2px 0px black;
+}
+
+.chevron.right {
+    box-shadow: -2px 0px 0px black;
+}
+
+.chevron-container:hover {
+    opacity: 100%;
+}
+
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    height: auto;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+}
+
+/* Nav placement */
+
+#nav-area {
+    width: 100%;
+    height: var(--navbar-height-s);
+    position: sticky;
+    z-index: 10000;
+    background: linear-gradient(to bottom, var(--black-glass-50), transparent); 
+}
+
+#nav-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    padding: 0.25rem;
+    position: relative;
+}
+
+/* Brand Logo */
+
+.brand-logo-container {
+
+    height: var(--navbar-height-s);
+    position: absolute;
+    bottom: 0;
+    left: 0.5rem;
+    display: flex;
+    color: white;
+    z-index: 100;
+    border-radius: 50%;
+}
+
+.brand-logo-container img {
+    height: 90%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    box-shadow: var(--shadow-down);
+    cursor: pointer;
+    margin: auto;
+}
+
+/* TAS PEAKS text next to brand logo */
+
+.brand-logo-container span {
+    padding-left: 0.5rem;
+    width: 0vw;
+    align-self: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: var(--shadow-down);
+    cursor: pointer;
+}
+
+
+/* Hamburger icon styling */
+
+.hamburger-menu {
+    position: absolute;
+    right: 5vw;
+    bottom: 1rem;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 4rem;
+    height: 3rem;
+    z-index:100;
+}
+
+/* creates the 3 dashes*/
+
+.hamburger-menu::before,
+.hamburger-menu::after,
+.hamburger-menu input {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    content: "";
+    margin: 0 auto;
+    width: 3rem;
+    height: 3px;
+    background-color: white;
+    transition: all var(--animation-timing);
+    box-shadow: 0px 2px 2px var(--black-glass-50);
+}
+
+.hamburger-menu input {
+    appearance: none;
+    padding: 0;
+    outline: none;
+    pointer-events: none;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hamburger-menu::before {
+    top: 6px;
+}
+
+.hamburger-menu::after {
+    bottom: 6px;
+}
+
+/* turns the 3 dashes to the X */
+.hamburger-menu input:checked {
+    rotate: 45deg;
+    transform: translate(-1.25rem, -0.4rem);
+    transform-origin: left;
+    z-index: -1;
+    box-shadow: 2px 2px 2px var(--black-glass-50);
+    background-color: var(--grey);
+}
+
+.hamburger-menu:has(input:checked)::before {
+    rotate: -45deg;
+    box-shadow: -2px 2px 2px var(--black-glass-50);
+}
+
+.hamburger-menu:has(input:checked)::after {
+    rotate: 45deg;
+    box-shadow: none;
+}
+
+/* expands the nav links container to display the navlinks */
+.hamburger-menu:has(input:checked) + #navlinks-container{
+    width:200%;
+    height: 95vh;
+}
+
+/* Nav link items */
+
+#navlinks-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    aspect-ratio: 1/1;
+    background: linear-gradient(to bottom, var(--black-glass-50), var(--lightgreen) var(--navbar-height-s), var(--lightgreen) 40%, transparent);
+    text-align: center;
+    overflow: hidden;
+    transition: all var(--animation-timing);
+    transform-origin: right;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.navbar-list {
+    width: 50%;
+    position: absolute;
+    right: 0;
+    top: var(--navbar-height-s);
+}
+
+/* nav bar li elements */
+.nav-item {
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: 500;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+    overflow: hidden;
+}
+
+
+.nav-link:hover + .nav-link-hover {
+    width: 110%;
+}
+
+.nav-link {
+    color: white;
+    text-shadow: var(--shadow-down);
+    display: block;
+    z-index: 5;
+    transition: all var(--animation-timing);
+    letter-spacing: 0.25rem;
+}
+
+.nav-link:hover {
+    color: var(--darkgreen);
+}
+
+.nav-link-hover {
+    width: 0%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin: 0 auto;
+    background: var(--grey);
+    transition: all var(--animation-timing);
+}
+
+
+
+/* MAIN - DO NOT tweak this */
+
+main {
+    width: 100%;
+    height: auto;
+}
+
+/* HOME page */
+
+#home-bg-parallax {
+    width: 100%;
+    min-height: 100vh;
+    overflow-X: hidden;
+}
+
+#bg-video {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+    transform: translateX(calc((100% - 100vw) / 2));
+}
+
+.to-top-btn {
+    position: fixed;
+    bottom: 50%;
+    right: 10%;
+    z-index: 10000;
+    opacity: 50%;
+}
+
+.to-top-btn:hover {
+    opacity: 100%;
+}
+
+
+/* cointainer for home screen text */
+.home-typewriter {
+    color: white;
+    font-size: 9vw;
+    font-weight: 800;
+    text-shadow: var(--shadow-down);
+    z-index: -10;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    line-height: 15vw; /* change this for responsive */
+
+    
+}
+
+
+/* home screen text - ARE YOU ABEL. */
+.home-msg {
+    overflow-x: hidden;
+    border-right: 0.5rem solid orange;
+    white-space: nowrap;
+    letter-spacing: 0.1rem;
+    animation: typing 1s steps(13, end), blink-caret .55s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--yellow);
+    }
+}
+
+
+/* WHAT WHERE WHO */
+.home-3w-anchors {
+    position: absolute;
+    width: 100%;
+    max-width: 1000px;
+    bottom: 25%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    z-index: 0;
+}
+
+.home-3w-a, .home-3a-a:visited {
+    width: 15em;
+    text-decoration: none;
+    margin: 0 auto;
+    color: white;
+}
+
+.home-3w-a div {
+    overflow: hidden;
+    width: 3.5rem;
+    height:1.5rem; /* change this for responsive */
+    margin: 0 auto;
+    transition: all 0.25s linear;
+}
+
+/* button stretches on hover */
+.home-3w-a:hover {
+    width: 20rem;
+}
+
+.home-3w-a:hover div {
+    width: 12rem;
+}
+
+/* WHAT section */
+
+#what-header, #where-header, #who-header {
+    position: relative;
+    height: var(--who-what-where);
+    width: 100%;
+    background: var(--lightgreen);
+    
+}
+
+#what-header span, #where-header span, #who-header span {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--grey);
+    z-index: 10;
+}   
+
+#what-container {
+    position: relative;
+    background: var(--grey);
+}
+
+#what-absolute-layer {
+    z-index:100;
+}
+
+#info-abels-container {
+    position: relative;
+    max-width: var(--max-width);
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+}
+/* WHAT info */
+
+.info-abels-grid {
+    width: 100%;
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-areas:
+        ' imgA '
+        ' textA '
+        ' imgB '
+        ' textB '
+        ' imgC '
+        ' textC ';
+    justify-content: space-between;
+    justify-items: center;
+    color: #133234;
+    padding: 1rem;
+}
+
+.info-text.A {
+    grid-area: textA;
+}
+
+.info-text.B {
+    grid-area: textB;
+}
+
+.info-text.C {
+    grid-area: textC;
+}
+
+.info-img.A {
+    grid-area: imgA;
+}
+
+.info-img.B {
+    grid-area: imgB;
+}
+
+.info-img.C {
+    grid-area: imgC;
+}
+
+.info-img img {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+
+/* WHERE section */
+
+#where-header {
+    background: var(--grey);
+}
+
+#where-header span {
+    color: var(--lightgreen);
+}
+
+#where-container {
+    position:relative;
+    background: var(--lightgreen);
+}
+
+/* region info map section */
+
+#info-regions-container {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#info-regions-data {
+    position:absolute;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    overflow: hidden;
+}
+
+/* text content for region info */
+
+.info-region-text {
+    width: 100%;
+    height: calc(100% - var(--navbar-height-s));
+    z-index: 4;
+    padding: 0 1.5rem;
+    color: white;
+    text-shadow: none;
+}
+
+.info-region-text a {
+    cursor: pointer;
+    color: var(--grey);
+}
+
+.info-regions-more {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all var(--animation-timing);
+}
+
+
+/* left and right round buttons  */
+.region-left, .region-right {
+    width: 4rem;
+    aspect-ratio: 1/1;
+    position: absolute;
+    transform-origin: top;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+}
+
+.region-left {
+    left: 2vw;
+    rotate: 90deg;
+    display: none;
+}
+
+.region-right {
+    right: 2vw;
+    rotate: -90deg;
+    display: block;
+}
+
+
+/* list of region selectors */
+
+.info-region-list {
+    position: relative;
+    color: white;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.info-region-ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    transition: all var(--animation-timing);
+}
+
+.info-region-select {
+    position: relative;
+    list-style: none;
+    width: 100vw;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 2s ease-in;
+}
+
+.info-region-select:has(input:checked) {
+    opacity: 100;
+    visibility: visible;
+}
+
+.info-region-select label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    text-align: center;
+    display: block;
+    font-size: 1.5rem;
+    text-shadow: var(--shadow-down);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-region-select input {
+    visibility: hidden;
+}
+
+hr {
+    border: 1px solid white;
+    width: 50%;
+    margin: 0 auto;
+    box-shadow: var(--shadow-down);
+}
+
+/* container for the region selector (LEFt and RIGHT) in WHERE */
+
+.info-region-selector {
+    width: 100%;
+    height: var(--who-what-where);
+    position: relative;
+    display: none;
+    opacity: 0%;
+    transition: all var(--animation-timing);
+}
+
+/* container for WHERE map */
+
+.info-region-img-container {
+    width: 70%;
+    aspect-ratio: 1/1;
+    position:absolute;
+    bottom: 10rem;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 1;
+}
+
+
+.info-region-img-base {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transition: all var(--animation-timing);
+}
+
+.info-region-select {
+    cursor: pointer;
+}
+
+.info-region-img {
+    display: none;
+}
+
+/* WHO section */
+
+#who-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background: var(--lightgreen);
+
+}
+
+#who-absolute-layer {
+    position: absolute;
+    top; 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    min-height: auto;
+    background: var(--grey);
+}
+
+.info-who-grid {
+    position: relative;
+    display: grid;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-content: center;
+    justify-content: space-between;
+    height: fit-content;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+
+}
+
+.info-who-text {
+    color: #133234;
+    text-align: justify;
+}
+
+.info-who-img {
+    position: relative;
+}
+
+.info-who-img img {
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.come-say-hi-btn {
+    height: 1rem;
+    color: white;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.come-say-hi-btn:hover {
+    color: var(--red);
+    font-weight: 600;
+    text-shadow: 
+        2px 2px 5px white, -2px -2px 5px white, 2px -2px 5px white, -2px 2px 5px white,
+        5px 5px 25px white, -5px -5px 25px white, 5px -5px 25px white, -5px 5px 25px white;
+}
+
+
+
+
+
+@media screen and (max-width:600px) {
+        .brand-logo-container img {
+        height: 60%;
+    }
+
+    #brand-name {
+        font-size: 1.5rem;
+    }
+
+    .info-regions-more {
+        font-size: 0.75rem;
+    }
+}
+
+
+@media screen and (min-width:601px) {
+
+    body {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
+    .chevron-container, .chevron-container-up {
+        height: 4rem;
+    }
+
+    .chevron {
+        top: 20%;
+    }
+
+    #what-header span, #where-header span, #who-header span {
+        bottom: 0.4rem;
+    }
+
+    .home-3w-a div {
+        width: 5rem;
+        height: 2rem;
+    }
+
+    /* button stretches on hover */
+    .home-3w-a:hover {
+        width: 30rem;
+    }
+
+    .home-3w-a:hover div {
+        width: 20rem;
+    }
+
+    .nav-item {
+        font-size: 2rem;
+        height: 100%;
+    }
+
+    .nav-link:hover {
+        font-size: 2.25rem;
+    }
+
+    .info-abels-grid, .info-region-text, .info-who-text {
+        padding: 1rem 3rem;
+    }
+
+    .info-region-select label {
+        font-size: 2rem;
+    }
+}
+
+
+@media screen and (min-width:901px) {
+
+    .hamburger-menu {
+        display: none;
+    }
+
+    #navlinks-container {
+        background: none;
+        overflow: auto;
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .navbar-list {
+        overflow: auto;
+        position: relative;
+        height: 100%;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        float: right;
+        
+    }
+
+    .navbar-list li {
+        align-self: center;
+    }
+
+    .nav-link {
+        letter-spacing: 0rem;
+        width: 100%;
+        transition: all 0.5s ease-out;
+        
+    }
+
+    .nav-link:hover {
+        color: white;
+        font-size: 2rem;
+        border-bottom: 5px solid white;
+        box-shadow: 0px 3px 0px var(--black-glass-50);
+    }
+
+    .nav-link-hover {
+        display: none;
+    }
+
+    .info-abels-grid {
+        grid-template-areas:
+            ' textA textA imgA'
+            ' . . imgA '
+            ' imgB textB textB '
+            ' imgB . . '
+            ' textC textC imgC '
+            ' . . imgC ';
+        justify-content: space-between;
+        justify-items: center;
+        gap: 1.5rem;
+        color: #133234;
+        padding: 1rem;
+    }
+
+    .info-text {
+        padding: 1rem 0;
+    }
+
+    .info-text hr {
+        border: 2px solid var(--darkgreen);
+        width: 50%;
+        margin-top: 2rem;
+
+    }
+
+
+    .info-img.A, .info-img.C {
+        box-shadow: 3px 3px 3px black;
+    }
+
+    .info-img.B {
+        box-shadow: -3px 3px 3px black;
+    }
+
+    .info-img img {
+        height: 100%;
+    }
+
+    .info-abels-grid, .info-region-text, .info-who-text {
+        padding: 1rem;
+    }
+
+    .come-say-hi-btn:hover > a{
+        color: var(--red);
+    }
+
+    .info-who-grid {
+        grid-template-columns: 3fr 2fr;
+        padding: 1rem;
+
+    }
+
+    .info-who-img {
+        padding-right: 1rem;
+        overflow-x: hidden;
+    }
+
+    .info-who-img img{
+        width: 200%;   
+        transform: translateX(-25%);
+        box-shadow: 5px 5px 5px black;
+    }
+
+    .come-say-hi-btn {
+        width: 60%;
+        justify-content: center;
+        bottom: 10%;
+    }
+
+    /*
+        WHERE
+
+        make text box smaller and move everything towards the middle
+
+    */
+
+}
+
+
+
+@media screen and (min-width:1201px) {
+
+
+
+    /* TO DO
+
+        set static size for ARE YOU ABEL
+        WHAT WHERE WHO to go horizontal
+
+
+        WHERE
+
+        selectable options to appear as a vertical stack to the left. Text to the middle. Map to the mid/right.
+        
+
+
+
+    */
+}
+
+
+
+
+/* check planner for restyling and breakpoints.*/

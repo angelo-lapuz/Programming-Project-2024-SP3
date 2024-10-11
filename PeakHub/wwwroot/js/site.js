@@ -107,3 +107,116 @@ if (regionsToggle) {
 
 let vid = document.getElementById("bg-video");
 vid.playbackRate = 0.75;
+
+var regionSelect = document.getElementsByName('info-region');
+var infoRegionBtnList = document.querySelector('.info-region-ul');
+
+document.querySelector('.region-right').addEventListener('click', function () {
+    var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
+    var index = findChecked();
+
+    infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`
+    regionSelect[checkedRadioIndex].checked = true; 
+
+    moveMap(checkedRadioIndex + 1);
+
+    document.querySelector('.region-left').style.display = "block";
+
+    if (checkedRadioIndex === 9) {
+        document.querySelector('.region-right').style.display = "none";
+    }
+});
+
+document.querySelector('.region-left').addEventListener('click', function () {
+    var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
+    var index = findChecked();
+
+    var newCheck = checkedRadioIndex - 2;
+
+    infoRegionBtnList.style.left = `calc(100vw * -${newCheck})`
+    regionSelect[newCheck].checked = true;
+
+    var moveMapIndex = checkedRadioIndex - 1;
+
+    moveMap(moveMapIndex);
+
+    document.querySelector('.region-right').style.display = "block";
+
+    if (checkedRadioIndex === 2) {
+        document.querySelector('.region-left').style.display = "none";
+    }
+
+});
+
+function findChecked() {
+
+    for ( i = 0; i < regionSelect.length; i++) {
+        if (regionSelect[i].checked) {
+            return i ;
+        }
+    }
+}
+
+function moveMap(index) {
+
+    document.querySelector('.info-region-img-container img').src = `/img/tasmania-R${index}.png`;
+
+    var image = document.querySelector('.info-region-img-base');
+
+    image.style.height = "200%";
+
+    switch (index) {
+        case 1:
+            image.style.right = "-90%";
+            image.style.bottom = "-100%";
+            break;
+        case 2:
+            image.style.right = "10%";
+            image.style.bottom = "-80%";
+            break;
+        case 3:
+            image.style.right = "0%";
+            image.style.bottom = "0%";
+            break;
+        case 4:
+            image.style.right = "-30%";
+            image.style.bottom = "-60%";
+            break;
+        case 5:
+            image.style.right = "-70%";
+            image.style.bottom = "-50%";
+            break;
+        case 6:
+            image.style.right = "-70%";
+            image.style.bottom = "-50%";
+            break;
+        case 7:
+            image.style.right = "-90%";
+            image.style.bottom = "-50%";
+            break;
+        case 8:
+            image.style.right = "-60%";
+            image.style.bottom = "-20%";
+            break;
+        case 9:
+            image.style.right = "-70%";
+            image.style.bottom = "20%";
+            break;
+        case 10:
+            image.style.right = "-30%";
+            image.style.bottom = "20%";
+            break;
+    }
+
+}
+
+
+
+document.querySelector('.info-regions-more').addEventListener('click', function () {
+    document.querySelector('.info-regions-more').style.display = "none";
+    document.querySelector('.info-region-selector').style.display = "block";
+    document.querySelector('.info-region-selector').style.opacity = "100%";
+    
+    moveMap(1);
+});
+

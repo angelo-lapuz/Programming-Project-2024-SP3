@@ -7,56 +7,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/styleplanner.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
 </head>
 <body>
-
+    <!--
     <video id="bg-video" autoplay muted loop>
         <source src="~/img/TheAbels-portrait.mp4" type="video/mp4" />
     </video>
+    -->
 
-    <header>
-        <div class="brand-logo">
-            <a class="brand-logo-img" asp-controller="Home" asp-action="Index">
-                <img src="/img/logo2.png"/>
+    <header id="nav-area">
+       
+        <nav id="nav-container">
+
+            <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+                <img src="/img/logo2.png" />
+                <span id="brand-name">TAS PEAKS</span>
             </a>
-            <div class="brand-logo-link" >
-                PeakHUB</div>
-            
-        </div>
-        <nav class="navbar">
-            
-            <div class="nav-filler"></div>
-            <div class="navbar-links">
-                <ul class="navbar-list">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Peak" asp-action="Index">The Abels</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
-                    </li>
-                    
-                </ul>
-            </div>
             <label class="hamburger-menu">
                 <input id="hamburger-menu-checkbox" type="checkbox" />
             </label>
-
+            <div id="navlinks-container">
+                <ul class="navbar-list">
+                    <li class="nav-item">
+                        <a class="nav-link absolute-center" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
+                        <div class="nav-link-hover absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link absolute-center" asp-area="" asp-controller="Home" asp-action="Privacy">FORUM</a>
+                        <div class="nav-link-hover absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
+                        <div class="nav-link-hover absolute-center"></div>
+                    </li>
+                </ul>
+            </div>
         </nav>
+
     </header>
 
     
     <main>
         @RenderBody()
     </main>
-    
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
