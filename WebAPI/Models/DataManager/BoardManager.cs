@@ -22,6 +22,10 @@ public class BoardManager : IDataRepository<Board, int>
         return _context.Boards.ToList();
     }
 
+    public int GetBoardTotal() {
+        return _context.Boards.Count();
+    }
+
     public int Add(Board board)
     {
         _context.Boards.Add(board);

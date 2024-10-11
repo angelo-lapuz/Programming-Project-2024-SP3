@@ -1,0 +1,92 @@
+﻿@model PeakHub.ViewModels.Forum.ForumViewModel
+<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="forumContent">
+    <section id="forumMenu_1">
+        <div>
+            <img src="@Model.Board.ImageLink" alt="Board Image" />
+            <h4>@Model.Board.Name</h4>
+            <p>@Model.Board.Section</p>
+        </div>
+
+        <div>
+            @if (Model.User.userID != "0") {
+                <form asp-action="IndexPage" asp-controller="AddPost" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="UserID" value="@Model.User.userID" />
+                    <input type="hidden" name="boardID" value="@Model.Board.BoardID" />
+
+                    <button type="submit" class="btn-primary">Add Post</button>
+                </form>
+            }
+
+            <a href="@Url.Action("Index", "Board")" >
+                <button class="btn-primary">Go Back</button>
+            </a>
+        </div>
+    </section>
+
+    <section id="forumMain">
+        <div id="forumHeader">
+            <div id="forumUser">
+                <input id="userID" type="hidden" value="@Model.User.userID" />
+                <img src="@Model.User.profileImg" alt="Your Profile Image" />
+                <h3>@Model.User.username</h3>
+            </div>
+
+            <a id="backIcon" href="@Url.Action("Index", "Board")">
+                <i class="fa-solid fa-arrow-left"></i>
+                <p>Go Back</p>
+            </a>
+        </div>
+
+        <div id="forumPosts" class="post-container">
+            @if (Model.Posts.Count > 0) {
+                foreach (var postViewModel in @Model.Posts) {
+                    @await Html.PartialAsync("_post", postViewModel)
+                }
+            }
+            else { <h2>No Posts! Please Populate</h2> }
+        </div>
+    </section>
+
+    <section id="forumMenu_2">
+        <h3>Filters</h3>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
+    $("[id*='like_']").on("click", function () {
+        var userID = $("#userID").val();
+        if (userID == "0") return;
+
+        var postID = $(this).attr("id").split("_")[1];
+        var likeCount = parseInt($("#count_" + postID).text());
+        var hasLiked = $(this).hasClass("activeLike");
+
+        var action = hasLiked ? "UnlikePost" : "LikePost";
+        var type = hasLiked ? "DELETE" : "POST";
+
+        // AJAX Request
+        $.ajax({
+            url: `/Forum/${action}`,
+            type: `${type}`,
+            data: { postID: parseInt(postID), userID: userID },
+            success: function (response) {
+                console.log(response.message);
+                $("#count_" + postID).text(response.likes);
+
+                if (action == "LikePost") {
+                    $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
+                } else {
+                    $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
+                }
+            },
+            error: function (response) { console.log(response.message); }
+        });
+    });
+</script>

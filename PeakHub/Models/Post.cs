@@ -12,7 +12,7 @@ namespace PeakHub.Models
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
         public string Content { get; set; }
 
         [Required]
@@ -25,7 +25,10 @@ namespace PeakHub.Models
 
         [ForeignKey("Board")]
         public int BoardID { get; set; }
-        public virtual Board Board { get; set; }
+        [JsonIgnore] public virtual Board Board { get; set; }
+
+        public string ViewDate() => TransactionTimeUtc.ToString("dd/MM/yyyy");
+        public string ViewTime() => TransactionTimeUtc.ToString("hh:mm tt");
     }
 }
 

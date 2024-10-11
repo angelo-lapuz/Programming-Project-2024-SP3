@@ -1,0 +1,117 @@
+﻿@model PeakHub.ViewModels.Forum.AddPostViewModel
+<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div id="addContent">
+    <div id="postHeader">
+        <div id="postUser">
+            <input id="userID" type="hidden" value="@Model.User.userID" />
+            <img src="@Model.User.profileImg" alt="Your Profile Image" />
+            <h3>@Model.User.username</h3>
+        </div>
+
+        <a id="backIcon" href="@Url.Action("Index", "Board")">
+            <i class="fa-solid fa-arrow-left"></i>
+            <p>Go Back</p>
+        </a>
+    </div>
+
+    <div id="postForm">
+        <form method="post" enctype="multipart/form-data" asp-action="CreatePost">
+            @Html.AntiForgeryToken()
+
+            <!-- Hidden Fields -->
+            <input type="hidden" name="userID" value="@Model.User.userID" />
+            <input type="hidden" name="boardID" value="@Model.BoardID" />
+
+            <!-- Post content input -->
+            <textarea id="addPostContent" name="postContent" placeholder="What's on your mind?"></textarea>
+
+            <!-- Media upload input -->
+            <input type="file" id="addPostMedia" name="mediaFile" style="display: none" accept="image/*,video/mp4,video/webm" />
+            <div id="mediaView" style="display: none" ></div>
+
+            <div class="row-btn">
+                <button type="button" class="btn-secondary" id="addMediaFile">Add File</button>
+                <button type="button" class="btn-secondary deactivate" id="removeMediaFile">Remove File</button>
+            </div>
+
+            <!-- Error Message Display -->
+            <span asp-validation-for="postError" class="text-danger"></span>
+
+            <!-- Submit button -->
+            <div class="row-btn">
+                <button type="submit" id="addPostSubmit" class="btn-secondary deactivate">Submit</button>
+                <button type="button" id="cancelPost" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Cancel Add Post
+    $("#cancelPost").on("click", function () { 
+        window.location.href = `/Forum/Index?boardID=${@Model.BoardID}`;
+    });
+
+    function checkPostContentAndMedia() {
+        var content = $("#addPostContent");
+        var media = $("#addPostMedia")[0];
+        var btn = $("#addPostSubmit");
+
+        if (content.val().trim() == '' && media.files.length <= 0) {
+            btn.addClass("deactivate");
+        } else {
+            btn.removeClass("deactivate");
+        }
+    }
+
+    $("#addPostContent").on("keyup", function () {
+        checkPostContentAndMedia();
+    });
+
+    $("#addPostMedia").on("change", function () {
+        var view = $("#mediaView");
+        var media = $(this)[0];
+        var file = media.files[0];
+
+        if (file) {
+            $("#addMediaFile").addClass("deactivate");
+            $("#removeMediaFile").removeClass("deactivate");
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var content = '';
+
+                if (file.type.startsWith("image/")) {
+                    content = `<img src="${e.target.result}" alt="Image Preview" />`;
+                } else {
+                    content = `<video controls>
+                                <source src="${e.target.result}" type="${file.type}">
+                                Your browser does not support the video tag.
+                              </video>`;
+                }
+
+                view.html(content).show();
+            }
+
+            reader.readAsDataURL(file);
+        }
+
+        checkPostContentAndMedia();
+    });
+
+    $("#addMediaFile").on("click", function () { $("#addPostMedia").click(); });
+
+    $("#removeMediaFile").on("click", function () {
+        $("#addPostMedia").val('');
+        $("#mediaView").hide().empty();
+
+        $("#removeMediaFile").addClass("deactivate");
+        $("#addMediaFile").removeClass("deactivate");
+
+        checkPostContentAndMedia();
+    });
+</script>

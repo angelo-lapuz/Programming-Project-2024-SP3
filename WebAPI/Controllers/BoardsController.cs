@@ -2,7 +2,7 @@
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
 
-namespace WebApi.Controllers;
+namespace WebAPI.Controllers;
 
 // See here for more information:
 // https://learn.microsoft.com/en-au/aspnet/core/web-api/?view=aspnetcore-7.0
@@ -30,6 +30,12 @@ public class BoardsController : ControllerBase
     public Board Get(int id)
     {
         return _repo.Get(id);
+    }
+
+    // GET api/boards/total
+    [HttpGet("total")]
+    public int GetBoardTotal() {
+        return _repo.GetBoardTotal();
     }
 
     // POST api/boards

@@ -1,3 +1,4 @@
+using Amazon.Lambda;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using PeakHub.Utilities;
 using System.Net.Http.Headers;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +35,6 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<Tools>();
 
-
 // Configure the database context
 builder.Services.AddDbContext<PeakHubContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -55,6 +57,16 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 
+// Add AWS Lambda
+builder.Services.AddAWSService<IAmazonLambda>(new AWSOptions {
+    Credentials = new BasicAWSCredentials(
+        "AKIA47CRV67K66X4TPO5",
+        "/Ytm1pyEEjdAnvDPttBJ8rCuwpRG13laV0jXTe7q"
+    ),
+    Region = Amazon.RegionEndpoint.USEast1
+});
+
+builder.Services.AddScoped<Lambda_Calls>();
 
 // Add controllers with views
 builder.Services.AddControllersWithViews();
