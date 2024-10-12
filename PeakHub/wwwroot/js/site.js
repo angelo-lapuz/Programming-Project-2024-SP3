@@ -5,7 +5,24 @@
 
 
 let resizeTimer;
+
+let screenwidth = window.innerWidth;
+
+if (screenwidth > 1200) {
+    setHighResStyles();
+}
+
+
+var rootvar = document.querySelector(':root');
+function setHighResStyles() {
+    
+}
+
+
 window.addEventListener('resize', function () {
+
+    screenwidth = window.innerWidth;
+
     document.body.classList.add('no-transition');
 
     clearTimeout(resizeTimer);
@@ -111,11 +128,28 @@ vid.playbackRate = 0.75;
 var regionSelect = document.getElementsByName('info-region');
 var infoRegionBtnList = document.querySelector('.info-region-ul');
 
+var whereRegions = document.querySelectorAll('.info-region-select label');
+
+
+whereRegions.forEach((element, index) => {
+    if (screenwidth > 1200) {
+        element.addEventListener('click', function () {
+            regionSelect[index].checked = true;
+            moveMap(index + 1);
+        });
+    }
+});
+
+
+
+
 document.querySelector('.region-right').addEventListener('click', function () {
     var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
     var index = findChecked();
 
-    infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`
+    if (window.innerWidth < 1201) {
+        infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`
+    }
     regionSelect[checkedRadioIndex].checked = true; 
 
     moveMap(checkedRadioIndex + 1);
@@ -129,11 +163,11 @@ document.querySelector('.region-right').addEventListener('click', function () {
 
 document.querySelector('.region-left').addEventListener('click', function () {
     var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
-    var index = findChecked();
 
     var newCheck = checkedRadioIndex - 2;
-
-    infoRegionBtnList.style.left = `calc(100vw * -${newCheck})`
+    if (window.innerWidth < 1201) {
+        infoRegionBtnList.style.left = `calc(100vw * -${newCheck})`
+    }
     regionSelect[newCheck].checked = true;
 
     var moveMapIndex = checkedRadioIndex - 1;
@@ -162,61 +196,162 @@ function moveMap(index) {
     document.querySelector('.info-region-img-container img').src = `/img/tasmania-R${index}.png`;
 
     var image = document.querySelector('.info-region-img-base');
+    if (screenwidth < 1201) {
+        image.style.height = "200%";
 
-    image.style.height = "200%";
+        switch (index) {
+            case 1:
+                image.style.right = "-90%";
+                image.style.bottom = "-100%";
+                break;
+            case 2:
+                image.style.right = "10%";
+                image.style.bottom = "-80%";
+                break;
+            case 3:
+                image.style.right = "0%";
+                image.style.bottom = "0%";
+                break;
+            case 4:
+                image.style.right = "-30%";
+                image.style.bottom = "-60%";
+                break;
+            case 5:
+                image.style.right = "-70%";
+                image.style.bottom = "-50%";
+                break;
+            case 6:
+                image.style.right = "-70%";
+                image.style.bottom = "-50%";
+                break;
+            case 7:
+                image.style.right = "-90%";
+                image.style.bottom = "-50%";
+                break;
+            case 8:
+                image.style.right = "-60%";
+                image.style.bottom = "-20%";
+                break;
+            case 9:
+                image.style.right = "-70%";
+                image.style.bottom = "20%";
+                break;
+            case 10:
+                image.style.right = "-30%";
+                image.style.bottom = "20%";
+                break;
+        } 
+    } else {
+        image.style.height = "100%";
 
-    switch (index) {
-        case 1:
-            image.style.right = "-90%";
-            image.style.bottom = "-100%";
-            break;
-        case 2:
-            image.style.right = "10%";
-            image.style.bottom = "-80%";
-            break;
-        case 3:
-            image.style.right = "0%";
-            image.style.bottom = "0%";
-            break;
-        case 4:
-            image.style.right = "-30%";
-            image.style.bottom = "-60%";
-            break;
-        case 5:
-            image.style.right = "-70%";
-            image.style.bottom = "-50%";
-            break;
-        case 6:
-            image.style.right = "-70%";
-            image.style.bottom = "-50%";
-            break;
-        case 7:
-            image.style.right = "-90%";
-            image.style.bottom = "-50%";
-            break;
-        case 8:
-            image.style.right = "-60%";
-            image.style.bottom = "-20%";
-            break;
-        case 9:
-            image.style.right = "-70%";
-            image.style.bottom = "20%";
-            break;
-        case 10:
-            image.style.right = "-30%";
-            image.style.bottom = "20%";
-            break;
+        switch (index) {
+            case 1:
+                image.style.right = "-60%";
+                image.style.bottom = "-40%";
+                break;
+            case 2:
+                image.style.right = "-10%";
+                image.style.bottom = "-40%";
+                break;
+            case 3:
+                image.style.right = "-20%";
+                image.style.bottom = "0%";
+                break;
+            case 4:
+                image.style.right = "-40%";
+                image.style.bottom = "-20%";
+                break;
+            case 5:
+                image.style.right = "-60%";
+                image.style.bottom = "-20%";
+                break;
+            case 6:
+                image.style.right = "-60%";
+                image.style.bottom = "-20%";
+                break;
+            case 7:
+                image.style.right = "-75%";
+                image.style.bottom = "-20%";
+                break;
+            case 8:
+                image.style.right = "-55%";
+                image.style.bottom = "0%";
+                break;
+            case 9:
+                image.style.right = "-60%";
+                image.style.bottom = "15%";
+                break;
+            case 10:
+                image.style.right = "-40%";
+                image.style.bottom = "20%";
+                break;
+        }
     }
+    
+
+    
 
 }
 
-
+var regions = document.querySelectorAll('.info-region-select');
 
 document.querySelector('.info-regions-more').addEventListener('click', function () {
     document.querySelector('.info-regions-more').style.display = "none";
     document.querySelector('.info-region-selector').style.display = "block";
     document.querySelector('.info-region-selector').style.opacity = "100%";
-    
+
+    if (screenwidth > 1200) {
+
+        regions.forEach((element) => {
+            element.classList.add('buttonB');
+        });
+
+        document.getElementById('info-regions-container').style.overflow = "unset";
+
+    }
+
     moveMap(1);
 });
 
+let prevScrollPos = window.scrollY;
+var header = document.getElementById('nav-area')
+
+
+window.addEventListener('scroll', function () {
+
+    var currentScrollPos = window.scrollY;
+
+    //console.log(currentScrollPos);
+
+    if (prevScrollPos < currentScrollPos) {
+        header.classList.add('hide');
+    } else {
+        header.classList.remove('hide');
+    }
+
+    prevScrollPos = currentScrollPos;
+});
+
+
+window.addEventListener('resize', function () {
+
+    //var rs = getComputedStyle(rootvar);
+    //console.log(rs.getComputedStyle('--who-what-where'));
+
+    if (window.innerWidth > 900) {
+        rootvar.style.setProperty('--who-what-where', '6rem');
+    } else {
+        rootvar.style.setProperty('--who-what-where', '4rem');
+    }
+
+    if (window.innerWidth > 1200) {
+        
+        regions.forEach((element) => {
+            element.classList.add('buttonB');
+        });
+    } else {
+        regions.forEach((element) => {
+            element.classList.remove('buttonB');
+        });
+    }
+});

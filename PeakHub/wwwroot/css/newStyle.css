@@ -30,7 +30,7 @@ a {
     --temp: black;
     --navbar-height-s: 8rem;
     --shadow-down: 0px 2px 2px black;
-    --who-what-where: calc(var(--navbar-height-s) / 2);
+    --who-what-where: 4rem;
 }
 
 /* classes for style */
@@ -143,14 +143,25 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+.h1, h2, h3 {
+    text-align: center;
+    padding: 1rem 0;
+}
+
 /* Nav placement */
 
 #nav-area {
     width: 100%;
     height: var(--navbar-height-s);
-    position: sticky;
+    position: fixed;
     z-index: 10000;
-    background: linear-gradient(to bottom, var(--black-glass-50), transparent); 
+    background: linear-gradient(to bottom, var(--black-glass-50), transparent);
+    transition: all var(--animation-timing);
+    top: 0;
+}
+
+#nav-area.hide {
+    top: calc(var(--navbar-height-s) * -1);
 }
 
 #nav-container {
@@ -480,7 +491,7 @@ main {
     bottom: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 4rem;
+    font-size: var(--who-what-where);
     font-weight: 700;
     color: var(--grey);
     z-index: 10;
@@ -501,6 +512,7 @@ main {
     width: 100%;
     min-height: 100vh;
     margin: 0 auto;
+    padding: 2.5% 0;
 }
 /* WHAT info */
 
@@ -520,7 +532,14 @@ main {
     justify-content: space-between;
     justify-items: center;
     color: #133234;
+    gap: 1rem;
     padding: 1rem;
+}
+
+.info-text hr {
+    border: 2px solid var(--darkgreen);
+    width: 50%;
+    margin: 2rem auto;
 }
 
 .info-text.A {
@@ -595,7 +614,7 @@ main {
     width: 100%;
     height: calc(100% - var(--navbar-height-s));
     z-index: 4;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     color: white;
     text-shadow: none;
 }
@@ -610,6 +629,17 @@ main {
     bottom: 20%;
     left: 50%;
     transform: translateX(-50%);
+    transition: all var(--animation-timing);
+}
+
+/* container for the region selector (LEFt and RIGHT) in WHERE */
+
+.info-region-selector {
+    width: 100%;
+    height: var(--who-what-where);
+    position: relative;
+    display: none;
+    opacity: 0%;
     transition: all var(--animation-timing);
 }
 
@@ -694,23 +724,14 @@ main {
     visibility: hidden;
 }
 
-hr {
+.info-region-selector hr {
     border: 1px solid white;
     width: 50%;
     margin: 0 auto;
     box-shadow: var(--shadow-down);
 }
 
-/* container for the region selector (LEFt and RIGHT) in WHERE */
 
-.info-region-selector {
-    width: 100%;
-    height: var(--who-what-where);
-    position: relative;
-    display: none;
-    opacity: 0%;
-    transition: all var(--animation-timing);
-}
 
 /* container for WHERE map */
 
@@ -753,7 +774,7 @@ hr {
 
 #who-absolute-layer {
     position: absolute;
-    top; 0;
+    top: 0;
     left: 0;
     z-index: 100;
     width: 100vw;
@@ -771,13 +792,14 @@ hr {
     height: fit-content;
     grid-template-columns: 1fr;
     gap: 1rem;
-
+    padding: 2.5% 0;
+    align-items: center;
 
 }
 
 .info-who-text {
     color: #133234;
-    text-align: justify;
+    padding: 1rem;
 }
 
 .info-who-img {
@@ -787,6 +809,7 @@ hr {
 .info-who-img img {
     width: 100%;
     aspect-ratio: 16/9;
+
 }
 
 .come-say-hi-btn {
@@ -822,9 +845,9 @@ hr {
         font-size: 1.5rem;
     }
 
-    .info-regions-more {
-        font-size: 0.75rem;
-    }
+.info-regions-more {
+    font-size: 0.75rem;
+}
 }
 
 
@@ -929,12 +952,12 @@ hr {
 
     .info-abels-grid {
         grid-template-areas:
-            ' textA textA imgA'
-            ' . . imgA '
-            ' imgB textB textB '
-            ' imgB . . '
-            ' textC textC imgC '
-            ' . . imgC ';
+            ' textA textA textA imgA imgA'
+            ' . . . imgA imgA '
+            ' imgB imgB textB textB textB '
+            ' imgB imgB . . . '
+            ' textC textC textC imgC imgC '
+            ' . . . imgC imgC ';
         justify-content: space-between;
         justify-items: center;
         gap: 1.5rem;
@@ -945,14 +968,6 @@ hr {
     .info-text {
         padding: 1rem 0;
     }
-
-    .info-text hr {
-        border: 2px solid var(--darkgreen);
-        width: 50%;
-        margin-top: 2rem;
-
-    }
-
 
     .info-img.A, .info-img.C {
         box-shadow: 3px 3px 3px black;
@@ -980,6 +995,10 @@ hr {
 
     }
 
+    .info-who-text h2 {
+        text-align: right;
+    }
+
     .info-who-img {
         padding-right: 1rem;
         overflow-x: hidden;
@@ -997,12 +1016,31 @@ hr {
         bottom: 10%;
     }
 
-    /*
-        WHERE
+    #what-header span, #where-header span, #who-header span {
+        bottom: 1rem;
+    }   
 
-        make text box smaller and move everything towards the middle
+    .info-region-text {
+        width: 600px;
+        margin: 0 auto;
+      
+    }
 
-    */
+    .info-regions-more {
+        bottom: 40%;
+    }
+
+    .region-left {
+        left: calc(50% - 19rem);
+    }
+
+    .region-right {
+        right: calc(50% - 19rem);
+    }
+
+    .info-region-selector hr {
+        width: 20rem;
+    }
 
 }
 
@@ -1010,22 +1048,79 @@ hr {
 
 @media screen and (min-width:1201px) {
 
+    .info-regions-more {
+        bottom: 20%;
+    }
 
+    .info-region-selector {
+        width: 25%;
+        height: 90%;
+        position: absolute;
+        align-content: center;
+        transition: all var(--animation-timing);
+    }
 
-    /* TO DO
-
-        set static size for ARE YOU ABEL
-        WHAT WHERE WHO to go horizontal
-
-
-        WHERE
-
-        selectable options to appear as a vertical stack to the left. Text to the middle. Map to the mid/right.
+    .info-region-selector hr {
+        transform:rotate(90deg);
+        width: 50vh;
+        transform-origin: left;
+        position: absolute;
+        left: 100%;
+        top: 25%;
         
+    }
+
+    .info-region-list {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .info-region-ul {
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0 3rem;
+    }
+
+    .info-region-select {
+        position: relative;
+        width: 100%;
+        display: block;
+        opacity: 100;
+        visibility: visible;
+        line-height: 1.25rem;
+    }
+
+  
+
+    .info-region-select label {
+        font-size: 1.25rem;
+        cursor: pointer;
+    }
+
+    .region-left {
+        left: 165%;
+        top: 95%;
+    }
+
+    .region-right {
+        left: 215%;
+        top: 95%;
+    }
+
+    .info-region-select:has(input:checked) {
+        background: var(--grey);
+        color: var(--darkgreen);
+    }
+
+    .info-region-select:hover {
+        background: var(--darkgreen);
+        
+    }
 
 
-
-    */
 }
 
 

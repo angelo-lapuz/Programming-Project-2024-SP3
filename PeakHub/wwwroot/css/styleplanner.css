@@ -72,17 +72,17 @@ header {
 
 }
 
-    .brand-logo-img img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        transform: rotate(10deg);
-        animation: rock 1s alternate infinite, roll 1s alternate infinite;
-        z-index: 3;
-        border-radius: 50%;
-        box-shadow: -1px 2px 1px black;
-    }
+.brand-logo-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: rotate(10deg);
+    animation: rock 1s alternate infinite, roll 1s alternate infinite;
+    z-index: 3;
+    border-radius: 50%;
+    box-shadow: -1px 2px 1px black;
+}
 
 @keyframes rock {
     0% {
