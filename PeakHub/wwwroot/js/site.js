@@ -3,21 +3,38 @@
 
 // Write your JavaScript code.
 
-
 let resizeTimer;
-
 let screenwidth = window.innerWidth;
 
-if (screenwidth > 1200) {
-    setHighResStyles();
+if (screenwidth < 601) {
+    setLowRes();
 }
 
+if (screenwidth > 900 && screenwidth < 1201) {
+    setMidRes();
+}
+
+if (screenwidth > 1200) {
+    setHighRes();
+}
 
 var rootvar = document.querySelector(':root');
-function setHighResStyles() {
-    
+var regions = document.querySelectorAll('.info-region-select');
+function setSmolRes() {
+    rootvar.style.setProperty('--who-what-where', '4rem');
 }
 
+function setMidRes() {
+    rootvar.style.setProperty('--who-what-where', '6rem');
+    regions.forEach((element) => {
+        element.classList.remove('buttonB');
+    });
+}
+function setHighRes() {
+    regions.forEach((element) => {
+        element.classList.add('buttonB');
+    });
+}
 
 window.addEventListener('resize', function () {
 
@@ -29,8 +46,11 @@ window.addEventListener('resize', function () {
     resizeTimer = setTimeout(function () {
         document.body.classList.remove('no-transition');
     }, 250); // delay in ms to wait for the resize to finish
-});
 
+    //var rs = getComputedStyle(rootvar);
+    //console.log(rs.getComputedStyle('--who-what-where'));
+
+});
 
 const difficultyMap = {
     1: 'All',
@@ -41,7 +61,6 @@ const difficultyMap = {
 
 var difficultySlider = document.getElementById('filter-difficultySlider');
 var difficultyValue = document.getElementById('difficulty-value');
-
 var difficultyInput = document.getElementById('filter-difficulty');
 
 if (difficultySlider) { 
@@ -49,7 +68,6 @@ if (difficultySlider) {
         const difficultyLabel = difficultyMap[difficultySlider.value];
         difficultyValue.textContent = difficultyLabel;
         difficultyInput.value = (difficultyLabel === 'All') ? '' : difficultyLabel.charAt(0);
-
     });
 }
 
@@ -82,7 +100,6 @@ var infoBox = document.querySelector('.info-data');
 
 if (infoBtn) {
     infoBtn.addEventListener('click', function () {
-
         infoBox.classList.toggle("show");
     });
 }
@@ -99,7 +116,6 @@ var routeContainer = document.querySelector('.route-container');
 if (routeToggle) {
     routeToggle.addEventListener('click', function () {
         routeContainer.classList.toggle("show");
-
     });
 }
 
@@ -114,9 +130,7 @@ var regionsToggle = document.querySelector('.region-links-toggle');
 var regionsBox = document.querySelector('.sections-container');
 
 if (regionsToggle) {
-
     regionsToggle.addEventListener('click', function () {
-
         regionsBox.classList.toggle('show');
     });
 }
@@ -127,7 +141,6 @@ vid.playbackRate = 0.75;
 
 var regionSelect = document.getElementsByName('info-region');
 var infoRegionBtnList = document.querySelector('.info-region-ul');
-
 var whereRegions = document.querySelectorAll('.info-region-select label');
 
 
@@ -145,7 +158,6 @@ whereRegions.forEach((element, index) => {
 
 document.querySelector('.region-right').addEventListener('click', function () {
     var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
-    var index = findChecked();
 
     if (window.innerWidth < 1201) {
         infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`
@@ -287,13 +299,7 @@ function moveMap(index) {
                 break;
         }
     }
-    
-
-    
-
 }
-
-var regions = document.querySelectorAll('.info-region-select');
 
 document.querySelector('.info-regions-more').addEventListener('click', function () {
     document.querySelector('.info-regions-more').style.display = "none";
@@ -308,8 +314,7 @@ document.querySelector('.info-regions-more').addEventListener('click', function 
 
         document.getElementById('info-regions-container').style.overflow = "unset";
 
-    }
-
+    } 
     moveMap(1);
 });
 
@@ -332,26 +337,3 @@ window.addEventListener('scroll', function () {
     prevScrollPos = currentScrollPos;
 });
 
-
-window.addEventListener('resize', function () {
-
-    //var rs = getComputedStyle(rootvar);
-    //console.log(rs.getComputedStyle('--who-what-where'));
-
-    if (window.innerWidth > 900) {
-        rootvar.style.setProperty('--who-what-where', '6rem');
-    } else {
-        rootvar.style.setProperty('--who-what-where', '4rem');
-    }
-
-    if (window.innerWidth > 1200) {
-        
-        regions.forEach((element) => {
-            element.classList.add('buttonB');
-        });
-    } else {
-        regions.forEach((element) => {
-            element.classList.remove('buttonB');
-        });
-    }
-});

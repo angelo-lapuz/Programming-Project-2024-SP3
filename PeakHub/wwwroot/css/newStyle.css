@@ -47,6 +47,10 @@ a {
     height: auto;
 }
 
+.transition {
+    transition: all var(--animation-timing);
+}
+
 .buttonA, .buttonA-G, .buttonB {
     border: 2px solid white;
     border-radius: 999px;
@@ -148,6 +152,8 @@ body {
     padding: 1rem 0;
 }
 
+
+
 /* Nav placement */
 
 #nav-area {
@@ -156,7 +162,6 @@ body {
     position: fixed;
     z-index: 10000;
     background: linear-gradient(to bottom, var(--black-glass-50), transparent);
-    transition: all var(--animation-timing);
     top: 0;
 }
 
@@ -295,7 +300,6 @@ body {
     background: linear-gradient(to bottom, var(--black-glass-50), var(--lightgreen) var(--navbar-height-s), var(--lightgreen) 40%, transparent);
     text-align: center;
     overflow: hidden;
-    transition: all var(--animation-timing);
     transform-origin: right;
     overflow: hidden;
     z-index: 99;
@@ -332,7 +336,6 @@ body {
     text-shadow: var(--shadow-down);
     display: block;
     z-index: 5;
-    transition: all var(--animation-timing);
     letter-spacing: 0.25rem;
 }
 
@@ -346,10 +349,7 @@ body {
     border-radius: 50%;
     margin: 0 auto;
     background: var(--grey);
-    transition: all var(--animation-timing);
 }
-
-
 
 /* MAIN - DO NOT tweak this */
 
@@ -388,7 +388,6 @@ main {
     opacity: 100%;
 }
 
-
 /* cointainer for home screen text */
 .home-typewriter {
     color: white;
@@ -399,9 +398,7 @@ main {
     text-align: center;
     display: block;
     margin: 0 auto;
-    line-height: 15vw; /* change this for responsive */
-
-    
+    line-height: 15vw; /* change this for responsive */   
 }
 
 
@@ -435,7 +432,6 @@ main {
         border-color: var(--yellow);
     }
 }
-
 
 /* WHAT WHERE WHO */
 .home-3w-anchors {
@@ -482,8 +478,7 @@ main {
     position: relative;
     height: var(--who-what-where);
     width: 100%;
-    background: var(--lightgreen);
-    
+    background: var(--lightgreen); 
 }
 
 #what-header span, #where-header span, #who-header span {
@@ -571,7 +566,6 @@ main {
     aspect-ratio: 16/9;
 }
 
-
 /* WHERE section */
 
 #where-header {
@@ -629,7 +623,6 @@ main {
     bottom: 20%;
     left: 50%;
     transform: translateX(-50%);
-    transition: all var(--animation-timing);
 }
 
 /* container for the region selector (LEFt and RIGHT) in WHERE */
@@ -640,7 +633,6 @@ main {
     position: relative;
     display: none;
     opacity: 0%;
-    transition: all var(--animation-timing);
 }
 
 
@@ -667,7 +659,6 @@ main {
     display: block;
 }
 
-
 /* list of region selectors */
 
 .info-region-list {
@@ -686,7 +677,6 @@ main {
     height: 100%;
     display: flex;
     flex-direction: row;
-    transition: all var(--animation-timing);
 }
 
 .info-region-select {
@@ -731,8 +721,6 @@ main {
     box-shadow: var(--shadow-down);
 }
 
-
-
 /* container for WHERE map */
 
 .info-region-img-container {
@@ -751,7 +739,6 @@ main {
     position: absolute;
     right: 0;
     bottom: 0;
-    transition: all var(--animation-timing);
 }
 
 .info-region-select {

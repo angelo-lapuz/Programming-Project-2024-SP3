@@ -16,10 +16,8 @@
     </video>
     -->
 
-    <header id="nav-area">
-       
+    <header id="nav-area" class="transition">
         <nav id="nav-container">
-
             <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
                 <img src="/img/logo2.png" />
                 <span id="brand-name">TAS PEAKS</span>
@@ -27,11 +25,11 @@
             <label class="hamburger-menu">
                 <input id="hamburger-menu-checkbox" type="checkbox" />
             </label>
-            <div id="navlinks-container">
+            <div id="navlinks-container" class="transition">
                 <ul class="navbar-list">
                     <li class="nav-item">
-                        <a class="nav-link absolute-center" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
-                        <div class="nav-link-hover absolute-center"></div>
+                        <a class="nav-link transition absolute-center" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
+                        <div class="nav-link-hover transition absolute-center"></div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link absolute-center" asp-area="" asp-controller="Home" asp-action="Privacy">FORUM</a>
