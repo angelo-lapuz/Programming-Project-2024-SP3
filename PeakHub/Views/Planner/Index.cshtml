@@ -3,6 +3,18 @@
     @using Newtonsoft.Json;
     Layout = "_Layout";
     var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
+    var userroutes = JsonConvert.SerializeObject(ViewBag.Routes);
+
+    // chehcks if user is logged in - used to disable other features
+    if (ViewBag.userL == null)
+    {
+        ViewBag.userL = false;
+    }
+    else
+    {
+        ViewBag.userL = true;
+    }
+
 }
 
 <!DOCTYPE html>
@@ -14,7 +26,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
-    <link rel="stylesheet" href="~/css/styleplanner.css" asp-append-version="true" />
+
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,21 +34,27 @@
 <body>
 
     <script>
-        var peaksData = @Html.Raw(tasks);
+        var peaksData = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Peaks));
+        var userPeaks = @Html.Raw(JsonConvert.SerializeObject(ViewBag.userPeaks));
+        var userRoutes = JSON.parse(@Html.Raw(userroutes));
+        var user = @ViewBag.userL.ToString().ToLower();
     </script>
 
-    <div class="container">
+
+    <div id="banner"></div>
+    <div id="planner-container">
+        
         <div class="filter-container">
             <div class="filter-options">
                 <button class="filter-toggle">Filters</button>
                 <div class="filter-selections">
                     <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
                     <span id="difficulty-value">Difficulty</span>
-                    <input type="range" id="filter-elevation" min="1000" max="1600" step="100" value="0">
+                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
                     <span id="elevation-value">Elevation</span>
                     <input type="text" id="search-name" placeholder="Enter Peak name">
                     <input type="hidden" id="filter-difficulty" />
-                    <button id="apply-filters">Apply</button>  
+                    <button id="apply-filters">Apply</button>
                 </div>
                 <div class="filter-results">
                     <table class="filter-results-table">
@@ -58,7 +76,7 @@
             <div class="info-data"></div>
             <div id="map"></div>
         </div>
-        
+
         <div class="route-container">
             <div class="route-content">
                 <div class="plannerBtns">
@@ -66,6 +84,7 @@
                     <button id="undo" class="planner-button">Undo</button>
                     <button id="finish" class="planner-button">Finish</button>
                     <button id="clear" class="planner-button">Clear</button>
+                    <button id="saveBtn" class="saveBtn">Save</button>
                 </div>
                 <div class="chart-container">
                     <canvas id="elevationChart"></canvas>
@@ -76,14 +95,18 @@
             </div>
         </div>
 
-        
-
         <div class="sections-container">
             <span>REGION LINKS</span>
             <div id="section-boxes" class="regions-box"></div>
             <button class="region-links-toggle">Regions</button>
         </div>
-        
+
+        <div class="routeList-container">
+            <span>ROUTE LIST</span>
+            <div id="route-box" class="route-box"></div>
+            <button class="routeList-toggle">My Routes</button>
+        </div>
+
     </div>
 
     <script src="~/js/map.js"></script>

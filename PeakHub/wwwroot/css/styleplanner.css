@@ -317,7 +317,6 @@ video {
     right: 0;
     background-color: var(--darkgreen);
     transition: height var(--animation-timing);
-
     z-index: 2;
 }
 
