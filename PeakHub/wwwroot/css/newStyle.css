@@ -140,7 +140,7 @@ a {
     border-bottom: 3px solid white;
     transform-origin: center;
     box-shadow: -2px 2px 2px black;
-    transition: all 3s ease-in-out;
+    transition: all 1s ease-in-out;
 }
 
 .chevron.left {
@@ -352,6 +352,10 @@ body {
 
 .nav-link:hover + .nav-link-hover {
     width: 110%;
+}
+
+.nav-link-hover {
+    border: 1px solid red;
 }
 
 .nav-link {
@@ -887,14 +891,12 @@ main {
 
 @media screen and (min-width:601px) {
 
+
     body {
         font-size: 1.5rem;
         line-height: 2rem;
     }
 
-    .navbar-list {
-        height: 10%;
-    }
 
     .chevron-container, .chevron-container-up {
         height: 4rem;
@@ -924,7 +926,7 @@ main {
 
     .nav-item {
         font-size: 2rem;
-        height: 100%;
+        height: 5rem;
     }
 
     .nav-link:hover {

@@ -158,12 +158,12 @@ if (routeToggle) {
     });
 }
 
-var hamburgerBox = document.querySelector('.hamburger-menu input');
-var navBar = document.querySelector('.navbar-links');
+//var hamburgerBox = document.querySelector('.hamburger-menu input');
+//var navBar = document.querySelector('.navbar-links');
 
-hamburgerBox.addEventListener('change', function () {
-    navBar.classList.toggle('show');
-})
+//hamburgerBox.addEventListener('change', function () {
+//    navBar.classList.toggle('show');
+//})
 
 var regionsToggle = document.querySelector('.region-links-toggle');
 var regionsBox = document.querySelector('.sections-container');
