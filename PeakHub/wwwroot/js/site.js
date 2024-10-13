@@ -5,35 +5,54 @@
 
 let resizeTimer;
 let screenwidth = window.innerWidth;
+setResStyles(screenwidth);
 
-if (screenwidth < 601) {
-    setLowRes();
+function setResStyles(width) {
+    if (width < 601) {
+        setMidRes();
+        setLowRes();
+    }
+
+    if (width > 900 && width < 1201) {
+        setMidRes();
+    }
+
+    if (width > 1200) {
+        setMidRes();
+        setHighRes();
+    }
 }
 
-if (screenwidth > 900 && screenwidth < 1201) {
-    setMidRes();
-}
 
-if (screenwidth > 1200) {
-    setHighRes();
-}
 
 var rootvar = document.querySelector(':root');
 var regions = document.querySelectorAll('.info-region-select');
-function setSmolRes() {
+function setLowRes() {
+
+    var rootvar = document.querySelector(':root');
     rootvar.style.setProperty('--who-what-where', '4rem');
 }
 
 function setMidRes() {
+
+    var rootvar = document.querySelector(':root');
+    var regions = document.querySelectorAll('.info-region-select');
     rootvar.style.setProperty('--who-what-where', '6rem');
+
     regions.forEach((element) => {
         element.classList.remove('buttonB');
     });
 }
 function setHighRes() {
+
+    var regions = document.querySelectorAll('.info-region-select');
+
     regions.forEach((element) => {
         element.classList.add('buttonB');
     });
+
+    document.querySelector('.info-region-img-base').style.height = "100";
+
 }
 
 window.addEventListener('resize', function () {
@@ -47,9 +66,29 @@ window.addEventListener('resize', function () {
         document.body.classList.remove('no-transition');
     }, 250); // delay in ms to wait for the resize to finish
 
+    setResStyles(screenwidth);
+
     //var rs = getComputedStyle(rootvar);
     //console.log(rs.getComputedStyle('--who-what-where'));
 
+});
+
+let prevScrollPos = window.scrollY;
+var header = document.getElementById('nav-area')
+
+window.addEventListener('scroll', function () {
+
+    var currentScrollPos = window.scrollY;
+
+    //console.log(currentScrollPos);
+
+    if (prevScrollPos < currentScrollPos) {
+        header.classList.add('hide');
+    } else {
+        header.classList.remove('hide');
+    }
+
+    prevScrollPos = currentScrollPos;
 });
 
 const difficultyMap = {
@@ -149,6 +188,19 @@ whereRegions.forEach((element, index) => {
         element.addEventListener('click', function () {
             regionSelect[index].checked = true;
             moveMap(index + 1);
+
+            if (regionSelect[0].checked) {
+                document.querySelector('.region-left').style.display = "none";
+            } else {
+                document.querySelector('.region-left').style.display = "block";
+            }
+
+            if (regionSelect[9].checked) {
+                document.querySelector('.region-right').style.display = "none";
+            } else {
+                document.querySelector('.region-right').style.display = "block";
+            }
+        
         });
     }
 });
@@ -208,8 +260,8 @@ function moveMap(index) {
     document.querySelector('.info-region-img-container img').src = `/img/tasmania-R${index}.png`;
 
     var image = document.querySelector('.info-region-img-base');
-    if (screenwidth < 1201) {
-        image.style.height = "200%";
+    if (window.innerWidth < 1201) {
+        image.style.width = "200%";
 
         switch (index) {
             case 1:
@@ -254,48 +306,48 @@ function moveMap(index) {
                 break;
         } 
     } else {
-        image.style.height = "100%";
+        image.style.width = "100%";
 
         switch (index) {
             case 1:
-                image.style.right = "-60%";
-                image.style.bottom = "-40%";
+                image.style.right = "-40%";
+                image.style.top = "30%";
                 break;
             case 2:
-                image.style.right = "-10%";
-                image.style.bottom = "-40%";
+                image.style.right = "15%";
+                image.style.top = "30%";
                 break;
             case 3:
-                image.style.right = "-20%";
-                image.style.bottom = "0%";
+                image.style.right = "5%";
+                image.style.top = "-20%";
                 break;
             case 4:
-                image.style.right = "-40%";
-                image.style.bottom = "-20%";
+                image.style.right = "-15%";
+                image.style.top = "10%";
                 break;
             case 5:
-                image.style.right = "-60%";
-                image.style.bottom = "-20%";
+                image.style.right = "-40%";
+                image.style.top = "10%";
                 break;
             case 6:
-                image.style.right = "-60%";
-                image.style.bottom = "-20%";
+                image.style.right = "-40%";
+                image.style.top = "10%";
                 break;
             case 7:
-                image.style.right = "-75%";
-                image.style.bottom = "-20%";
+                image.style.right = "-55%";
+                image.style.top = "10%";
                 break;
             case 8:
-                image.style.right = "-55%";
-                image.style.bottom = "0%";
+                image.style.right = "-40%";
+                image.style.top = "-20%";
                 break;
             case 9:
-                image.style.right = "-60%";
-                image.style.bottom = "15%";
+                image.style.right = "-40%";
+                image.style.top = "-30%";
                 break;
             case 10:
-                image.style.right = "-40%";
-                image.style.bottom = "20%";
+                image.style.right = "-20%";
+                image.style.top = "-30%";
                 break;
         }
     }
@@ -318,22 +370,5 @@ document.querySelector('.info-regions-more').addEventListener('click', function 
     moveMap(1);
 });
 
-let prevScrollPos = window.scrollY;
-var header = document.getElementById('nav-area')
 
-
-window.addEventListener('scroll', function () {
-
-    var currentScrollPos = window.scrollY;
-
-    //console.log(currentScrollPos);
-
-    if (prevScrollPos < currentScrollPos) {
-        header.classList.add('hide');
-    } else {
-        header.classList.remove('hide');
-    }
-
-    prevScrollPos = currentScrollPos;
-});
 

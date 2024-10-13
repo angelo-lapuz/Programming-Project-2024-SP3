@@ -388,7 +388,7 @@ main {
     opacity: 100%;
 }
 
-/* cointainer for home screen text */
+/* container for home screen text */
 .home-typewriter {
     color: white;
     font-size: 9vw;
@@ -491,6 +491,7 @@ main {
     color: var(--grey);
     z-index: 10;
 }   
+
 
 #what-container {
     position: relative;
@@ -725,17 +726,17 @@ main {
 
 .info-region-img-container {
     width: 70%;
+    max-width: 700px;
     aspect-ratio: 1/1;
-    position:absolute;
-    bottom: 10rem;
+    position: absolute;
+    top: 50%;
     right: 50%;
-    transform: translateX(50%);
+    transform: translate(50%, -50%);
     z-index: 1;
 }
 
-
 .info-region-img-base {
-    height: 100%;
+    width: 100%;
     position: absolute;
     right: 0;
     bottom: 0;
@@ -824,7 +825,8 @@ main {
 
 
 @media screen and (max-width:600px) {
-        .brand-logo-container img {
+
+    .brand-logo-container img {
         height: 60%;
     }
 
@@ -832,11 +834,10 @@ main {
         font-size: 1.5rem;
     }
 
-.info-regions-more {
-    font-size: 0.75rem;
+    .info-regions-more {
+        font-size: 0.75rem;
+    }
 }
-}
-
 
 @media screen and (min-width:601px) {
 
@@ -887,6 +888,12 @@ main {
     .info-region-select label {
         font-size: 2rem;
     }
+
+
+    /* HERE HERE */
+    .navbar-list {
+        border: 1px solid red;
+    }
 }
 
 
@@ -915,9 +922,10 @@ main {
         
     }
 
-    .navbar-list li {
-        align-self: center;
-    }
+        .navbar-list li {
+            align-self: center;
+            border: 1px solid red;
+        }
 
     .nav-link {
         letter-spacing: 0rem;
@@ -1014,7 +1022,7 @@ main {
     }
 
     .info-regions-more {
-        bottom: 40%;
+        bottom: 20%;
     }
 
     .region-left {
@@ -1107,9 +1115,51 @@ main {
         
     }
 
+    .info-region-img-container {
+        width: 50%;
+        right: 30%;
+    }
 
-}
+    #where-header span {
+        width: 100%;
+        background: var(--grey) 1rem;
+        height: 100%;
+        top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+    }
 
+    #where-header span h2{
+        position: absolute;
+        height: 100%;
+        font-size: 6rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-end;
+        justify-content: center;
+    }
+
+    .home-typewriter {
+        font-size: 7rem;
+    }
+
+    .home-3w-anchors {
+        flex-direction: row;
+    }
+
+    .home-3w-a, .home-3a-a:visited {
+        width: 15rem;
+    }
+
+    .home-3w-a:hover {
+        width: 23rem;
+    }
+
+    .home-3w-a:hover div {
+        width: 15rem;
+    }
 
 
 
