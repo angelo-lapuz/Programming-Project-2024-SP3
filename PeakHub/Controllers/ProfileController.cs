@@ -1,9 +1,7 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PeakHub.ViewModels;
 using PeakHub.Models;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using PeakHub.ViewModels;
 using System.Text;
 
 namespace PeakHub.Controllers
@@ -12,6 +10,7 @@ namespace PeakHub.Controllers
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<ProfileController> _logger;
+        private readonly string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
         private HttpClient _httpClient => _clientFactory.CreateClient("api");
 
 
@@ -24,21 +23,39 @@ namespace PeakHub.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // gets user object from db
-            var response = await _httpClient.GetAsync($"api/users/GetUser");
-            var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
+            var response = await _httpClient.GetAsync("api/users/GetUser");
+            var content = await response.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<User>(content);
 
-            ViewBag.UserName = user.UserName;
-            ViewBag.Peaks = user.UserPeaks.Select(up => up.Peak).ToList();
-            ViewBag.Awards = user.UserAwards.Select(up => up.Award).ToList();
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
 
-            return View();
+            string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
+            string profileImg = !string.IsNullOrEmpty(user.ProfileIMG) ? user.ProfileIMG : defaultImg;
+
+            var profileViewModel = new ProfileViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                TotalCompleted = user.UserPeaks.Count,
+                Peaks = user.UserPeaks.Select(up => up.Peak).ToList(),
+                Awards = user.UserAwards.Select(ua => ua.Award).ToList(),
+                ProfileImg = profileImg
+            };
+
+            ViewBag.UserName = profileViewModel.UserName;
+            ViewBag.Peaks = profileViewModel.Peaks;
+            ViewBag.Awards = profileViewModel.Awards;
+            ViewBag.ProfileImg = profileViewModel.ProfileImg;
+
+            return View(profileViewModel);
         }
 
 
         public async Task<IActionResult> EditDetails()
         {
-            // gets user object from db
             var response = await _httpClient.GetAsync($"api/users/GetUser");
             var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
@@ -83,13 +100,12 @@ namespace PeakHub.Controllers
             _logger.LogInformation(result.ToString());
             if (result.IsSuccessStatusCode)
             {
-                // return on success // do other stuff
+
                 _logger.LogInformation("success");
                 return View(user);
             }
             else
             {
-                // return ? on fail // do other stuff - maybe Viewmodel errors
                 _logger.LogInformation("failed");
                 return BadRequest(new { error = "Failed to update user with new route." });
             }
@@ -102,7 +118,6 @@ namespace PeakHub.Controllers
             return View();
         }
 
-        // changes password given by user
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -122,7 +137,6 @@ namespace PeakHub.Controllers
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
                 response = await _httpClient.PostAsync("api/users/ChangePassword", content);
 
-                // return to profile page if changed successfully
                 if (!response.IsSuccessStatusCode)
                 {
 
@@ -140,5 +154,6 @@ namespace PeakHub.Controllers
 
             return View(model);
         }
+
     }
 }
