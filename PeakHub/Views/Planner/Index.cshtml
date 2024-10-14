@@ -43,18 +43,20 @@
 
     <div id="banner"></div>
     <div id="planner-container">
-        
         <div class="filter-container">
+            <div class="filter-toggle-component  ">
+                <button class="filter-toggle"><pre><i class="fa-solid fa-filter"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
+            </div>
             <div class="filter-options">
-                <button class="filter-toggle">Filters</button>
-                <div class="filter-selections">
+               
+                <div class="filter-selections absolute-center ">
                     <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
                     <span id="difficulty-value">Difficulty</span>
-                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
+                    <input type="range" id="filter-elevation" min="1100" max="1600" step="100" value="0">
                     <span id="elevation-value">Elevation</span>
                     <input type="text" id="search-name" placeholder="Enter Peak name">
                     <input type="hidden" id="filter-difficulty" />
-                    <button id="apply-filters">Apply</button>
+                    <button id="apply-filters" class="buttonB">Apply</button>
                 </div>
                 <div class="filter-results">
                     <table class="filter-results-table">
@@ -80,19 +82,20 @@
         <div class="route-container">
             <div class="route-content">
                 <div class="plannerBtns">
-                    <button id="draw-route" class="planner-buttos">Draw Route</button>
-                    <button id="undo" class="planner-button">Undo</button>
-                    <button id="finish" class="planner-button">Finish</button>
-                    <button id="clear" class="planner-button">Clear</button>
-                    <button id="saveBtn" class="saveBtn">Save</button>
+                    <button id="draw-route" class="buttonB"><i class="fa-solid fa-pencil"></i></button>
+                    <button id="undo" class="buttonB"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button id="finish" class="buttonB">Finish</button>
+                    <button id="clear" class="buttonB"><i class="fa-solid fa-trash-can"></i></button>
+                    <button id="saveBtn" class="saveBtn buttonB"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
                 <div class="chart-container">
                     <canvas id="elevationChart"></canvas>
                 </div>
             </div>
-            <div class="route-toggle-component">
-                <button class="route-toggle">Routing</button>
-            </div>
+            
+        </div>
+        <div class="route-toggle-component">
+            <button class="route-toggle"><pre><i class="fa-solid fa-route"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
         </div>
 
         <div class="sections-container">
@@ -110,5 +113,6 @@
     </div>
 
     <script src="~/js/map.js"></script>
+    <script src="~/js/planner.js"></script>
 </body>
 </html>

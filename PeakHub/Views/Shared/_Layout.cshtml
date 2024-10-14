@@ -7,15 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
 </head>
 <body>
-    <!--
-    <video id="bg-video" autoplay muted loop>
-        <source src="~/img/TheAbels-portrait.mp4" type="video/mp4" />
-    </video>
-    -->
-
     <header id="nav-area" class="transition">
         <nav id="nav-container">
             <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
@@ -42,10 +37,7 @@
                 </ul>
             </div>
         </nav>
-
     </header>
-
-    
     <main>
         @RenderBody()
     </main>

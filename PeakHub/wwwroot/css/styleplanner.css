@@ -331,36 +331,30 @@ video {
     height: 10rem;
 }
 
+
 .filter-toggle {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    border: 2px solid white;
 }
+
 
 .filter-selections {
     width: 100%;
     height: 8rem;
     margin: auto;
     display: grid;
-    grid-template-columns: 60% 30%;
+    grid-template-columns: 70% 20%;
     justify-content: space-around;
     align-content: space-around;
     position: absolute;
     text-align: center;
-    gap: 2px;
-    
-}
-
-.filter-selections {
-    display: grid;
-    height: fit-content;
-    grid-template-columns: 70% 20%;
     gap: 1rem;
     padding: 0.5rem;
-    justify-content: space-around;
-    color: var(--grey);
 }
+
 
 #filter-options > * {
     align-self: center;
@@ -373,6 +367,10 @@ video {
 /* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
 input[type="range"] {
     width: 100%;
+}
+
+#apply-filters {
+    font-size: 1rem;
 }
 
 .filter-results {
@@ -409,6 +407,7 @@ input[type="range"] {
     border: 1px solid black;
     text-align: left;
 }
+
 
 /* END of filter function */
 
@@ -501,7 +500,7 @@ input[type="range"] {
 }
 
 .plannerBtns > button {
-    font-size: 0.75rem;
+    font-size: 1rem;
     width: 5rem;
 }
 
@@ -564,10 +563,22 @@ input[type="range"] {
 }
 
 
+#apply-filters.buttonB {
+    font-size: 2rem;
+}
+
+
+
+@media only screen and
 
 
 
 
+
+
+
+
+/*
 
 @media only screen and (min-width: 900px) {
 
@@ -575,7 +586,7 @@ input[type="range"] {
 
     .filter-container {
         /*background: linear-gradient(to right, transparent, rgb(255,255,255, 0.5) 2%, var(--grey));
-        box-shadow: 0px 0px 5px var(--grey);*/
+        box-shadow: 0px 0px 5px var(--grey);
         width: 0rem;
         height: 100%;
         background: var(--grey-glass);
@@ -620,7 +631,7 @@ input[type="range"] {
     .map-container.show {
         width: calc(100% - 24rem);
 
-    }*/
+    
 
 
     .filter-results {
@@ -677,7 +688,7 @@ input[type="range"] {
         display: block;
     }
 
-
+*/
 
 /*
 
