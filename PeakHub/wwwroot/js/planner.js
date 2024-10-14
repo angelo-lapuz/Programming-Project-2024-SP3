@@ -4,6 +4,7 @@
 // Write your JavaScript code.
 
 
+
 let screenwidth = window.innerWidth;
 setResStyles(screenwidth);
 
@@ -113,14 +114,13 @@ if (routeToggle) {
     });
 }
 
-var regionsToggle = document.querySelector('.region-links-toggle');
-var regionsBox = document.querySelector('.sections-container');
+var regionsToggle = document.querySelector('.regions-toggle');
+var regionsBox = document.querySelector('.regions-container');
 
-if (regionsToggle) {
-    regionsToggle.addEventListener('click', function () {
-        regionsBox.classList.toggle('show');
-    });
-}
+regionsToggle.addEventListener('click', function () {
+    regionsBox.classList.toggle('show');
+});
+
 
 var regionSelect = document.getElementsByName('info-region');
 var infoRegionBtnList = document.querySelector('.info-region-ul');
