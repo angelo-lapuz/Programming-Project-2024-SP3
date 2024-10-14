@@ -1167,6 +1167,7 @@ input[type="range"] {
 }
 
 .regions-toggle {
+    display: none;
     transform-origin: right;
     transform: translate(220%, 350%);
     border: 2px solid white;
@@ -1184,10 +1185,10 @@ input[type="range"] {
     cursor: pointer;
 }
 
-    .regions-box > *:hover {
-        background-color: var(--lightgreen-glass);
-        color: var(--grey);
-    }
+.regions-box > *:hover {
+    background-color: var(--lightgreen-glass);
+    color: var(--grey);
+}
 
 .regions-box {
     background: var(--grey-glass);
@@ -1531,19 +1532,21 @@ input[type="range"] {
         border-radius: 10rem 10rem 0 0;
     }
 
-    a, a:visited {
+    navbar-links a, a:visited {
         color: var(--grey);
     }
 
-    a:hover {
+    navbar-links a:hover {
         display:block;
         background-color: var(--grey);
         color: var(--darkgreen);
     }
 
-    .regions-container {
+    .regions-container, .regions-toggle {
         display: block;
     }
+
+
 
 }
 
