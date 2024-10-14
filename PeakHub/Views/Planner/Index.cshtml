@@ -86,13 +86,16 @@
                     <button id="undo" class="buttonB"><i class="fa-solid fa-rotate-left"></i></button>
                     <button id="finish" class="buttonB">Finish</button>
                     <button id="clear" class="buttonB"><i class="fa-solid fa-trash-can"></i></button>
-                    <button id="saveBtn" class="saveBtn buttonB"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
                 <div class="chart-container">
                     <canvas id="elevationChart"></canvas>
                 </div>
+                <button id="saveBtn" class="saveBtn buttonB"><i class="fa-regular fa-floppy-disk"></i></button>
+                <div class="routeList-container">
+                    <span>Saved Routes</span>
+                    <div id="route-box" class="route-box"></div>
+                </div>
             </div>
-            
         </div>
         <div class="route-toggle-component">
             <button class="route-toggle"><pre><i class="fa-solid fa-route"></i>  <i class="fa-sharp fa-solid fa-chevron-down"></i></pre></button>
@@ -104,11 +107,7 @@
             <div id="section-boxes" class="regions-box"></div>
         </div>
 
-        <div class="routeList-container">
-            <span>ROUTE LIST</span>
-            <div id="route-box" class="route-box"></div>
-            <button class="routeList-toggle">My Routes</button>
-        </div>
+        
 
     </div>
 

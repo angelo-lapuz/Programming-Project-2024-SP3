@@ -1074,9 +1074,9 @@ input[type="range"] {
     z-index: 5000;
 }
 
-    .info-data.show {
-        display: block;
-    }
+.info-data.show {
+    display: block;
+}
 
 /* END of map */
 
@@ -1085,7 +1085,7 @@ input[type="range"] {
 .route-container {
     width: 100%;
     height: 0rem;
-    position: sticky;
+    position: absolute;
     bottom: 0;
     left: 0;
     overflow: hidden;
@@ -1109,38 +1109,68 @@ input[type="range"] {
     top: 0;
     height: 15rem;
     width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
 }
 
 .plannerBtns {
+    grid-area: 1/1/2/2 ;
     width: 100%;
     z-index: 10;
     text-align: center;
+    display: flex;
+    justify-content: right;
+    align-content: end;
+    padding-right: 5px;
+
 }
 
-.plannerBtns > button {
+.plannerBtns > button, #saveBtn {
     font-size: 0.75rem;
     width: 4rem;
-    padding: 0.25rem;
+    padding: 0;
     box-shadow: 0px 2px 2px black;
     margin-bottom: 0.25rem;
     text-shadow: none;
     font-weight: 600;
+
 }
 
 
 .chart-container {
-    width: calc(100% - 4rem);
+    width: calc(100% - 2rem);
     height: 12rem;
-    margin: 0 auto;
-    border-radius: 1rem;
-    /*background-color: var(--grey);
-    box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.5), -5px 5px 5px rgba(0, 0, 128, 0.5);*/
+    border-radius: 1rem 0 0 1rem;
     background: var(--grey-glass);
     box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    grid-area: 2/1/3/2;
+    justify-self: end;
+    margin-right: 5px;
 }
+
+
+/* saved Route List */
+
+.routeList-container {
+    width: calc(100% - 2rem);
+    height: 12rem;
+    border: 1px solid green;
+    border-radius: 0 1rem 1rem 0;
+    background: var(--grey-glass);
+    box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
 
 
 .regions-container {
@@ -1152,6 +1182,8 @@ input[type="range"] {
     left: -14rem;
     border-radius: 1rem;
     transition: all var(--animation-timing);
+    font-weight: 600;
+
 }
 
 .regions-container.show {
@@ -1527,7 +1559,7 @@ input[type="range"] {
         display: none;
     }
 
-    .plannerBtns > button {
+    .plannerBtns > button, #saveBtn {
         width: 7rem;
         border-radius: 10rem 10rem 0 0;
     }
