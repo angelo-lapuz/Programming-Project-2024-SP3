@@ -803,6 +803,20 @@ main {
     display: none;
 }
 
+.region-summary-table {
+    margin-top: 2rem;
+}
+
+.region-summary-table * {
+    padding: 0.5rem;
+}
+
+.region-summary-table th {
+    text-align: right;
+    border-right: 2px solid var(--grey);
+}
+
+
 /* WHO section */
 
 #who-container {
@@ -1005,12 +1019,18 @@ input[type="range"] {
     left: 2rem;
     width: 22rem;
     height: calc(100% - var(--navbar-height-s) - 12rem);
-    background-color: var(--grey);
+    background-color: var(--grey-glass);
     text-align: center;
     align-content: center;
     border-radius: 0 0 1rem 1rem;
     font-size: 1rem;
     overflow-Y: scroll;
+    -ms-overflow-style: none; /* for IE and Edge*/
+    scrollbar-width: none; /* for firefox */
+}
+
+.filter-results::-webkit-scrollbar { /* chrome */
+    display: none;
 }
 
 .filter-results-table {
@@ -1021,17 +1041,22 @@ input[type="range"] {
 }
 
 .filter-results-table th {
-    border: 1px solid black;
+    background: var(--lightgreen);
+    border: 1px solid var(--lightgreen-glass);
+    position: sticky;
+    top: 0;
+    color: var(--grey);
 }
 
 .filter-table-body tr:hover {
-    background-color: var(--lightgreen);
+    background-color: var(--lightgreen-glass);
     cursor: pointer;
 }
 
 .filter-table-body tr td {
-    border: 1px solid black;
+    border-top: 1px solid var(--lightgreen-glass);
     text-align: left;
+    padding-left: 0.25rem;
 }
 
 /* END of filter function */
@@ -1446,8 +1471,9 @@ input[type="range"] {
     }
 
     .info-region-text {
-        width: 600px;
+        width: 700px;
         margin: 0 auto;
+        
     }
 
     .info-regions-more {
@@ -1585,6 +1611,10 @@ input[type="range"] {
 /* BREAK PT MIN-1201PX */
 
 @media only screen and (min-width:1201px) {
+
+    .info-region-text {
+        transform: translateX(50px);
+    }
 
     .info-regions-more {
         bottom: 20%;
