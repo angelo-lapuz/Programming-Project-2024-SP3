@@ -729,7 +729,7 @@ function applyFilters() {
         var sectionCell = newRow.insertCell(1);
 
         nameCell.textContent = peak.Name;
-        sectionCell.textContent = peak.Section;
+        sectionCell.textContent = peak.Region;
 
         newRow.addEventListener('click', function () {
 
