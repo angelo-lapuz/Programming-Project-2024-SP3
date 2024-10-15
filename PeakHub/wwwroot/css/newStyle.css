@@ -47,6 +47,7 @@ a {
     --darkgreen: #133234;
     --yellow: #f3e147;
     --planner-blue: #aae0fa;
+    --planner-blue-rgb: rgba(170,224,252,0.5);
     --black-glass-50: rgb(0,0,0,0.5);
     --red: #912f45;
     --animation-timing: 0.25s ease-in-out;
@@ -55,6 +56,9 @@ a {
     --navbar-height-s: 8rem;
     --shadow-down: 0px 2px 2px black;
     --who-what-where: 4rem;
+
+    --sidebar: calc(50vw - 700px);
+    --sidebar-blend: calc(var(--sidebar) + 100px);
 }
 
 /* classes for style */
@@ -357,9 +361,6 @@ body {
     width: 110%;
 }
 
-.nav-link-hover {
-    border: 1px solid red;
-}
 
 .nav-link {
     color: white;
@@ -893,7 +894,25 @@ main {
 #banner {
     height: var(--navbar-height-s);
     width: 100%;
-    background: linear-gradient(to bottom, var(--lightgreen), var(--planner-blue));
+    /*background: linear-gradient(to bottom, var(--lightgreen), var(--planner-blue));*/
+    background: linear-gradient(to bottom, #3f85cd, #5e9fdc);
+}
+
+#planner-bg {
+    /*background: var(--planner-blue-rgb);*/
+    background: #5e9fdc;
+}
+
+#planner-blend-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100vw;
+    margin: 0 auto;
+    background: url(/img/planner-bg-left.png) left top no-repeat, url(/img/planner-bg-right.png) right top no-repeat;
+    background-size: contain;
+    z-index: 0;
 }
 
 #planner-container {
@@ -904,6 +923,11 @@ main {
     min-height: 600px;
     overflow: hidden;
     margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem 1rem 0 0;
 }
 
 .filter-toggle-component {
@@ -935,7 +959,7 @@ main {
 }
 
 .route-toggle {
-    bottom: 0;
+    bottom: 2rem;
 }
 
 /* Filter tab */
@@ -945,7 +969,7 @@ main {
     height: 0rem;
     position: absolute;
     top: calc(0 + var(--header-height));
-    right: 0;
+    right: 0rem;
     transition: height var(--animation-timing);
     z-index: 2;
 }
@@ -992,7 +1016,7 @@ main {
 }
 
 #search-name {
-    background: transparent;
+    background: white;
     border: 1px solid grey;
     border-radius: 999rem;
     border: 2px solid var(--darkgreen);
@@ -1068,13 +1092,20 @@ input[type="range"] {
     height: 100%;
     top: 0;
     transition: width 0.25s ease-in-out;
+    border-radius: 1rem;
+    
 }
 
 #map {
     width: 100%;
     height: 100%;
-    background: #aadffa;
+    background: var(--planner-blue);
     z-index: 0;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .info-button {
@@ -1123,7 +1154,7 @@ input[type="range"] {
 
 .route-toggle-component {
     position: absolute;
-    bottom: 0;
+    bottom: -2rem;
     height: 1.5rem;
     width: 100%;
     background: linear-gradient(to top, var(--black-glass-50), transparent);
@@ -1727,15 +1758,21 @@ input[type="range"] {
     }
 
     .filter-container {
+        right: -2rem;
         width: 0rem;
         height: calc(100% - 2rem);
         transition: width var(--animation-timing);
     }
 
-    .filter-container.show {
-        height: calc(100% - 2rem);
+    .filter-toggle {
+        transform: translateY(1.25rem);
+        box-shadow: 2px 2px 2px var(--black-glass-50);
     }
 
+    .filter-container.show {
+        height: calc(100% - 2.5rem);
+        width: 27rem;
+    }
 
     .route-container.showLRes {
         width: calc(100% - 24rem);
