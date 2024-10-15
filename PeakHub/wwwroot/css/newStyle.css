@@ -895,12 +895,12 @@ main {
     height: var(--navbar-height-s);
     width: 100%;
     /*background: linear-gradient(to bottom, var(--lightgreen), var(--planner-blue));*/
-    background: linear-gradient(to bottom, #3f85cd, #5e9fdc);
+    background: var(--planner-blue);
 }
 
 #planner-bg {
     /*background: var(--planner-blue-rgb);*/
-    background: #5e9fdc;
+    background: var(--planner-blue);
 }
 
 #planner-blend-layer {
