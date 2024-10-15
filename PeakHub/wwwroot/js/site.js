@@ -3,116 +3,38 @@
 
 // Write your JavaScript code.
 
-
 let resizeTimer;
+
 window.addEventListener('resize', function () {
+
     document.body.classList.add('no-transition');
 
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
         document.body.classList.remove('no-transition');
     }, 250); // delay in ms to wait for the resize to finish
+
+
+    //var rs = getComputedStyle(rootvar);
+    //console.log(rs.getComputedStyle('--who-what-where'));
+
 });
 
+let prevScrollPos = window.scrollY;
+var header = document.getElementById('nav-area')
 
-const difficultyMap = {
-    1: 'All',
-    2: 'Easy',
-    3: 'Moderate',
-    4: 'Hard'
-};
+window.addEventListener('scroll', function () {
 
-var difficultySlider = document.getElementById('filter-difficultySlider');
-var difficultyValue = document.getElementById('difficulty-value');
+    var currentScrollPos = window.scrollY;
 
-var difficultyInput = document.getElementById('filter-difficulty');
+    //console.log(currentScrollPos);
 
-if (difficultySlider) { 
-    difficultySlider.addEventListener('input', function () {
-        const difficultyLabel = difficultyMap[difficultySlider.value];
-        difficultyValue.textContent = difficultyLabel;
-        difficultyInput.value = (difficultyLabel === 'All') ? '' : difficultyLabel.charAt(0);
+    if (prevScrollPos < currentScrollPos) {
+        header.classList.add('hide');
+    } else {
+        header.classList.remove('hide');
+    }
 
-    });
-}
+    prevScrollPos = currentScrollPos;
+});
 
-var elevationSlider = document.getElementById('filter-elevation');
-var elevationValue = document.getElementById('elevation-value');
-
-if (elevationSlider) {
-    elevationSlider.addEventListener('input', function () {
-        elevationValue.textContent = `${elevationSlider.value} m`;
-    });
-}
-
-
-
-var filterToggle = document.querySelector('.filter-toggle');
-var filterContainer = document.querySelector('.filter-container');
-
-if (filterToggle) {
-    filterToggle.addEventListener('click', function () {
-        filterContainer.classList.toggle("show");
-        routeContainer.classList.toggle("showLRes");
-
-    });
-}
-
-var infoBtn = document.querySelector('.info-button');
-var infoBox = document.querySelector('.info-data');
-
-if (infoBtn) {
-    infoBtn.addEventListener('click', function () {
-
-        infoBox.classList.toggle("show");
-    });
-}
-
-if (infoBox) {
-    infoBox.addEventListener('click', function () {
-        infoBox.classList.toggle("show");
-    });
-}
-
-var routeToggle = document.querySelector('.route-toggle');
-var routeContainer = document.querySelector('.route-container');
-
-if (routeToggle) {
-    routeToggle.addEventListener('click', function () {
-        routeContainer.classList.toggle("show");
-
-    });
-}
-
-var hamburgerBox = document.querySelector('.hamburger-menu input');
-var navBar = document.querySelector('.navbar-links');
-
-hamburgerBox.addEventListener('change', function () {
-    navBar.classList.toggle('show');
-})
-
-var regionsToggle = document.querySelector('.region-links-toggle');
-var regionsBox = document.querySelector('.sections-container');
-
-if (regionsToggle) {
-
-    regionsToggle.addEventListener('click', function () {
-
-        regionsBox.classList.toggle('show');
-    });
-}
-
-
-var routeListToggle = document.querySelector('.routeList-toggle');
-var routeListContainer = document.querySelector('.routeList-container');
-
-// Check if both elements are found
-if (routeListToggle && routeListContainer) {
-    console.log('Route toggle and container found!'); // Debugging check
-    routeListToggle.addEventListener('click', function () {
-        console.log('Toggle clicked!'); // Debugging check
-        routeListContainer.classList.toggle("show");  // Toggles the visibility
-    });
-} else {
-    console.log('Error: Could not find routeList-toggle or routeList-container');
-}

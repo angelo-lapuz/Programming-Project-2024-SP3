@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PeakHub.Models;
+using PeakHub.Utilities;
 using PeakHub.ViewModels.Forum;
 
 namespace PeakHub.Controllers {
@@ -8,16 +9,22 @@ namespace PeakHub.Controllers {
         private readonly HttpClient _httpClient;
         private readonly ILogger<ForumController> _logger;
         private readonly string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
-        public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger) {
+        private readonly Tools _tools;
+        private string userID => HttpContext.Session.GetString("UserId");
+
+        public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger, Tools tools) {
             _httpClient = httpClient.CreateClient("api");
             _logger = logger;
+            _tools = tools;
         }
 
         public async Task<IActionResult> Index(int boardID) {
             if (await IsInvalidBoardID(boardID)) return RedirectToAction("Index", "Board");
 
             UserViewModel user = await GetUserDetails();
+
             Board board = await GetBoard(boardID);
+
             List<Post> posts = board.Posts;
 
             ForumViewModel viewModel = new ForumViewModel {
@@ -33,8 +40,12 @@ namespace PeakHub.Controllers {
             List<ForumPostViewModel> viewPosts = new();
 
             foreach (Post post in posts) {
+
+                // this shouldnt be necessary anymore                
                 post.User = await GetPostUser(post.UserId);
+
                 if (string.IsNullOrEmpty(post.User.ProfileIMG)) 
+
                     post.User.ProfileIMG = defaultImg;
 
                 viewPosts.Add(new ForumPostViewModel {
@@ -46,7 +57,8 @@ namespace PeakHub.Controllers {
 
             return viewPosts;
         }
-        // -------------------------------------------------------------------------------- //
+
+        //--------------------------------------------------------------------------------//
         public async Task<Board> GetBoard(int boardID) =>
             await _httpClient.GetFromJsonAsync<Board>($"api/boards/{boardID}");
 
@@ -63,13 +75,11 @@ namespace PeakHub.Controllers {
             int boardTotal = await _httpClient.GetFromJsonAsync<int>("api/boards/total");
             return (boardID <= 0 || boardID > boardTotal);
         }
+
+
         // -------------------------------------------------------------------------------- //
         public async Task<UserViewModel> GetUserDetails() {
-            var response = await _httpClient.GetAsync("api/users/GetUser");
-
-            if (response.IsSuccessStatusCode) {
-                var result = await response.Content.ReadAsStringAsync();
-                User user = JsonConvert.DeserializeObject<User>(result);
+            User user = await _tools.GetUser(userID);
 
                 if (user != null) {
                     return new UserViewModel {
@@ -78,7 +88,7 @@ namespace PeakHub.Controllers {
                         profileImg = (!string.IsNullOrEmpty(user.ProfileIMG)) ? user.ProfileIMG : defaultImg
                     };
                 }
-            }
+            
 
             return new UserViewModel {
                 userID = "0",

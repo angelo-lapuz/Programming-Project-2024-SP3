@@ -3,8 +3,7 @@ using WebAPI.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore.Proxies;
-using Pomelo.EntityFrameworkCore.MySql;
+
 using WebAPI.Utilities;
 using WebAPI.Models; 
 using static WebAPI.Utilities.EmailSender;
@@ -66,6 +65,12 @@ builder.Services.AddControllers()
         });
 
 
+// KEEP ME
+builder.WebHost.ConfigureKestrel(server =>
+{
+    server.ListenAnyIP(7141);
+    server.ListenAnyIP(5164);
+});
 
 
 var app = builder.Build();

@@ -1,5 +1,6 @@
 ﻿using Amazon.Lambda;
 using Amazon.Lambda.Model;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PeakHub.Utilities {
     public class Lambda_Calls {
@@ -20,6 +21,7 @@ namespace PeakHub.Utilities {
                     MimeType = mimeType
                 };
 
+
                 var requst = new InvokeRequest {
                     FunctionName = "peakhub-upload-content",
                     Payload = System.Text.Json.JsonSerializer.Serialize(payload),
@@ -29,6 +31,7 @@ namespace PeakHub.Utilities {
                 var responseString = System.Text.Json.JsonSerializer.Deserialize<string>(response.Payload);
 
                 if (responseString == null) throw new Exception("Error Occured!");
+
                 else if (responseString.Contains("[Error]")) throw new Exception(responseString);
 
                 _logger.LogInformation($"Success! A Brilliant Success! Link: [{responseString}]");
@@ -41,6 +44,7 @@ namespace PeakHub.Utilities {
         }
 
         public async Task<List<string>> GetPeakPics(string mountName) {
+            
             try {
                 var payload = new { MountName = mountName };
 

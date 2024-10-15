@@ -2,32 +2,38 @@
 using PeakHub.Utilities;
 using PeakHub.Models;
 using System.Net.Http;
+using Amazon.S3.Model;
 
 namespace PeakHub.Controllers
 {
+
     public class PeakController : Controller
     {
 
-        private readonly Tools _loader;
+        private readonly Tools _tools;
         private readonly ILogger<PeakController> _logger;
         private readonly HttpClient _httpClient;
+        private readonly Lambda_Calls _lambda;
+        private string userID => HttpContext.Session.GetString("UserId");
 
-
-        public PeakController(Tools loader, ILogger<PeakController> logger, IHttpClientFactory httpClientFactory)
+        public PeakController(Lambda_Calls lambda, Tools tools, ILogger<PeakController> logger, IHttpClientFactory httpClientFactory)
         {
-            _loader = loader;
+            _tools = tools;
             _logger = logger;
+            _lambda = lambda;
             _httpClient = httpClientFactory.CreateClient("api");
         }
 
-        public async Task<IActionResult> Index(int ID){
+        public async Task<IActionResult> Index(int ID)
+        {
 
             ViewBag.Peaks = null;
             ViewBag.Peak = null;
             ViewBag.Routes = null;
-            
+            ViewBag.user = userID;
 
-            User user = _loader.GetUser().GetAwaiter().GetResult();
+
+            User user = await _tools.GetUser(userID);
 
             if (user != null)
             {
@@ -45,49 +51,47 @@ namespace PeakHub.Controllers
                 var peakData = await getPeakResponse.Content.ReadAsStringAsync();
                 var peak = Newtonsoft.Json.JsonConvert.DeserializeObject<Peak>(peakData);
                 ViewBag.Peak = peak;
-                getImages(peak.Name);
 
+
+                // get all the Peaks
+                var getAllPeaksResponse = await _httpClient.GetAsync("api/Peak");
+                if (getAllPeaksResponse.IsSuccessStatusCode)
+                {
+                    var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
+                    var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
+
+                    ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
+                }
+
+                return View();
             }
             else
             {
-                return NoContent();
+                return NotFound();
             }
-
-            // get all the Peaks
-            var getAllPeaksResponse = await _httpClient.GetAsync("api/Peak");
-            if (getAllPeaksResponse.IsSuccessStatusCode)
-            {
-                var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
-                var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
-
-                ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
-            }
-
-
-            return View();
         }
 
-        public void getImages(string peakname)
+        [HttpPost("GetPeakImages")]
+        public async Task<IActionResult> GetPeakImages([FromBody] peakNameDTO peakName)
         {
-            peakname = peakname.Replace(" ", "_");
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "images", peakname);
-            _logger.LogInformation(path);
-            _logger.LogInformation(peakname);
-            if (Directory.Exists(path))
+
+            string mountName = peakName.peakName;
+
+            _logger.LogInformation("peakName was" + mountName);
+            var pictures = await _lambda.GetPeakPics(mountName);
+            if (pictures == null)
             {
-                var images = Directory.GetFiles(path).Where(x => x.EndsWith(".jpg") || x.EndsWith(".png"))
-                    .Select(file => Path.Combine(peakname, Path.GetFileName(file)))
-                    .ToList();                
-                foreach(var img in images)
-                {
-                    _logger.LogInformation(img);
-                }
-
-                ViewBag.Images = images;
-
+                return NotFound("No images found");
             }
+            return Ok(pictures);
         }
 
-      
+
+        public class peakNameDTO
+        {
+          public string peakName { get; set; }
+        }
+
     }
-}
+    }
+

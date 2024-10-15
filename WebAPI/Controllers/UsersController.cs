@@ -6,6 +6,7 @@ using WebAPI.ViewModels;
 using WebAPI.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 
 namespace WebAPI.Controllers;
@@ -45,6 +46,7 @@ public class UsersController : ControllerBase
         return _repo.Get(id);
     }
 
+
     [HttpPost("UpdateUser")]
     public async Task<IActionResult> Update([FromBody] User user)
     {
@@ -62,8 +64,6 @@ public class UsersController : ControllerBase
         _repo.Update(currentUser.Id, currentUser);
         return Ok("User updated successfully");
     }
-
-
 
     [HttpPost("ForgotPassword")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
@@ -228,6 +228,42 @@ public class UsersController : ControllerBase
         return Ok(new { UsernameExists = usernameExists, EmailExists = emailExists });
     }
 
+
+
+    [HttpGet("VerifyPassword/{password}")]
+    public async Task<IActionResult> VerifyPassword(string password)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        var checkPassword = await _userManager.CheckPasswordAsync(user, password);
+        if (!checkPassword)
+        {
+            return null;
+        }
+
+        return Ok();
+
+    }
+
+    [HttpPost("ChangePassword")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
+    {
+        var user =  await GetUser(model.ID);
+
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+
+        if (result.Succeeded)
+        {
+            return Ok("Successfully changed password");
+        }
+        else
+        {
+            return BadRequest(result.Errors);
+        }
+    }
+
+
+
     // POST api/users/logout
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
@@ -235,22 +271,6 @@ public class UsersController : ControllerBase
         await _signInManager.SignOutAsync();
         _logger.LogInformation("User logged out.");
         return Ok();
-    }
-
-
-    [Authorize]
-    [HttpGet("GetUser")]
-    public async Task<IActionResult> GetLoggedInUser()
-    {
-        var currentUser = await _userManager.GetUserAsync(User);
-           
-        
-        if (currentUser == null)
-        {
-            return Unauthorized();
-        }
-
-        return Ok(currentUser);
     }
 
     //// used when logging in

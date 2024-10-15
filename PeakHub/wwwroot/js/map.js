@@ -13,13 +13,18 @@ var currentPolyline = null; // used when drawing on the map - editing the curren
 var elevations = []; // used to store elevation data for a route
 var sectionPolygons = {}; // used to store polygons for each section
 var selectedSection = null; // used to store the currently selected section
-var peaksData = JSON.parse(peaksData); // used to store the peaks data - pulled from Viewbag in index.cshtml
-var userRoutes = userRoutes; // used to store the user's saved routes - pulled from Viewbag in index.cshtml
-var userPeaks = JSON.parse(userPeaks);
+try {
+    var peaksData = JSON.parse(peaksData); // used to store the peaks data - pulled from Viewbag in index.cshtml
+    var userRoutes = userRoutes; // used to store the user's saved routes - pulled from Viewbag in index.cshtml
+    var userPeaks = JSON.parse(userPeaks);
+} catch (Exception) {
 
+}
 
 var markerLayer = L.layerGroup().addTo(map); // used to store the markers for the peaks
 var drawnItems = new L.FeatureGroup(); // used to store the drawn routes
+
+
 map.addLayer(drawnItems);
 
 // ddefining buttons, boxes
@@ -43,9 +48,10 @@ var sectionsData = {
     "The South West": [{ "lat": -43.52465500687186, "lng": 146.49993896484378 }, { "lat": -43.53062917044242, "lng": 146.05773925781253 }, { "lat": -43.209179690393555, "lng": 145.98358154296878 }, { "lat": -43.28720268480439, "lng": 145.86547851562503 }, { "lat": -42.70060440808084, "lng": 145.37796020507815 }, { "lat": -42.67738750800697, "lng": 146.34887695312503 }, { "lat": -42.7278479565962, "lng": 146.4573669433594 }]
 };
 
+
 // used on individual peak page to center the map on the peak andd circle it
 if (window.location.href.includes("Peak/Index/")) {
-    map = L.map('peakmap').setView([-41.5, 146.5], 7);
+    /*map = L.map('map').setView([-41.5, 146.5], 7);*/
     var currentPeak = currentPeak;
     var coords = currentPeak.Coords.split(',');
     var lat = parseFloat(coords[0]);
@@ -58,10 +64,25 @@ if (window.location.href.includes("Peak/Index/")) {
     } else {
         console.log('Invalid coordinates for current peak: ', currentPeak.Name);
     }
+
+    drawRouteBtn.disabled = true;
+    undoBtn.disabled = true;
+    finishBtn.disabled = true;
+    clearBtn.disabled = true;
+    routeBox.disabled = true;
+
+    document.querySelector('.filter-container').style.display = 'none';
+    document.querySelector('.sections-container').style.display = 'none';
+    document.querySelector('.routeList-container').style.display = 'none';
+    document.querySelector('.route-container').style.display = 'none';
+} else {
+    checkRoutes();
+    checkUser();
 }
+  
+
 // checking if the user has routes and if they are logged in
-checkRoutes();
-checkUser();
+
 
 // defining the color and thickness of the polyline - used when drawing routes
 var polylineDrawer = new L.Draw.Polyline(map,{
@@ -88,10 +109,9 @@ map.on('click', function (event) {
 function checkUser() {
     if (!user) {
         document.querySelector('.route-container').style.display = 'none';
-
     }
+    
 }
-
 
 // disable the routes box if userRoutes is not an array
 function checkRoutes() {
@@ -102,12 +122,12 @@ function checkRoutes() {
             createRouteBox(`Route ${index + 1}`, route, index);
         });
     } else {
+
         // disable the route box if user is not logged in
         if (!user) {
             document.querySelector('.routeList-container').style.display = 'none';
             document.getElementById('route-box').style.display = 'none';
         }
-
     }
 }
 
@@ -367,7 +387,6 @@ function drawRoute(coordsJson) {
 }
 
 
-
 //////                                   END OF USER BASED ROUTE DRAWING FUNCTIONALITY                       //////
 
 // draws the routes / lines on the map
@@ -521,25 +540,31 @@ function showSectionPeaks(peaks) {
         if (!isNaN(lat) && !isNaN(lng)) {
             
             let filterValue = 'hue-rotate(0deg)'; 
-
+            let data = "";
             // will only change color if user is logged in and userPeaks is not null
             if (user && userPeaks) {
+                
                 let completedPeak = userPeaks.some(function (userPeak) {
                     return userPeak.PeakID === peak.PeakID;
                 });
 
                 if (completedPeak) {
                     // set color to green
-                    filterValue = 'hue-rotate(260deg)'; 
+                    filterValue = 'hue-rotate(260deg)';
+                    data = "You have completed this Peak";
                 } else {
                     // set color to reddish
                     filterValue = 'hue-rotate(-220deg)';
+                     data = "you have not completed this Peak"
                 }
+            } else {
+           
             }
  
             // Create the marker and add it to the map
             let marker = L.marker([lat, lng]).bindPopup(`
                 <b>${peak.Name}</b><br> Elevation: ${peak.Elevation}m <br> Difficulty: ${peak.Difficulty} <br>
+                ${data} <br>
                 <a href="/Peak/Index/${peak.PeakID}" onclick="window.location='/Peak/Index/${peak.PeakID}'; return false;">View Peak</a>`)
                 .addTo(markerLayer);
 
@@ -629,13 +654,15 @@ function addClickEvent(box, polygon, sectionName) {
 
     box.addEventListener('click', () => {
         selectSection(polygon);
-        var sectionPeaks = peaksData.filter(peak => peak.Section === sectionName);
+        var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
+        console.log(sectionPeaks)
         showSectionPeaks(sectionPeaks);
     });
 
     polygon.on('click', () => {
         selectSection(polygon);
-        var sectionPeaks = peaksData.filter(peak => peak.Section === sectionName);
+        var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
+        console.log("here")
         showSectionPeaks(sectionPeaks);
     });
 }

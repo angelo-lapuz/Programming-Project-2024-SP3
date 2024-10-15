@@ -629,7 +629,7 @@ input[type="range"] {
 
     .routeList-container {
         position: absolute;
-        left: -10.5rem; 
+        left: -10.5rem;
         top: 5%;
         width: 15rem;
         max-height: 20rem;
@@ -642,6 +642,7 @@ input[type="range"] {
         overflow-y: auto;
         z-index: 10;
     }
+
         .routeList-container.show {
             right: 1rem;
         }
@@ -658,22 +659,22 @@ input[type="range"] {
     }
 
     .routeList-toggle {
-       
-    position: absolute;
-    right: 0;
-    top: 50%;
-    rotate: 90deg;
-    transform-origin: right;
-    transform: translateX(50%);
-}
+        position: absolute;
+        right: 0;
+        top: 50%;
+        rotate: 90deg;
+        transform-origin: right;
+        transform: translateX(50%);
+    }
 
     .route-box:hover {
         background-color: var(--darkgreen);
         color: var(--grey);
         box-shadow: 0 0 5px rgba(0,0,0,0.5);
-        transform: scale(1.05); 
+        transform: scale(1.05);
     }
-    .route-name{
+
+    .route-name {
         font-size: 1rem;
         font-weightL bold;
         color: var(--grey);
@@ -682,20 +683,80 @@ input[type="range"] {
         cursor: pointer;
     }
 
-    .delete-route-btn{
+    .delete-route-btn {
         margin-top: 10px;
         font-size: 0.9rem;
         padding: 5px;
         background-color: var(--red);
         color: var(--grey);
         border: none;
-        border-radius:5px;
+        border-radius: 5px;
         transition: background-color var(--animation-timing);
     }
-    .delete-route-btn:hover {
-        background-color: #ff5c5c;
+
+        .delete-route-btn:hover {
+            background-color: #ff5c5c;
+        }
+
+    #carosel-images {
+        display: flex !important;
+        flex-direction: row !important;
+        border: 2px solid blue !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        position: relative;
     }
 
+    .Image-holder {
+        justify-content: center;
+        align-items: center;
+        min-width: 100% !important;
+        display: flex;
+    }
+
+    #Image-holder img {
+        justify-content: center;
+        align-content: center;
+    }
+
+    #carosel-image {
+        border: 2px solid green;
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .carosel-control {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        padding: 16px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        transition: 0.6s ease;
+        user-select: none;
+    }
+
+    .left {
+        left: 0;
+        border-radius: 0 3px 3px 0;
+    }
+
+    .right {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .carosel-control:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .info h2{
+        justify-content: center;
+        text-align:center;
+    }
 
 
 

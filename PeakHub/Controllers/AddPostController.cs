@@ -8,11 +8,15 @@ namespace PeakHub.Controllers {
         private readonly HttpClient _httpClient;
         private readonly Lambda_Calls _lambda;
         private readonly ILogger<ForumController> _logger;
-        
-        public AddPostController(IHttpClientFactory httpClient, Lambda_Calls lambda, ILogger<ForumController> logger) {
+        private readonly Tools _tools;
+
+        private string userID => HttpContext.Session.GetString("UserId");
+
+        public AddPostController(IHttpClientFactory httpClient, Lambda_Calls lambda, ILogger<ForumController> logger, Tools tools) {
             _httpClient = httpClient.CreateClient("api");
             _lambda = lambda;
             _logger = logger;
+            _tools = tools;
         }
         // -------------------------------------------------------------------------------- //
         public async Task<UserViewModel> GetUser(string id) {
@@ -21,7 +25,7 @@ namespace PeakHub.Controllers {
                 return null;
             }
 
-            User userObject = await _httpClient.GetFromJsonAsync<User>($"api/users/{id}");
+            User userObject = await _tools.GetUser(userID);
 
             return new UserViewModel {
                 userID = userObject.Id,

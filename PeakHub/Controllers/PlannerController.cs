@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PeakHub.Utilities;
-using PeakHub.Views.Login;
-using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using PeakHub.Models;
 using Azure;
+using Castle.Core.Resource;
 
 
 namespace PeakHub.Controllers
@@ -14,6 +16,7 @@ namespace PeakHub.Controllers
         private readonly Tools _tools;
         private readonly HttpClient _httpClient;
         private readonly ILogger<PlannerController> _logger;
+        private string userID => HttpContext.Session.GetString("UserId");
 
 
         public PlannerController(Tools tools, ILogger<PlannerController> logger, IHttpClientFactory httpClientFactory)
@@ -35,7 +38,7 @@ namespace PeakHub.Controllers
             }
 
 
-            User user =  _tools.GetUser().GetAwaiter().GetResult();
+            User user =  await _tools.GetUser(userID);
 
             if (user != null)
             {
@@ -54,7 +57,7 @@ namespace PeakHub.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveRoute([FromBody] SaveRouteDTO route)
         {
-            var user = await _tools.GetUser();
+            var user = await _tools.GetUser(userID);
 
             if (user == null)
             {
@@ -98,7 +101,7 @@ namespace PeakHub.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteRoute(int routeIndex)
         {
-            var user = _tools.GetUser().GetAwaiter().GetResult();
+            var user = await _tools.GetUser(userID);
 
             if (user == null)
             {
@@ -114,7 +117,7 @@ namespace PeakHub.Controllers
             routes.RemoveAt(routeIndex);
             user.Routes = JsonConvert.SerializeObject(routes);
 
-            var result = await _httpClient.PutAsJsonAsync("api/users/", user);
+            var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
 
             if (!result.IsSuccessStatusCode) {
                 return StatusCode(500, "Failed to update user");

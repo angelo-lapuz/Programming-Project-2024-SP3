@@ -1,9 +1,13 @@
 ﻿@model PeakHub.ViewModels.SignUpViewModel
 @{ Layout = "_AccountLayout"; }
 
+
+<div id="form-container">
 <form asp-action="Create" method="post">
-    <!-- Right side with login form -->
-    <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
+    <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+            <img src="/img/logo2.png" />
+            <span id="brand-name">TAS PEAKS</span>
+        </a>
 
     <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
     <span asp-validation-for="UserName" class="text-danger"></span>
@@ -21,8 +25,9 @@
     
     <div class="btn-row">
         <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
     </div>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 </form>
+
+</div>

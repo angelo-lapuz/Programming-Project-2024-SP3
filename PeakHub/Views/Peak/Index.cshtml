@@ -4,6 +4,14 @@
     Layout = "_Layout";
     var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
     var peak = JsonConvert.SerializeObject(ViewBag.peak);
+    if (ViewBag.user == null)
+    {
+        ViewBag.user = false;
+    }
+    else
+    {
+        ViewBag.user = true;
+    }
 }
 
 <!DOCTYPE html>
@@ -25,87 +33,101 @@
     <script>
         var peaksData = @Html.Raw(tasks);
         var currentPeak = @Html.Raw(peak);
+        var user = @ViewBag.user.ToString().ToLower();
     </script>
 
-       @* 
-            <div class="container">
-                <div class="filter-container">
-                    <div class="filter-options">
-                        <button class="filter-toggle">Filters</button>
-                        <div class="filter-selections">
-                            <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
-                            <span id="difficulty-value">Difficulty</span>
-                            <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
-                            <span id="elevation-value">Elevation</span>
-                            <input type="text" id="search-name" placeholder="Enter Peak name">
-                            <input type="hidden" id="filter-difficulty" />
-                            <button id="apply-filters">Apply</button>
-                        </div>
-                        <div class="filter-results">
-                            <table class="filter-results-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Region</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="filter-table-body">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
 
-            <div class="map-container">
-                <button class="info-button">i</button>
-                <div class="info-data"></div>
-                <div id="map"></div>
-            </div>
+    <div class="container">
+        <div class="info" style="width: 50%; height: 500px; position: relative; float: left;">
+            <h2> @ViewBag.peak.Name</h2>
 
-            <div class="route-container">
-                <div class="route-content">
-                    <div class="plannerBtns">
-                        <button id="draw-route" class="planner-buttos">Draw Route</button>
-                        <button id="undo" class="planner-button">Undo</button>
-                        <button id="finish" class="planner-button">Finish</button>
-                        <button id="clear" class="planner-button">Clear</button>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="elevationChart"></canvas>
-                    </div>
-                </div>
-                <div class="route-toggle-component">
-                    <button class="route-toggle">Routing</button>
-                </div>
-            </div>
+            @{
+                <p>Region: @ViewBag.Peak.Region </p>
+                <p>Coordinates: @ViewBag.Peak.Coords </p>
+                <p>Elevation: @ViewBag.Peak.Elevation </p>
 
-            <div class="sections-container">
-                <span>REGION LINKS</span>
-                <div id="section-boxes" class="regions-box"></div>
-                <button class="region-links-toggle">Regions</button>
-            </div>
-            </div> *@
 
-        
 
-    @* <div class="carosel-container">
-        <div class ="carosel-image">
-        @foreach( var img in ViewBag.Images as List<string>)
-        {
-            <img src='/img/images/@img' alt="peak image">
-            <p>@img</p>
-        }    
+                <p>@ViewBag.Peak.Details</p>
+            }
         </div>
-        <div class="carosel-control left" onclick="previousImg()"></div>
-        <div class="carosel-control right" onclick="nextImg()"</div>
+        <div class="filter-container">
+            <div class="filter-options">
+                <button class="filter-toggle">Filters</button>
+                <div class="filter-selections">
+                    <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
+                    <span id="difficulty-value">Difficulty</span>
+                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
+                    <span id="elevation-value">Elevation</span>
+                    <input type="text" id="search-name" placeholder="Enter Peak name">
+                    <input type="hidden" id="filter-difficulty" />
+                    <button id="apply-filters">Apply</button>
+                </div>
+                <div class="filter-results">
+                    <table class="filter-results-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Region</th>
+                            </tr>
+                        </thead>
+                        <tbody class="filter-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-    </div> *@
+        <div class="map-container" style="width: 50%; height: 500px; position: relative; float: right;">
+            <button class="info-button">i</button>
+            <div class="info-data"></div>
+            <div id="map"></div>
+        </div>
 
-    <div class="details">
-        @ViewBag.peak.Name;
+        <div class="route-container">
+            <div class="route-content">
+                <div class="plannerBtns">
+                    <button id="draw-route" class="planner-buttos">Draw Route</button>
+                    <button id="undo" class="planner-button">Undo</button>
+                    <button id="finish" class="planner-button">Finish</button>
+                    <button id="clear" class="planner-button">Clear</button>
+                    <button id="saveBtn" class="saveBtn">Save</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="elevationChart"></canvas>
+                </div>
+            </div>
+            <div class="route-toggle-component">
+                <button class="route-toggle">Routing</button>
+            </div>
+        </div>
+
+        <div class="sections-container">
+            <span>REGION LINKS</span>
+            <div id="section-boxes" class="regions-box"></div>
+            <button class="region-links-toggle">Regions</button>
+        </div>
+
+        <div class="routeList-container">
+            <span>ROUTE LIST</span>
+            <div id="route-box" class="route-box"></div>
+            <button class="routeList-toggle">My Routes</button>
+        </div>
+
     </div>
 
-    <script src="~/js/map.js"></script>
+        <div class="carosel-images" id="carosel-images">
+            <!-- Images will be dynamically added here -->
+        <button class="carosel-control left" onclick="prevImg()"> &#10094; </button>
+        <button class="carosel-control right" onclick="nextImg()"> &#10095; </button>
+        </div>
+        
+  
+  
+
+
+
     <script src="~/js/Info.js"></script>
+    <script src="~/js/map.js"></script>
 </body>
 </html>

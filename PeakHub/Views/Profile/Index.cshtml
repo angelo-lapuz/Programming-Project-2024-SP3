@@ -1,28 +1,86 @@
-﻿@model PeakHub.Models.User;
+﻿@{
+    Layout = "_Layout";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<span>@ViewBag.UserName</span>
+<body style="
+    background: url('../img/background2.svg') no-repeat center fixed;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;">
+</body>
+    <div class="container">
+    <div id="awardsSection" class="col-md-3">
+        <h3>Awards</h3>
+        @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
+        {
+            <span>no awards</span>
+        }
+        else
+        {
+            foreach (var award in ViewBag.Awards)
+            {
+                <div class="award-item">
+                    <p><strong>@award.Name</strong><br>@award.Condition <br> </p>
+                </div>
+            }
+        }
+    </div>
 
-@if (ViewBag.Peaks.Count <= 0)
-{
-    <span>no peaks</span>
-}
-else
-{
-    foreach (var peaks in ViewBag.Peaks)
-    {
-        <span>@peaks.Name</span>
-    }
-}
+    <div id="completedAbelsSection" class="col-md-6">
+        <h3>Completed Abels</h3>
+        @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
+        {
+            <span>No peaks</span>
+        }
+        else
+        {
+            <div id="boardItems">
+                @foreach (var peak in ViewBag.Peaks)
+                {
+                    <div class="itemBox" data-id="@peak.PeakID">
+                        @peak.Name - @peak.Region
+                    </div>
+                }
+            </div>
+        }
+    </div>
 
-@if (ViewBag.Awards.Count <= 0)
-{
-    <span>no awards</span>
-}
-else
-{
-    foreach (var awards in ViewBag.Awards)
-    {
-        <span>@awards.Name</span>
-    }
-}
+    <div id="userSection" class="col-md-3">
+        <div class="user-info">
+            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
+            <h3>@ViewBag.UserName</h3>
+            <p>
+                User Details:<br />
+                @ViewBag.UserName<br />
+                @ViewBag.Email<br />
+                Total Completed: @ViewBag.TotalCompleted
+            </p>
+
+            <div class="user-actions">
+                <a href="/Profile/ChangePassword" class="btn btn-secondary">Change Password</a>
+                <a href="/Profile/EditDetails" class="btn btn-secondary">Edit Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#completedAbelsSection").on("click", ".itemBox", function () {
+            var peakID = $(this).data("id");
+            if (peakID) {
+                window.location.href = `/Forum/Index?boardID=${peakID}`;
+            }
+        });
+    });
+</script>
 

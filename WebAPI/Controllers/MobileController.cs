@@ -27,24 +27,23 @@ namespace WebAPI.Controllers
             _userManager = userManager;
         }
 
-/*
+
 
         // checkIn method takes in scanned Data from a QR code, and will process here
         // will check that details are coorrect and will update the user accordingly 
         // will check for potential awards to be earned by the user
-        [HttpPost]
+        [HttpPost("CheckIn")]
         public IActionResult CheckIn([FromBody] ScannedData scannedData)
         {
-
-            /// failedd to recieve data
+            // Failed to receive data
             if (scannedData == null)
             {
-                return BadRequest("Invalid data");
+                return BadRequest(new { Message = "Invalid data" });
             }
 
             var peak = _repo.Peaks.FirstOrDefault(p => p.PeakID == scannedData.Id && p.Name == scannedData.peak);
 
-            // should never happen anyway
+            // Peak not found
             if (peak == null)
             {
                 return NotFound(new { Message = "Invalid peak" });
@@ -52,7 +51,7 @@ namespace WebAPI.Controllers
 
             var user = _repo.Users.FirstOrDefault(u => u.Id == scannedData.UserID);
 
-            // should never happen anyway
+            // User not found
             if (user == null)
             {
                 return NotFound(new { Message = "Invalid user" });
@@ -60,41 +59,36 @@ namespace WebAPI.Controllers
 
             var completedPeak = _repo.UserPeaks.Any(up => up.UserID == user.Id && up.PeakID == peak.PeakID);
 
-            // peak already completed by user
+            // Peak already completed by the user
             if (completedPeak)
             {
                 return Conflict(new { Message = "Peak already completed by user" });
             }
 
-
+            // Check in the peak for the user
             user.UserPeaks.Add(new UserPeak { UserID = user.Id, PeakID = peak.PeakID });
-            _repo.SaveChanges();
 
             var totalPeaks = user.UserPeaks.Count;
             List<int> awardMilestone = new List<int> { 0, 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 158 };
 
+            // checking if user has 'earned' an award
             foreach (int milestone in awardMilestone)
             {
                 if (totalPeaks == milestone)
                 {
                     var userAward = _repo.UserAwards.Any(ua => ua.UserID == user.Id && ua.AwardID == milestone);
 
-                    if (userAward == null)
-                    {
-                        return BadRequest(new { Message = "Award not found" });
-                    }
-
                     if (!userAward)
                     {
                         _repo.UserAwards.Add(new UserAward { UserID = user.Id, AwardID = milestone });
-                        _repo.SaveChanges();
                     }
                 }
             }
+
             _repo.SaveChanges();
             return Ok(new { Message = "Peak checked in successfully" });
         }
-*/
+
 
         public class ScannedData
         {

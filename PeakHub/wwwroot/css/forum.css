@@ -35,7 +35,6 @@ body { overflow: hidden; }
     height: 92vh;
     color: #FFF;
     text-align: center;
-    background: var(--custom-glass);
 }
 
 [id*='Header'] {
@@ -90,6 +89,7 @@ body { overflow: hidden; }
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-top: 0px;
 }
 
 #boardSearch {
@@ -173,6 +173,7 @@ body { overflow: hidden; }
 
 /* FORUM */
 #forumContent {
+    margin-top: 10rem;
     display: flex;
     flex-direction: row;
 }

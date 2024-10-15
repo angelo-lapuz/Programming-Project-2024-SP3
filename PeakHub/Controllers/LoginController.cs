@@ -32,7 +32,6 @@ namespace PeakHub.Controllers
             _signInManager = signInManager;
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("api");
-            _httpClient.Timeout = TimeSpan.FromMinutes(2);
         }
 
         public IActionResult Index() { return View(); }
@@ -58,6 +57,8 @@ namespace PeakHub.Controllers
             {
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
+
+                HttpContext.Session.SetString("UserId", user.Id);
 
                 return RedirectToAction("Index", "Home");
             }

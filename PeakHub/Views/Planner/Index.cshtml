@@ -6,7 +6,7 @@
     var userroutes = JsonConvert.SerializeObject(ViewBag.Routes);
 
     // chehcks if user is logged in - used to disable other features
-    if(ViewBag.userL == null)
+    if (ViewBag.userL == null)
     {
         ViewBag.userL = false;
     }
@@ -35,79 +35,84 @@
 
     <script>
         var peaksData = @Html.Raw(JsonConvert.SerializeObject(ViewBag.Peaks));
-         var userPeaks = @Html.Raw(JsonConvert.SerializeObject(ViewBag.userPeaks));
+        var userPeaks = @Html.Raw(JsonConvert.SerializeObject(ViewBag.userPeaks));
         var userRoutes = JSON.parse(@Html.Raw(userroutes));
         var user = @ViewBag.userL.ToString().ToLower();
     </script>
-  
-    
 
-    <div class="container">
-        <div class="filter-container">
-            <div class="filter-options">
-                <button class="filter-toggle">Filters</button>
-                <div class="filter-selections">
-                    <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
-                    <span id="difficulty-value">Difficulty</span>
-                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
-                    <span id="elevation-value">Elevation</span>
-                    <input type="text" id="search-name" placeholder="Enter Peak name">
-                    <input type="hidden" id="filter-difficulty" />
-                    <button id="apply-filters">Apply</button>
+
+    <div id="banner"></div>
+    <div id="planner-bg">
+        <div id="planner-blend-layer">
+        </div>
+        <div id="planner-container">
+
+            <div class="filter-container">
+                <div class="filter-toggle-component  ">
+                    <button class="filter-toggle"><pre><i class="fa-solid fa-filter"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
                 </div>
-                <div class="filter-results">
-                    <table class="filter-results-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Region</th>
-                            </tr>
-                        </thead>
-                        <tbody class="filter-table-body">
-                        </tbody>
-                    </table>
+                <div class="filter-options">
+
+                    <div class="filter-selections absolute-center ">
+                        <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
+                        <span id="difficulty-value">Difficulty</span>
+                        <input type="range" id="filter-elevation" min="1100" max="1600" step="100" value="0">
+                        <span id="elevation-value">Elevation</span>
+                        <input type="text" id="search-name" placeholder="Enter Peak name">
+                        <input type="hidden" id="filter-difficulty" />
+                        <button id="apply-filters" class="buttonB">Apply</button>
+                    </div>
+                    <div class="filter-results">
+                        <table class="filter-results-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Region</th>
+                                </tr>
+                            </thead>
+                            <tbody class="filter-table-body">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="map-container">
-            <button class="info-button">i</button>
-            <div class="info-data"></div>
-            <div id="map"></div>
-        </div>
+            <div class="map-container">
+                <button class="info-button">i</button>
+                <div class="info-data"></div>
+                <div id="map"></div>
+            </div>
 
-        <div class="route-container">
-            <div class="route-content">
-                <div class="plannerBtns">
-                    <button id="draw-route" class="planner-buttos">Draw Route</button>
-                    <button id="undo" class="planner-button">Undo</button>
-                    <button id="finish" class="planner-button">Finish</button>
-                    <button id="clear" class="planner-button">Clear</button>
-                    <button id="saveBtn" class="saveBtn">Save</button>
-                </div>
-                <div class="chart-container">
-                    <canvas id="elevationChart"></canvas>
+            <div class="route-container">
+                <div class="route-content">
+                    <div class="plannerBtns">
+                        <button id="draw-route" class="buttonB"><i class="fa-solid fa-pencil"></i></button>
+                        <button id="undo" class="buttonB"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button id="finish" class="buttonB">Finish</button>
+                        <button id="clear" class="buttonB"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="elevationChart"></canvas>
+                    </div>
+                    <button id="saveBtn" class="saveBtn buttonB"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <div class="routeList-container">
+                        <span>Saved Routes</span>
+                        <div id="route-box" class="route-box"></div>
+                    </div>
                 </div>
             </div>
             <div class="route-toggle-component">
-                <button class="route-toggle">Routing</button>
+                <button class="route-toggle"><pre><i class="fa-solid fa-route"></i>  <i class="fa-sharp fa-solid fa-chevron-down"></i></pre></button>
+            </div>
+            <div class="regions-toggle-component">
+                <button class="regions-toggle"><pre><i class="fa-solid fa-chart-area"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
+            </div>
+            <div class="regions-container">
+                <div id="section-boxes" class="regions-box"></div>
             </div>
         </div>
-
-        <div class="sections-container">
-            <span>REGION LINKS</span>
-            <div id="section-boxes" class="regions-box"></div>
-            <button class="region-links-toggle">Regions</button>
-        </div>
-
-        <div class="routeList-container">
-            <span>ROUTE LIST</span>
-            <div id="route-box" class="route-box"></div>
-            <button class="routeList-toggle">My Routes</button>
-        </div>
-
     </div>
-
     <script src="~/js/map.js"></script>
+    <script src="~/js/planner.js"></script>
 </body>
 </html>

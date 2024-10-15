@@ -2,50 +2,48 @@
 @{
     Layout = "_AccountLayout";
 }
-@{
-    if (ViewBag.Status != null)
-    {
-        <h2> @ViewBag.Status</h2>
-    }
-}
-<!-- Login Form -->
-<form id="loginForm" asp-action="Login" method="post">
-    <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
 
-    <input asp-for="LoginModel.UserName" class="form-control" placeholder="Username" />
-    <span asp-validation-for="LoginModel.UserName" class="text-danger"></span>
+<div id="form-container">
+    <!-- Login Form -->
+    <form id="loginForm" asp-action="Login" method="post">
+        <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+            <img src="/img/logo2.png" />
+            <span id="brand-name">TAS PEAKS</span>
+        </a>
 
-    <input asp-for="LoginModel.Password" type="password" class="form-control" placeholder="Password" />
-    <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
+        <input asp-for="LoginModel.UserName" class="form-control" placeholder="Username" />
+        <span asp-validation-for="LoginModel.UserName" class="text-danger"></span>
 
-    <input type="submit" value="Sign In" class="btn btn-primary" />
-    <a href="#" id="forgotBtn" class="forgot-password">Forgot Password?</a>
+        <input asp-for="LoginModel.Password" type="password" class="form-control" placeholder="Password" />
+        <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
 
-    <div class="btn-row">
-        <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="submit" value="Sign In" class="btn btn-primary" />
+        <a href="#" id="forgotBtn" class="forgot-password">Forgot Password?</a>
 
-</form>
+        <div class="btn-row">
+            <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </form>
 
-<!-- Forgot Password Form -->
+    <!-- Forgot Password Form -->
+    <form id="forgotForm" asp-action="ForgotPassword" method="post">
+        <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+            <img src="/img/logo2.png" />
+            <span id="brand-name">TAS PEAKS</span>
+        </a>
+
+        <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Email" />
+        <span asp-validation-for="ForgotPasswordModel.Email" class="text-danger"></span>
+
+        <div class="btn-col btn-row">
+            <input type="submit" value="Change Password" class="btn btn-primary" />
+            <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </form>
+</div>
 
 
-<form id="forgotForm" asp-action="ForgotPassword" method="post">
-    <img src="~/img/peakhub.png" alt="PeakHub Text Logo">
-
-    <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Email" />
-    <span asp-validation-for="ForgotPasswordModel.Email" class="text-danger"></span>
-
-    <div class="btn-col btn-row">
-        <input type="submit" value="Change Password" class="btn btn-primary" />
-        <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-</form>
-
-<!-- Necessary Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/account.js"></script>

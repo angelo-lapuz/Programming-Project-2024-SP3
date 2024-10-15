@@ -1,70 +1,64 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PeakHub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
     <link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/styleplanner.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
 </head>
-
 <body>
-    <header>
-        <div class="brand-logo">
-            <div class="brand-logo-img">
+    <header id="nav-area" class="transition">
+        <nav id="nav-container">
+            <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
                 <img src="/img/logo2.png" />
-            </div>
-            <a class="brand-logo-link" asp-area="" asp-controller="Home" asp-action="Index">
-                PeakHUB</a>
-            
-        </div>
-        <nav class="navbar">
-            
-            <div class="nav-filler"></div>
-            <div class="navbar-links">
-                <ul class="navbar-list">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">PeakHub</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Planner" asp-action="Index">Planner</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Board" asp-action="Index">Forum</a>
-                    </li>
-                </ul>
-            </div>
+                <span id="brand-name">TAS PEAKS</span>
+            </a>
             <label class="hamburger-menu">
                 <input id="hamburger-menu-checkbox" type="checkbox" />
             </label>
+            <div id="navlinks-container" class="transition">
+                <ul class="navbar-list">
+                    <li class="nav-item">
+                        <a class="nav-link transition absolute-center" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
+                        <div class="nav-link-hover transition absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
+                        <div class="nav-link-hover absolute-center"></div>
+                    </li>
 
+                    @{
+                        if (Context.Session.GetString("UserId") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
         </nav>
     </header>
-
-    
     <main>
         @RenderBody()
     </main>
-    
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
