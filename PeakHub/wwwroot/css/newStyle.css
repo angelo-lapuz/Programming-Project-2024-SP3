@@ -1278,10 +1278,120 @@ input[type="range"] {
 
 
 
+.lol-container {
+    width: 5vw;
+    aspect-ratio: 1/2;
+    position: absolute;
+    right: 5vw;
+    top: 20vw;
+}
+
+.img1, .img2 {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.img1 img, .img2 img {
+    position: absolute;
+    left: 25%;
+    height: 100%;
+    width: 50%;
+    transform-origin: bottom;
+    
+}
+
+.img1.animate {
+    animation: fall 0.5s ease-in;
+    animation-delay: 3s;
+    transform-origin: bottom;
+}
+
+.img1 img {
+    left: 25%;
+}
+
+.img1 img.animate {
+    animation: shake 0.5s alternate;
+    animation-iteration-count: 6;
+
+}
+
+.img2 img {
+    top: -100%;
+    right: 0; 
+}
+
+.img2 img.animate {
+    animation: shake 0.5s alternate 0.5s infinite;
+}
+
+.text1, .text2 {
+    position: absolute;
+    border: 1px solid white;
+    width: 300px;
+    height: fit-content;
+    background: white;
+    border-radius: 10rem;
+    padding: 1rem;
+    text-align: center;
+    
+}
+
+.text1 {
+    top: -1rem;
+    left: -150%;
+    animation: train 0.6s ease-out infinite;
+}
+
+.text2 {
+    top: -4rem;
+    left: -100%;
+    animation: train2 0.6s ease-out infinite;
+}
+
+@keyframes shake {
+    0% {
+        rotate: 10deg;
+    }
+    100% {
+        rotate: -10deg;
+    }
+}
+
+@keyframes fall {
+    0% {
+        rotate: 0deg;
+    }
+
+    50% {
+        rotate: -90deg;
+    }
 
 
+    100% {
+        rotate: -90deg;
+    }
+}
 
+@keyframes train {
+    0% {
+        top: -1.2rem;
+    }
+    100% {
+        top: -1rem;
+    }
+}
 
+@keyframes train2 {
+    0% {
+        top: -4.2rem;
+    }
+
+    100% {
+        top: -4rem;
+    }
+}
 
 
 /* BREAK PT MAX-600PX */
