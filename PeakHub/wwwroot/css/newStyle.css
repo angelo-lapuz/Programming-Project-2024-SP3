@@ -529,6 +529,7 @@ main {
 #what-container {
     position: relative;
     background: var(--grey);
+    z-index: 100;
 }
 
 #what-absolute-layer {
@@ -604,6 +605,7 @@ main {
 
 #where-header {
     background: var(--grey);
+    z-index: 100;
 }
 
 #where-header span {
@@ -639,7 +641,6 @@ main {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    overflow: hidden;
 }
 
 #info-regions-data {
@@ -1695,7 +1696,6 @@ input[type="range"] {
 
     .info-region-img-container {
         width: 50%;
-        right: 30%;
     }
 
     #where-header span {

@@ -30,8 +30,6 @@ function setLowRes() {
 
     var rootvar = document.querySelector(':root');
     rootvar.style.setProperty('--who-what-where', '4rem');
-
-    document.getElementById('info-regions-container').style.overflow = "hidden";
 }
 
 function setMidRes() {
@@ -43,8 +41,6 @@ function setMidRes() {
     regions.forEach((element) => {
         element.classList.remove('buttonB');
     });
-
-    document.getElementById('info-regions-container').style.overflow = "unset";
 }
 function setHighRes() {
 
