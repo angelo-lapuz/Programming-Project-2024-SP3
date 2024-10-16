@@ -1796,66 +1796,66 @@ input[type="range"] {
     overflow: hidden;
 }
 
-    #completedAbelsSection h3, #awardsSection h3 {
-        color: var(--custom-yellow);
-        font-size: 20px;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-    }
-
-    #awardsSection .itemBox {
-        width: 90%;
-        padding: 15px;
-        margin-bottom: 15px;
-        background-color: rgba(0, 0, 0, 0.15);
-        border-radius: 10px;
-        color: var(--custom-grey);
-        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-        text-align: center;
-        font-weight: bold;
-        font-size: 18px;
-        box-sizing: border-box;
-        cursor: default;
-    }
-
-    #completedAbelsSection .itemBox {
-        width: 90%;
-        padding: 15px;
-        margin-bottom: 15px;
-        background-color: rgba(0, 0, 0, 0.15);
-        border-radius: 10px;
-        color: var(--custom-grey);
-        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-        text-align: center;
-        font-weight: bold;
-        font-size: 18px;
-        box-sizing: border-box;
-        cursor: pointer;
-        transition: transform 0.2s, background-color 0.2s;
-    }
-
-        #completedAbelsSection .itemBox:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-            transform: scale(1.05);
-            box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-        }
-
-#awardsSection, #completedAbelsSection {
-    overflow-y: auto;
+#completedAbelsSection h3, #awardsSection h3 {
+    color: var(--custom-yellow);
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 
-    #awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
-        width: 8px;
-    }
+#awardsSection .itemBox {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    color: var(--custom-grey);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    box-sizing: border-box;
+    cursor: default;
+}
 
-    #awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
-        background-color: var(--custom-grey);
-        border-radius: 10px;
-    }
+#completedAbelsSection .itemBox {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    color: var(--custom-grey);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
 
-        #awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
-            background-color: var(--custom-yellow);
-        }
+#completedAbelsSection .itemBox:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+}
+
+#awardsSection, #completedAbelsSection {
+overflow-y: auto;
+}
+
+#awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
+width: 8px;
+}
+
+#awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
+background-color: var(--custom-grey);
+border-radius: 10px;
+}
+
+#awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
+    background-color: var(--custom-yellow);
+}
 
 #userSection {
     background: rgba(19, 50, 52, 0.8);
@@ -1883,22 +1883,22 @@ input[type="range"] {
     gap: 10px;
 }
 
-    .user-actions a {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        background-color: #008800;
-        color: white;
-        border-radius: 5px;
-        border: groove 2px #000000;
-        text-decoration: none;
-        font-weight: bold;
-    }
+.user-actions a {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #008800;
+    color: white;
+    border-radius: 5px;
+    border: groove 2px #000000;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        .user-actions a:hover {
-            background-color: #005F2A;
-            color: var(--custom-yellow);
-        }
+.user-actions a:hover {
+    background-color: #005F2A;
+    color: var(--custom-yellow);
+}
 
 #detailsSection, #passwordSection {
     display: flex;
@@ -1915,14 +1915,20 @@ input[type="range"] {
     overflow: hidden;
 }
 
-h3 {
+/* @NOAH u need to fix these styles here. I've gone ahead and changed their call method to their parent element to ensure it doesn't break all the other pages 
+  
+*/
+
+
+
+#detailsSection h3 {
     color: var(--custom-yellow);
     font-size: 20px;
     margin-bottom: 15px;
     text-transform: uppercase;
 }
 
-input, select, textarea {
+.form-group input, .form-control select, .form-control textarea {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -1931,7 +1937,7 @@ input, select, textarea {
     box-sizing: border-box;
 }
 
-    input:focus, select:focus, textarea:focus {
-        border-color: var(--custom-yellow);
-        outline: none;
-    }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--custom-yellow);
+    outline: none;
+}
