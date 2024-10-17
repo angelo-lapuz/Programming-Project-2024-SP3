@@ -1,29 +1,26 @@
 ﻿@model PeakHub.ViewModels.Forum.ForumPostViewModel
-@{ 
-    string likeActivity = (Model.UserHasLiked) ? "activeLike" : "inactiveLike"; 
-}
-<!-- Used to Populate a Post's Design -->
+@{ string likeActivity = (Model.UserHasLiked) ? "" : "inactiveLike"; }
 
-<div class="postBox">
-    <div class="postContent">
+<div class="forumPost">
+    <div class="header">
+        <img src="@Model.Post.User.ProfileIMG" alt="Poster's Profile Image" />
+        <p> <strong> @Model.Post.User.UserName </strong> </p>
+    </div>
+
+    <div class="content">
         <p>@Model.Post.Content</p>
+
         @if (!string.IsNullOrEmpty(Model.Post.MediaLink)) {
             <img src="@Model.Post.MediaLink" alt="User's Media Image" />
         }
     </div>
 
-    <div class="postInfo">
-        <div class="postLeft">
-            <img src="@Model.Post.User.ProfileIMG" alt="User's Profile Image" />
-            <div class="postUser">
-                <h3>@Model.Post.User.UserName</h3>
-                <p>@Model.Post.ViewDate() <br /> @Model.Post.ViewTime()</p>
-            </div>
-        </div>
+    <div class="footer">
+        <p>@Model.Post.ViewDate() @Model.Post.ViewTime()</p>
 
-        <div class="postRight">
+        <a class="icon">
             <i id="like_@Model.Post.PostID" class="fas fa-thumbs-up @likeActivity"></i>
-            <h3 id="count_@Model.Post.PostID">@Model.LikeCount</h3>
-        </div>
+            <p id="count_@Model.Post.PostID">@Model.LikeCount</p>
+        </a>
     </div>
 </div>
