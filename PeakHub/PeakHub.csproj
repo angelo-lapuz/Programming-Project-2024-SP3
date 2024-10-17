@@ -29,7 +29,7 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="2.3.0" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.405.8" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.404.5" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.405" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.400.33" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />

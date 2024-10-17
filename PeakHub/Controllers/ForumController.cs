@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PeakHub.Models;
 using PeakHub.Utilities;
 using PeakHub.ViewModels.Forum;
@@ -10,7 +9,7 @@ namespace PeakHub.Controllers {
         private readonly ILogger<ForumController> _logger;
         private readonly string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
         private readonly Tools _tools;
-        private string userID => HttpContext.Session.GetString("UserId");
+        private string UserID => HttpContext.Session.GetString("UserId");
 
         public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger, Tools tools) {
             _httpClient = httpClient.CreateClient("api");
@@ -75,31 +74,28 @@ namespace PeakHub.Controllers {
             int boardTotal = await _httpClient.GetFromJsonAsync<int>("api/boards/total");
             return (boardID <= 0 || boardID > boardTotal);
         }
-
-
         // -------------------------------------------------------------------------------- //
         public async Task<UserViewModel> GetUserDetails() {
-            User user = await _tools.GetUser(userID);
+            if (string.IsNullOrEmpty(UserID)) {
+                return new UserViewModel {
+                    userID = "0",
+                    username = "Inconspicuous Andy",
+                    profileImg = defaultImg
+                };
+            }
 
-                if (user != null) {
-                    return new UserViewModel {
-                        userID = user.Id,
-                        username = user.UserName,
-                        profileImg = (!string.IsNullOrEmpty(user.ProfileIMG)) ? user.ProfileIMG : defaultImg
-                    };
-                }
-            
+            User user = await _tools.GetUser(UserID);
 
             return new UserViewModel {
-                userID = "0",
-                username = "Inconspicuous Andy",
-                profileImg = defaultImg
+                userID = user.Id,
+                username = user.UserName,
+                profileImg = user.ProfileIMG ?? defaultImg
             };
         }
         // -------------------------------------------------------------------------------- //
         [HttpPost]
-        public async Task<IActionResult> LikePost(int postID, string userID) {
-            var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{userID}", new { });
+        public async Task<IActionResult> LikePost(int postID) {
+            var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{UserID}", new { });
 
             if (result.IsSuccessStatusCode) {
                 int likeCount = await LikesForPost(postID);
@@ -109,8 +105,8 @@ namespace PeakHub.Controllers {
         }
 
         [HttpDelete]
-        public async Task<IActionResult> UnlikePost(int postID, string userID) {
-            var result = await _httpClient.DeleteFromJsonAsync<bool>($"api/likes/remove/{postID}/{userID}");
+        public async Task<IActionResult> UnlikePost(int postID) {
+            var result = await _httpClient.DeleteFromJsonAsync<bool>($"api/likes/remove/{postID}/{UserID}");
 
             if (result) {
                 int likeCount = await LikesForPost(postID);

@@ -1,8 +1,19 @@
 ﻿:root {
-    --custom-grey: #e1daca;      
+    --custom-grey: #e1daca;
     --custom-glass: #e1daca80;
     --custom-green-light: #2f6546;
     --custom-green-dark: #133234;
     --custom-yellow: #f3e147;
     --custom-red: #912f45;
+    --planner-blue: #aae0fa;
+    --planner-blue-rgb: #aae0fa50;
+    --black-glass-50: #0005;
+    --animation-timing: 0.25s ease-in-out;
+    --max-width: 1300px;
+    --temp: black;
+    --navbar-height-s: 8rem;
+    --shadow-down: 0px 2px 2px black;
+    --who-what-where: 4rem;
+    --sidebar: calc(50vw - 700px);
+    --sidebar-blend: calc(var(--sidebar) + 100px);
 }

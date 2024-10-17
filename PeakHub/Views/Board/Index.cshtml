@@ -1,31 +1,17 @@
 ﻿@model PeakHub.ViewModels.Forum.BoardViewModel
-@{ Layout = "_Layout"; }
+@{ ViewData["Title"] = "Boards"; }
 
-<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
-
-<body style="
-    background: url('../img/background2.svg') no-repeat center fixed;
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;">
-</body>
+<link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="boardContent">
-    <div id="boardSearch">
-        <!-- Implement Search Bar : HERE -->
+    <div class="header">
         <input type="text" id="searchInput" placeholder="Search by Name or Section" />
+        <i class="fas fa-search"></i>
     </div>
 
-    <div id="boardItems">
+    <div class="content">
         @foreach (var board in @Model.Boards) {
             @await Html.PartialAsync("_item", board)
-            ;
         }
     </div>
 </div>
@@ -37,7 +23,7 @@
         var searchTerm = $(this).val().toLowerCase(); // Get Input
 
         // Check Items
-        $('#boardItems .itemBox').each(function () {
+        $('.itemBox').each(function () {
             var boardName = $(this).find('strong').text().toLowerCase(); // Get Board Name
             var boardSection = $(this).find('i').text().toLowerCase(); // Get Board Section
 

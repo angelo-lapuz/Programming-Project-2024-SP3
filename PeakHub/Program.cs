@@ -1,5 +1,4 @@
 using Amazon.Lambda;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using PeakHub.Utilities;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -7,9 +6,9 @@ using PeakHub.Models;
 using Microsoft.AspNetCore.Identity;
 using WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.Extensions.NETCore.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +56,20 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 
+// [NEW] Add AWS S3
+builder.Services.AddSingleton<IAmazonS3>(service => {
+    var awsAccessKeyId = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+    var awsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+
+    if (string.IsNullOrEmpty(awsAccessKeyId) || string.IsNullOrEmpty(awsSecretAccessKey)) {
+        throw new Exception("AWS credentials are missing in environment variables.");
+    }
+
+    var credentials = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
+    return new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1); 
+});
+
+// [TEMP]
 // Add AWS Lambda
 builder.Services.AddAWSService<IAmazonLambda>(new AWSOptions {
     Credentials = new BasicAWSCredentials(
@@ -65,7 +78,6 @@ builder.Services.AddAWSService<IAmazonLambda>(new AWSOptions {
     ),
     Region = Amazon.RegionEndpoint.USEast1
 });
-
 builder.Services.AddScoped<Lambda_Calls>();
 
 // Add controllers with views
