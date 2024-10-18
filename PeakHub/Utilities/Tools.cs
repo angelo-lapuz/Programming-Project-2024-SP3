@@ -23,6 +23,7 @@ namespace PeakHub.Utilities {
 
         public async Task<User> GetUser(string userID) {
             _logger.LogInformation("userID = " + userID);
+
             try {
                 var response = await _httpClient.GetAsync($"api/users/{userID}");
 
@@ -75,66 +76,6 @@ namespace PeakHub.Utilities {
                     return ".wmv";
                 case "video/mpeg":
                     return ".mpeg";
-
-                // Audio
-                case "audio/mpeg":
-                    return ".mp3";
-                case "audio/ogg":
-                    return ".ogg";
-                case "audio/wav":
-                    return ".wav";
-                case "audio/x-wav":
-                    return ".wav";
-                case "audio/webm":
-                    return ".webm";
-                case "audio/aac":
-                    return ".aac";
-                case "audio/flac":
-                    return ".flac";
-                case "audio/mp4":
-                    return ".m4a";
-
-                // Documents
-                case "application/pdf":
-                    return ".pdf";
-                case "application/msword":
-                    return ".doc";
-                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    return ".docx";
-                case "application/vnd.ms-excel":
-                    return ".xls";
-                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-                    return ".xlsx";
-                case "application/vnd.ms-powerpoint":
-                    return ".ppt";
-                case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-                    return ".pptx";
-
-                // Archives
-                case "application/zip":
-                    return ".zip";
-                case "application/x-tar":
-                    return ".tar";
-                case "application/gzip":
-                    return ".gz";
-                case "application/x-7z-compressed":
-                    return ".7z";
-                case "application/x-rar-compressed":
-                    return ".rar";
-
-                // Text files
-                case "text/plain":
-                    return ".txt";
-                case "text/html":
-                    return ".html";
-                case "text/css":
-                    return ".css";
-                case "text/javascript":
-                    return ".js";
-                case "application/json":
-                    return ".json";
-                case "application/xml":
-                    return ".xml";
 
                 // GPX (GPS Exchange Format)
                 case "application/gpx+xml":

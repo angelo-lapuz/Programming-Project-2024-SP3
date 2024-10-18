@@ -6,93 +6,60 @@ using PeakHub.ViewModels.Forum;
 namespace PeakHub.Controllers {
     public class ForumController : Controller {
         private readonly HttpClient _httpClient;
-        private readonly ILogger<ForumController> _logger;
-        private readonly string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
         private readonly Tools _tools;
         private string UserID => HttpContext.Session.GetString("UserId");
 
-        public ForumController(IHttpClientFactory httpClient, ILogger<ForumController> logger, Tools tools) {
+        public ForumController(IHttpClientFactory httpClient, Tools tools) {
             _httpClient = httpClient.CreateClient("api");
-            _logger = logger;
             _tools = tools;
         }
-
+        // -------------------------------------------------------------------------------- //
         public async Task<IActionResult> Index(int boardID) {
             if (await IsInvalidBoardID(boardID)) return RedirectToAction("Index", "Board");
-
             UserViewModel user = await GetUserDetails();
-
-            Board board = await GetBoard(boardID);
-
-            List<Post> posts = board.Posts;
-
-            ForumViewModel viewModel = new ForumViewModel {
-                Board = board,
+            
+            return View(new ForumViewModel {
                 User = user,
-                Posts = await GetForumPosts(posts, user.userID)
-            };
-
-            return View(viewModel);
+                PageIndex = 1,
+                BoardID = boardID
+            });
         }
-
-        public async Task<List<ForumPostViewModel>> GetForumPosts(List<Post> posts, string userID) {
-            List<ForumPostViewModel> viewPosts = new();
-
-            foreach (Post post in posts) {
-
-                // this shouldnt be necessary anymore                
-                post.User = await GetPostUser(post.UserId);
-
-                if (string.IsNullOrEmpty(post.User.ProfileIMG)) 
-
-                    post.User.ProfileIMG = defaultImg;
-
-                viewPosts.Add(new ForumPostViewModel {
-                    UserHasLiked = (await HasUserLikedPost(post.PostID, userID)),
-                    LikeCount = await LikesForPost(post.PostID),
-                    Post = post
-                });
-            }
-
-            return viewPosts;
-        }
-
-        //--------------------------------------------------------------------------------//
-        public async Task<Board> GetBoard(int boardID) =>
-            await _httpClient.GetFromJsonAsync<Board>($"api/boards/{boardID}");
-
-        public async Task<User> GetPostUser(string userID) =>
-            await _httpClient.GetFromJsonAsync<User>($"api/users/{userID}");
-
-        public async Task<bool> HasUserLikedPost(int postID, string userID) =>
-            await _httpClient.GetFromJsonAsync<bool>($"api/likes/{postID}/{userID}");
-
-        public async Task<int> LikesForPost(int postID) =>
-            await _httpClient.GetFromJsonAsync<int>($"api/likes/posts/{postID}");
-
         public async Task<bool> IsInvalidBoardID(int boardID) {
             int boardTotal = await _httpClient.GetFromJsonAsync<int>("api/boards/total");
             return (boardID <= 0 || boardID > boardTotal);
         }
         // -------------------------------------------------------------------------------- //
+        [HttpGet]
+        public async Task<IActionResult> GetForumPosts(int boardID, string userID, int pageSize, int pageIndex) {
+
+
+            var response = await _httpClient
+                .GetFromJsonAsync<IEnumerable<PostViewModel>>($"api/posts/fromBoard/{boardID}/{userID}?pageSize={pageSize}&pageIndex={pageIndex}");
+
+            return Json(response);
+        }
+        // -------------------------------------------------------------------------------- //
         public async Task<UserViewModel> GetUserDetails() {
             if (string.IsNullOrEmpty(UserID)) {
                 return new UserViewModel {
-                    userID = "0",
-                    username = "Inconspicuous Andy",
-                    profileImg = defaultImg
+                    UserID = "0",
+                    Username = "Inconspicuous Andy",
+                    ProfileImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
                 };
             }
 
             User user = await _tools.GetUser(UserID);
 
             return new UserViewModel {
-                userID = user.Id,
-                username = user.UserName,
-                profileImg = user.ProfileIMG ?? defaultImg
+                UserID = user.Id,
+                Username = user.UserName,
+                ProfileImg = user.ProfileIMG ?? "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
             };
         }
         // -------------------------------------------------------------------------------- //
+        public async Task<int> LikesForPost(int postID) =>
+            await _httpClient.GetFromJsonAsync<int>($"api/likes/posts/{postID}");
+
         [HttpPost]
         public async Task<IActionResult> LikePost(int postID) {
             var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{UserID}", new { });
@@ -114,6 +81,7 @@ namespace PeakHub.Controllers {
             }
             else return Json(new { message = "Failure! A Devastating Failure!" });
         }
+        // -------------------------------------------------------------------------------- //
     }
 }
 

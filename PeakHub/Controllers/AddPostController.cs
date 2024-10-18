@@ -32,9 +32,9 @@ namespace PeakHub.Controllers {
             User user = await _tools.GetUser(UserID);
 
             return new UserViewModel {
-                userID = user.Id,
-                username = user.UserName,
-                profileImg = user.ProfileIMG ?? "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
+                UserID = user.Id,
+                Username = user.UserName,
+                ProfileImg = user.ProfileIMG ?? "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
             };
         }
         // -------------------------------------------------------------------------------- //

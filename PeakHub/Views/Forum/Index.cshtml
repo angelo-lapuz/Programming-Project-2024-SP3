@@ -1,74 +1,148 @@
 ﻿@model PeakHub.ViewModels.Forum.ForumViewModel
 @{
     ViewData["Title"] = "Forum";
-    string addPost = (Model.User.userID == "0") ? "deactivate" : "";
+    string addPost = (Model.User.UserID == "0") ? "deactivate" : "";
 }
 
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="forumContent">
     <div class="header">
-        <img src="@Model.User.profileImg" alt="Your Profile Image" />
-        <p> <strong>@Model.User.username</strong> </p>
+        <img src="@Model.User.ProfileImg" alt="Your Profile Image" />
+        <p> <strong>@Model.User.Username</strong> </p>
     </div>
 
-    <div class="content">
-        @if (Model.Posts.Count > 0) {
-            foreach (var postViewModel in @Model.Posts) {
-                @await Html.PartialAsync("_post", postViewModel)
-            }
-        }
-        else { <h2>No Posts! Please Populate</h2> }
+    <div class="content" id="postsForBoard">
+        <input type="hidden" id="UserID" value="@Model.User.UserID" />
+        <input type="hidden" id="PageIndex" value="@Model.PageIndex" />   
+    </div>
 
-        <div class="mini-nav">
-            <a class="mini-nav-icon" href="@Url.Action("Index", "Board")">
-                <i class="fas fa-arrow-left"></i>
-                <p>Back</p>
-            </a>
+    <div id="loading" style="display:none;">
+        <p>Loading more posts...</p>
+    </div>
 
-            <form id="addPostForm" asp-action="Index" asp-controller="AddPost" class="mini-nav-icon @addPost">
-                <input type="hidden" name="BoardID" value="@Model.Board.BoardID" />
+    <div class="mini-nav">
+        <a class="mini-nav-icon" href="@Url.Action("Index", "Board")">
+            <i class="fas fa-arrow-left"></i>
+            <p>Back</p>
+        </a>
 
-                <i class="fas fa-plus"></i>
-                <p>Add</p>
-            </form>
-        </div>
+        <form id="addPostForm" asp-action="Index" asp-controller="AddPost" class="mini-nav-icon @addPost">
+            <input type="hidden" name="BoardID" id="BoardID" value="@Model.BoardID" />
+            <i class="fas fa-plus"></i>
+            <p>Add</p>
+        </form>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () { 
-        // Move to AddPost Page
-        $("#addPostForm").on("click", function () { $(this).submit(); });
+    $(document).ready(function () { loadPosts(); });
 
-        // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
-        $("[id*='like_']").on("click", function () {
-            if ("@addPost" === "deactivate") return;
+    // Handle Inifnite Scroll
+    let pageIndex = $("#PageIndex").val(), loading = false, limit = false;
+    const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
+    
+    function appendPosts(posts) {
+        const container = $("#postsForBoard");
 
-            var postID = $(this).attr("id").split("_")[1];
-            var likeCount = parseInt($("#count_" + postID).text());
-            var hasNotLiked = $(this).hasClass("inactiveLike");
+        posts.forEach(post => { 
+            var media = "";
+            if (post.media !== "" && post.media !== null) {
+                media = `<img src="${post.media}" alt="Poster's Media Image" />`;
+            }
 
-            var action = hasNotLiked ? "LikePost" : "UnlikePost";
-            var type = hasNotLiked ? "POST" : "DELETE";
+            var likeActivity = "inactiveLike";
+            if (post.hasUserLiked) { likeActivity = ""; }
 
-            // AJAX Request
-            $.ajax({
-                url: `/Forum/${action}`,
-                type: `${type}`,
-                data: { postID: parseInt(postID) },
-                success: function (response) {
-                    console.log(response.message);
-                    $("#count_" + postID).text(response.likes);
+            container.append(`
+                <div class="forumPost">
+                    <div class="header">
+                        <img src="${post.user.profileImg}" alt="Poster's Profile Image" />
+                        <p> <strong> ${post.user.username} </strong> </p>
+                    </div>
 
-                    if (action == "LikePost") {
-                        $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
-                    } else {
-                        $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
-                    }
+                    <div class="content"> <p>${post.content}</p> ${media} </div>
+
+                    <div class="footer">
+                        <p>${new Date(post.transactionTimeUTC).toLocaleString()}</p>
+
+                        <a class="icon">
+                            <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
+                            <p id="count_${post.postID}">${post.likeCount}</p>
+                        </a>
+                    </div>
+                </div>
+            `);
+        });
+    }
+
+    function loadPosts() {
+        if (loading || limit) return;
+
+        loading = true;
+        $("#loading").show();
+
+        $.ajax({
+            url: `/Forum/GetForumPosts?boardID=${boardID}&userID=${userID}&pageSize=${pageSize}&pageIndex=${pageIndex}`,
+            type: "GET",
+            success: function (posts) {
+                if (posts.length > 0) {
+                    pageIndex++;
+                    appendPosts(posts);
+                } else {
+                    limit = true;
+                    $('#loading').html("No more posts available.");
                 }
-            });
+            },
+            error: function (response) {
+                limit = true;
+                console.log(response);
+            },
+            complete: function () {
+                $('#loading').hide();
+                loading = false;
+            }
+        });
+    }
+
+    $('#postsForBoard').on('scroll', function () {
+        const container = $(this);
+
+        if (container.scrollTop() + container.innerHeight() >= container[0].scrollHeight - 50) {
+            loadPosts();
+        }
+    });
+
+    // Move to AddPost Page
+    $("#addPostForm").on("click", function () { $(this).submit(); });
+
+    // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
+    $("#postsForBoard").on("click", "[id*='like_']", function () {
+        if ("@addPost" === "deactivate") return;
+
+        var postID = $(this).attr("id").split("_")[1];
+        var likeCount = parseInt($("#count_" + postID).text());
+        var hasNotLiked = $(this).hasClass("inactiveLike");
+
+        var action = hasNotLiked ? "LikePost" : "UnlikePost";
+        var type = hasNotLiked ? "POST" : "DELETE";
+
+        // AJAX Request
+        $.ajax({
+            url: `/Forum/${action}`,
+            type: `${type}`,
+            data: { postID: parseInt(postID) },
+            success: function (response) {
+                console.log(response.message);
+                $("#count_" + postID).text(response.likes);
+
+                if (action == "LikePost") {
+                    $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
+                } else {
+                    $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
+                }
+            }
         });
     });
 </script>
