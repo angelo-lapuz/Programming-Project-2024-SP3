@@ -4,14 +4,22 @@ using PeakHub.Models;
 using PeakHub.ViewModels.Forum;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Amazon.Runtime.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeakHub.Controllers {
+    // -------------------------------------------------------------------------------- //
     public class SignedURLRequestData {
         public string BoardID { get; set; }
         public string FileType { get; set; }
     }
 
+    public class AddPostRequestData {
+        [Required] public string BoardID { get; set; }
+        public string Content { get; set; }
+        public string Media { get; set; }
+        public string MediaType { get; set; }
+    }
+    // -------------------------------------------------------------------------------- //
     public class AddPostController : Controller {
         private readonly HttpClient _httpClient;
         private readonly IAmazonS3 _s3;
@@ -89,37 +97,44 @@ namespace PeakHub.Controllers {
         }
         // -------------------------------------------------------------------------------- //
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] AddPostViewModel viewModel) {
-            if (string.IsNullOrEmpty(viewModel.Content) && string.IsNullOrEmpty(viewModel.Media)) {
-                _logger.LogInformation($"Content = [{viewModel.Content}] \nMedia = [{viewModel.Media}]");
-                return BadRequest(new { error = "Make sure at least 1 field is populated" });
+        public async Task<IActionResult> CreatePost([FromBody] AddPostRequestData data) {
+            if (data == null) {
+                _logger.LogInformation("AddPostRequestData is Null! NULL!!");
+                return Json(new { success = false, message = "Server Issue! Please refresh page" });
             }
 
-            int boardID = 0;
+            data.Content = (data.Content == "NULL") ? null : data.Content;
+            data.Media = (data.Media == "NULL") ? null : data.Media;
+            data.MediaType = (data.MediaType == "NULL") ? null : data.MediaType;
+
+            if (string.IsNullOrEmpty(data.Content) && string.IsNullOrEmpty(data.Media)) {
+                _logger.LogInformation($"Content = [{data.Content}] \nMedia = [{data.Media}]");
+                return Json(new { success = false, message = "Ensure at least 1 field is populated" });
+            }
 
             try {
-                if (!int.TryParse(viewModel.BoardID, out boardID) || boardID <= 0) {
+                if (!int.TryParse(data.BoardID, out int boardID) || boardID <= 0) {
                     _logger.LogInformation($"BoardID could not convert to INT || ID is 0");
-                    return BadRequest(new { error = "Server Issue! Please Refreash Page" });
+                    return Json(new { success = false, message = "Server Issue! Please refresh page" });
                 }
 
                 Post post = new Post {
                     UserId = UserID,
                     BoardID = boardID,
-                    Content = viewModel.Content,
-                    MediaType = viewModel.MediaType,
-                    MediaLink = viewModel.Media,
+                    Content = data.Content,
+                    MediaType = data.MediaType,
+                    MediaLink = data.Media,
                     TransactionTimeUtc = DateTime.Now
                 };
 
                 var response = await _httpClient.PostAsJsonAsync("api/posts", post);
                 if (!response.IsSuccessStatusCode) throw new Exception("Post Failed Creation!");
 
-                return Ok(new { success = true, boardID });
+                return Json(new { success = true, boardID });
             }
             catch (Exception ex) {
                 _logger.LogInformation($"Post Create Error: [{ex.Message}]");
-                return BadRequest(new { error = "An error occured while creating your Post. Please Retry." });
+                return Json(new { success = false, message = "Oh No! Something went wrong" });
             }
         }
     }
