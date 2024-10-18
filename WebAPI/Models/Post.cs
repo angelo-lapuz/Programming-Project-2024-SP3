@@ -3,13 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace WebAPI.Models
-{
-    public class Post
-    {
-
-        public Post()
-        {
+namespace WebAPI.Models {
+    public class Post { 
+        public Post() {
             Likes = new List<Like>();
         }
         public int PostID { get; set; }
@@ -17,7 +13,6 @@ namespace WebAPI.Models
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        [JsonIgnore]
         public virtual User User { get; set; }
         public string Content { get; set; }
 
