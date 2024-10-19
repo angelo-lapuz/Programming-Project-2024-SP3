@@ -49,7 +49,9 @@
 
             <div class="filter-container">
                 <div class="filter-toggle-component  ">
-                    <button class="filter-toggle"><pre><i class="fa-solid fa-filter"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
+                    <label class="filter-toggle">
+                        <pre> <i class="fa-solid fa-filter"></i> <i class="fa-sharp fa-solid fa-chevron-up"></i><input id="filter-toggle-checkbox" type="checkbox"/></pre>
+                    </label>
                 </div>
                 <div class="filter-options">
 
@@ -75,10 +77,22 @@
                         </table>
                     </div>
                 </div>
+                <div class="filter-overlay-container">
+                    <div class="filter-closed-overlay">
+                        <i class="fa-solid fa-arrow-up"></i>
+                        <div class="filter-overlay-text">To Filter Menu</div>
+                    </div>
+                    <div class="filter-open-overlay">
+                        <div class="filter-overlay-sliders">1</div>
+                        <div class="filter-overlay-input">2</div>
+                        <p> To filter results use:</p>
+                        <p> 1 - Sliders</p>
+                        <p> 2 - Text input</p>                      
+                    </div>
+                </div>
             </div>
-
+            
             <div class="map-container">
-                <button class="info-button">i</button>
                 <div class="info-data"></div>
                 <div id="map"></div>
             </div>
@@ -110,6 +124,11 @@
             <div class="regions-container">
                 <div id="section-boxes" class="regions-box"></div>
             </div>
+
+
+            <label class="info-toggle">overlay
+                <input id="info-toggle-checkbox" type="checkbox" checked="checked" />
+            </label>
         </div>
     </div>
     <script src="~/js/map.js"></script>

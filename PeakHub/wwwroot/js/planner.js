@@ -77,33 +77,33 @@ if (elevationSlider) {
 
 
 
+
+var infoToggle = document.querySelector('.info-toggle');
 var filterToggle = document.querySelector('.filter-toggle');
+var filterToggleCheck = document.getElementById('filter-toggle-checkbox');
 var filterContainer = document.querySelector('.filter-container');
 var mapContainer = document.querySelector('.map-container');
+var filterOverlay = document.querySelector('.filter-overlay-container');
+
+var filterClosed = document.querySelector('.filter-closed-overlay');
+var filterOpen = document.querySelector('.filter-open-overlay');
 
 
-filterToggle.addEventListener('click', function () {
-    filterContainer.classList.toggle("show");
-    routeContainer.classList.toggle("showLRes");
-    mapContainer.classList.toggle("show");
-
+infoToggle.addEventListener('click', function () {
+    filterOverlay.classList.toggle("hide");
 });
 
 
-var infoBtn = document.querySelector('.info-button');
-var infoBox = document.querySelector('.info-data');
+filterToggleCheck.addEventListener('click', function () {
 
-if (infoBtn) {
-    infoBtn.addEventListener('click', function () {
-        infoBox.classList.toggle("show");
-    });
-}
+    filterContainer.classList.toggle("show");
+    routeContainer.classList.toggle("showLRes");
+    mapContainer.classList.toggle("show");
+    filterClosed.classList.toggle('hide');
+    filterOpen.classList.toggle('show');
 
-if (infoBox) {
-    infoBox.addEventListener('click', function () {
-        infoBox.classList.toggle("show");
-    });
-}
+});
+
 
 var routeToggle = document.querySelector('.route-toggle');
 var routeContainer = document.querySelector('.route-container');
