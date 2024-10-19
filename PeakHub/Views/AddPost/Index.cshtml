@@ -4,7 +4,12 @@
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="addContent">
-    <form id="createPost">
+    <div class="header">
+        <img src="@Model.User.ProfileImg" alt="Your Profile Image" />
+        <p> <strong>@Model.User.Username</strong> </p>
+    </div>
+
+    <form class="content" id="createPost">
         @Html.AntiForgeryToken()
         <input type="hidden" id="boardID" value="@Model.BoardID" />
 
@@ -20,15 +25,15 @@
             <progress id="progressBar" value="0" max="100"></progress>
         </div>
 
+        <!-- Error Message Display -->
+        <p id="errorMsg" style="display: none"></p>
+
+        <!-- Action Buttons -->
         <div class="row-btn">
             <button type="button" class="btn-secondary" id="addMediaFile">Add File</button>
             <button type="button" class="btn-secondary deactivate" id="removeMediaFile">Remove File</button>
         </div>
 
-        <!-- Error Message Display -->
-        <span id="errorMsg" asp-validation-for="postError" class="text-danger"></span>
-
-        <!-- Submit button -->
         <div class="row-btn">
             <button type="submit" id="addPostSubmit" class="btn-secondary deactivate">Submit</button>
             <button type="button" id="cancelPost" class="btn-secondary">Cancel</button>
@@ -124,16 +129,27 @@
     }
 
     // Submit to DB
-    function submitPost(BoardID, Content, Media, MediaType) {
+    function submitPost(boardID, content, media = "NULL", mediaType = "NULL") {
+        console.log(`Board = ${boardID}`);
+        console.log(`Content = ${content}`);
+        console.log(`Media = ${media}`);
+        console.log(`MediaType = ${mediaType}`);
+
         $.ajax({
             url: "AddPost/CreatePost",
             type: "POST",
-            data: JSON.stringify({ BoardID, Content, Media, MediaType }),
             contentType: "application/json",
-            dataType: "json",
+            data: JSON.stringify({ 
+                BoardID: boardID, 
+                Content: content, 
+                Media: media, 
+                MediaType: mediaType 
+            }),
             success: function(response) {
                 if (response.success) {
                     window.location.href = `/Forum/Index?boardID=${response.boardID}`;
+                } else {
+                    $("#errorMsg").show().text(response.message);
                 }
             },
             error: function (xhr) {
@@ -161,14 +177,15 @@
     $("#createPost").on("submit", function (e) { 
         e.preventDefault();
 
-        $("#errorMsg").text('');
+        $("#errorMsg").text('').hide();
         $("button").addClass("deactivate");
 
-        const content = $("#addPostContent").val().trim();
+        const boardID = $("#boardID").val();
         const file = $("#addPostMedia")[0].files[0];
+        const content = $("#addPostContent").val().trim();
+        const sanitizedContent = (content === null || content === '') ? "NULL" : content;
 
         if (file) {
-            const boardID = $("#boardID").val();
             const fileType = file.type || "application/octet-stream";
 
             $.ajax({
@@ -181,7 +198,7 @@
                         uploadFile(response.key, response.url, file, function (url) {
                             if (url) {
                                 console.log(`Upload Complete: [${url}]`);
-                                submitPost(boardID, content, url, response.type);
+                                submitPost(boardID, sanitizedContent, url, response.type);
                             }
                             else { console.log("Upload Error!"); }
                         });
@@ -195,6 +212,6 @@
                 }
             });
         }
-        else { submitPost(boardID, content, null, null); }
+        else { submitPost(boardID, sanitizedContent); }
     });
 </script>
