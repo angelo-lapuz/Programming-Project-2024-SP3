@@ -1421,6 +1421,14 @@ input[type="range"] {
     .filter-overlay-container {
         bottom: -7rem;
     }
+
+    .filter-overlay-sliders {
+        top: -11rem;
+    }
+
+    .filter-overlay-input {
+        top: -6rem;
+    }
 }
 
 /* BREAK PT MIN-901PX */
@@ -1626,13 +1634,15 @@ input[type="range"] {
 
 
     .filter-overlay-container {
-        bottom: 50%;
+        top: 30%;
         left:-8rem;
+        border: 1px solid red;
     }
 
     .filter-overlay-sliders {
         top: -5rem;
         right: -8rem;
+
     }
 
     .filter-overlay-input {
@@ -1648,9 +1658,12 @@ input[type="range"] {
     .filter-closed-overlay .fa-arrow-up {
         rotate: 100deg;
     }
-    
-    .filter-open-overlay {
 
+    .filter-open-overlay {
+        border: 1px solid red;
+        height: 100%;
+        width: 100%;
+        width: 100%;
     }
 
     .nav-filler {
