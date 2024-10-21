@@ -926,7 +926,7 @@ main {
     background: linear-gradient( to bottom, var(--planner-blue), transparent);
 }
 
-#filter-toggle-checkbox {
+#filter-toggle-checkbox, #regions-toggle-checkbox {
     visibility: hidden;
 }
 
@@ -935,11 +935,12 @@ main {
     right: 50%;
     transform: translateX(50%);
     z-index: 10;
-    border: 2px solid white;
+    border: 2px solid var(--grey);
     padding: 0rem 1.5rem;
     box-shadow: 0px 2px 2px var(--black-glass-50);
     background: var(--grey);
     color: var(--darkgreen);
+    height: 1.5rem;
 }
 
 .filter-toggle {
@@ -953,6 +954,14 @@ main {
 .filter-toggle {
     top: 0;
 }
+
+.fa-chevron-up {
+    rotate: 180deg;
+}
+
+.filter-toggle:has(input:checked) pre .fa-chevron-up {
+    rotate: 0deg;
+} 
 
 .route-toggle {
     bottom: 2rem;
@@ -1078,18 +1087,20 @@ input[type="range"] {
     padding-left: 0.25rem;
 }
 
-.filter-overlay-container {
+
+.filter-overlay-container {   
     position: absolute;
-    bottom: -5rem;
+    top: calc(100% + 1rem);
     left: 50%;
     transform: translateX(-50%);
     font-family: "Permanent Marker", cursive;
-    rotate: -10deg;
     color: var(--darkgreen);
     text-align: center;
     font-size: 1.25rem;
     width: fit-content;
     display: initial;
+    rotate: -10deg;
+
 }
 
 .filter-overlay-container.hide {
@@ -1098,6 +1109,7 @@ input[type="range"] {
 
 .filter-closed-overlay {
     display: initial;
+    rotate: -10deg;
 }
 
 .filter-closed-overlay.hide {
@@ -1105,7 +1117,6 @@ input[type="range"] {
 }
 
 .filter-open-overlay {
-    padding-top: 2rem;
     display: none;
     width: 150%; 
 }
@@ -1124,18 +1135,20 @@ input[type="range"] {
 }
 
 .filter-overlay-sliders {
-    top: -9rem;
+    top: -10rem;
 }
 
 .filter-overlay-input {
-    top: -4rem;
+    top: -5.5rem;
 }
-
 
 .filter-overlay-container .fa-arrow-up {
     font-size: 2rem;
     rotate: 10deg;
+}
 
+.fa-arrow-up {
+    margin-top: 0.5rem;
 }
 
 
@@ -1262,7 +1275,7 @@ input[type="range"] {
     height: fit-content;
     position: absolute;
     top: 0;
-    left: -14rem;
+    left: -16rem;
     border-radius: 1rem;
     transition: all var(--animation-timing);
     font-weight: 600;
@@ -1275,22 +1288,43 @@ input[type="range"] {
 
 .regions-toggle-component {
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     z-index: 10;
 }
 
 .regions-toggle {
     display: none;
-    transform-origin: right;
-    transform: translate(220%, 350%);
-    border: 2px solid white;
+    transform-origin: left;
+    border: 2px solid var(--grey);
+    background: var(--grey);
     border-radius: 10rem 10rem 0 0;
-    padding: 0.25rem 2rem;
+    padding: 0rem 2rem;
     box-shadow: 2px 0px 2px var(--black-glass-50);
     rotate: 90deg;
+    height: 2rem;
+    transform: translate(11rem, -0.90rem);
+    top: 0;
+   
 }
 
+.regions-toggle pre > * {
+    height: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--darkgreen);
+}
+
+.fa-mountain {
+    rotate: -90deg;
+}
+
+.regions-toggle:has(input:checked) pre .fa-chevron-up {
+    rotate: 180deg;
+}
+
+.fa-chevron-up {
+    rotate: 0deg;
+}
 
 .regions-box > * {
     text-align: center;
@@ -1312,7 +1346,6 @@ input[type="range"] {
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 1rem;
     font-size: 1rem;
-    overflow: hidden;
     width: 12rem;
     margin: 0 0 0 auto;
 }
@@ -1391,9 +1424,9 @@ input[type="range"] {
         width: 30rem;
     }
 
-    .home-3w-a:hover div {
-        width: 20rem;
-    }
+        .home-3w-a:hover div {
+            width: 20rem;
+        }
 
     .nav-item {
         font-size: 2rem;
@@ -1418,8 +1451,8 @@ input[type="range"] {
         font-size: 1.5rem;
     }
 
-    .filter-overlay-container {
-        bottom: -7rem;
+    .filter-toggle, .route-toggle {
+        height: 2rem;
     }
 
     .filter-overlay-sliders {
@@ -1598,11 +1631,15 @@ input[type="range"] {
     }
 
     .filter-toggle {
-        right: 2rem;
-        top: 50%;
+        right: 1.95rem;
+        top: 20rem;
         rotate: 90deg;
         transform: translateY(-50%);
         transform-origin: right;
+    } 
+
+    .fa-filter {
+        rotate: -90deg;
     }
 
     .filter-container.show {
@@ -1634,19 +1671,19 @@ input[type="range"] {
 
 
     .filter-overlay-container {
-        top: 30%;
+        bottom: 50%;
         left:-8rem;
         border: 1px solid red;
     }
 
     .filter-overlay-sliders {
-        top: -5rem;
+        top: -7rem;
         right: -8rem;
 
     }
 
     .filter-overlay-input {
-        top: 3rem;
+        top: 1rem;
         right: -8rem;
     }
 
@@ -1656,14 +1693,12 @@ input[type="range"] {
     }
 
     .filter-closed-overlay .fa-arrow-up {
-        rotate: 100deg;
+        rotate: 120deg;
+        transform: translate(2rem, 1rem);
     }
-
+    
     .filter-open-overlay {
-        border: 1px solid red;
-        height: 100%;
-        width: 100%;
-        width: 100%;
+
     }
 
     .nav-filler {
@@ -1843,20 +1878,6 @@ input[type="range"] {
 
     .filter-overlay-container {
         left: -10rem;
-    }
-
-    .fa-arrow-up {
-        padding-right: 1rem;
-    }
-
-    .filter-overlay-sliders {
-        top: -21rem;
-        right: -12rem;
-    }
-
-    .filter-overlay-input {
-        top: -12rem;
-        right: -12rem;
     }
 
     .filter-container.show {
