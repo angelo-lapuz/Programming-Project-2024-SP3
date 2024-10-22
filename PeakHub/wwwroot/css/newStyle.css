@@ -481,7 +481,7 @@ main {
     z-index: 0;
 }
 
-.home-3w-a, .home-3a-a:visited {
+.home-3w-a, .home-3a-a:visited{
     width: 15em;
     text-decoration: none;
     margin: 0 auto;
@@ -1903,23 +1903,26 @@ input[type="range"] {
     text-align: center;
     width: 30%;
     min-height: 600px;
-    background: rgba(19, 50, 52, 0.8);
-    padding: 20px;
+    background: rgb(19,100,68, 0.4);
     border-radius: 15px;
+    padding-top: 60px;
     color: white;
     overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .itemBox {
-    width: 90%;
+    width: 100%;
     padding: 15px;
     margin-bottom: 25px;
     background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    color: var(--custom-grey);
+    border-radius: 40px;
+    color: floralwhite;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
     text-align: center;
-    font-weight: bold;
+    border: 1.5px groove #133234;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
     font-size: 18px;
     box-sizing: border-box;
 }
@@ -1952,45 +1955,101 @@ input[type="range"] {
 #awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
     background-color: var(--custom-yellow);
 }
+    #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+        text-align: center;
+        color: var(--grey);
+        text-shadow: var(--shadow-down);
+        font-size: 2.5rem;
+        letter-spacing: 0.10rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+    }
 
-.user-info img {
+    #userSection h3, #awardsSection h3, #completedAbelsSection h3 {
+        color: var(--yellow);
+        text-shadow: var(--shadow-down);
+        display: block;
+        z-index: 5;
+        letter-spacing: 0.2rem;
+        font-size: 1.6rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+    }
+
+    #userSection h4, #awardsSection h4, #completedAbelsSection h4 {
+        color: var(--yellow);
+        text-shadow: var(--shadow-down);
+        display: block;
+        z-index: 5;
+        letter-spacing: 0.2rem;
+        font-size: 1.3rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+    }
+
+    #userSection p, #awardsSection p, #completedAbelsSection p {
+        text-align: center;
+        font-size: 1.2rem;
+        font-family: "Roboto", sans-serif;
+        color: floralwhite;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    #userSection p1 {
+        text-align: center;
+        font-size: 1.2rem;
+        font-family: "Roboto", sans-serif;
+        color: floralwhite;
+        font-weight: bold;
+    }
+
+
+#userSection img {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
+    border-radius: 25%;
     margin-bottom: 10px;
 }
 
-.user-info h3, .user-info p {
-    text-align: center;
-    margin-bottom: 15px;
-    color: white;
-}
 
 .user-actions {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 10px;
+    gap: 20px;
 }
 
-.user-actions a {
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    background-color: #008800;
-    color: white;
-    border-radius: 5px;
-    border: groove 2px #000000;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
-}
+    .user-actions a {
+        width: 60%;
+        text-decoration: none;
+        margin: 0 auto;
+        padding: 15px;
+        border-radius: 40px;
+        color: floralwhite;
+        background: rgba(0, 0, 0, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s linear;
+        overflow: hidden;
+        font-size: 18px;
+        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+        border: 1.5px groove #133234;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+    }
+
 
 .user-actions a:hover {
-    background-color: #005F2A;
-    color: var(--custom-yellow);
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
 }
+
+
+
 
 
 @media only screen and (max-width: 900px) {
@@ -2005,6 +2064,20 @@ input[type="range"] {
         min-height: auto;
         height: auto;
     }
+
+    #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+        font-size: 2.0rem;
+        line-height: 1.2;
+    }
+    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
+        padding-bottom: 60px;
+
+    }
+    .container {
+        padding-top: 800px;
+
+    }
+
 }
 
 

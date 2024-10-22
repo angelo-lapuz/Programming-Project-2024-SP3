@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="wwwroot\img\awards\" />
   </ItemGroup>
 
   <ItemGroup>
