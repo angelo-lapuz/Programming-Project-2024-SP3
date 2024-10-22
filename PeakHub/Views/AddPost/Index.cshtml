@@ -1,51 +1,44 @@
 ﻿@model PeakHub.ViewModels.Forum.AddPostViewModel
-<link rel="stylesheet" href="~/css/forum.css" asp-append-version="true" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+@{ ViewData["Title"] = "Add Post"; }
+
+<link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="addContent">
-    <div id="postHeader">
-        <div id="postUser">
-            <input id="userID" type="hidden" value="@Model.User.userID" />
-            <img src="@Model.User.profileImg" alt="Your Profile Image" />
-            <h3>@Model.User.username</h3>
+    <div class="header">
+        <img src="@Model.User.ProfileImg" alt="Your Profile Image" />
+        <p> <strong>@Model.User.Username</strong> </p>
+    </div>
+
+    <form class="content" id="createPost">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="boardID" value="@Model.BoardID" />
+
+        <!-- Post content input -->
+        <textarea id="addPostContent" name="postContent" placeholder="What's on your mind?"></textarea>
+
+        <!-- Media upload input -->
+        <input type="file" id="addPostMedia" name="mediaFile" style="display: none" accept="image/*" />
+        <div id="mediaView" style="display: none"></div>
+
+        <div id="progressContainer" style="display: none;">
+            <p>Uploading, please wait...</p>
+            <progress id="progressBar" value="0" max="100"></progress>
         </div>
 
-        <a id="backIcon" href="@Url.Action("Index", "Board")">
-            <i class="fa-solid fa-arrow-left"></i>
-            <p>Go Back</p>
-        </a>
-    </div>
+        <!-- Error Message Display -->
+        <p id="errorMsg" style="display: none"></p>
 
-    <div id="postForm">
-        <form method="post" enctype="multipart/form-data" asp-action="CreatePost">
-            @Html.AntiForgeryToken()
+        <!-- Action Buttons -->
+        <div class="row-btn">
+            <button type="button" class="btn-secondary" id="addMediaFile">Add File</button>
+            <button type="button" class="btn-secondary deactivate" id="removeMediaFile">Remove File</button>
+        </div>
 
-            <!-- Hidden Fields -->
-            <input type="hidden" name="userID" value="@Model.User.userID" />
-            <input type="hidden" name="boardID" value="@Model.BoardID" />
-
-            <!-- Post content input -->
-            <textarea id="addPostContent" name="postContent" placeholder="What's on your mind?"></textarea>
-
-            <!-- Media upload input -->
-            <input type="file" id="addPostMedia" name="mediaFile" style="display: none" accept="image/*,video/mp4,video/webm" />
-            <div id="mediaView" style="display: none" ></div>
-
-            <div class="row-btn">
-                <button type="button" class="btn-secondary" id="addMediaFile">Add File</button>
-                <button type="button" class="btn-secondary deactivate" id="removeMediaFile">Remove File</button>
-            </div>
-
-            <!-- Error Message Display -->
-            <span asp-validation-for="postError" class="text-danger"></span>
-
-            <!-- Submit button -->
-            <div class="row-btn">
-                <button type="submit" id="addPostSubmit" class="btn-secondary deactivate">Submit</button>
-                <button type="button" id="cancelPost" class="btn-secondary">Cancel</button>
-            </div>
-        </form>
-    </div>
+        <div class="row-btn">
+            <button type="submit" id="addPostSubmit" class="btn-secondary deactivate">Submit</button>
+            <button type="button" id="cancelPost" class="btn-secondary">Cancel</button>
+        </div>
+    </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -55,56 +48,46 @@
         window.location.href = `/Forum/Index?boardID=${@Model.BoardID}`;
     });
 
-    function checkPostContentAndMedia() {
-        var content = $("#addPostContent");
-        var media = $("#addPostMedia")[0];
+    // Toggle 'Submit' Button on and off
+    function toggleSubmitBtn() {
+        var content = $("#addPostContent").val().trim();
+        var media = $("#addPostMedia")[0].files.length > 0;
         var btn = $("#addPostSubmit");
 
-        if (content.val().trim() == '' && media.files.length <= 0) {
-            btn.addClass("deactivate");
-        } else {
-            btn.removeClass("deactivate");
-        }
+        btn.toggleClass("deactivate", content === '' && !media);
     }
 
-    $("#addPostContent").on("keyup", function () {
-        checkPostContentAndMedia();
-    });
+    // Generate File Preview
+    function filePreview(file) {
+        const reader = new FileReader();
 
-    $("#addPostMedia").on("change", function () {
-        var view = $("#mediaView");
-        var media = $(this)[0];
-        var file = media.files[0];
-
-        if (file) {
-            $("#addMediaFile").addClass("deactivate");
-            $("#removeMediaFile").removeClass("deactivate");
-
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                var content = '';
-
-                if (file.type.startsWith("image/")) {
-                    content = `<img src="${e.target.result}" alt="Image Preview" />`;
-                } else {
-                    content = `<video controls>
-                                <source src="${e.target.result}" type="${file.type}">
-                                Your browser does not support the video tag.
-                              </video>`;
-                }
-
-                view.html(content).show();
-            }
-
-            reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            $("#mediaView").html(`<img src="${e.target.result}" alt="Image Preview" />`).show();
         }
 
-        checkPostContentAndMedia();
+        reader.readAsDataURL(file);
+    }
+
+    // Toggle 'Submit' on content
+    $("#addPostContent").on("keyup", toggleSubmitBtn);
+
+    // Preview File then Toggle 'Submit' on content
+    $("#addPostMedia").on("change", function () {
+        const file = $(this)[0].files[0];
+
+        if (file) {
+            filePreview(file);
+            $("#addMediaFile").addClass("deactivate");
+            $("#removeMediaFile").removeClass("deactivate");
+        }
+
+        toggleSubmitBtn();
     });
 
+    // Allows User to select file [img for now [TEMP]]
     $("#addMediaFile").on("click", function () { $("#addPostMedia").click(); });
 
+    // Removes selected file 
     $("#removeMediaFile").on("click", function () {
         $("#addPostMedia").val('');
         $("#mediaView").hide().empty();
@@ -112,6 +95,123 @@
         $("#removeMediaFile").addClass("deactivate");
         $("#addMediaFile").removeClass("deactivate");
 
-        checkPostContentAndMedia();
+        toggleSubmitBtn();
+    });
+
+    // -------------------------------------------------------------------------------- //
+
+    // Upload File to S3 
+    function uploadFile(key, url, file, callback) {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("PUT", url, true);
+        xhr.setRequestHeader("Content-Type", file.type);
+
+        $("#progressContainer").show();
+
+        xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                $("#progressBar").val(percentComplete);
+            }
+        }
+
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                callback(`https://peakhub-post-content.s3.amazonaws.com/${key}`);
+            } else {
+                callback(null);
+            }
+        }
+
+        xhr.onerror = function () { alert("An Error Occured"); }
+        xhr.send(file);
+    }
+
+    // Submit to DB
+    function submitPost(boardID, content, media = "NULL", mediaType = "NULL") {
+        console.log(`Board = ${boardID}`);
+        console.log(`Content = ${content}`);
+        console.log(`Media = ${media}`);
+        console.log(`MediaType = ${mediaType}`);
+
+        $.ajax({
+            url: "AddPost/CreatePost",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ 
+                BoardID: boardID, 
+                Content: content, 
+                Media: media, 
+                MediaType: mediaType 
+            }),
+            success: function(response) {
+                if (response.success) {
+                    window.location.href = `/Forum/Index?boardID=${response.boardID}`;
+                } else {
+                    $("#errorMsg").show().text(response.message);
+                }
+            },
+            error: function (xhr) {
+                // Set Error
+                if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON.error) {
+                    $("#errorMsg").text(xhr.responseJSON.error).show();
+                } else {
+                    console.log(`Error: [${xhr.status}] - ${xhr.statusText}`);
+                }
+
+                // Enable Buttons
+                if (Media != null) {
+                    $("#removeMediaFile").removeClass("deactivate");
+                } else {
+                    $("#addMediaFile").removeClass("deactivate");
+                }
+
+                $("#cancelPost").removeClass("deactivate");
+                toggleSubmitBtn();
+            }
+        });
+    }
+
+    // Handle Form Submit
+    $("#createPost").on("submit", function (e) { 
+        e.preventDefault();
+
+        $("#errorMsg").text('').hide();
+        $("button").addClass("deactivate");
+
+        const boardID = $("#boardID").val();
+        const file = $("#addPostMedia")[0].files[0];
+        const content = $("#addPostContent").val().trim();
+        const sanitizedContent = (content === null || content === '') ? "NULL" : content;
+
+        if (file) {
+            const fileType = file.type || "application/octet-stream";
+
+            $.ajax({
+                url: "/AddPost/GetPresignedURL",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ BoardID: boardID, FileType: fileType }),
+                success: function (response) {
+                    if (response.success) {
+                        uploadFile(response.key, response.url, file, function (url) {
+                            if (url) {
+                                console.log(`Upload Complete: [${url}]`);
+                                submitPost(boardID, sanitizedContent, url, response.type);
+                            }
+                            else { console.log("Upload Error!"); }
+                        });
+                    }
+                    else {
+                        console.log(`Signed URL Error: [${response.message}]`);
+                    }
+                },
+                error: function (response) {
+                    console.log(`Get URL Error: [${response.message}]`);
+                }
+            });
+        }
+        else { submitPost(boardID, sanitizedContent); }
     });
 </script>

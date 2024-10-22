@@ -918,7 +918,6 @@ main {
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1rem 1rem 0 0;
 }
 
 .filter-toggle-component {
@@ -927,14 +926,20 @@ main {
     background: linear-gradient( to bottom, var(--planner-blue), transparent);
 }
 
+#filter-toggle-checkbox {
+    visibility: hidden;
+}
+
 .filter-toggle, .route-toggle {
     position: absolute;
     right: 50%;
     transform: translateX(50%);
     z-index: 10;
     border: 2px solid white;
-    padding: 0.25rem 2rem;
+    padding: 0rem 1.5rem;
     box-shadow: 0px 2px 2px var(--black-glass-50);
+    background: var(--grey);
+    color: var(--darkgreen);
 }
 
 .filter-toggle {
@@ -1073,6 +1078,69 @@ input[type="range"] {
     padding-left: 0.25rem;
 }
 
+.filter-overlay-container {
+    position: absolute;
+    bottom: -5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Permanent Marker", cursive;
+    rotate: -10deg;
+    color: var(--darkgreen);
+    text-align: center;
+    font-size: 1.25rem;
+    width: fit-content;
+    display: initial;
+}
+
+.filter-overlay-container.hide {
+    display: none;
+}
+
+.filter-closed-overlay {
+    display: initial;
+}
+
+.filter-closed-overlay.hide {
+    display: none;
+}
+
+.filter-open-overlay {
+    padding-top: 2rem;
+    display: none;
+    width: 150%; 
+}
+
+.filter-open-overlay.show {
+    display: initial;
+}
+
+.filter-overlay-sliders, .filter-overlay-input {
+    position: absolute;
+    right: 50%;
+    border: 3px solid var(--darkgreen);
+    padding: 0.25rem;
+    border-radius: 5555px;
+    width: 3rem;
+}
+
+.filter-overlay-sliders {
+    top: -9rem;
+}
+
+.filter-overlay-input {
+    top: -4rem;
+}
+
+
+.filter-overlay-container .fa-arrow-up {
+    font-size: 2rem;
+    rotate: 10deg;
+
+}
+
+
+
+
 /* END of filter function */
 
 /* Map */
@@ -1090,38 +1158,11 @@ input[type="range"] {
     height: 100%;
     background: var(--planner-blue);
     z-index: 0;
-    border-radius: 1rem 1rem 0 0;
     box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
-.info-button {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    z-index: 1;
-}
-
-.info-data {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    border-radius: 20px;
-    height: fit-content;
-    min-height: 50%;
-    background-color: var(--grey);
-    align-content: center;
-    box-shadow: 0px 5px 5px black;
-    z-index: 5000;
-}
-
-    .info-data.show {
-        display: block;
-    }
 
 /* END of map */
 
@@ -1277,6 +1318,16 @@ input[type="range"] {
 }
 
 
+/* HELP Overlay */
+
+
+.info-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 100;
+}
+
 
 
 
@@ -1298,6 +1349,10 @@ input[type="range"] {
 
     .info-regions-more {
         font-size: 0.75rem;
+    }
+
+    .right-form {
+        width: 100%;
     }
 }
 
@@ -1361,6 +1416,18 @@ input[type="range"] {
     #search-name {
         line-height: 2rem;
         font-size: 1.5rem;
+    }
+
+    .filter-overlay-container {
+        bottom: -7rem;
+    }
+
+    .filter-overlay-sliders {
+        top: -11rem;
+    }
+
+    .filter-overlay-input {
+        top: -6rem;
     }
 }
 
@@ -1509,7 +1576,7 @@ input[type="range"] {
         /* PLANNER PAGE >900px*/
 
 
-        .filter-container {
+    .filter-container {
         width: 0rem;
         height: calc(100% - 17rem);
         transition: width var(--animation-timing);
@@ -1531,7 +1598,7 @@ input[type="range"] {
     }
 
     .filter-toggle {
-        right: 1.5rem;
+        right: 2rem;
         top: 50%;
         rotate: 90deg;
         transform: translateY(-50%);
@@ -1542,8 +1609,6 @@ input[type="range"] {
         width: 25rem;
         height: calc(100% - 17rem);
     }
-
-
 
     .filter-selections {
         top: calc(var(--navbar-height-s) + 2rem);
@@ -1568,6 +1633,38 @@ input[type="range"] {
     }
 
 
+    .filter-overlay-container {
+        top: 30%;
+        left:-8rem;
+        border: 1px solid red;
+    }
+
+    .filter-overlay-sliders {
+        top: -5rem;
+        right: -8rem;
+
+    }
+
+    .filter-overlay-input {
+        top: 3rem;
+        right: -8rem;
+    }
+
+    .filter-closed-overlay {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .filter-closed-overlay .fa-arrow-up {
+        rotate: 100deg;
+    }
+
+    .filter-open-overlay {
+        border: 1px solid red;
+        height: 100%;
+        width: 100%;
+        width: 100%;
+    }
 
     .nav-filler {
         display: none;
@@ -1740,8 +1837,26 @@ input[type="range"] {
     }
 
     .filter-toggle {
-        transform: translateY(1.25rem);
+        transform: translateY(1rem);
         box-shadow: 2px 2px 2px var(--black-glass-50);
+    }
+
+    .filter-overlay-container {
+        left: -10rem;
+    }
+
+    .fa-arrow-up {
+        padding-right: 1rem;
+    }
+
+    .filter-overlay-sliders {
+        top: -21rem;
+        right: -12rem;
+    }
+
+    .filter-overlay-input {
+        top: -12rem;
+        right: -12rem;
     }
 
     .filter-container.show {
@@ -1795,14 +1910,6 @@ input[type="range"] {
     overflow: hidden;
 }
 
-h3 {
-    color: var(--custom-yellow);
-    font-size: 20px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    margin-top: 40px;
-}
-
 .itemBox {
     width: 90%;
     padding: 15px;
@@ -1822,29 +1929,29 @@ h3 {
     transition: transform 0.2s, background-color 0.2s;
 }
 
-    #completedAbelsSection .itemBox:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-        transform: scale(1.05);
-        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-    }
+#completedAbelsSection .itemBox:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+}
 
 #awardsSection, #completedAbelsSection {
     overflow-y: auto;
     max-height: 400px;
 }
 
-    #awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
-        width: 8px;
-    }
+#awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
+    width: 8px;
+}
 
-    #awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
-        background-color: var(--custom-grey);
-        border-radius: 10px;
-    }
+#awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
+    background-color: var(--custom-grey);
+    border-radius: 10px;
+}
 
-        #awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
-            background-color: var(--custom-yellow);
-        }
+#awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
+    background-color: var(--custom-yellow);
+}
 
 .user-info img {
     width: 100px;
@@ -1867,37 +1974,24 @@ h3 {
     gap: 10px;
 }
 
-    .user-actions a {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        background-color: #008800;
-        color: white;
-        border-radius: 5px;
-        border: groove 2px #000000;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-        .user-actions a:hover {
-            background-color: #005F2A;
-            color: var(--custom-yellow);
-        }
-
-input, select, textarea {
+.user-actions a {
     width: 100%;
+    text-align: center;
     padding: 10px;
-    margin: 10px 0;
-    border: 2px solid #ccc;
+    background-color: #008800;
+    color: white;
     border-radius: 5px;
-    box-sizing: border-box;
+    border: groove 2px #000000;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-    input:focus, select:focus, textarea:focus {
-        border-color: var(--custom-yellow);
-        outline: none;
-    }
+.user-actions a:hover {
+    background-color: #005F2A;
+    color: var(--custom-yellow);
+}
+
 
 @media only screen and (max-width: 900px) {
     .container {

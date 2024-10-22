@@ -2,43 +2,58 @@
 using PeakHub.Utilities;
 using PeakHub.Models;
 using PeakHub.ViewModels.Forum;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeakHub.Controllers {
+    // -------------------------------------------------------------------------------- //
+    public class SignedURLRequestData {
+        public string BoardID { get; set; }
+        public string FileType { get; set; }
+    }
+
+    public class AddPostRequestData {
+        [Required] public string BoardID { get; set; }
+        public string Content { get; set; }
+        public string Media { get; set; }
+        public string MediaType { get; set; }
+    }
+    // -------------------------------------------------------------------------------- //
     public class AddPostController : Controller {
         private readonly HttpClient _httpClient;
-        private readonly Lambda_Calls _lambda;
+        private readonly IAmazonS3 _s3;
         private readonly ILogger<ForumController> _logger;
         private readonly Tools _tools;
 
-        private string userID => HttpContext.Session.GetString("UserId");
+        private string UserID => HttpContext.Session.GetString("UserId");
 
-        public AddPostController(IHttpClientFactory httpClient, Lambda_Calls lambda, ILogger<ForumController> logger, Tools tools) {
+        public AddPostController(IHttpClientFactory httpClient, IAmazonS3 s3, ILogger<ForumController> logger, Tools tools) {
             _httpClient = httpClient.CreateClient("api");
-            _lambda = lambda;
+            _s3 = s3;
             _logger = logger;
             _tools = tools;
         }
         // -------------------------------------------------------------------------------- //
-        public async Task<UserViewModel> GetUser(string id) {
-            if (string.IsNullOrEmpty(id)) {
-                _logger.LogInformation("UserID IS Null!");
-                return null;
-            }
-
-            User userObject = await _tools.GetUser(userID);
+        public async Task<UserViewModel> GetUser() {
+            if (string.IsNullOrEmpty(UserID)) return null;
+            User user = await _tools.GetUser(UserID);
 
             return new UserViewModel {
-                userID = userObject.Id,
-                username = userObject.UserName,
-                profileImg = (userObject.ProfileIMG != null) ?
-                        userObject.ProfileIMG : "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
+                UserID = user.Id,
+                Username = user.UserName,
+                ProfileImg = user.ProfileIMG ?? "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
             };
         }
         // -------------------------------------------------------------------------------- //
-        [HttpPost("AddPost/IndexPage")]
-        public async Task<IActionResult> Index(string UserID, string BoardID) {
-            UserViewModel user = await GetUser(UserID);
-            if (user == null) return RedirectToAction("Index", "Forun", new { boardID = BoardID });
+        [HttpPost]
+        public async Task<IActionResult> Index(string BoardID) {
+            UserViewModel user = null;
+
+            try { user = await GetUser(); }
+            catch (Exception ex) { Console.WriteLine($"Error [{ex.Message}]");  }
+
+            if (user == null) return RedirectToAction("Index", "Forum", new { boardID = BoardID });
 
             return View(new AddPostViewModel {
                 BoardID = BoardID,
@@ -46,80 +61,81 @@ namespace PeakHub.Controllers {
             });
         }
         // -------------------------------------------------------------------------------- //
-        public async Task<string> HandleMedia(string key, IFormFile mediaFile) {
-            var allowedMediaTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/webp", "video/mp4", "video/webm" };
+        [HttpPost]
+        public IActionResult GetPresignedURL([FromBody] SignedURLRequestData data) {
+            string boardID = data.BoardID, fileType = data.FileType;
 
-            if (!allowedMediaTypes.Contains(mediaFile.ContentType))
-                return "[Error] Media must be either an Image, MP4, or WebM File";
+            Console.WriteLine("SignedURL START");
+            Console.WriteLine($"Board = [{boardID}] | File Type = [{fileType}]");
+
+            if (string.IsNullOrEmpty(fileType)) return Json(new { success = false, message = "File Type is Null" });
+            if (string.IsNullOrEmpty(UserID)) return Json(new { success = false, message = "UserID is Null" });
+            if (string.IsNullOrEmpty(boardID)) return Json(new { success = false, message = "BoardID is Null" });
 
             try {
-                byte[] fileContent;
+                string dt = DateTime.Now.ToString("dd-MM-yyyy_HH-mm-ss");
+                string fileExtension = _tools.GetFileExtension(fileType);
 
-                using (var memoryStream = new MemoryStream()) {
-                    await mediaFile.CopyToAsync(memoryStream);
-                    fileContent = memoryStream.ToArray();
-                }
+                string key = $"{boardID}/{UserID}/{dt}";
+                if (!string.IsNullOrEmpty(fileExtension)) { key += $".{fileExtension}"; }
 
-                string fileLink = await _lambda.UploadToS3("post", key, fileContent, mediaFile.ContentType);
-                if (string.IsNullOrEmpty(fileLink)) throw new Exception("File Key Missing");
+                var request = new GetPreSignedUrlRequest {
+                    BucketName = "peakhub-post-content",
+                    Key = key,
+                    Expires = DateTime.UtcNow.AddMinutes(60),
+                    Verb = HttpVerb.PUT,
+                    ContentType = fileType
+                };
 
-                return fileLink;
+                string presignedURL = _s3.GetPreSignedURL(request);
+                Console.WriteLine($"Key = [{key}] \nURL = [{presignedURL}]");
+                return Json(new { success = true, url = presignedURL, key = key, type = fileType });
             }
             catch (Exception ex) {
-                _logger.LogInformation($"Image Upload Error: [{ex.Message}]");
-                return "[Error] Something Happened While Uploading Your Media";
+                return Json(new { success = false, message = $"Error [{ex.Message}]" });
             }
         }
         // -------------------------------------------------------------------------------- //
-        [HttpPost("AddPost/CreatePost")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(string userID, string boardID, string postContent, IFormFile mediaFile) {
-            Console.WriteLine($"Board {boardID} | User = {userID}");
-            string fileLink = null, fileType = (mediaFile != null) ? mediaFile.ContentType : null;
-
-            DateTime dt = DateTime.Now;
-
-            if (string.IsNullOrEmpty(postContent) && (mediaFile == null || mediaFile.Length <= 0)) {
-                _logger.LogInformation($"Content = {postContent} \nMedia = {mediaFile.FileName} + {mediaFile.ContentType}");
-                ModelState.AddModelError("postError", "Ensure at least 1 field is Populated");
+        [HttpPost]
+        public async Task<IActionResult> CreatePost([FromBody] AddPostRequestData data) {
+            if (data == null) {
+                _logger.LogInformation("AddPostRequestData is Null! NULL!!");
+                return Json(new { success = false, message = "Server Issue! Please refresh page" });
             }
 
-            if (ModelState.IsValid && fileType != null) {
-                string key = $"{boardID}/{userID}/{dt.ToString("dd-MM-yyyy_HH-mm-ss")}";
-                string result = await HandleMedia(key, mediaFile);
+            data.Content = (data.Content == "NULL") ? null : data.Content;
+            data.Media = (data.Media == "NULL") ? null : data.Media;
+            data.MediaType = (data.MediaType == "NULL") ? null : data.MediaType;
 
-                if (result.Contains("[Error]")) ModelState.AddModelError("postError", "Ensure at least 1 field is Populated");
-                else fileLink = result;
+            if (string.IsNullOrEmpty(data.Content) && string.IsNullOrEmpty(data.Media)) {
+                _logger.LogInformation($"Content = [{data.Content}] \nMedia = [{data.Media}]");
+                return Json(new { success = false, message = "Ensure at least 1 field is populated" });
             }
 
-            if (ModelState.IsValid) {
-                try {
-                    Post post = new Post {
-                        UserId = userID,
-                        BoardID = int.Parse(boardID),
-                        Content = postContent,
-                        MediaType = fileType,
-                        MediaLink = fileLink,
-                        TransactionTimeUtc = dt
-                    };
-
-                    var response = await _httpClient.PostAsJsonAsync("api/posts", post);
-                    if (!response.IsSuccessStatusCode) throw new Exception("Post Failed Creation!");
-
-                    return RedirectToAction("Index", "Forum", new { boardID = boardID });
+            try {
+                if (!int.TryParse(data.BoardID, out int boardID) || boardID <= 0) {
+                    _logger.LogInformation($"BoardID could not convert to INT || ID is 0");
+                    return Json(new { success = false, message = "Server Issue! Please refresh page" });
                 }
-                catch (Exception ex) {
-                    _logger.LogInformation($"Post Create Error: [{ex.Message}]");
-                    ModelState.AddModelError("postError", "An Error Occured Creating Your Post");
-                }
+
+                Post post = new Post {
+                    UserId = UserID,
+                    BoardID = boardID,
+                    Content = data.Content,
+                    MediaType = data.MediaType,
+                    MediaLink = data.Media,
+                    TransactionTimeUtc = DateTime.Now
+                };
+
+                var response = await _httpClient.PostAsJsonAsync("api/posts", post);
+                if (!response.IsSuccessStatusCode) throw new Exception("Post Failed Creation!");
+
+                return Json(new { success = true, boardID });
             }
-
-            UserViewModel user = await GetUser(userID);
-
-            return View(new AddPostViewModel {
-                BoardID = boardID,
-                User = user
-            });
+            catch (Exception ex) {
+                _logger.LogInformation($"Post Create Error: [{ex.Message}]");
+                return Json(new { success = false, message = "Oh No! Something went wrong" });
+            }
         }
     }
 }
