@@ -48,9 +48,9 @@
         <div id="planner-container">
 
             <div class="filter-container">
-                <div class="filter-toggle-component  ">
+                <div class="filter-toggle-component" title="Filter Peaks">
                     <label class="filter-toggle">
-                        <pre> <i class="fa-solid fa-filter"></i> <i class="fa-sharp fa-solid fa-chevron-up"></i><input id="filter-toggle-checkbox" type="checkbox"/></pre>
+                        <pre> <i class="fa-solid fa-filter"></i> <i class="fa-sharp fa-solid fa-chevron-up"></i><input id="filter-toggle-checkbox" type="checkbox" /></pre>
                     </label>
                 </div>
                 <div class="filter-options">
@@ -87,11 +87,11 @@
                         <div class="filter-overlay-input">2</div>
                         <p> To filter results use:</p>
                         <p> 1 - Sliders</p>
-                        <p> 2 - Text input</p>                      
+                        <p> 2 - Text input</p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="map-container">
                 <div class="info-data"></div>
                 <div id="map"></div>
@@ -100,33 +100,79 @@
             <div class="route-container">
                 <div class="route-content">
                     <div class="plannerBtns">
-                        <button id="draw-route" class="buttonB"><i class="fa-solid fa-pencil"></i></button>
-                        <button id="undo" class="buttonB"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button id="draw-route" class="buttonB" title="Plot Marker"><i class="fa-solid fa-pencil"></i></button>
+                        <button id="undo" class="buttonB" title="Undo Marker"><i class="fa-solid fa-rotate-left"></i></button>
                         <button id="finish" class="buttonB">Finish</button>
-                        <button id="clear" class="buttonB"><i class="fa-solid fa-trash-can"></i></button>
+                        <button id="clear" class="buttonB" title="Delete Route"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="route-overlay-buttons">
+                            <i class="route-overlay-plot">1</i>
+                            <i class="route-overlay-undo">2</i>
+                            <i class="route-overlay-finish">3</i>
+                            <i class="route-overlay-delete">4</i>
+                            <i class="route-overlay-save">5</i>
+                        </div>
                     </div>
                     <div class="chart-container">
                         <canvas id="elevationChart"></canvas>
                     </div>
-                    <button id="saveBtn" class="saveBtn buttonB"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <button id="saveBtn" class="saveBtn buttonB" title="Save Route"><i class="fa-regular fa-floppy-disk"></i></button>
                     <div class="routeList-container">
                         <span>Saved Routes</span>
+                        <i class="route-overlay-A">A</i>
+                        <i class="route-overlay-B">B</i>
+                        <div class="route-overlay-route-save">
+                            <p>A - Select to load saved route</p>
+                            <p>B - Select bin to delete it</p>
+                        </div>
                         <div id="route-box" class="route-box"></div>
                     </div>
                 </div>
+                <div class="route-overlay-container">
+                    <div class="route-closed-overlay">
+                        <p>Plot your own Route</p>
+                        <p>(Requires account login)</p>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </div>
+                    <div class="route-open-overlay">
+                        <div class="route-overlay-text">
+                            <p>1 - Route plotting tool. Left click to place markers</p>
+                            <p>2 - Undo last marker on your route</p>
+                            <p>3 - Finish your plot! Creates Elevation graph</p>
+                            <p>4 - Delete your route </p>
+                            <p>5 - Save your route (Max 3)</p>
+                        </div>
+                        
+                    </div>
+                </div>
             </div>
-            <div class="route-toggle-component">
-                <button class="route-toggle"><pre><i class="fa-solid fa-route"></i>  <i class="fa-sharp fa-solid fa-chevron-down"></i></pre></button>
+            <div class="route-toggle-component" title="Route Planner">
+                <label class="route-toggle">
+                    <pre> <i class="fa-solid fa-route"></i> <i class="fa-sharp fa-solid fa-chevron-up"></i><input id="route-toggle-checkbox" type="checkbox" /></pre>
+                </label>
             </div>
-            <div class="regions-toggle-component">
-                <button class="regions-toggle"><pre><i class="fa-solid fa-chart-area"></i>  <i class="fa-sharp fa-solid fa-chevron-up"></i></pre></button>
+            <div class="regions-toggle-component" title="Regions List">
+                <label class="regions-toggle">
+                    <pre> <i class="fa-solid fa-mountain"></i> <i class="fa-sharp fa-solid fa-chevron-up"></i><input id="regions-toggle-checkbox" type="checkbox" /></pre>
+                </label>
             </div>
             <div class="regions-container">
-                <div id="section-boxes" class="regions-box"></div>
+                
+                <div id="section-boxes" class="regions-box"><i class="regions-overlay-circle"></i></div>
+                <div class="regions-overlay-container">
+                    <div class="regions-closed-overlay">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <div class="regions-overlay-text">List of Regions</div>
+                    </div>
+                    <div class="regions-open-overlay">
+  
+                        <p> Select a region to see peaks</p>
+                    </div>
+                </div>
             </div>
 
 
-            <label class="info-toggle">overlay
+            <label class="info-toggle">
+                overlay <i class="fa-solid fa-arrow-right"></i>
                 <input id="info-toggle-checkbox" type="checkbox" checked="checked" />
             </label>
         </div>
