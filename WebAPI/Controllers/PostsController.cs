@@ -59,10 +59,7 @@ public class PostsController : ControllerBase
     public IActionResult GetBoardPosts(int boardID, string userID, int pageSize = 10, int pageIndex = 1) {
         var response = _repo.GetBoardPosts(boardID, userID, pageSize, pageIndex);
 
-        if (response != null) {
-            if (response.Count() > 0) return Ok(response);
-            else return NotFound(new { Message = "No Posts Left!" } );
-        }
+        if (response != null || response.Any()) return Ok(response);
         return BadRequest(new { Message = "Issue Fetching Posts" });
     }
 }
