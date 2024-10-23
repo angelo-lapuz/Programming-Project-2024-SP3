@@ -27,6 +27,7 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
+    
 }
 /* removes anchor link decorations */
 a {
@@ -172,6 +173,7 @@ body {
     line-height: 1.5rem;
     font-size: 1rem;
     font-family: "Roboto", sans-serif;
+    transition: all var(--animation-timing);
 }
 
 .h1, h2, h3 {
@@ -192,9 +194,9 @@ body {
     top: 0;
 }
 
-    #nav-area.hide {
-        top: calc(var(--navbar-height-s) * -1);
-    }
+#nav-area.hide {
+    top: calc(var(--navbar-height-s) * -1);
+}
 
 #nav-container {
     max-width: 1300px;
@@ -368,9 +370,9 @@ body {
     letter-spacing: 0.25rem;
 }
 
-.nav-link:hover {
-    color: var(--darkgreen);
-}
+    .nav-link:hover {
+        color: var(--darkgreen);
+    }
 
 .nav-link-hover {
     width: 0%;
@@ -417,9 +419,9 @@ main {
     opacity: 50%;
 }
 
-    .to-top-btn:hover {
-        opacity: 100%;
-    }
+.to-top-btn:hover {
+    opacity: 100%;
+}
 
 /* container for home screen text */
 .home-typewriter {
@@ -926,7 +928,7 @@ main {
     background: linear-gradient( to bottom, var(--planner-blue), transparent);
 }
 
-#filter-toggle-checkbox {
+#filter-toggle-checkbox, #route-toggle-checkbox, #regions-toggle-checkbox {
     visibility: hidden;
 }
 
@@ -935,11 +937,12 @@ main {
     right: 50%;
     transform: translateX(50%);
     z-index: 10;
-    border: 2px solid white;
+    border: 2px solid var(--grey);
     padding: 0rem 1.5rem;
-    box-shadow: 0px 2px 2px var(--black-glass-50);
+    box-shadow: 2px 2px 2px var(--black-glass-50);
     background: var(--grey);
     color: var(--darkgreen);
+    height: 1.5rem;
 }
 
 .filter-toggle {
@@ -952,6 +955,15 @@ main {
 
 .filter-toggle {
     top: 0;
+}
+
+
+.filter-toggle:has(input:checked) pre .fa-chevron-up {
+    rotate: 0deg;
+}
+
+.filter-toggle pre .fa-chevron-up {
+    rotate: 180deg;
 }
 
 .route-toggle {
@@ -1078,18 +1090,19 @@ input[type="range"] {
     padding-left: 0.25rem;
 }
 
+
 .filter-overlay-container {
     position: absolute;
-    bottom: -5rem;
+    top: calc(100% + 1rem);
     left: 50%;
     transform: translateX(-50%);
     font-family: "Permanent Marker", cursive;
-    rotate: -10deg;
     color: var(--darkgreen);
     text-align: center;
     font-size: 1.25rem;
     width: fit-content;
     display: initial;
+    rotate: -10deg;
 }
 
 .filter-overlay-container.hide {
@@ -1098,6 +1111,8 @@ input[type="range"] {
 
 .filter-closed-overlay {
     display: initial;
+    rotate: -10deg;
+    width: 10rem;
 }
 
 .filter-closed-overlay.hide {
@@ -1105,9 +1120,8 @@ input[type="range"] {
 }
 
 .filter-open-overlay {
-    padding-top: 2rem;
     display: none;
-    width: 150%; 
+    width: 10rem;
 }
 
 .filter-open-overlay.show {
@@ -1124,19 +1138,19 @@ input[type="range"] {
 }
 
 .filter-overlay-sliders {
-    top: -9rem;
+    top: -10rem;
 }
 
 .filter-overlay-input {
-    top: -4rem;
+    top: -5.5rem;
 }
-
 
 .filter-overlay-container .fa-arrow-up {
     font-size: 2rem;
     rotate: 10deg;
-
+    margin-top: 0.5rem;
 }
+
 
 
 
@@ -1174,7 +1188,6 @@ input[type="range"] {
     position: absolute;
     bottom: 0;
     left: 0;
-    overflow: hidden;
     transition: height var(--animation-timing), width var(--animation-timing);
 }
 
@@ -1190,6 +1203,10 @@ input[type="range"] {
     background: linear-gradient(to top, var(--black-glass-50), transparent);
 }
 
+.route-toggle:has(input:checked) pre .fa-chevron-up {
+    rotate: 180deg;
+}
+
 .route-content {
     position: absolute;
     top: 0;
@@ -1198,6 +1215,155 @@ input[type="range"] {
     display: grid;
     grid-template-columns: 3fr 1fr;
 }
+
+/* route assistive overlay */
+
+.route-overlay-container {
+    position: absolute;
+    top: -10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Permanent Marker", cursive;
+    color: var(--darkgreen);
+    text-align: center;
+    font-size: 1.25rem;
+    display: initial;
+    rotate: -10deg;
+    
+}
+
+.route-overlay-container.hide {
+    display: none;
+}
+
+.route-closed-overlay .fa-arrow-down {
+    font-size: 2rem;
+    transform: rotate(10deg);
+    margin-top: 0.5rem;
+    transition: all var(--animation-timing);
+}
+
+.route-closed-overlay {
+    display: initial;
+    position: absolute;
+    width: 20rem;
+    right: -9rem;
+    
+}
+
+.route-closed-overlay.hide {
+    display: none;
+}
+
+.route-open-overlay {
+    display: none;
+    text-align: left;
+    position: absolute;
+    rotate: 10deg;
+    width: 100vw;
+    max-width: 30rem;
+    right: -13rem;
+    top: -1rem;
+}
+
+.route-open-overlay.show {
+    display: initial;
+}
+
+.route-overlay-text {
+    width: fit-content;
+    margin-left: auto;
+    rotate: -10deg;
+    font-size: 1rem;
+
+}
+
+.route-overlay-buttons {
+    position: absolute;
+    top: -1.5rem;
+    right: 2rem;
+    width:20rem;
+    margin: 0 auto;
+    display: none;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.route-overlay-buttons.infohide {
+    display: none !important;
+}
+
+.route-overlay-buttons.show {
+    display: flex;
+}
+
+
+.route-overlay-buttons > * {
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    color: var(--darkgreen);
+    border: 3px solid var(--darkgreen);
+    border-radius: 9999rem;
+    padding: 0.15rem 0.75rem;
+}
+
+.route-overlay-route-save {
+    position: absolute;
+    right: 2rem;
+    bottom: -16rem;
+    font-size: 1rem;
+}
+
+.route-overlay-A, .route-overlay-B {
+    position: absolute;
+    font-family: "Permanent Marker", cursive;
+    color: var(--darkgreen);
+    font-weight: 400;
+    border: 3px solid var(--darkgreen);
+    border-radius: 9999rem;
+    padding: 0.15rem 0.75rem;
+}
+
+.route-overlay-A {
+    left: 0;
+    top: 2rem;
+    display: initial;
+}
+
+.route-overlay-A.infohide {
+    display: none !important;
+}
+
+.route-overlay-B {
+    top: 2rem;
+    right: -1rem;
+    display: initial;
+}
+
+.route-overlay-B.infohide {
+    display: none !important;
+}
+
+.route-overlay-route-save {
+    position: absolute;
+    right: 0;
+    font-family: "Permanent Marker", cursive;
+    color: var(--darkgreen);
+    font-weight: 400;
+    width: 20rem;
+    height: 20rem;
+    display: initial;
+}
+
+.route-overlay-route-save.infohide {
+    display: none !important;
+}
+
+
+
+
+
+
 
 .plannerBtns {
     grid-area: 1/1/2/2;
@@ -1254,15 +1420,13 @@ input[type="range"] {
 }
 
 
-
-
 .regions-container {
     display: none;
     width: 14rem;
     height: fit-content;
     position: absolute;
-    top: 0;
-    left: -14rem;
+    top: 5rem;
+    left: -16rem;
     border-radius: 1rem;
     transition: all var(--animation-timing);
     font-weight: 600;
@@ -1275,28 +1439,50 @@ input[type="range"] {
 
 .regions-toggle-component {
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     z-index: 10;
 }
 
 .regions-toggle {
     display: none;
-    transform-origin: right;
-    transform: translate(220%, 350%);
-    border: 2px solid white;
+    transform-origin: left;
+    border: 2px solid var(--grey);
+    background: var(--grey);
     border-radius: 10rem 10rem 0 0;
-    padding: 0.25rem 2rem;
-    box-shadow: 2px 0px 2px var(--black-glass-50);
+    padding: 0rem 1.25rem;
+    box-shadow: 2px -2px 2px var(--black-glass-50);
     rotate: 90deg;
+    height: 2rem;
+    transform: translate(11rem, -0.90rem);
+    top: 0;
 }
 
+.regions-toggle pre > * {
+    height: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--darkgreen);
+}
+
+.fa-mountain {
+    rotate: -90deg;
+}
+
+.regions-toggle:has(input:checked) pre .fa-chevron-up {
+    rotate: 180deg;
+}
+
+.regions-toggle pre .fa-chevron-up {
+    rotate: 0deg;
+}
 
 .regions-box > * {
+    position: relative;
     text-align: center;
     margin-top: 0.5rem;
     color: var(--darkgreen);
     cursor: pointer;
+    z-index: 100;
 }
 
 .regions-box > *:hover {
@@ -1304,7 +1490,12 @@ input[type="range"] {
     color: var(--grey);
 }
 
+.regions-box .regions-overlay-circle {
+    background-color: transparent;
+}
+
 .regions-box {
+    position: relative;
     background: var(--grey-glass);
     box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
     backdrop-filter: blur(3px);
@@ -1312,10 +1503,72 @@ input[type="range"] {
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 1rem;
     font-size: 1rem;
-    overflow: hidden;
     width: 12rem;
     margin: 0 0 0 auto;
 }
+
+.regions-overlay-container {
+    position: absolute;
+    top: 8rem;
+    left: 19rem;
+    rotate: -10deg;
+    font-family: "Permanent Marker", cursive;
+    color: var(--darkgreen);
+    text-align: center;
+    font-size: 1.25rem;
+    display: initial;
+    font-weight: 400;
+
+}
+
+.regions-overlay-container.hide {
+    display: none;
+}
+
+.regions-closed-overlay {
+    display: flex;
+}
+
+.regions-closed-overlay i {
+    padding-right: 0.5rem;
+    align-self: center;
+    rotate: 5deg;
+    font-size: 2rem;
+}
+
+.regions-closed-overlay.hide {
+    display: none;
+}
+
+.regions-open-overlay {
+    position: absolute;
+    left: -3rem;
+    width: 10rem;
+    display: none;
+}
+
+.regions-overlay-circle {
+    position: absolute;
+    width: 15rem;
+    height: 25rem;
+    background: url(/img/circle.png);
+    background-size: 100% 100%;
+    top: -2rem;
+    left: -2rem;
+    rotate: 180deg;
+    z-index: 1;
+    display: initial;
+}
+
+.regions-overlay-circle.hide {
+    display: none;
+}
+
+.regions-open-overlay.show {
+    display: initial;
+}
+
+
 
 
 /* HELP Overlay */
@@ -1324,15 +1577,11 @@ input[type="range"] {
 .info-toggle {
     position: absolute;
     right: 1rem;
-    top: 1rem;
+    top: 0.5rem;
     z-index: 100;
+    font-family: "Permanent Marker", cursive;
+    color: var(--darkgreen);
 }
-
-
-
-
-
-
 
 
 /* BREAK PT MAX-600PX */
@@ -1353,6 +1602,14 @@ input[type="range"] {
 
     .right-form {
         width: 100%;
+    }
+
+    .route-overlay-B {
+        top: 4rem;
+    }
+
+    .filter-overlay-container, .route-overlay-container {
+        font-size: 1rem;
     }
 }
 
@@ -1383,7 +1640,6 @@ input[type="range"] {
 
     .home-3w-a div {
         width: 5rem;
-        height: 2rem;
     }
 
     /* button stretches on hover */
@@ -1418,16 +1674,28 @@ input[type="range"] {
         font-size: 1.5rem;
     }
 
-    .filter-overlay-container {
-        bottom: -7rem;
+    .filter-toggle, .regions-toggle, .route-toggle {
+        height: 2rem;
+        font-size: 1.5rem;
     }
 
-    .filter-overlay-sliders {
-        top: -11rem;
+
+    .route-overlay-buttons {
+
+        right: calc(2rem + 15%);
+        width: 20rem;
+        margin: 0 auto;
+
     }
 
-    .filter-overlay-input {
-        top: -6rem;
+    .route-overlay-A {
+        left: 1rem;
+        top: 2rem;
+    }
+
+    .route-overlay-B {
+        top: 2rem;
+        right: 1rem;
     }
 }
 
@@ -1573,7 +1841,7 @@ input[type="range"] {
         width: 20rem;
     }
 
-        /* PLANNER PAGE >900px*/
+    /* PLANNER PAGE >900px*/
 
 
     .filter-container {
@@ -1598,11 +1866,15 @@ input[type="range"] {
     }
 
     .filter-toggle {
-        right: 2rem;
-        top: 50%;
+        right: 1.95rem;
+        top: 20rem;
         rotate: 90deg;
         transform: translateY(-50%);
         transform-origin: right;
+    }
+
+    .fa-filter {
+        rotate: -90deg;
     }
 
     .filter-container.show {
@@ -1634,19 +1906,17 @@ input[type="range"] {
 
 
     .filter-overlay-container {
-        top: 30%;
-        left:-8rem;
-        border: 1px solid red;
+        top: 12rem;
+        left: -8rem;
     }
 
     .filter-overlay-sliders {
-        top: -5rem;
+        top: -7rem;
         right: -8rem;
-
     }
 
     .filter-overlay-input {
-        top: 3rem;
+        top: 1rem;
         right: -8rem;
     }
 
@@ -1656,15 +1926,11 @@ input[type="range"] {
     }
 
     .filter-closed-overlay .fa-arrow-up {
-        rotate: 100deg;
+        margin-left: 1rem;
+        rotate: 120deg;
+        transform: translate(2rem, 1rem);
     }
 
-    .filter-open-overlay {
-        border: 1px solid red;
-        height: 100%;
-        width: 100%;
-        width: 100%;
-    }
 
     .nav-filler {
         display: none;
@@ -1710,6 +1976,51 @@ input[type="range"] {
     .regions-container, .regions-toggle {
         display: block;
     }
+
+    .route-overlay-container {
+        top: -15rem;
+    }
+
+    .route-overlay-A {
+        left: 3rem;
+        top: 2rem;
+    }
+
+    .route-overlay-B {
+        top: 2rem;
+        right: 3rem;
+    }
+
+
+    .route-overlay-text {
+        font-size: 1.25rem;
+    }
+
+    .route-overlay-buttons {
+        right: 10rem;
+        width: 35rem;
+    }
+
+
+    .route-overlay-buttons > * {
+        font-size: 1.25rem;
+    }
+
+    .route-overlay-route-save {
+        font-size: 1.25rem;
+    }
+
+    .route-closed-overlay {
+        top: 5rem;
+    }
+
+
+
+    .route-closed-overlay .fa-arrow-down.slide {
+        rotate: -70deg;
+     
+    }
+
 }
 
 /* BREAK PT MIN-1201PX */
@@ -1845,20 +2156,6 @@ input[type="range"] {
         left: -10rem;
     }
 
-    .fa-arrow-up {
-        padding-right: 1rem;
-    }
-
-    .filter-overlay-sliders {
-        top: -21rem;
-        right: -12rem;
-    }
-
-    .filter-overlay-input {
-        top: -12rem;
-        right: -12rem;
-    }
-
     .filter-container.show {
         height: calc(100% - 2.5rem);
         width: 27rem;
@@ -1871,6 +2168,16 @@ input[type="range"] {
 
     .filter-results {
         font-size: 0.75rem;
+    }
+
+    .route-overlay-buttons {
+        right: 14rem;
+        width: 35rem;
+    }
+
+
+    .route-overlay-buttons.slide {
+        right: 10rem;
     }
 }
 
