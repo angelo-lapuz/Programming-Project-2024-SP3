@@ -1,77 +1,15 @@
-﻿@model PeakHub.ViewModels.Forum.BoardViewModel
-@{ ViewData["Title"] = "Boards"; }
+﻿@{ ViewData["Title"] = "Boards"; }
 
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="boardContent">
     <div class="header">
         <input type="text" id="searchInput" placeholder="Search by Name or Section" />
-        <i class="fas fa-search"></i>
+        <i id="searchIcon" class="fas fa-search"></i>
     </div>
 
     <div class="content" id="listOfBoards"> </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () { loadBoards(); });
-    // -------------------------------------------------------------------------------- //
-    // Search Bar Implementation
-    $("#searchInput").on("keyup", function () {
-        var searchTerm = $(this).val().toLowerCase(); // Get Input
-
-        // Check Items
-        $('.itemBox').each(function () {
-            var boardName = $(this).find('strong').text().toLowerCase();
-            var boardSection = $(this).find('i').text().toLowerCase();
-
-            // Display Matches Only
-            if (boardName.includes(searchTerm) || boardSection.includes(searchTerm)) {
-                $(this).show();
-            }
-            else { $(this).hide(); }
-        });
-    });
-    // -------------------------------------------------------------------------------- //
-    // Moving to Forum Page
-    function appendBoards(boards) {
-        const container = $("#listOfBoards");
-
-        boards.forEach(board => { 
-            container.append(`
-                <div data-id='${board.boardID}' class='itemBox'>
-                    <img src='${board.imageLink}' alt='Board Location Image' />
-
-                    <div class='itemData'>
-                        <p> <strong> ${board.name} </strong> </p>
-                        <p> <i> ${board.section} </i> </p>
-                    </div>
-                </div>
-            `);
-        });
-    }
-
-    function loadBoards() {
-        $.ajax({
-            url: "/Board/AllBoards",
-            type: "GET",
-            success: function (boards) {
-                if (boards.length > 0) {
-                    appendBoards(boards);
-                } else {
-                    console.log("No Boards Found");
-                }
-            },
-            error: function (response) {
-                console.log("An error has occured!");
-                console.log(response);
-            }
-        });
-    }
-
-    $("#listOfBoards").on("click", ".itemBox", function () {
-        var boardID = $(this).data("id");
-        window.location.href = `/Forum/Index?boardID=${boardID}`;
-    });
-    // -------------------------------------------------------------------------------- //
-</script>
+<script src="~/js/forum/board.js"></script>

@@ -1,8 +1,8 @@
-﻿using PeakHub.Models;
-
-namespace PeakHub.ViewModels.Forum {
+﻿namespace PeakHub.ViewModels.Forum {
     public class BoardViewModel {
-        // All Boards to Display
-        public IEnumerable<Board> Boards { get; set; } 
+        public int BoardID { get; set; } // Board ID
+        public string Name { get; set; } // Board Name
+        public string Section { get; set; } // Peak Section
+        public string ImageLink { get; set; } // Peak Image
     }
 }

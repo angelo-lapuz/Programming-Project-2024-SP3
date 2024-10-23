@@ -23,7 +23,6 @@ main {
     height: 90%;
     padding: 2%;
 }
-.header { height: 15%; }
 .header, .content { width: 100%; }
 
 .header, .footer {
@@ -41,6 +40,8 @@ main {
 }
 
 .content::-webkit-scrollbar { display: none; }
+
+img { border-radius: 15px; }
 
 /* -------------------------------------------------------------------------------- */
 /* All Headers / Footers */
@@ -67,55 +68,74 @@ main {
 .header img {
     padding: 1%;
     height: 100%;
-    border-radius: 15px;
+    aspect-ratio: 1 / 1;
 }
 .header p { width: 60%; }
 
 /* -------------------------------------------------------------------------------- */
 /* Board Content */
 
-#boardContent .header { justify-content: center; }
+#boardContent .header {
+    border: none;
+    background: none;
+    justify-content: center;
+}
 
-#boardContent .header i {
-    margin: 1%;
+#searchIcon, #searchInput {
+    transition: all 0.3s ease;
+}
+
+#searchIcon {
     color: #FFF;
-    border-radius: 15px;
-    background: var(--custom-green-light);
+    background: black;
+    border-radius: 0 15px 15px 0;
 }
 
 #searchInput {
     width: 85%;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 4px solid black;
+    border-radius: 15px 0 0 15px;
 }
-#searchInput:focus { box-shadow: 0 0 5px var(--custom-green-light); }
+
+#searchInput:focus + #searchIcon { 
+    color: var(--custom-yellow);
+    background: var(--custom-red); 
+}
+
+#searchInput:focus { border-color: var(--custom-red); }
 
 .itemBox {
     width: 100%;
-    height: 25%;
-    padding: 2%;
+    height: 18%;
     display: flex;
+    margin-top: 3%;
     cursor: pointer;
-    margin-bottom: 2%;
+    background: #0005;
+    border-radius: 15px;
+    align-items: center;
 }
+.itemBox:hover { background: #000; }
 
 .itemBox img {
-    width: 20%;
     height: 100%;
     margin-right: 2%;
-    border-radius: 15px;
+    aspect-ratio: 1 / 1;
 }
 
 .itemData {
     width: 80%;
     display: flex;
+    text-align: left;
     flex-direction: column;
     justify-content: center;
 }
 .itemData p { 
     width: 100%; 
-    padding: 1%;
+    padding-top: 1%;
     border-bottom: 4px #FFF5 groove;
 }
+.itemData strong { font-size: x-large; }
 
 /* -------------------------------------------------------------------------------- */
 /* Forum Content */
@@ -127,14 +147,14 @@ main {
 
 .forumPost .content { 
     padding: 2%; 
-    height: 35vh; 
+    min-height: 35vh; 
     background: #2C3E5050;
     align-items: center;
     display: inline-flex;
     flex-direction: column;
 }
 .forumPost .content img { 
-    margin-top: 2%; 
+    margin: 1% 0; 
     max-width: 95%;
     max-height: 40vh;
 }
@@ -152,13 +172,21 @@ main {
 
 .inactiveLike { opacity: .5; }
 
+#loading {
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+}
+
 /* -------------------------------------------------------------------------------- */
 /* Add Post Content */
 
-#addContent form { 
+#addContent form {
     width: 100%;
     height: 100%;
     display: flex;
+    margin-top: 2%;
     align-items: center;
     flex-direction: column;
 }
@@ -174,7 +202,10 @@ main {
     border: 2px groove var(--custom-grey);
 }
 
-#addContent img { max-width: 100%; }
+#mediaView img {
+    margin: 2%;
+    max-width: 100%;
+}
 
 .row-btn {
     margin: 1%;
@@ -207,18 +238,40 @@ main {
 }
 
 /* -------------------------------------------------------------------------------- */
-/* Mini-Nav */
+/* Progress Bar */
 
+#progressContainer { 
+    width: 50%;
+}
+
+#progressBar {
+    width: 100%;
+    height: 25px;
+}
+#progressBar::-webkit-progress-bar, #progressBar::-webkit-progress-value {
+    border-radius: 8px 10px 10px 8px;
+}
+
+#progressBar::-webkit-progress-bar {
+    background: var(--custom-red);
+    border: 2px groove var(--custom-yellow);
+}
+
+#progressBar::-webkit-progress-value {
+    background: var(--custom-green-light);
+    border: 1px groove var(--custom-grey);
+}
+
+/* -------------------------------------------------------------------------------- */
+/* Mini-Nav */
 .mini-nav {
     width: 8vw;
     height: 10vh;
     z-index: 1000;
-
     left: 0;
     bottom: 0;
     margin: 5%;
     position: absolute;
-
     display: flex;
     flex-direction: column;
 }
@@ -259,8 +312,8 @@ main {
     /* Board Content */
 
     .itemBox { 
-        height: 15%; 
-        margin-bottom: 5%;
+        height: 18%; 
+        margin-top: 4%;
     }
 
     /* Forum Content */
@@ -276,6 +329,14 @@ main {
 
     .forumPost .icon * { font-size: larger; }
 
+    /* Add Post Content */
+    #addPostContent {
+        width: 90%;
+        padding: 2%;
+        min-height: 25%;
+        max-height: 25%;
+    }
+
     /* Mini-Nav */
     .mini-nav {
         width: 25vw;
@@ -288,12 +349,39 @@ main {
     }
 }
 
+@media only screen and (max-width: 400px) {
+    /* Board Content */
+
+    .itemBox {
+        height: 22%;
+        margin-top: 4%;
+    }
+}
+
+@media only screen and (min-width: 751px) and (max-width: 999px) {
+    /* Board Content */
+
+    .itemBox {
+        height: 14%;
+        margin-top: 6%;
+    }
+}
+
 @media only screen and (min-width: 751px) and (max-width: 1300px) {
     /* All Content */
 
     [id*='Content'] {
         height: 90%;
         width: 75%;
+    }
+
+    /* Add Post Content */
+
+    #addPostContent {
+        width: 90%;
+        padding: 2%;
+        min-height: 25%;
+        max-height: 25%;
     }
 
     /* Mini-Nav */
@@ -304,6 +392,15 @@ main {
         color: #FFF;
         background: #000;
         border-color: #FFF8;
+    }
+}
+
+@media only screen and (min-width: 1301px) {
+    /* Board Content */
+
+    .itemBox {
+        height: 20%;
+        margin-top: 5%;
     }
 }
 
