@@ -1895,7 +1895,7 @@ input[type="range"] {
     height: auto;
 }
 
-#userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
+#detailsSection, #passwordSection {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1903,7 +1903,7 @@ input[type="range"] {
     text-align: center;
     width: 30%;
     min-height: 600px;
-    background: rgb(19,100,68, 0.4);
+    background: var(--grey-glass);
     border-radius: 15px;
     padding-top: 60px;
     color: white;
@@ -1911,11 +1911,62 @@ input[type="range"] {
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
+#userSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    min-height: 600px;
+    background: var(--grey-glass);
+    border-radius: 0px 0px 15px 15px;
+    padding-top: 60px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+
+#awardsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 800px; /* Adjusted to 80% of the current height */
+    background: var(--grey-glass);
+    border-radius: 15px 0px 0px 70px;
+    padding-top: 60px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+#completedAbelsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 800px; /* Adjusted to 80% of the current height */
+    background: var(--grey-glass);
+    border-radius: 0px 15px 70px 0px;
+    padding-top: 60px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+
 .itemBox {
     width: 100%;
     padding: 15px;
     margin-bottom: 25px;
-    background-color: rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
+    background-color: var(--lightgreen-glass);
     border-radius: 40px;
     color: floralwhite;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
@@ -1963,6 +2014,7 @@ input[type="range"] {
         letter-spacing: 0.10rem;
         font-family: "Roboto", sans-serif;
         font-weight: 500;
+
     }
 
     #userSection h3, #awardsSection h3, #completedAbelsSection h3 {
@@ -1981,8 +2033,7 @@ input[type="range"] {
         text-shadow: var(--shadow-down);
         display: block;
         z-index: 5;
-        letter-spacing: 0.2rem;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-family: "Roboto", sans-serif;
         font-weight: 500;
     }
@@ -1996,12 +2047,13 @@ input[type="range"] {
         font-weight: bold;
     }
 
-    #userSection p1 {
+    #userSection p1, #completedAbelsSection p1 {
         text-align: center;
         font-size: 1.2rem;
         font-family: "Roboto", sans-serif;
-        color: floralwhite;
+        color: var(--yellow);
         font-weight: bold;
+        text-shadow: var(--shadow-down);
     }
 
 
@@ -2010,6 +2062,7 @@ input[type="range"] {
     height: 100px;
     border-radius: 25%;
     margin-bottom: 10px;
+    margin-top: 15px;
 }
 
 
@@ -2028,7 +2081,7 @@ input[type="range"] {
         padding: 15px;
         border-radius: 40px;
         color: floralwhite;
-        background: rgba(0, 0, 0, 0.15);
+        background: var(--lightgreen-glass);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -2052,6 +2105,7 @@ input[type="range"] {
 
 
 
+
 @media only screen and (max-width: 900px) {
     .container {
         flex-direction: column;
@@ -2063,6 +2117,7 @@ input[type="range"] {
         width: 100%;
         min-height: auto;
         height: auto;
+        align-items: center;
     }
 
     #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
@@ -2077,8 +2132,13 @@ input[type="range"] {
         padding-top: 800px;
 
     }
-
-}
+    .itemBox {
+        width: 80%;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
 
 

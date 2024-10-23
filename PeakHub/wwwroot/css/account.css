@@ -29,11 +29,14 @@ form {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 400px; 
+    max-width: 400px;
     padding: 2%;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 15px;
+    background: #e1daca80;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    color: white;
+    overflow: hidden;
+    padding-top: 30px;
 }
 
 
@@ -89,76 +92,89 @@ form {
         margin-left: 0.5rem; 
     }
 
-/* Input Fields */
 input[type="text"], input[type="password"], input[type="email"] {
-    width: 100%;
+    width: 80%; 
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.7); 
     border-radius: 5px;
     font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: white;
 }
 
-/* Button Layout */
-.btn-primary {
-    width: 100%;
-    background-color: #008800; /
-    color: white;
-    border: 2px solid #000000;
-    padding: 0.75rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-}
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.9); 
+        background-color: rgba(255, 255, 255, 0.2); 
+    }
 
-.btn-secondary {
-    width: 100%;
-    background-color: #5CA15C; 
-    color: white;
-    border: 2px solid #000000;
-    padding: 0.75rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
+/* Adjust Button Layout */
+.btn-primary, .btn-secondary {
+    width: 60%; 
+    background: rgba(0, 0, 0, 0.15);
+    color: floralwhite;
+    border: 1.5px groove #133234;
+    padding: 15px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s linear;
+    overflow: hidden;
 }
 
     .btn-primary:hover, .btn-secondary:hover {
-        background-color: #005F2A; 
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
 
-/* Button rows */
 .btn-row, .btn-col {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; 
+    align-items: center;
+    gap: 20px; 
 }
 
 
-/* Forgot password link */
 .forgot-password {
     color: #990000;
     text-decoration: none;
     margin-top: 0.5rem;
+    display: none; 
 }
+
+    .forgot-password.active {
+        display: block; 
+    }
 
     .forgot-password:hover {
         color: #FF0000;
         text-decoration: underline;
     }
 
-/* Validation error messages */
+
+
 .text-danger {
     color: #FF0000;
     font-size: 0.9rem;
 }
 
-/* Mobile responsiveness */
+
 @media only screen and (max-width: 750px) {
     form {
         width: 90%; 
     }
 }
 
-/* Tablet responsiveness */
+
 @media only screen and (min-width: 751px) and (max-width: 1000px) {
     body {
         flex-direction: column;

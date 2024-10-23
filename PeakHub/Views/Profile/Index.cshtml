@@ -15,7 +15,8 @@
     align-items: center;
     height: 100vh;">
 </body>
-    <div class="container">
+
+<div class="container">
     <div id="awardsSection" class="col-md-3">
         <h2>AWARDS</h2>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
@@ -30,9 +31,23 @@
                     <h3>@award.Name</h3>
                     <p>@award.Condition</p>
                 </div>
-
             }
         }
+    </div>
+
+    <div id="userSection" class="col-md-3">
+        <h2>USER DETAILS</h2>
+        <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
+        <h3>@ViewBag.UserName</h3>
+        <p>
+            @ViewBag.Email<br />
+            TOTAL COMPLETED: @ViewBag.TotalCompleted
+        </p>
+
+        <div class="user-actions">
+            <a href="/Profile/ChangePassword" class="btn btn-secondary">CHANGE PASSWORD</a>
+            <a href="/Profile/EditDetails" class="btn btn-secondary">EDIT DETAILS</a>
+        </div>
     </div>
 
     <div id="completedAbelsSection" class="col-md-6">
@@ -47,30 +62,14 @@
                 @foreach (var peak in ViewBag.Peaks)
                 {
                     <div class="itemBox" data-id="@peak.PeakID">
-                        <h4>@peak.Name</h4>
-                        <p1>@peak.Region</p1>
+                        <p1>@peak.Name</p1> - @peak.Region
                     </div>
-
                 }
             </div>
         }
     </div>
+</div>
 
-    <div id="userSection" class="col-md-3">
-        <h2>USER DETAILS</h2>
-            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
-            <h3>@ViewBag.UserName</h3>
-            <p>
-                @ViewBag.Email<br />
-                TOTAL COMPLETED: @ViewBag.TotalCompleted
-            </p>
-
-            <div class="user-actions">
-                <a href="/Profile/ChangePassword" class="btn btn-secondary">CHANGE PASSWORD</a>
-                <a href="/Profile/EditDetails" class="btn btn-secondary">EDIT DETAILS</a>
-            </div>
-        </div>
-    </div>
 >
 
 
