@@ -1875,7 +1875,7 @@ input[type="range"] {
 }
 
 
-/* check planner for restyling and breakpoints.*/
+/*Profile*/
 
 @import url('colors.css');
 
@@ -1894,6 +1894,22 @@ input[type="range"] {
     margin: 0 auto;
     height: auto;
 }
+
+.changeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: var(--custom-glass);
+    border-radius: 15px;
+    width: 80vw;
+    padding-top: 100px;
+    margin: 0 auto;
+    height: auto;
+}
+
 
 /*User Section*/
 #userSection {
@@ -2142,6 +2158,8 @@ input[type="range"] {
 #completedAbelsSection .itemBox {
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
+        flex: 0 1 auto; 
+}
 }
 
     #completedAbelsSection .itemBox:hover {
@@ -2167,22 +2185,22 @@ input[type="range"] {
     display: none;
     padding: 10px;
     width: 80%;
-    margin: 10px auto;
+
 }
     .search-bar-container input {
         width: 100%;
         padding: 10px;
         border-radius: 15px;
-        border: 2px solid black;
+        border: 0.5px solid black;
+        background: rgba(255, 255, 255, 0.7);
         font-size: 1rem;
     }
 
     .search-bar-container.open {
         display: block;
-        position: sticky;
         top: 0; 
         z-index: 10;
-        animation: dropdown 0.4s ease-in-out forwards;
+        animation: dropdown 0.6s ease-in-out forwards;
         border-radius: 15px;
     }
 
@@ -2197,19 +2215,6 @@ input[type="range"] {
         transform: translateY(0);
     }
 }
-
-
-#completedAbelsSection .itemBox {
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-    flex: 0 1 auto; 
-}
-
-    #completedAbelsSection .itemBox:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-        transform: scale(1.05);
-        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-    }
 
 /*Shared*/
 
@@ -2345,12 +2350,22 @@ input[type="range"] {
 }
 
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 750px) {
     .container {
         flex-direction: column;
         align-items: center;
         gap: 20px;
         padding-top: 1200px;
+    }
+
+    #detailsSection h2, #changePassword h2 {
+        text-align: center;
+        color: var(--grey);
+        text-shadow: var(--shadow-down);
+        font-size: 2rem;
+        letter-spacing: 0.10rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
     }
 
     #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
@@ -2369,13 +2384,14 @@ input[type="range"] {
     #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
         padding-bottom: 60px;
     }
-  
+
     .itemBox {
         width: 200px;
         align-items: center;
         margin: 0 auto;
         margin-bottom: 25px;
         text-align: center;
+        display: block;
     }
 
     #userSection img {
@@ -2385,5 +2401,95 @@ input[type="range"] {
         margin: 0;
         border: 2px solid var(--darkgreen);
     }
+
+    .peaks-bagged {
+    width: 80%;
+    }
+
+    #userSection p{
+        width: 80%;
+    }
 }
 
+@media only screen and (min-width: 751px) and (max-width: 1300px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-top: 1000px;
+    }
+    
+    h2::after{
+
+    }
+
+    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
+        width: 80%;
+        min-height: auto;
+        height: auto;
+        align-items: center;
+        border-radius: 40px;
+    }
+
+        #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+            font-size: 2.0rem;
+            line-height: 1.2;
+        }
+
+    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
+        padding-bottom: 60px;
+    }
+
+    .itemBox {
+        width: 100%; 
+        align-items: center;
+        margin: 10px auto; 
+        text-align: center;
+        display: block; 
+    }
+
+    #userSection img {
+        width: 100px;
+        height: 100px;
+        border-radius: 25%;
+        margin: 0;
+        border: 2px solid var(--darkgreen);
+    }
+
+    .peaks-bagged {
+        width: 80%;
+    }
+
+    #userSection p {
+        width: 80%;
+    }
+    }
+@media only screen and (min-width: 1300px) {
+    .itemBox {
+        width: 80%;
+        align-items: center;
+        margin: 10px auto;
+        text-align: center;
+        display: block;
+    }
+
+
+    #userSection img {
+        width: 100px;
+        height: 100px;
+        border-radius: 25%;
+        margin: 0;
+        border: 2px solid var(--darkgreen);
+    }
+
+    #awardsSection h2::after, #completedAbelsSection h2::after {
+        content: "";
+        display: block;
+        width: 80%;
+        height: 3px;
+        background-color: var(--darkgreen);
+        margin: 10px auto;
+        border-radius: 5px;
+    }
+
+}
