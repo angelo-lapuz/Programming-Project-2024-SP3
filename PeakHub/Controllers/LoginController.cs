@@ -9,16 +9,13 @@ using PeakHub.Utilities;
 
 
 
-namespace PeakHub.Controllers
-{
-    public class LoginController : Controller
-    {
+namespace PeakHub.Controllers {
+    public class LoginController : Controller {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<LoginController> _logger;
         private readonly HttpClient _httpClient;
         private readonly Tools _tools;
-
 
         public LoginController(
             UserManager<User> userManager,
@@ -44,40 +41,32 @@ namespace PeakHub.Controllers
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(AccountViewModel model)
-        {
+        public async Task<IActionResult> Login(AccountViewModel model) {
             var loginModel = model.LoginModel;
-
             if (!ModelState.IsValid) return View(model);
-
 
             var response = await _httpClient.PostAsJsonAsync("api/users/login", loginModel);
 
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 var result = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<User>(result);
 
                 HttpContext.Session.SetString("UserId", user.Id);
-
-                return RedirectToAction("Index", "Home");
+                return Redirection();
             }
 
             // user has not confirmed email
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
                 ModelState.AddModelError("LoginModel.UserName", "Please confirm your email to sign in.");
             }
 
             // invalid username or password
-            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest) {
                 ModelState.AddModelError("LoginModel.UserName", "Invalid username or password.");
             }
 
             // unexpected error could be various things, no api, db error, etc.
-            else
-            {
+            else {
                 ModelState.AddModelError("LoginModel.UserName", "An unexpected error occurred, please try again.");
             }
 
@@ -85,16 +74,13 @@ namespace PeakHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ResetPassword(string userId, string token)
-        {
+        public async Task<IActionResult> ResetPassword(string userId, string token) {
 
-            if(userId == null || token == null)
-            {
+            if(userId == null || token == null) {
                 return RedirectToAction("Index", "Home");
             }
 
-            var model = new ResetPasswordViewModel
-            {
+            var model = new ResetPasswordViewModel {
                 UserId = userId,
                 Token = token
             };
@@ -103,19 +89,16 @@ namespace PeakHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model) {
 
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) {
                 return View(model);
             }
 
             var response = await _httpClient.PostAsJsonAsync("api/users/resetpassword", model);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -126,29 +109,23 @@ namespace PeakHub.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(AccountViewModel model)
-        {
+        public async Task<IActionResult> ForgotPassword(AccountViewModel model) {
             var forgotPasswordModel = model.ForgotPasswordModel;
 
-            if (!ModelState.IsValid || forgotPasswordModel == null)
-            {
+            if (!ModelState.IsValid || forgotPasswordModel == null) {
                 return View("Login", model);
             }
 
             var response = await _httpClient.PostAsJsonAsync("api/users/forgotpassword", forgotPasswordModel);
 
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 ViewBag.Status = "A reset password link has been sent to your inbox.";
                 return View("Login", model);
             }
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
                 ModelState.AddModelError("ForgotPasswordModel.Email", "Please confirm your email to reset your password.");
-            }
-            else
-            {
+            } else {
                 ModelState.AddModelError("ForgotPasswordModel.Email", "An unexpected error occurred. Please try again.");
             }
 
@@ -157,16 +134,31 @@ namespace PeakHub.Controllers
 
 
         // logs the user out and clears the session
-        public async Task<IActionResult> Logout()
-        {
+        public async Task<IActionResult> Logout() {
             var response = await _httpClient.PostAsync("api/users/logout", null);
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 HttpContext.Session.Clear();  
             }
             return RedirectToAction("Index", "Home");
         }
 
+        // Redirect To Appropriate Page
+        public IActionResult Redirection() {
+            string page = HttpContext.Session.GetString("LastPage");
 
+            if (page != null) {
+                if (page == "Peak" || page == "Forum") {
+                    int? id = HttpContext.Session.GetInt32("ID");
+                    if (id != null) {
+                        if (page == "Peak") return RedirectToAction("Index", page, new { ID = id.Value });
+                        else return RedirectToAction("Index", page, new { boardID = id.Value });
+                    }
+                } 
+
+                return RedirectToAction("Index", page);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

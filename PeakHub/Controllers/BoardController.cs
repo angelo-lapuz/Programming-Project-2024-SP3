@@ -9,7 +9,10 @@ namespace PeakHub.Controllers {
         public BoardController(IHttpClientFactory httpClient) =>
             _httpClient = httpClient.CreateClient("api");
         // -------------------------------------------------------------------------------- //
-        public IActionResult Index() => View();
+        public IActionResult Index() {
+            HttpContext.Session.SetString("LastPage", "Board");
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetBoards(int pageIndex) {

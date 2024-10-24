@@ -15,6 +15,9 @@ namespace PeakHub.Controllers {
         }
         // -------------------------------------------------------------------------------- //
         public async Task<IActionResult> Index(int boardID) {
+            HttpContext.Session.SetString("LastPage", "Forum");
+            HttpContext.Session.SetInt32("ID", boardID);
+
             if (await IsInvalidBoardID(boardID)) return RedirectToAction("Index", "Board");
             UserViewModel user = await GetUserDetails();
             
