@@ -3,18 +3,15 @@ using Newtonsoft.Json;
 using PeakHub.Utilities;
 using PeakHub.Models;
 
-namespace PeakHub.Controllers
-{
-    public class PlannerController : Controller
-    {
+namespace PeakHub.Controllers {
+    public class PlannerController : Controller {
         private readonly Tools _tools;
         private readonly HttpClient _httpClient;
         private readonly ILogger<PlannerController> _logger;
         private string userID => HttpContext.Session.GetString("UserId");
 
 
-        public PlannerController(Tools tools, ILogger<PlannerController> logger, IHttpClientFactory httpClientFactory)
-        {
+        public PlannerController(Tools tools, ILogger<PlannerController> logger, IHttpClientFactory httpClientFactory) {
             _tools = tools;
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("api");
@@ -32,11 +29,22 @@ namespace PeakHub.Controllers
                 ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
             } 
 
+    public async Task<IActionResult> Index() {
+            HttpContext.Session.SetString("LastPage", "Planner");
+
+            var getAllPeaksResponse = await _httpClient.GetAsync("api/Peaks");
+            if (getAllPeaksResponse.IsSuccessStatusCode) {
+                var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
+                var peaks = JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
+
+                ViewBag.Peaks = JsonConvert.SerializeObject(peaks);
+            }
+
+
             // getthe current user (if logged in) and set the viewbag values accordingly
             User user =  await _tools.GetUser(userID);
 
-            if (user != null)
-            {
+            if (user != null) {
                 ViewBag.Routes = user.Routes;
                 ViewBag.userL = true;
                 ViewBag.userPeaks = Newtonsoft.Json.JsonConvert.SerializeObject(user.UserPeaks.Select(up=>up.Peak));
@@ -64,8 +72,7 @@ namespace PeakHub.Controllers
                 : JsonConvert.DeserializeObject<List<string>>(user.Routes);
 
             // Ensure the user has not exceeded the limit of 3 saved routes
-            if (routes.Count >= 3)
-            {
+            if (routes.Count >= 3) {
                 return BadRequest(new { error = "You have reached the maximum number of saved routes." });
             }
 
@@ -78,12 +85,9 @@ namespace PeakHub.Controllers
             var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
 
             // Return the appropriate response
-            if (result.IsSuccessStatusCode)
-            {
+            if (result.IsSuccessStatusCode) {
                 return Ok(new { Ok = true, message = "Route saved successfully" });
-            }
-            else
-            {
+            } else {
                 return BadRequest(new { error = "Failed to update user with new route." });
             }
         }

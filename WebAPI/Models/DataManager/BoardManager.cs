@@ -1,5 +1,6 @@
 ﻿using WebAPI.Data;
 using WebAPI.Models.Repository;
+using WebAPI.ViewModels;
 
 namespace WebAPI.Models.DataManager;
 
@@ -61,6 +62,20 @@ public class BoardManager : IDataRepository<Board, int>
         _context.Update(board);
         _context.SaveChanges();
         return id;
+    }
+
+    // LazyLoad + Pagination
+    public IEnumerable<BoardViewModel> GetSomeBoards(int pageIndex) {
+        return _context.Boards
+            .Select(b => new BoardViewModel { 
+                BoardID = b.BoardID,
+                Name = b.Name,
+                Section = b.Section,
+                ImageLink = b.ImageLink
+            })
+            .Skip((pageIndex - 1) * 15)
+            .Take(15)
+            .ToList();
     }
 }
 

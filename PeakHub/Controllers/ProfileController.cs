@@ -5,10 +5,8 @@ using PeakHub.Models;
 using System.Text;
 using PeakHub.Utilities;
 
-namespace PeakHub.Controllers
-{
-    public class ProfileController : Controller
-    {
+namespace PeakHub.Controllers {
+    public class ProfileController : Controller {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<ProfileController> _logger;
         private readonly Tools _tools;
@@ -84,8 +82,7 @@ namespace PeakHub.Controllers
 
         // returns the ChangePassword page for the user - allows the user to change their password
         [HttpGet]
-        public async Task<IActionResult> ChangePassword()
-        {
+        public async Task<IActionResult> ChangePassword() {
             ViewBag.PasswordChangeStatus = null;
             return View();
         }
@@ -117,12 +114,10 @@ namespace PeakHub.Controllers
             {
                 _logger.LogInformation("here");
                 ModelState.AddModelError("OldPassword", "Failed to change password");
-
             }
             // display Password changed successfully message
             ViewBag.PasswordChangeStatus = "Password changed successfully.";
             return View(model);
-
         }
 
     }

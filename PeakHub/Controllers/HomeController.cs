@@ -3,10 +3,8 @@ using PeakHub.Models;
 using System.Diagnostics;
 using PeakHub.ViewModels;
 
-namespace PeakHub.Controllers
-{
-    public class HomeController : Controller
-    {
+namespace PeakHub.Controllers {
+    public class HomeController : Controller {
         private readonly ILogger<HomeController> _logger;
 
         private readonly IHttpClientFactory _clientFactory;
@@ -19,24 +17,18 @@ namespace PeakHub.Controllers
             _clientFactory = clientFactory;
         }
 
-        // display index
-        public async Task<IActionResult> Index()
-        {
-            HomeViewModel viewModel = new HomeViewModel();
-
-            return View(viewModel);
+        public async Task<IActionResult> Index() {
+            HttpContext.Session.SetString("LastPage", "Home");
+            return View(new HomeViewModel());
         }
 
-        //display privacy page
-        public IActionResult Privacy()
-        {
+        public IActionResult Privacy() {
             return View();
         }
 
         // displays errror page
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
+        public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

@@ -18,14 +18,13 @@ namespace PeakHub.Controllers {
         }
         // -------------------------------------------------------------------------------- //
         public async Task<IActionResult> Index(int boardID) {
+            HttpContext.Session.SetString("LastPage", "Forum");
+            HttpContext.Session.SetInt32("ID", boardID);
+
             if (await IsInvalidBoardID(boardID)) return RedirectToAction("Index", "Board");
             UserViewModel user = await GetUserDetails();
             
-            return View(new ForumViewModel {
-                User = user,
-                PageIndex = 1,
-                BoardID = boardID
-            });
+            return View(new ForumViewModel { User = user, BoardID = boardID });
         }
         public async Task<bool> IsInvalidBoardID(int boardID) {
             int boardTotal = await _httpClient.GetFromJsonAsync<int>("api/boards/total");

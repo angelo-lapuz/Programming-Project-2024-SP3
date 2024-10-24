@@ -73,4 +73,14 @@ public class BoardsController : ControllerBase
     {
         _repo.DeleteAll(ids);
     }
+    
+    // LazyLoad + Pagination
+    // GET: api/boards/load
+    [HttpGet("load/{pageIndex}")]
+    public IActionResult LoadBoards(int pageIndex) {
+        var response = _repo.GetSomeBoards(pageIndex);
+
+        if (response != null || response.Any()) return Ok(response);
+        return NotFound(new { Message = "Issue Fetching Posts" });
+    }
 }

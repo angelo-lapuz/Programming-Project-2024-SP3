@@ -58,7 +58,7 @@ var difficultySlider = document.getElementById('filter-difficultySlider');
 var difficultyValue = document.getElementById('difficulty-value');
 var difficultyInput = document.getElementById('filter-difficulty');
 
-if (difficultySlider) { 
+if (difficultySlider) {
     difficultySlider.addEventListener('input', function () {
         const difficultyLabel = difficultyMap[difficultySlider.value];
         difficultyValue.textContent = difficultyLabel;
@@ -91,8 +91,17 @@ var filterOpen = document.querySelector('.filter-open-overlay');
 
 infoToggle.addEventListener('click', function () {
     filterOverlay.classList.toggle("hide");
+    document.querySelector('.regions-overlay-container').classList.toggle('hide');
+    document.querySelector('.regions-overlay-circle').classList.toggle('hide');
+    document.querySelector('.route-overlay-container').classList.toggle('hide');
+    document.querySelector('.route-overlay-buttons').classList.toggle('infohide');
+    document.querySelector('.route-overlay-A').classList.toggle('infohide');
+    document.querySelector('.route-overlay-B').classList.toggle('infohide');
+    document.querySelector('.route-overlay-route-save').classList.toggle('infohide');
 });
 
+
+var routeOverlayBtn = document.querySelector('.route-overlay-buttons');
 
 filterToggleCheck.addEventListener('click', function () {
 
@@ -101,24 +110,33 @@ filterToggleCheck.addEventListener('click', function () {
     mapContainer.classList.toggle("show");
     filterClosed.classList.toggle('hide');
     filterOpen.classList.toggle('show');
+    routeOverlayBtn.classList.toggle('slide');
+    document.querySelector('.route-closed-overlay .fa-arrow-down').classList.toggle('slide');
+    
 
 });
 
 
-var routeToggle = document.querySelector('.route-toggle');
+var routeToggleCheck = document.getElementById('route-toggle-checkbox');
 var routeContainer = document.querySelector('.route-container');
 
-if (routeToggle) {
-    routeToggle.addEventListener('click', function () {
-        routeContainer.classList.toggle("show");
-    });
-}
 
-var regionsToggle = document.querySelector('.regions-toggle');
+routeToggleCheck.addEventListener('click', function () {
+    routeContainer.classList.toggle("show");
+    document.querySelector('.route-closed-overlay').classList.toggle('hide');
+    document.querySelector('.route-open-overlay').classList.toggle('show');
+    document.querySelector('.route-overlay-buttons').classList.toggle('show');
+});
+
+
+var regionsToggleCheck = document.getElementById('regions-toggle-checkbox');
 var regionsBox = document.querySelector('.regions-container');
 
-regionsToggle.addEventListener('click', function () {
+regionsToggleCheck.addEventListener('click', function () {
     regionsBox.classList.toggle('show');
+    document.querySelector('.regions-closed-overlay').classList.toggle('hide');
+    document.querySelector('.regions-open-overlay').classList.toggle('show');
+    
 });
 
 
@@ -128,4 +146,7 @@ var whereRegions = document.querySelectorAll('.info-region-select label');
 
 
 
+document.querySelector('.fa-user').addEventListener('click', function () {
 
+    document.querySelector('.nav-login-list').classList.toggle('show');
+});

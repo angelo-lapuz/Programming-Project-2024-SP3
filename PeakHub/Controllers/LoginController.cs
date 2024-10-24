@@ -16,7 +16,6 @@ namespace PeakHub.Controllers
         private readonly HttpClient _httpClient;
         private readonly Tools _tools;
 
-
         public LoginController(
             UserManager<WebAPI.Models.User> userManager,
             ILogger<LoginController> logger,
@@ -38,8 +37,7 @@ namespace PeakHub.Controllers
         // POST: SignUp/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(AccountViewModel model)
-        {
+        public async Task<IActionResult> Login(AccountViewModel model) {
             var loginModel = model.LoginModel;
 
             // if the model state is not valid - return to the login
@@ -55,25 +53,21 @@ namespace PeakHub.Controllers
                 var user = JsonConvert.DeserializeObject<User>(result);
 
                 HttpContext.Session.SetString("UserId", user.Id);
-
-                return RedirectToAction("Index", "Home");
+                return Redirection();
             }
 
             // user has not confirmed email
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
                 ModelState.AddModelError("LoginModel.UserName", "Please confirm your email to sign in.");
             }
 
             // invalid username or password
-            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest) {
                 ModelState.AddModelError("LoginModel.UserName", "Invalid username or password.");
             }
 
             // unexpected error could be various things, no api, db error, etc.
-            else
-            {
+            else {
                 ModelState.AddModelError("LoginModel.UserName", "An unexpected error occurred, please try again.");
             }
 
@@ -82,8 +76,7 @@ namespace PeakHub.Controllers
 
         // Reset Password function is called when the user clicks on a link that has been sent to their email
         [HttpGet]
-        public async Task<IActionResult> ResetPassword(string userId, string token)
-        {
+        public async Task<IActionResult> ResetPassword(string userId, string token) {
 
             // ensure that there is a userId and a token present with the request to the page if not return to the login page
             if(userId == null || token == null)
@@ -168,10 +161,28 @@ namespace PeakHub.Controllers
         public async Task<IActionResult> Logout()
         {
             var response = await _httpClient.PostAsync("api/users/logout", null);
-            if (response.IsSuccessStatusCode)
-            {
+            if (response.IsSuccessStatusCode) {
                 HttpContext.Session.Clear();  
             }
+            return RedirectToAction("Index", "Home");
+        }
+
+        // Redirect To Appropriate Page
+        public IActionResult Redirection() {
+            string page = HttpContext.Session.GetString("LastPage");
+
+            if (page != null) {
+                if (page == "Peak" || page == "Forum") {
+                    int? id = HttpContext.Session.GetInt32("ID");
+                    if (id != null) {
+                        if (page == "Peak") return RedirectToAction("Index", page, new { ID = id.Value });
+                        else return RedirectToAction("Index", page, new { boardID = id.Value });
+                    }
+                } 
+
+                return RedirectToAction("Index", page);
+            }
+
             return RedirectToAction("Index", "Home");
         }
     }
