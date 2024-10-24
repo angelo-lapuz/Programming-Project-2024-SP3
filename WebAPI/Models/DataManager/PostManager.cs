@@ -13,41 +13,53 @@ public class PostManager : IDataRepository<Post, int>
         _context = context;
     }
 
+    // gets a specific Post from the database by ID
     public Post Get(int id)
     {
         return _context.Posts.Find(id);
     }
 
+    // gets all Posts from the database
     public IEnumerable<Post> GetAll()
     {
         return _context.Posts.ToList();
     }
 
+    // adds a new Post to the database
     public int Add(Post post)
     {
         _context.Posts.Add(post);
         _context.SaveChanges();
-
         return post.PostID;
     }
 
+    // deletes a specific Post from the database by ID
     public int Delete(int id)
     {
         _context.Posts.Remove(_context.Posts.Find(id));
         _context.SaveChanges();
-
         return id;
     }
 
+    // deletes multiple Posts from the database based on a list of IDs
+    public void DeleteAll(List<int> ids)
+    {
+        foreach (var id in ids)
+        {
+            _context.Posts.Remove(_context.Posts.Find(id));
+        }
+        _context.SaveChanges();
+    }
+
+    // updates an existing Post in the database
     public int Update(int id, Post post)
     {
         _context.Update(post);
         _context.SaveChanges();
-
         return id;
     }
 
-    // LazyLoad + Pagination
+    // gets 'x' posts from the database based on a board ID, user ID -- pagination and lazy loading
     public IEnumerable<PostViewModel> GetBoardPosts(int boardID, string userID, int pageSize, int pageIndex) {
         return _context.Posts
             .Where(p => p.BoardID == boardID)

@@ -19,6 +19,7 @@ public class BoardsController : ControllerBase
     }
 
     // GET: api/boards
+    // Returns a list of all boards
     [HttpGet]
     public IEnumerable<Board> Get()
     {
@@ -26,6 +27,7 @@ public class BoardsController : ControllerBase
     }
 
     // GET api/boards/1
+    // Returns a specific board by ID
     [HttpGet("{id}")]
     public Board Get(int id)
     {
@@ -33,12 +35,15 @@ public class BoardsController : ControllerBase
     }
 
     // GET api/boards/total
+    // Returns the total number of boards
     [HttpGet("total")]
-    public int GetBoardTotal() {
+    public int GetBoardTotal()
+    {
         return _repo.GetBoardTotal();
     }
 
     // POST api/boards
+    // Adds a new board to the collection
     [HttpPost]
     public void Post([FromBody] Board board)
     {
@@ -46,6 +51,7 @@ public class BoardsController : ControllerBase
     }
 
     // PUT api/boards
+    // Updates an existing board
     [HttpPut]
     public void Put([FromBody] Board board)
     {
@@ -53,12 +59,18 @@ public class BoardsController : ControllerBase
     }
 
     // DELETE api/boards/1
+    // Deletes a specific board by ID
     [HttpDelete("{id}")]
     public long Delete(int id)
     {
         return _repo.Delete(id);
     }
+
+    // DELETE api/boards/DeleteAll
+    // Deletes multiple boards based on a list of IDs
+    [HttpDelete("DeleteAll")]
+    public void DeleteAll(List<int> ids)
+    {
+        _repo.DeleteAll(ids);
+    }
 }
-
-
-

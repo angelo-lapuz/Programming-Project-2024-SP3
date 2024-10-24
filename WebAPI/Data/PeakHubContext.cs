@@ -9,30 +9,25 @@ namespace WebAPI.Data
     {
         public PeakHubContext(DbContextOptions<PeakHubContext> options) : base(options) { }
 
+        // Add DbSet properties for all entities
         public DbSet<User> Users { get; set; }
         public DbSet<Peak> Peaks { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<Award> Awards { get; set; }
-
-
         public DbSet<UserPeak> UserPeaks { get; set; }
         public DbSet<UserAward> UserAwards { get; set; }
 
-
+        // Override the OnConfiguring method to configure the connection to the database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=../PeakHub.db")
+                optionsBuilder.UseSqlServer("Server=tcp:taspeaksdb.database.windows.net,1433;Initial Catalog=tas-peaks;Persist Security Info=False;User ID=Smomppteam5;Password=Smolppteam5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;\"\r\n")
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                
             }
         }
-
-
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -46,7 +41,7 @@ namespace WebAPI.Data
                 new IdentityRole { Id = USER_ID, Name = "User", NormalizedName = "USER" }
             );
 
-
+            // define db relationships
             builder.Entity<UserAward>()
                    .HasKey(ua => ua.Id);
 

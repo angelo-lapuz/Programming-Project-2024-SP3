@@ -410,6 +410,7 @@ function drawPolyline() {
 
 // calculates the total distance and elevation over the course of the route
 async function calculateDistanceAndElevation(points) {
+    elevations.clear();
     var totalDistance = 0;
     elevations = [];
 
@@ -644,9 +645,8 @@ function addHoverEffect(box, polygon) {
 
     // when the mouse hovers over box effect added here
     box.addEventListener('mouseenter', () => polygon.setStyle({ fillOpacity: 0.3 }));
-    box.addEventListener('mouseleave', () => {
-        if (selectedSection !== polygon) polygon.setStyle({ fillOpacity: 0 });
-    });
+    box.addEventListener('mouseleave', () => polygon.setStyle({ fillOpacity: 0 }));
+   
 }
 
 
@@ -655,14 +655,12 @@ function addClickEvent(box, polygon, sectionName) {
     box.addEventListener('click', () => {
         selectSection(polygon);
         var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
-        console.log(sectionPeaks)
         showSectionPeaks(sectionPeaks);
     });
 
     polygon.on('click', () => {
         selectSection(polygon);
         var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
-        console.log("here")
         showSectionPeaks(sectionPeaks);
     });
 }
@@ -670,7 +668,6 @@ function addClickEvent(box, polygon, sectionName) {
 function selectSection(polygon) {
     if (selectedSection) selectedSection.setStyle({ fillOpacity: 0 });
     selectedSection = polygon;
-    polygon.setStyle({ fillOpacity: 0.5 });
     map.fitBounds(polygon.getBounds());
 }
 

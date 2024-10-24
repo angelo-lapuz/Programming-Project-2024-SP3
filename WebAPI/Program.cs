@@ -15,18 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PeakHubContext>(options =>
 {
     options.UseLazyLoadingProxies();
-    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PeakDBD"));
 });
 
-builder.Services.AddScoped<UserManager<User>>();
-builder.Services.AddScoped<UserManager>();
-builder.Services.AddScoped<SignInManager<User>>();  
-builder.Services.AddScoped<PeakManager>();
-builder.Services.AddScoped<PostManager>();
-builder.Services.AddScoped<LikeManager>();
-builder.Services.AddScoped<BoardManager>();
-builder.Services.AddScoped<AwardManager>();
-builder.Services.AddScoped<EmailSender>();
+
 
 // Identity configuration with custom User model
 builder.Services.AddIdentity<User, IdentityRole>(options =>
@@ -40,6 +32,16 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<PeakHubContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddScoped<SignInManager<User>>();
+
+builder.Services.AddScoped<UserManager<User>>();
+builder.Services.AddScoped<CustomUserManager>();
+builder.Services.AddScoped<PeakManager>();
+builder.Services.AddScoped<PostManager>();
+builder.Services.AddScoped<LikeManager>();
+builder.Services.AddScoped<BoardManager>();
+builder.Services.AddScoped<AwardManager>();
+builder.Services.AddScoped<EmailSender>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -95,6 +97,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
 

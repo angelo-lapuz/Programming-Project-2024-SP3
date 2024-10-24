@@ -16,26 +16,39 @@ namespace WebAPI.Utilities
             _emailSettings = emailSettings.Value;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            Console.WriteLine("Sending email");
-            var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail));
-            emailMessage.To.Add(new MailboxAddress("", email));
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = htmlMessage };
-
-            using (var client = new SmtpClient())
+            Task.Run(async () =>
             {
-                await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, true);
-                await client.AuthenticateAsync(_emailSettings.SenderEmail, _emailSettings.Password);
-                await client.SendAsync(emailMessage);
+                var emailMessage = new MimeMessage();
+                emailMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail));
+                emailMessage.To.Add(new MailboxAddress("", email));
+                emailMessage.Subject = subject;
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = htmlMessage };
 
-                await client.DisconnectAsync(true);
-            }
+                using (var client = new SmtpClient())
+                {
+                    try
+                    {
+                        await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, true);
+                        await client.AuthenticateAsync(_emailSettings.SenderEmail, _emailSettings.Password);
+                        await client.SendAsync(emailMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error sending email: {ex.Message}");
+                    }
+                    finally
+                    {
+                        await client.DisconnectAsync(true);
+                    }
+                }
+            });
+            return Task.CompletedTask;
         }
 
+        // Email settings for the email sender
         public class EmailSettings
         {
             public string SmtpServer { get; set; }

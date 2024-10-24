@@ -11,7 +11,6 @@ namespace PeakHub.Controllers {
     public class SignUpController : Controller {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<User> _userManager;
         private HttpClient _httpClient => _clientFactory.CreateClient("api");
 
         public SignUpController(IHttpClientFactory clientFactory, ILogger<HomeController> logger) {
@@ -37,27 +36,31 @@ namespace PeakHub.Controllers {
                 return View(viewModel);
             }
 
+            // calling API to check if the users desired email and username are already in use
             var response = await _httpClient.GetAsync($"api/users/Verify/{viewModel.UserName}/{viewModel.Email}");
             var resultContent = await response.Content.ReadAsStringAsync();
 
             dynamic result = JsonConvert.DeserializeObject(resultContent);
 
+            // if the username or email already exists, add an error to the model state
             bool usernameExists = result.usernameExists != null ? (bool)result.usernameExists : false;
             bool emailExists = result.emailExists != null ? (bool)result.emailExists : false;
 
             if (usernameExists) ModelState.AddModelError("UserName", "Username already exists");
             if (emailExists) ModelState.AddModelError("Email", "Email already in use");
 
+
             if (ModelState.IsValid) {
                 // convert viewmodel to json to be sent to api/users/create
                 var content = new StringContent(JsonConvert.SerializeObject(viewModel), Encoding.UTF8, "application/json");
                 response = await _httpClient.PostAsync("api/users/Create", content);
 
-                // return to login page if created successfully
+                // re-direct to the registration success page if the user was created successfully
                 if (response.IsSuccessStatusCode) 
                 {
-                    return RedirectToAction("Login", "Login");
-                } 
+                    return RedirectToAction("RegistrationSuccess");
+                }
+                // if the user was not created successfully, add an error to the model state - normally No API
                 else
                 {
                     ModelState.AddModelError("Register.UserName", "An unexpected error occurred, please try again.");
@@ -65,15 +68,22 @@ namespace PeakHub.Controllers {
                     ModelState.AddModelError(string.Empty,errorMessage);
                 }
             }
-
+           
             return View(viewModel);
         }
 
-       // displays ConfirmEmail view rather than havethis done through the API
+        // returns the RegistrationSuccess page
+        public IActionResult RegistrationSuccess()
+        {
+            return View();
+        }
+
+       // displays ConfirmEmail view - when when registering an account
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
+
             // calling api
-            var response = await _httpClient.GetAsync($"api/users/ConfirmEmail/{userId}/{Uri.EscapeDataString(token)}");
+            var response = await _httpClient.GetAsync($"api/users/ConfirmEmail/{userId}/{token}");
             
             var viewModel = new EmailConfirmationViewModel();
 
@@ -89,15 +99,17 @@ namespace PeakHub.Controllers {
                 viewModel.IsSuccess = false;
                 viewModel.ErrorMessage = errorMessage;
             }
-
+            // return the view with any errors;
             return View("Confirm", viewModel);
         }
 
+        // dispplays the confirmation EmailSuccess page if the user confirms their email successfully.
         public IActionResult ConfirmEmailSuccess()
         {
             return View();
         }
 
+        // displays the ConfirmEmailFailed page if the user fails to confirm their email - rare edge case
         public IActionResult ConfirmEmailFailed(string errorMessage)
         {
             ViewBag.ErrorMessage = errorMessage;

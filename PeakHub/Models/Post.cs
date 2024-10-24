@@ -7,28 +7,38 @@ namespace PeakHub.Models
 {
     public class Post
     {
+
+        public Post()
+        {
+            Likes = new List<Like>();
+        }
         public int PostID { get; set; }
 
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
-        [JsonIgnore] public virtual User User { get; set; }
+
+        // prevents cyclic import error with lazy loading
+        [JsonIgnore]
+        public virtual User User { get; set; }
         public string Content { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime TransactionTimeUtc { get; set; }
 
+        // prevents cyclic import error with lazy loading
+        [JsonIgnore]
         public virtual List<Like> Likes { get; set; }
         public string MediaType { get; set; }
         public string MediaLink { get; set; }
 
         [ForeignKey("Board")]
         public int BoardID { get; set; }
-        [JsonIgnore] public virtual Board Board { get; set; }
 
-        public string ViewDate() => TransactionTimeUtc.ToString("dd/MM/yyyy");
-        public string ViewTime() => TransactionTimeUtc.ToString("hh:mm tt");
+        // prevents cyclic import error with lazy loading
+        [JsonIgnore]
+        public virtual Board Board { get; set; }
     }
 }
 

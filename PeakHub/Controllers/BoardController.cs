@@ -8,7 +8,9 @@ namespace PeakHub.Controllers {
         public BoardController(IHttpClientFactory httpClient) =>
             _httpClient = httpClient.CreateClient("api");
         // -------------------------------------------------------------------------------- //
-        public IActionResult Index() => View();
+        public IActionResult Index(){
+            return View();
+        }
 
         [HttpGet]
         public async Task<IActionResult> AllBoards() {

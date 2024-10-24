@@ -1,13 +1,24 @@
 ﻿@model PeakHub.ViewModels.EmailConfirmationViewModel
-
-<h2>Email Confirmation</h2>
-
-@if (Model.IsSuccess)
-{
-    <p>Your email has been successfully confirmed! You can now <a href="@Url.Action("Login", "Login")">login</a>.</p>
+@{
+    Layout = "_AccountLayout";
 }
-else
-{
-    <p>@Model.ErrorMessage</p>
-    <p>Please try again or contact support.</p>
-}
+
+<div id="form-container">
+   
+    <form>
+    @if (Model.IsSuccess)
+    {
+        <h2>Email Confirmed</h2>
+            <img src="~/img/greentick.png" height="100px">
+        <p>Your email has been successfully confirmed! You can now Login.</p>
+            <div class="btn-row">
+                <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
+            </div>
+    }
+    else
+    {
+        <p>@Model.ErrorMessage</p>
+        <p>Please try again or contact support.</p>
+    }
+    </form>
+</div>

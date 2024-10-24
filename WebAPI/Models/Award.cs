@@ -10,6 +10,7 @@ namespace WebAPI.Models
         public string Img { get; set; }
         public string Condition { get; set; }
 
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual ICollection<UserAward> UserAwards { get; set; }
     }

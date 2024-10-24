@@ -7,11 +7,14 @@ namespace PeakHub.Controllers {
     public class ForumController : Controller {
         private readonly HttpClient _httpClient;
         private readonly Tools _tools;
+        private readonly ILogger<ForumController> _logger;
         private string UserID => HttpContext.Session.GetString("UserId");
 
-        public ForumController(IHttpClientFactory httpClient, Tools tools) {
+        public ForumController(IHttpClientFactory httpClient, Tools tools, ILogger<ForumController> logger)
+        {
             _httpClient = httpClient.CreateClient("api");
             _tools = tools;
+            _logger = logger;
         }
         // -------------------------------------------------------------------------------- //
         public async Task<IActionResult> Index(int boardID) {
@@ -31,9 +34,8 @@ namespace PeakHub.Controllers {
         // -------------------------------------------------------------------------------- //
         [HttpGet]
         public async Task<IActionResult> GetForumPosts(int boardID, string userID, int pageSize, int pageIndex) {
-            var response = await _httpClient
-                .GetFromJsonAsync<IEnumerable<PostViewModel>>($"api/posts/fromBoard/{boardID}/{userID}?pageSize={pageSize}&pageIndex={pageIndex}");
-
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<PostViewModel>>($"api/posts/fromBoard/{boardID}/{userID}?pageSize={pageSize}&pageIndex={pageIndex}");
+            _logger.LogInformation(response.ToString());
             return Json(response);
         }
         // -------------------------------------------------------------------------------- //

@@ -34,6 +34,7 @@ namespace WebAPI.Models
     {
         public int Id { get; set; }
         public string UserID { get; set; }
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual User User { get; set; }
 
@@ -49,6 +50,7 @@ namespace WebAPI.Models
         public int Id { get; set; }
         public string UserID { get; set; }
 
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual User User { get; set; }
 

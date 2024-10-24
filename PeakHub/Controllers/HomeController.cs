@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PeakHub.Models;
 using System.Diagnostics;
 using PeakHub.ViewModels;
@@ -14,16 +13,13 @@ namespace PeakHub.Controllers
         private HttpClient Client => _clientFactory.CreateClient("api");
 
 
-
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
             _clientFactory = clientFactory;
         }
 
-
-
-
+        // display index
         public async Task<IActionResult> Index()
         {
             HomeViewModel viewModel = new HomeViewModel();
@@ -31,11 +27,13 @@ namespace PeakHub.Controllers
             return View(viewModel);
         }
 
+        //display privacy page
         public IActionResult Privacy()
         {
             return View();
         }
 
+        // displays errror page
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

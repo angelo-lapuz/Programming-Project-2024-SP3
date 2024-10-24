@@ -21,29 +21,28 @@ namespace PeakHub.Utilities {
         }
 
 
+        // GetUser method - used to reduce number of times all this needs to be written: 
         public async Task<User> GetUser(string userID) {
-            _logger.LogInformation("userID = " + userID);
 
             try {
+                // try to get the user from the backend
                 var response = await _httpClient.GetAsync($"api/users/{userID}");
 
-                _logger.LogInformation("response : " + response);
                 if (!response.IsSuccessStatusCode) {
-                    _logger.LogInformation("null : " + response);
                     return null;
                 }
 
+                // get and de-serialize the user into object and return it to calling method
                 var user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
-                _logger.LogInformation("User : " + user);
-
                 return user;
             }
+            // if the user is not found, return null
             catch (Exception ex) {
-                _logger.LogError($"Get User Error: [{ex.Message}]");
                 return null;
             }
         }
 
+        // used to get various file extensions that can be uploaded to the site
         public string GetFileExtension(string fileType) {
             switch (fileType.ToLower()) {
                 // Images

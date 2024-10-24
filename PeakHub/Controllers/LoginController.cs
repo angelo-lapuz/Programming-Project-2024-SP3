@@ -2,9 +2,7 @@
 using Newtonsoft.Json;
 using PeakHub.ViewModels;
 using PeakHub.Models;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using PeakHub.Utilities;
 
 
@@ -13,29 +11,25 @@ namespace PeakHub.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<WebAPI.Models.User> _userManager;
         private readonly ILogger<LoginController> _logger;
         private readonly HttpClient _httpClient;
         private readonly Tools _tools;
 
 
         public LoginController(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
+            UserManager<WebAPI.Models.User> userManager,
             ILogger<LoginController> logger,
             IHttpClientFactory httpClientFactory,
             Tools tools)
         {
             _tools = tools;
             _userManager = userManager;
-            _signInManager = signInManager;
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("api");
         }
 
-        public IActionResult Index() { return View(); }
-
+        // displays the login page
         public IActionResult Login() { return View(); }
 
         // checks if the username and password are correct changes the session to the user id and username
@@ -48,11 +42,13 @@ namespace PeakHub.Controllers
         {
             var loginModel = model.LoginModel;
 
+            // if the model state is not valid - return to the login
             if (!ModelState.IsValid) return View(model);
 
-
+            //attempt to log the user in through the api
             var response = await _httpClient.PostAsJsonAsync("api/users/login", loginModel);
 
+            // if user loggged in successfully then assign values and re-direct the user to the Home
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
@@ -84,79 +80,91 @@ namespace PeakHub.Controllers
             return View(model);
         }
 
+        // Reset Password function is called when the user clicks on a link that has been sent to their email
         [HttpGet]
         public async Task<IActionResult> ResetPassword(string userId, string token)
         {
 
+            // ensure that there is a userId and a token present with the request to the page if not return to the login page
             if(userId == null || token == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Login");
             }
 
+            // creating new ResetPasswordViewModel and assigning values to it
             var model = new ResetPasswordViewModel
             {
                 UserId = userId,
                 Token = token
             };
 
+            // displaying the resetPassword view to the user
             return View();
         }
 
+        // called when the user submits to reset their password on the resetpassword Page
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-
+            // if viewmodel is invalid return the user to the page and display errors
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            // call api to reset the users password with a new one
             var response = await _httpClient.PostAsJsonAsync("api/users/resetpassword", model);
-            var responseContent = await response.Content.ReadAsStringAsync();
 
+            // if password changed successfully - redirect to the confirmation page to let them know
+            // their password has been changed
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Login", "Login");
+                 return View("Confirm");
             }
 
             return View(model);
         }
 
 
-
+        // forgotPassword used to recover the users password - API will send a link to the users email for reset
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(AccountViewModel model)
         {
+            // setting the appropriate viewModel
             var forgotPasswordModel = model.ForgotPasswordModel;
 
+            // returning if model is not validd
             if (!ModelState.IsValid || forgotPasswordModel == null)
             {
                 return View("Login", model);
             }
 
+            // calling the api to attempt to reset the users password.
             var response = await _httpClient.PostAsJsonAsync("api/users/forgotpassword", forgotPasswordModel);
 
+            // take user to page confirming the email has been sent
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.Status = "A reset password link has been sent to your inbox.";
-                return View("Login", model);
+                return View("ConfirmResetPassword");
             }
-
+            // will occur if the users email is not confirmed
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 ModelState.AddModelError("ForgotPasswordModel.Email", "Please confirm your email to reset your password.");
             }
+            // will occur if something unexpected happens
             else
             {
                 ModelState.AddModelError("ForgotPasswordModel.Email", "An unexpected error occurred. Please try again.");
             }
-
+            // returnign to the login page with the model
             return View("Login", model);
         }
 
 
-        // logs the user out and clears the session
+        // logs the user out and clears the session and re-directs the user to the home page.
         public async Task<IActionResult> Logout()
         {
             var response = await _httpClient.PostAsync("api/users/logout", null);
@@ -166,7 +174,5 @@ namespace PeakHub.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
-
     }
 }

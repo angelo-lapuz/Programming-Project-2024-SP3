@@ -13,6 +13,9 @@ namespace WebAPI.Models {
         [Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
+
+        // prevents cyclic import error with lazy loading
+        [JsonIgnore]
         public virtual User User { get; set; }
         public string Content { get; set; }
 
@@ -20,6 +23,7 @@ namespace WebAPI.Models {
         [DataType(DataType.DateTime)]
         public DateTime TransactionTimeUtc { get; set; }
 
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual List<Like> Likes { get; set; }
         public string MediaType { get; set; }
@@ -27,6 +31,8 @@ namespace WebAPI.Models {
 
         [ForeignKey("Board")]
         public int BoardID { get; set; }
+
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual Board Board { get; set; }
     }
