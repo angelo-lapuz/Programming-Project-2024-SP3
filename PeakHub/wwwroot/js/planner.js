@@ -146,3 +146,7 @@ var whereRegions = document.querySelectorAll('.info-region-select label');
 
 
 
+document.querySelector('.fa-user').addEventListener('click', function () {
+
+    document.querySelector('.nav-login-list').classList.toggle('show');
+});

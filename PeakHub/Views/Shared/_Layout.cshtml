@@ -28,25 +28,47 @@
                         <div class="nav-link-hover transition absolute-center"></div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link transition absolute-center" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
+                        <div class="nav-link-hover transition absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
                         <div class="nav-link-hover absolute-center"></div>
                     </li>
-
+                    <li class="nav-item nav-profile">
+                        <div class="transition absolute-center">
+                            <i class="fa-solid fa-user"></i>
+                        </div>                      
+                    </li>         
+                </ul>
+            </div>
+            <div class="nav-login-list">
+                <ul>
                     @{
                         if (Context.Session.GetString("UserId") != null)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item nav-login-li">
                                 <a class="nav-link absolute-center" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
                                 <div class="nav-link-hover absolute-center"></div>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item nav-login-li">
                                 <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
                                 <div class="nav-link-hover absolute-center"></div>
                             </li>
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+
                         }
+                        
                     }
 
                 </ul>
