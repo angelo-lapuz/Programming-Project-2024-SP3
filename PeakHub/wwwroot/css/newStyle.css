@@ -1905,7 +1905,7 @@ input[type="range"] {
     width: 30%;
     height: 700px;
     min-height: 600px;
-    background: var(--grey-glass);
+    background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
     border-radius: 15px;
     padding-top: 30px;
     color: white;
@@ -2057,8 +2057,8 @@ input[type="range"] {
     color: goldenrod;
     border-radius: 15px;
     padding: 10px;
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2075,14 +2075,16 @@ input[type="range"] {
 }
 
 .award-name {
-    font-size: 0.7em;
+    font-size: 0.8em;
     color: var(--grey);
     text-align: center;
     margin-top: 5px;
     word-wrap: break-word;
-    width: 80px;
+    width: 110px;
     font-family: "Roboto", sans-serif;
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .award-wrapper {
@@ -2115,7 +2117,7 @@ input[type="range"] {
 }
 
 .itemBox {
-    width: 80%;
+    width: 300px;
     text-decoration: none;
     margin: 15px auto;
     padding: 15px;
@@ -2133,7 +2135,9 @@ input[type="range"] {
     border: 1.5px solid var(--darkgreen);
     font-family: "Roboto", sans-serif;
     font-weight: 500;
+    margin-bottom: 25px; 
 }
+
 
 #completedAbelsSection .itemBox {
     cursor: pointer;
@@ -2165,19 +2169,21 @@ input[type="range"] {
     width: 80%;
     margin: 10px auto;
 }
-
     .search-bar-container input {
         width: 100%;
         padding: 10px;
-        border-radius: 20px;
-        border: 1.5px solid var(--darkgreen);
-        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        border: 2px solid black;
         font-size: 1rem;
     }
 
     .search-bar-container.open {
         display: block;
+        position: sticky;
+        top: 0; 
+        z-index: 10;
         animation: dropdown 0.4s ease-in-out forwards;
+        border-radius: 15px;
     }
 
 @keyframes dropdown {
@@ -2207,6 +2213,13 @@ input[type="range"] {
 
 /*Shared*/
 
+#awardsSection, #completedAbelsSection {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/*Details and Awards*/
+
 #detailsSection, #passwordSection {
     display: flex;
     flex-direction: column;
@@ -2214,20 +2227,41 @@ input[type="range"] {
     align-items: center;
     text-align: center;
     width: 30%;
-    min-height: 600px;
-    background: var(--grey-glass);
-    border-radius: 15px;
-    padding-top: 60px;
+    height: 600px;
+    background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
+    border-radius: 0px 15px 70px 0px;
+    padding-top: 40px;
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-}
-#awardsSection, #completedAbelsSection {
-    overflow-y: auto;
-    max-height: 500px;
+    border: 5px solid var(--darkgreen);
+    margin-top: 70px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
+.form-control {
+    width: 80%;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
 
+    .form-control:focus {
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+.form-group {
+    margin-bottom: 20px;
+    color: var(--yellow);
+    text-shadow: var(--shadow-down);
+}
 /*Text and Headings*/
 
 #userSection hr, #awardsSection hr, #completedAbelsSection hr {
@@ -2235,7 +2269,7 @@ input[type="range"] {
     border-radius: 5px;
 }
 
-#userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+#userSection h2, #awardsSection h2, #completedAbelsSection h2, #detailsSection h2, #changePassword h2 {
     text-align: center;
     color: var(--grey);
     text-shadow: var(--shadow-down);
@@ -2316,6 +2350,7 @@ input[type="range"] {
         flex-direction: column;
         align-items: center;
         gap: 20px;
+        padding-top: 1200px;
     }
 
     #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
@@ -2326,23 +2361,29 @@ input[type="range"] {
         border-radius: 40px;
     }
 
-    #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
-        font-size: 2.0rem;
-        line-height: 1.2;
-    }
+        #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+            font-size: 2.0rem;
+            line-height: 1.2;
+        }
+
     #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
         padding-bottom: 60px;
-
     }
-    .container {
-        padding-top: 1200px;
-
-    }
+  
     .itemBox {
-        width: 80%;
+        width: 200px;
         align-items: center;
         margin: 0 auto;
         margin-bottom: 25px;
         text-align: center;
     }
+
+    #userSection img {
+        width: 100px;
+        height: 100px;
+        border-radius: 25%;
+        margin: 0;
+        border: 2px solid var(--darkgreen);
+    }
+}
 

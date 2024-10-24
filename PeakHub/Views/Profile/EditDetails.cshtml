@@ -1,4 +1,5 @@
 ﻿@model PeakHub.ViewModels.EditDetailsViewModel
+
 <body style="
     background: url('../img/background2.svg') no-repeat center fixed;
     background-size: cover;
@@ -14,21 +15,24 @@
 
 <div class="container">
     <div id="detailsSection">
-        <h3>Edit Your Details</h3>
+        <h2>Edit Your Details</h2>
         <form asp-action="EditDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <label for="FirstName">First Name
+                    <i class="fa-solid fa-user"></i>
+                </label>
+                <input asp-for="FirstName" class="form-control" id="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <label for="LastName">Last Name</label>
+                <input asp-for="LastName" class="form-control" id="LastName" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
@@ -37,7 +41,7 @@
             </div>
 
             <div class="user-actions">
-                <a href="#" onclick="document.querySelector('form').submit();">Save</a>
+                <a href="#" onclick="document.querySelector('form').submit();">Save &nbsp;<i class="fa-regular fa-floppy-disk"></i></a>
             </div>
         </form>
     </div>
