@@ -1879,6 +1879,7 @@ input[type="range"] {
 
 @import url('colors.css');
 
+/* Container*/
 .container {
     display: flex;
     justify-content: center;
@@ -1889,28 +1890,12 @@ input[type="range"] {
     background: var(--custom-glass);
     border-radius: 15px;
     width: 80vw;
-    gap: 20px;
-    padding-top: 120px;
+    padding-top: 100px;
     margin: 0 auto;
     height: auto;
 }
 
-#detailsSection, #passwordSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    width: 30%;
-    min-height: 600px;
-    background: var(--grey-glass);
-    border-radius: 15px;
-    padding-top: 60px;
-    color: white;
-    overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-}
-
+/*User Section*/
 #userSection {
     display: flex;
     flex-direction: column;
@@ -1918,151 +1903,33 @@ input[type="range"] {
     align-items: center;
     text-align: center;
     width: 30%;
+    height: 700px;
     min-height: 600px;
     background: var(--grey-glass);
-    border-radius: 0px 0px 15px 15px;
-    padding-top: 60px;
+    border-radius: 15px;
+    padding-top: 30px;
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    border: 5px solid var(--darkgreen);
 }
 
-
-#awardsSection {
+.user-info {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    text-align: center;
-    width: 30%;
-    height: 800px; /* Adjusted to 80% of the current height */
-    background: var(--grey-glass);
-    border-radius: 15px 0px 0px 70px;
-    padding-top: 60px;
-    color: white;
-    overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-}
-
-#completedAbelsSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    width: 30%;
-    height: 800px; /* Adjusted to 80% of the current height */
-    background: var(--grey-glass);
-    border-radius: 0px 15px 70px 0px;
-    padding-top: 60px;
-    color: white;
-    overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-}
-
-
-.itemBox {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 25px;
+    gap: 15px;
+    justify-content: center;
     margin-top: 15px;
-    background-color: var(--lightgreen-glass);
-    border-radius: 40px;
-    color: floralwhite;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    text-align: center;
-    border: 1.5px groove #133234;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    box-sizing: border-box;
+    padding-bottom: 50px;
+    padding-top: 50px;
 }
-
-#completedAbelsSection .itemBox {
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-#completedAbelsSection .itemBox:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-}
-
-#awardsSection, #completedAbelsSection {
-    overflow-y: auto;
-    max-height: 400px;
-}
-
-#awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
-    width: 8px;
-}
-
-#awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
-    background-color: var(--custom-grey);
-    border-radius: 10px;
-}
-
-#awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
-    background-color: var(--custom-yellow);
-}
-    #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
-        text-align: center;
-        color: var(--grey);
-        text-shadow: var(--shadow-down);
-        font-size: 2.5rem;
-        letter-spacing: 0.10rem;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-
-    }
-
-    #userSection h3, #awardsSection h3, #completedAbelsSection h3 {
-        color: var(--yellow);
-        text-shadow: var(--shadow-down);
-        display: block;
-        z-index: 5;
-        letter-spacing: 0.2rem;
-        font-size: 1.6rem;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-    }
-
-    #userSection h4, #awardsSection h4, #completedAbelsSection h4 {
-        color: var(--yellow);
-        text-shadow: var(--shadow-down);
-        display: block;
-        z-index: 5;
-        font-size: 1.2rem;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-    }
-
-    #userSection p, #awardsSection p, #completedAbelsSection p {
-        text-align: center;
-        font-size: 1.2rem;
-        font-family: "Roboto", sans-serif;
-        color: floralwhite;
-        margin-bottom: 15px;
-        font-weight: bold;
-    }
-
-    #userSection p1, #completedAbelsSection p1 {
-        text-align: center;
-        font-size: 1.2rem;
-        font-family: "Roboto", sans-serif;
-        color: var(--yellow);
-        font-weight: bold;
-        text-shadow: var(--shadow-down);
-    }
-
 
 #userSection img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 25%;
-    margin-bottom: 10px;
-    margin-top: 15px;
+    margin: 0;
+    border: 2px solid var(--darkgreen);
 }
 
 
@@ -2089,21 +1956,359 @@ input[type="range"] {
         overflow: hidden;
         font-size: 18px;
         box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-        border: 1.5px groove #133234;
+        border: 1.5px solid var(--darkgreen);
         font-family: "Roboto", sans-serif;
         font-weight: 500;
     }
 
 
-.user-actions a:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+        .user-actions a:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+            transform: scale(1.05);
+            box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+        }
+
+.peaks-bagged {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Roboto", sans-serif;
+    color: floralwhite;
+    margin-bottom: 20px;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+    .peaks-bagged span {
+        font-size: 1.2rem; 
+        color: var(--grey);
+        text-shadow: var(--shadow-down);
+        margin-right: 10px; 
+    }
+
+.spin-animation {
+    animation: spin 1s cubic-bezier(0.25, 1.25, 0.5, 1) forwards;
+}
+
+.counter-slots {
+    display: flex;
+    gap: 5px; 
+}
+
+@keyframes spin {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.counter {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: floralwhite;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--darkgreen);
+    border: 1.5px solid var(--darkgreen);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    position: relative;
+}
+
+/*Award Section*/
+#awardsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 800px;
+    background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
+    border-radius: 15px 0px 0px 70px;
+    padding-top: 40px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    border: 5px solid var(--darkgreen);
+    margin-top: 70px;
+}
+
+.awards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.award-tile {
+    background-color: #a0444c;
+    background: linear-gradient(rgba(160, 68, 76, 0.7), rgba(160, 68, 76, 0.7)), url('../img/award.png');
+    background-size: cover;
+    background-position: center;
+    color: goldenrod;
+    border-radius: 15px;
+    padding: 10px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1em;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    border: 2px solid var(--yellow);
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.award-number {
+    font-size: 1.4em;
+}
+
+.award-name {
+    font-size: 0.7em;
+    color: var(--grey);
+    text-align: center;
+    margin-top: 5px;
+    word-wrap: break-word;
+    width: 80px;
+    font-family: "Roboto", sans-serif;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.award-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/*Completed Section*/
+
+#completedAbelsSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    height: 800px;
+    background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
+    border-radius: 0px 15px 70px 0px;
+    padding-top: 40px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    border: 5px solid var(--darkgreen);
+    margin-top: 70px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.itemBox {
+    width: 80%;
+    text-decoration: none;
+    margin: 15px auto;
+    padding: 15px;
+    border-radius: 40px;
+    color: floralwhite;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    background: var(--lightgreen-glass);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s linear;
+    overflow: hidden;
+    font-size: 20px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    border: 1.5px solid var(--darkgreen);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+
+#completedAbelsSection .itemBox {
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+    #completedAbelsSection .itemBox:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+    }
+
+/* Style for the toggle search icon */
+.search-toggle {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--yellow);
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+    .search-toggle:hover {
+        color: var(--custom-yellow);
+    }
+
+.search-bar-container {
+    display: none;
+    padding: 10px;
+    width: 80%;
+    margin: 10px auto;
+}
+
+    .search-bar-container input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1.5px solid var(--darkgreen);
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        font-size: 1rem;
+    }
+
+    .search-bar-container.open {
+        display: block;
+        animation: dropdown 0.4s ease-in-out forwards;
+    }
+
+@keyframes dropdown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
+#completedAbelsSection .itemBox {
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    flex: 0 1 auto; 
+}
+
+    #completedAbelsSection .itemBox:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+    }
+
+/*Shared*/
+
+#detailsSection, #passwordSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 30%;
+    min-height: 600px;
+    background: var(--grey-glass);
+    border-radius: 15px;
+    padding-top: 60px;
+    color: white;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+#awardsSection, #completedAbelsSection {
+    overflow-y: auto;
+    max-height: 500px;
+}
 
 
+/*Text and Headings*/
+
+#userSection hr, #awardsSection hr, #completedAbelsSection hr {
+    border: 5px var(--grey);
+    border-radius: 5px;
+}
+
+#userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+    text-align: center;
+    color: var(--grey);
+    text-shadow: var(--shadow-down);
+    font-size: 2.5rem;
+    letter-spacing: 0.10rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+
+#userSection h3, #awardsSection h3, #completedAbelsSection h3 {
+    color: var(--yellow);
+    text-shadow: var(--shadow-down);
+    display: block;
+    z-index: 5;
+    font-size: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+
+}
+
+#userSection h4, #awardsSection h4, #completedAbelsSection h4 {
+    color: var(--yellow);
+    text-shadow: var(--shadow-down);
+    display: block;
+    z-index: 5;
+    font-size: 1.2rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+
+}
+
+#userSection p, #awardsSection p, #completedAbelsSection p {
+     text-align: center;
+     font-size: 1.2rem;
+     font-family: "Roboto", sans-serif;
+     color: floralwhite;
+     margin-bottom: 15px;
+     font-weight: bold;
+     text-shadow: var(--shadow-down);
+}
+
+#userSection p1, #completedAbelsSection p1 {
+     text-align: center;
+     font-size: 1.2rem;
+     font-family: "Roboto", sans-serif;
+     color: var(--yellow);
+     font-weight: bold;
+     text-shadow: var(--shadow-down);
+}
+
+ #awardsSection h2::after, #completedAbelsSection h2::after {
+     content: "";
+     display: block;
+     width: 100%;
+     height: 3px;
+     background-color: var(--darkgreen);
+     margin: 10px auto;
+     border-radius: 5px;
+
+ }
+
+#awardsSection::-webkit-scrollbar, #completedAbelsSection::-webkit-scrollbar {
+     width: 8px;
+}
+
+#awardsSection::-webkit-scrollbar-thumb, #completedAbelsSection::-webkit-scrollbar-thumb {
+     background-color: var(--custom-grey);
+     border-radius: 10px;
+}
+
+#awardsSection::-webkit-scrollbar-thumb:hover, #completedAbelsSection::-webkit-scrollbar-thumb:hover {
+     background-color: var(--custom-yellow);
+}
 
 
 @media only screen and (max-width: 900px) {
@@ -2118,6 +2323,7 @@ input[type="range"] {
         min-height: auto;
         height: auto;
         align-items: center;
+        border-radius: 40px;
     }
 
     #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
@@ -2129,7 +2335,7 @@ input[type="range"] {
 
     }
     .container {
-        padding-top: 800px;
+        padding-top: 1200px;
 
     }
     .itemBox {
@@ -2140,31 +2346,3 @@ input[type="range"] {
         text-align: center;
     }
 
-
-
-/* @NOAH u need to fix these styles here. I've gone ahead and changed their call method to their parent element to ensure it doesn't break all the other pages 
-  
-*/
-
-
-
-#detailsSection h3 {
-    color: var(--custom-yellow);
-    font-size: 20px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-.form-group input, .form-control select, .form-control textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--custom-yellow);
-    outline: none;
-}
