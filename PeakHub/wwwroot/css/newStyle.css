@@ -1926,8 +1926,8 @@ input[type="range"] {
     padding-top: 30px;
     color: white;
     overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    border: 5px solid var(--darkgreen);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(3px);
 }
 
 .user-info {
@@ -2053,8 +2053,8 @@ input[type="range"] {
     padding-top: 40px;
     color: white;
     overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    border: 5px solid var(--darkgreen);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(3px);
     margin-top: 70px;
 }
 
@@ -2125,8 +2125,8 @@ input[type="range"] {
     padding-top: 40px;
     color: white;
     overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    border: 5px solid var(--darkgreen);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(3px);
     margin-top: 70px;
     padding-left: 0;
     padding-right: 0;
@@ -2154,6 +2154,12 @@ input[type="range"] {
     margin-bottom: 25px; 
 }
 
+.itemBox:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+}
+
 
 #completedAbelsSection .itemBox {
     cursor: pointer;
@@ -2161,12 +2167,6 @@ input[type="range"] {
         flex: 0 1 auto; 
 }
 }
-
-    #completedAbelsSection .itemBox:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-        transform: scale(1.05);
-        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-    }
 
 /* Style for the toggle search icon */
 .search-toggle {
@@ -2232,7 +2232,7 @@ input[type="range"] {
     align-items: center;
     text-align: center;
     width: 30%;
-    height: 600px;
+    height: 700px;
     background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
     border-radius: 0px 15px 70px 0px;
     padding-top: 40px;
@@ -2349,6 +2349,14 @@ input[type="range"] {
      background-color: var(--custom-yellow);
 }
 
+.text-danger {
+    color: #ff4d4d; 
+    font-size: 0.9rem; 
+    font-weight: bold;
+    margin-top: 5px;
+    display: block; 
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); 
+}
 
 @media only screen and (max-width: 750px) {
     .container {
@@ -2386,12 +2394,13 @@ input[type="range"] {
     }
 
     .itemBox {
-        width: 200px;
+        width: 240px;
         align-items: center;
         margin: 0 auto;
         margin-bottom: 25px;
         text-align: center;
         display: block;
+        font-size: 1rem;
     }
 
     #userSection img {
@@ -2406,7 +2415,11 @@ input[type="range"] {
     width: 80%;
     }
 
-    #userSection p{
+    #userSection p {
+        font-size: 1rem;
+    }
+
+    .user-actons a {
         width: 80%;
     }
 }

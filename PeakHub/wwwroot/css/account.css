@@ -1,4 +1,25 @@
-﻿/* Body */
+﻿/* custom variables */
+:root {
+    --grey: #e1daca;
+    --grey-glass: rgb(225,218,202,0.5);
+    --lightgreen-glass: rgb(19,100,68, 0.5);
+    --lightgreen: #2f6546;
+    --darkgreen: #133234;
+    --yellow: #f3e147;
+    --planner-blue: #aae0fa;
+    --planner-blue-rgb: rgba(170,224,252,0.5);
+    --black-glass-50: rgb(0,0,0,0.5);
+    --red: #912f45;
+    --animation-timing: 0.25s ease-in-out;
+    --max-width: 1300px;
+    --temp: black;
+    --navbar-height-s: 8rem;
+    --shadow-down: 0px 2px 2px black;
+    --who-what-where: 4rem;
+    --sidebar: calc(50vw - 700px);
+    --sidebar-blend: calc(var(--sidebar) + 100px);
+}
+/* Body */
 body {
     background: url("../img/background2.svg") no-repeat center fixed;
     background-size: cover;
@@ -74,7 +95,9 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: "Roboto", sans-serif;
     margin-bottom: 1rem;
+    color: var(--grey);
 }
 
     .brand-logo-container img {
@@ -86,7 +109,7 @@ form {
     }
 
     .brand-logo-container span {
-        font-size: 1.5rem; 
+        font-size: 2rem; 
         font-weight: 700;
         text-shadow: var(--shadow-down);
         margin-left: 0.5rem; 
@@ -104,16 +127,17 @@ input[type="text"], input[type="password"], input[type="email"] {
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
         outline: none;
-        border: 1px solid rgba(255, 255, 255, 0.9); 
-        background-color: rgba(255, 255, 255, 0.2); 
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
 
 /* Adjust Button Layout */
 .btn-primary, .btn-secondary {
-    width: 60%; 
-    background: rgba(0, 0, 0, 0.15);
+    width: 60%;
+    background: var(--lightgreen-glass);
     color: floralwhite;
-    border: 1.5px groove #133234;
+    border: 1.5px solid var(--darkgreen);
     padding: 15px;
     border-radius: 40px;
     font-size: 18px;
@@ -129,11 +153,13 @@ input[type="text"], input[type="password"], input[type="email"] {
     overflow: hidden;
 }
 
+    /* Hover effect */
     .btn-primary:hover, .btn-secondary:hover {
         background-color: rgba(0, 0, 0, 0.3);
         transform: scale(1.05);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
+
 
 .btn-row, .btn-col {
     width: 100%;
@@ -160,27 +186,36 @@ input[type="text"], input[type="password"], input[type="email"] {
         text-decoration: underline;
     }
 
+a {
+    text-decoration: none;
+}
+.brand-logo-container span:hover {
+    transform: scale(1.05);
+}
+
 
 
 .text-danger {
     color: #FF0000;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 
 @media only screen and (max-width: 750px) {
-    form {
-        width: 90%; 
+    .right-form {
+        width: 80%;
     }
 }
 
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {
-    body {
-        flex-direction: column;
+    .right-form {
+        width: 80%;
     }
+}
 
-    form {
+@media only screen and (min-width: 1001px) and (max-width: 1300px) {
+    .right-form {
         width: 80%;
     }
 }
