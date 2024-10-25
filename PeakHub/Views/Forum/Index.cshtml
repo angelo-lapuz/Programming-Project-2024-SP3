@@ -1,18 +1,12 @@
 ﻿@model PeakHub.ViewModels.Forum.ForumViewModel
 @{
     ViewData["Title"] = "Forum";
-    string header = (Model.User.UserID == "0") ? "display: none;" : "";
     string addPost = (Model.User.UserID == "0") ? "deactivate" : "";
 }
 
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="forumContent">
-    <div class="header" style="@header">
-        <img src="@Model.User.ProfileImg" alt="Your Profile Image" />
-        <p> <strong>@Model.User.Username</strong> </p>
-    </div>
-
     <div class="content" id="postsForBoard">
         <input type="hidden" id="UserID" value="@Model.User.UserID" />  
     </div>

@@ -8,42 +8,46 @@ function appendPosts(posts) {
     const container = $("#postsForBoard");
 
     posts.forEach(post => {
-        var media = "";
-        if (post.media !== "" && post.media !== null) {
-            media = `<img src="${post.media}" alt="Poster's Media Image" />`;
-        }
+        var content = post.content ? "" : "display: none;";
+        var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
 
-        var likeActivity = "inactiveLike";
-        if (post.hasUserLiked) { likeActivity = ""; }
+        var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
 
         container.append(`
-                <div class="forumPost">
-                    <div class="header">
+            <div class="forumPost">
+                <div class="content">
+                    <div class="user">
                         <img src="${post.user.profileImg}" alt="Poster's Profile Image" />
                         <p> <strong> ${post.user.username} </strong> </p>
                     </div>
 
-                    <div class="content"> <p>${post.content}</p> ${media} </div>
-
-                    <div class="footer">
-                        <p>${new Date(post.transactionTimeUTC)
-                            .toLocaleString('en-US', { 
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: true
-                            })}</p>
-
-                        <a class="icon">
-                            <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
-                            <p id="count_${post.postID}">${post.likeCount}</p>
-                        </a>
+                    <div class="post">
+                        <p style='${content}'>${post.content}</p> 
+                        ${media} 
                     </div>
                 </div>
-            `);
+
+                <div class="footer">
+                    <p>${new Date(post.transactionTimeUTC)
+                        .toLocaleString('en-US', { 
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
+                        })}</p>
+
+                    <a class="icon">
+                        <p id="count_${post.postID}">${post.likeCount}</p>
+                        <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
+                    </a>
+                </div>
+            </div>
+        `);
     });
+
+    detectAspectRatio(container.find('.postImg').slice(-posts.length));
 }
 
 function loadPosts() {
@@ -75,6 +79,24 @@ function loadPosts() {
         complete: function () { loading = false; }
     });
 }
+
+function detectAspectRatio(newImages) {
+    newImages.each(function () {
+        const img = $(this);
+        const contentContainer = img.closest('.post');
+
+        img.on('load', function () {
+            if (this.naturalWidth < this.naturalHeight) {
+                contentContainer.addClass('portrait');
+            } else {
+                contentContainer.addClass('landscape');
+            }
+        });
+
+        if (this.complete) { img.trigger('load'); }
+    });
+}
+
 
 $('#postsForBoard').on('scroll', function () {
     const container = $(this);

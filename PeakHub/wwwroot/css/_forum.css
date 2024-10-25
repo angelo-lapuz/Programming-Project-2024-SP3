@@ -52,17 +52,13 @@ img { border-radius: 15px; }
 }
 
 .header {
-    height: 12vh;
+    height: 8vh;
     justify-content: flex-start;
-    border-radius: 10px 10px 0 0;
     border-bottom: 4px groove var(--custom-grey);
 }
 
 .footer {
-    height: 8vh;
-    justify-content: space-between;
-    border-radius: 0 0 10px 10px;
-    border-top: 4px groove var(--custom-grey);
+    
 }
 
 .header img {
@@ -82,40 +78,42 @@ img { border-radius: 15px; }
 }
 
 #searchIcon, #searchInput {
+    border-radius: 50px 25px;
     transition: all 0.3s ease;
+    background: var(--custom-grey);
+    box-shadow: 5px 5px 5px var(--custom-red);
 }
 
 #searchIcon {
-    color: #FFF;
-    background: black;
-    border-radius: 0 15px 15px 0;
+    color: #000;
+    margin: 0 1%;
 }
 
 #searchInput {
     width: 85%;
     cursor: pointer;
-    border: 4px solid black;
-    border-radius: 15px 0 0 15px;
 }
 
-#searchInput:focus + #searchIcon { 
-    color: var(--custom-yellow);
-    background: var(--custom-red); 
+#searchInput:focus { 
+    background: #FFF;
+    box-shadow: 2px 2px 5px inset var(--custom-green-light);
 }
-
-#searchInput:focus { border-color: var(--custom-red); }
 
 .itemBox {
+    margin: 0;
     width: 100%;
     height: 18%;
     display: flex;
-    margin-top: 3%;
     cursor: pointer;
-    background: #0005;
-    border-radius: 15px;
     align-items: center;
+    backdrop-filter: blur(5px);
+    box-shadow: 2px 2px 5px var(--custom-grey);
 }
-.itemBox:hover { background: #000; }
+
+.itemBox:hover {
+    color: var(--custom-yellow);
+    background: var(--custom-glass);
+}
 
 .itemBox img {
     height: 100%;
@@ -133,30 +131,96 @@ img { border-radius: 15px; }
 .itemData p { 
     width: 100%; 
     padding-top: 1%;
-    border-bottom: 4px #FFF5 groove;
+    font-size: medium;
 }
-.itemData strong { font-size: x-large; }
+
+.itemData strong { 
+    font-size: x-large; 
+    color: var(--custom-red);
+    text-shadow: 5px 5px 5px #0005;
+}
 
 /* -------------------------------------------------------------------------------- */
 /* Forum Content */
 
-.forumPost { 
-    margin: 2%; 
-    margin-top: 5%;
+.forumPost {
+    margin: 2%;
+    margin-bottom: 5%;
+    font-size: medium;
+    position: relative;
+    border-radius: 25px;
+    backdrop-filter: blur(5px);
+    background: var(--custom-glass);
+    box-shadow: 2px 2px 5px var(--custom-red);
 }
 
-.forumPost .content { 
-    padding: 2%; 
-    min-height: 35vh; 
-    background: #2C3E5050;
+.forumPost .user {
+    top: 0;
+    left: 0;
+    gap: 5px;
+    margin: 0;
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+}
+
+.forumPost .user img {
+    height: 10vh;
+    aspect-ratio: 1 / 1;
+    border-radius: 5px 0 15px 0 !important;
+}
+
+.forumPost .footer {
+    height: 7vh;
+    border-radius: 0 0 25px 25px;
+    justify-content: space-between;
+    background: var(--custom-green-dark);
+    border-top: 4px groove var(--custom-green-light);
+}
+
+.forumPost .user img {
+    aspect-ratio: 1 / 1;
+    border-radius: 25px;
+}
+
+.forumPost .user p { 
+    margin: 0;
+    font-size: x-large; 
+}
+
+.forumPost .post {
+    padding: 2%;
+    color: #000;
+    display: flex;
+    min-height: 25vh;
     align-items: center;
-    display: inline-flex;
+    justify-content: space-evenly;
+}
+
+.landscape {
+    padding-top: 5% !important;
     flex-direction: column;
 }
-.forumPost .content img { 
-    margin: 1% 0; 
-    max-width: 95%;
-    max-height: 40vh;
+
+.landscape p, .landscape .postImg {
+    width: 80%;
+}
+.landscape .postImg { aspect-ratio: 2 / 1; }
+
+.portrait {
+    padding-top: 5vh;
+    flex-direction: row;
+}
+
+.portrait p, .portrait .postImg {
+    width: 50%;
+}
+
+.portrait p { height: 80%; }
+
+.portrait .postImg { 
+    width: 20%;
+    aspect-ratio: 1 / 2; 
 }
 
 .forumPost .icon {
@@ -311,10 +375,12 @@ img { border-radius: 15px; }
 
     /* Board Content */
 
-    .itemBox { 
-        height: 18%; 
-        margin-top: 4%;
+    .itemBox {
+        height: 18%;
+        border-radius: 0;
     }
+    .itemBox i { font-size: small; }
+    .itemBox strong { font-size: larger; }
 
     /* Forum Content */
     .header img { height: 90%; }
@@ -349,21 +415,12 @@ img { border-radius: 15px; }
     }
 }
 
-@media only screen and (max-width: 400px) {
-    /* Board Content */
-
-    .itemBox {
-        height: 22%;
-        margin-top: 4%;
-    }
-}
-
 @media only screen and (min-width: 751px) and (max-width: 999px) {
     /* Board Content */
 
     .itemBox {
-        height: 14%;
-        margin-top: 6%;
+        height: 12%;
+        border-radius: 15px;
     }
 }
 
@@ -399,8 +456,9 @@ img { border-radius: 15px; }
     /* Board Content */
 
     .itemBox {
-        height: 20%;
-        margin-top: 5%;
+        margin: 0;
+        height: 18%;
+        border-radius: 20px;
     }
 }
 
