@@ -2052,6 +2052,8 @@ input[type="range"] {
     background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
     border-radius: 15px 0px 0px 70px;
     padding-top: 40px;
+    padding-right: 40px;
+    padding-left: 40px;
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
@@ -2094,7 +2096,7 @@ input[type="range"] {
 }
 
 .award-name {
-    font-size: 0.8em;
+    font-size: 0.6em;
     color: var(--grey);
     text-align: center;
     margin-top: 5px;
@@ -2134,6 +2136,7 @@ input[type="range"] {
     margin-top: 70px;
     padding-left: 0;
     padding-right: 0;
+    position: relative;
 }
 #boardItems {
     width: 80%;
@@ -2174,25 +2177,98 @@ input[type="range"] {
 }
 }
 
+
+#completedAbelsSection {
+    position: relative;
+    margin-top: 0;
+    padding-top: 0;
+    overflow: hidden; 
+}
+
 .search-bar-container {
     position: sticky;
     top: 0;
     width: 100%;
-    padding: 10px;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0;
     display: flex;
     justify-content: center;
+    padding: 10px 0;
+    background: none;
+    box-shadow: none;
 }
+
     .search-bar-container input {
-        width: 80%; 
+        width: 80%;
         padding: 10px;
         border-radius: 15px;
         border: 0.5px solid black;
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.7); 
         font-size: 1rem;
     }
+
+/*Model*/
+
+/* Model container */
+.model {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    justify-content: center;
+    align-items: center;
+}
+
+.model-content {
+    background: var(--lightgreen-glass);
+    color: var(--grey);
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    border: solid 3px var(--darkgreen);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--custom-yellow); 
+    transition: color 0.3s ease;
+}
+
+    .close-btn:hover {
+        color: white;
+    }
+
+.model-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.model-content li {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.model-content h2 {
+    text-align: center;
+    color: var(--grey);
+    text-shadow: var(--shadow-down);
+    font-size: 2.5rem;
+    letter-spacing: 0.10rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
 
 
 /*Shared*/
@@ -2202,7 +2278,7 @@ input[type="range"] {
     max-height: 500px;
 }
 
-/*Details and Awards*/
+/*Details and Password*/
 
 #detailsSection, #passwordSection {
     display: flex;
@@ -2254,7 +2330,7 @@ input[type="range"] {
     border-radius: 5px;
 }
 
-#userSection h2, #awardsSection h2, #completedAbelsSection h2, #detailsSection h2, #passwordSection h2 {
+#userSection h2, #awardsSection h2, #completedAbelsSection h2, #detailsSection h2, #passwordSection h2{
     text-align: center;
     color: var(--grey);
     text-shadow: var(--shadow-down);
@@ -2338,6 +2414,17 @@ input[type="range"] {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); 
          font-family: "Roboto", sans-serif;
 }
+
+#awardsSection h2 {
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+    #awardsSection h2:hover {
+        color: var(--custom-yellow); 
+        text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+    }
 
 @media only screen and (max-width: 750px) {
     .container {

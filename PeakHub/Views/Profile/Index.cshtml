@@ -84,7 +84,7 @@
 
 <div id="completedAbelsSection" class="col-md-6">
     <h2>COMPLETED</h2>
-    <div class="search-bar-container sticky">
+    <div class="search-bar-container">
         <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
     </div>
     @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
@@ -104,6 +104,27 @@
     }
 </div>
 
+<div id="awardModel" class="model">
+    <div class="model-content">
+        <span class="close-btn">&times;</span>
+        <h2>AWARDS</h2>
+        <ul>
+            <li><strong>Student</strong>: No Mountains Completed</li>
+            <li><strong>Beginner</strong>: 1 Mountain Completed</li>
+            <li><strong>Beginner 1</strong>: 10 Mountains Completed</li>
+            <li><strong>Beginner 2</strong>: 20 Mountains Completed</li>
+            <li><strong>Beginner 3</strong>: 30 Mountains Completed</li>
+            <li><strong>Experienced</strong>: 40 Mountains Completed</li>
+            <li><strong>Experienced 1</strong>: 50 Mountains Completed</li>
+            <li><strong>Experienced 2</strong>: 60 Mountains Completed</li>
+            <li><strong>Experienced 3</strong>: 70 Mountains Completed</li>
+            <li><strong>Master</strong>: 80 Mountains Completed</li>
+            <li><strong>Master 1</strong>: 90 Mountains Completed</li>
+            <li><strong>Grand Master</strong>: 100 Mountains Completed</li>
+            <li><strong>Legend</strong>: 158 Mountains Completed</li>
+        </ul>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -159,4 +180,26 @@ document.getElementById('peakSearchInput').addEventListener('input', function ()
     });
 });
 
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById("awardModel");
+    const openModalButton = document.querySelector("#awardsSection h2");
+    const closeModalButton = document.querySelector(".close-btn");
+
+    openModalButton.addEventListener("click", function() {
+        modal.style.display = "flex";
+    });
+
+    closeModalButton.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+});
 </script>
