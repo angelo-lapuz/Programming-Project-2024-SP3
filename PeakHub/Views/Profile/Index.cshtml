@@ -34,22 +34,22 @@
         <h2>AWARDS</h2>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
         {
-                <span>No awards</span>
+                    <span>No awards</span>
         }
         else
         {
-                <div class="awards-grid">
+                    <div class="awards-grid">
                 @foreach (var award in ViewBag.Awards)
                 {
                     string quantity = ExtractQuantity(award.Condition);
-                            <div class="award-wrapper">
-                                <div class="award-tile">
-                                    <div class="award-number">@quantity</div>
-                                </div>
-                                <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                            </div>
+                                    <div class="award-wrapper">
+                                        <div class="award-tile">
+                                            <div class="award-number">@quantity</div>
+                                        </div>
+                                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
+                                    </div>
                 }
-                </div>
+                    </div>
         }
     </div>
 
@@ -83,12 +83,8 @@
     </div>
 
 <div id="completedAbelsSection" class="col-md-6">
-    <h2>COMPLETED
-        <span class="search-toggle">
-            <i class="fa fa-search"></i>
-        </span>
-    </h2>
-    <div class="search-bar-container">
+    <h2>COMPLETED</h2>
+    <div class="search-bar-container sticky">
         <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
     </div>
     @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
@@ -107,6 +103,7 @@
         </div>
     }
 </div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -146,24 +143,20 @@
 </script>
 
 <script>
-    document.querySelector('.search-toggle').addEventListener('click', () => {
-        const searchContainer = document.querySelector('.search-bar-container');
-        searchContainer.classList.toggle('open');
-    });
+document.getElementById('peakSearchInput').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const items = document.querySelectorAll('#boardItems .itemBox');
 
-    document.getElementById('peakSearchInput').addEventListener('input', function () {
-        const searchTerm = this.value.toLowerCase();
-        const items = document.querySelectorAll('#boardItems .itemBox');
-
-        items.forEach(item => {
-            const peakName = item.getAttribute('data-peak').toLowerCase();
-            if (peakName.includes(searchTerm)) {
-                item.style.order = -1; 
-                item.style.display = "block"; 
-            } else {
-                item.style.order = 0; 
-                item.style.display = searchTerm ? "none" : "block"; 
-            }
-        });
+    items.forEach(item => {
+        const peakName = item.getAttribute('data-peak').toLowerCase();
+        if (peakName.includes(searchTerm)) {
+            item.style.order = -1; 
+            item.style.display = "block"; 
+        } else {
+            item.style.order = 0; 
+            item.style.display = searchTerm ? "none" : "block"; 
+        }
     });
+});
+
 </script>

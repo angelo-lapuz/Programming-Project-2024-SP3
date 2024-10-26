@@ -196,8 +196,15 @@ a {
 
 
 .text-danger {
-    color: #FF0000;
-    font-size: 0.8rem;
+    width: 100%;
+    text-align:center;
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", sans-serif;
 }
 
 

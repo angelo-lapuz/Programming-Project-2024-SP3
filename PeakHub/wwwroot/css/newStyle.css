@@ -1927,6 +1927,7 @@ input[type="range"] {
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
 }
 
@@ -2054,9 +2055,11 @@ input[type="range"] {
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     margin-top: 70px;
 }
+
 
 .awards-grid {
     display: flex;
@@ -2126,14 +2129,17 @@ input[type="range"] {
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     margin-top: 70px;
     padding-left: 0;
     padding-right: 0;
 }
-
+#boardItems {
+    width: 80%;
+}
 .itemBox {
-    width: 300px;
+    width: 100px;
     text-decoration: none;
     margin: 15px auto;
     padding: 15px;
@@ -2168,27 +2174,19 @@ input[type="range"] {
 }
 }
 
-/* Style for the toggle search icon */
-.search-toggle {
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: var(--yellow);
-    margin-left: 10px;
-    transition: color 0.3s;
-}
-
-    .search-toggle:hover {
-        color: var(--custom-yellow);
-    }
-
 .search-bar-container {
-    display: none;
+    position: sticky;
+    top: 0;
+    width: 100%;
     padding: 10px;
-    width: 80%;
-
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
 }
     .search-bar-container input {
-        width: 100%;
+        width: 80%; 
         padding: 10px;
         border-radius: 15px;
         border: 0.5px solid black;
@@ -2196,25 +2194,6 @@ input[type="range"] {
         font-size: 1rem;
     }
 
-    .search-bar-container.open {
-        display: block;
-        top: 0; 
-        z-index: 10;
-        animation: dropdown 0.6s ease-in-out forwards;
-        border-radius: 15px;
-    }
-
-@keyframes dropdown {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /*Shared*/
 
@@ -2239,7 +2218,8 @@ input[type="range"] {
     color: white;
     overflow: hidden;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    border: 5px solid var(--darkgreen);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     margin-top: 70px;
     padding-left: 0;
     padding-right: 0;
@@ -2274,7 +2254,7 @@ input[type="range"] {
     border-radius: 5px;
 }
 
-#userSection h2, #awardsSection h2, #completedAbelsSection h2, #detailsSection h2, #changePassword h2 {
+#userSection h2, #awardsSection h2, #completedAbelsSection h2, #detailsSection h2, #passwordSection h2 {
     text-align: center;
     color: var(--grey);
     text-shadow: var(--shadow-down);
@@ -2356,6 +2336,7 @@ input[type="range"] {
     margin-top: 5px;
     display: block; 
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); 
+         font-family: "Roboto", sans-serif;
 }
 
 @media only screen and (max-width: 750px) {
@@ -2363,10 +2344,28 @@ input[type="range"] {
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        padding-top: 1200px;
+        padding-top: 900px;
+        width: 100%;
     }
 
-    #detailsSection h2, #changePassword h2 {
+    #userSection {
+        order: 1;
+    }
+
+    #awardsSection {
+        order: 2;
+    }
+
+    #completedAbelsSection {
+        order: 3;
+    }
+
+    .changeContainer {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #detailsSection h2{
         text-align: center;
         color: var(--grey);
         text-shadow: var(--shadow-down);
@@ -2376,12 +2375,25 @@ input[type="range"] {
         font-weight: 500;
     }
 
-    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
+    #passwordSection h2 {
+        font-size: 1.8rem;
+    }
+
+
+    #userSection, #awardsSection, #completedAbelsSection {
         width: 100%;
         min-height: auto;
         height: auto;
         align-items: center;
         border-radius: 40px;
+        padding-bottom: 60px;
+    }
+
+    #detailsSection, #passwordSection {
+        width: 90%;
+        padding: 20px;
+        margin-bottom: 20px;
+        height: 600px;
     }
 
         #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
@@ -2389,12 +2401,12 @@ input[type="range"] {
             line-height: 1.2;
         }
 
-    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
-        padding-bottom: 60px;
+    #boardItems {
+        width: 90%;
     }
 
     .itemBox {
-        width: 240px;
+        width: 80%;
         align-items: center;
         margin: 0 auto;
         margin-bottom: 25px;
@@ -2419,16 +2431,23 @@ input[type="range"] {
         font-size: 1rem;
     }
 
-    .user-actons a {
+    .user-actions a {
         width: 80%;
     }
+        .form-group {
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        width: 100%;
+    }
+
 }
 
 @media only screen and (min-width: 751px) and (max-width: 1300px) {
     .container {
         flex-direction: column;
         align-items: center;
-        gap: 20px;
         padding-top: 1000px;
     }
     
@@ -2442,16 +2461,13 @@ input[type="range"] {
         height: auto;
         align-items: center;
         border-radius: 40px;
+        padding-bottom: 60px;
     }
 
         #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
             font-size: 2.0rem;
             line-height: 1.2;
         }
-
-    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
-        padding-bottom: 60px;
-    }
 
     .itemBox {
         width: 100%; 
@@ -2476,6 +2492,7 @@ input[type="range"] {
     #userSection p {
         width: 80%;
     }
+
     }
 @media only screen and (min-width: 1300px) {
     .itemBox {
