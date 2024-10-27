@@ -2249,16 +2249,29 @@ input[type="range"] {
         color: white;
     }
 
-.model-content ul {
+.modal-content ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-.model-content li {
-    margin-bottom: 8px;
+.modal-content li {
+    display: grid;
+    grid-template-columns: 150px auto; 
     font-size: 1.1rem;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    margin-bottom: 8px;
 }
+
+    .modal-content li strong {
+        text-align: left;
+    }
+
+    .modal-content li span {
+        text-align: left;
+    }
+
+
 
 .model-content h2 {
     text-align: center;
@@ -2431,7 +2444,7 @@ input[type="range"] {
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        padding-top: 900px;
+        margin-top: 1000px;
         width: 100%;
     }
 
@@ -2535,15 +2548,45 @@ input[type="range"] {
     .container {
         flex-direction: column;
         align-items: center;
-        padding-top: 1000px;
-    }
-    
-    h2::after{
-
+        gap: 20px;
+        margin-top: 1000px;
+        width: 100%;
     }
 
-    #userSection, #awardsSection, #completedAbelsSection, #detailsSection, #passwordSection {
-        width: 80%;
+    #userSection {
+        order: 1;
+    }
+
+    #awardsSection {
+        order: 2;
+    }
+
+    #completedAbelsSection {
+        order: 3;
+    }
+
+    .changeContainer {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #detailsSection h2 {
+        text-align: center;
+        color: var(--grey);
+        text-shadow: var(--shadow-down);
+        font-size: 2rem;
+        letter-spacing: 0.10rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+    }
+
+    #passwordSection h2 {
+        font-size: 1.8rem;
+    }
+
+
+    #userSection, #awardsSection, #completedAbelsSection {
+        width: 100%;
         min-height: auto;
         height: auto;
         align-items: center;
@@ -2551,17 +2594,30 @@ input[type="range"] {
         padding-bottom: 60px;
     }
 
-        #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
-            font-size: 2.0rem;
-            line-height: 1.2;
-        }
+    #detailsSection, #passwordSection {
+        width: 90%;
+        padding: 20px;
+        margin-bottom: 20px;
+        height: 600px;
+    }
+
+    #userSection h2, #awardsSection h2, #completedAbelsSection h2 {
+        font-size: 2.0rem;
+        line-height: 1.2;
+    }
+
+    #boardItems {
+        width: 90%;
+    }
 
     .itemBox {
-        width: 100%; 
+        width: 80%;
         align-items: center;
-        margin: 10px auto; 
+        margin: 0 auto;
+        margin-bottom: 25px;
         text-align: center;
-        display: block; 
+        display: block;
+        font-size: 1rem;
     }
 
     #userSection img {
@@ -2577,9 +2633,20 @@ input[type="range"] {
     }
 
     #userSection p {
+        font-size: 1rem;
+    }
+
+    .user-actions a {
         width: 80%;
     }
 
+    .form-group {
+        margin-bottom: 30px;
+    }
+
+    .form-control {
+        width: 100%;
+    }
     }
 @media only screen and (min-width: 1300px) {
     .itemBox {
