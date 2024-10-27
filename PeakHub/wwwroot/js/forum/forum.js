@@ -4,47 +4,52 @@
 let pageIndex = 1, loading = false, limit = false;
 const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
 
+function postHTML(post) {
+    var content = post.content ? "" : "display: none;";
+    var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
+
+    var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
+
+    return `
+        <div class='forumPost'>
+            <div class='leftBar'>
+                <img src='${post.user.profileImg}' alt="Poster's Image" />
+
+                <p>
+                    ${new Date(post.transactionTimeUTC).toLocaleDateString('en-US', {
+                        day: '2-digit', month: '2-digit', year: 'numeric'
+                    })}
+                    <br>
+                    ${new Date(post.transactionTimeUTC).toLocaleTimeString('en-US', {
+                        hour: '2-digit', minute: '2-digit', hour12: true
+                    })}
+                </p>
+            </div>
+
+            <div class='content'>
+                <p> <strong> ${post.user.username} </strong> </p>
+
+                <div class="post">
+                    <p style='${content}'>${post.content}</p> 
+                    ${media} 
+                </div>
+            </div>
+
+            <div class='rightBar'>
+                <div class='like'>
+                    <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
+                    <p id="count_${post.postID}">${post.likeCount}</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 function appendPosts(posts) {
     const container = $("#postsForBoard");
 
     posts.forEach(post => {
-        var content = post.content ? "" : "display: none;";
-        var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
-
-        var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
-
-        container.append(`
-            <div class="forumPost">
-                <div class="content">
-                    <div class="user">
-                        <img src="${post.user.profileImg}" alt="Poster's Profile Image" />
-                        <p> <strong> ${post.user.username} </strong> </p>
-                    </div>
-
-                    <div class="post">
-                        <p style='${content}'>${post.content}</p> 
-                        ${media} 
-                    </div>
-                </div>
-
-                <div class="footer">
-                    <p>${new Date(post.transactionTimeUTC)
-                        .toLocaleString('en-US', { 
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        })}</p>
-
-                    <a class="icon">
-                        <p id="count_${post.postID}">${post.likeCount}</p>
-                        <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
-                    </a>
-                </div>
-            </div>
-        `);
+        container.append(postHTML(post));
     });
 
     detectAspectRatio(container.find('.postImg').slice(-posts.length));
@@ -88,6 +93,8 @@ function detectAspectRatio(newImages) {
         img.on('load', function () {
             if (this.naturalWidth < this.naturalHeight) {
                 contentContainer.addClass('portrait');
+            } else if (this.naturalWidth === this.naturalHeight) {
+                contentContainer.addClass('square');
             } else {
                 contentContainer.addClass('landscape');
             }
