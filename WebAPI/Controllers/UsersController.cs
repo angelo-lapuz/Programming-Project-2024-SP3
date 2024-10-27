@@ -159,6 +159,22 @@ public class UsersController : ControllerBase
         return BadRequest(result.Errors);
     }
 
+    public async Task<IActionResult> ChangeToAdminRole(string userId, string currentUserId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        var currentUser = await _userManager.FindByIdAsync(currentUserId);
+
+        var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
+
+        if (isAdmin)
+        {
+            await _userManager.AddToRoleAsync(user, "ADMIN");
+            return Ok("Role Changed");
+        }
+
+        return BadRequest("Could not change role.");
+    }
+
 
     // called by the front when the user is logging in
     [HttpPost("login")]
