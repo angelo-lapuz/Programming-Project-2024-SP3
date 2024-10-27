@@ -21,6 +21,7 @@ namespace WebAPI.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Routes { get; set; }
+        public bool IsBanned { get; set; }
         public virtual List<UserPeak> UserPeaks { get; set; }
         public virtual List<UserAward> UserAwards { get; set; }
         public virtual List<Post> Posts { get; set; }
@@ -34,6 +35,7 @@ namespace WebAPI.Models
     {
         public int Id { get; set; }
         public string UserID { get; set; }
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual User User { get; set; }
 
@@ -49,6 +51,7 @@ namespace WebAPI.Models
         public int Id { get; set; }
         public string UserID { get; set; }
 
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual User User { get; set; }
 

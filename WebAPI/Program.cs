@@ -19,7 +19,7 @@ builder.Services.AddDbContext<PeakHubContext>(options =>
 });
 
 builder.Services.AddScoped<UserManager<User>>();
-builder.Services.AddScoped<UserManager>();
+builder.Services.AddScoped<CustomUserManager>();
 builder.Services.AddScoped<SignInManager<User>>();  
 builder.Services.AddScoped<PeakManager>();
 builder.Services.AddScoped<PostManager>();
