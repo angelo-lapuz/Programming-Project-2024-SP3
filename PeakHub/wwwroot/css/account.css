@@ -150,7 +150,6 @@ input[type="text"], input[type="password"], input[type="email"] {
     margin: 0 auto;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
     transition: all 0.25s linear;
-    overflow: hidden;
 }
 
     /* Hover effect */
@@ -174,7 +173,8 @@ input[type="text"], input[type="password"], input[type="email"] {
     color: #990000;
     text-decoration: none;
     margin-top: 0.5rem;
-    display: none; 
+    display: none;
+    font-family: "Roboto", sans-serif;
 }
 
     .forgot-password.active {
