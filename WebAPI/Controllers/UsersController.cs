@@ -141,8 +141,7 @@ public class UsersController : ControllerBase
             var base64Token = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(token));
 
             // creating the callback url the user must click to confirm their email
-            var confirmationLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
-
+            var confirmationLink = $"https://localhost:7234/ManageUser/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
             // creating the email
             var emailBody = $@"
             <html>
@@ -159,6 +158,7 @@ public class UsersController : ControllerBase
         return BadRequest(result.Errors);
     }
 
+    [HttpPost("ChangeToAdminRole")]
     public async Task<IActionResult> ChangeToAdminRole(string userId, string currentUserId)
     {
         var user = await _userManager.FindByIdAsync(userId);
