@@ -1,4 +1,5 @@
-﻿using WebAPI.Data;
+﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using WebAPI.Data;
 using WebAPI.Models.Repository;
 
 namespace WebAPI.Models.DataManager;
@@ -17,6 +18,12 @@ public class PeakManager : IDataRepository<Peak, int>
     {
         return _context.Peaks.Find(id);
     }
+
+    //// get a specific peak by Name
+    //public Peak Get(string name)
+    //{
+    //    return (Peak)_context.Peaks.Where(u => u.Name == name);
+    //}
 
     // gets all Peaks from the database
     public IEnumerable<Peak> GetAll()

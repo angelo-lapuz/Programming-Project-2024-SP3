@@ -1,4 +1,7 @@
-﻿namespace WebAPI.Models.Repository;
+﻿
+using X.PagedList;
+
+namespace WebAPI.Models.Repository;
 
 public interface IDataRepository<TEntity, TKey> where TEntity : class
 {

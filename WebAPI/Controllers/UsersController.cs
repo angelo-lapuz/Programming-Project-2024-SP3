@@ -5,6 +5,7 @@ using WebAPI.Models.DataManager;
 using WebAPI.ViewModels;
 using WebAPI.Utilities;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -359,5 +360,11 @@ public class UsersController : ControllerBase
         {
             return BadRequest(result.Errors);
         }
+    }
+
+    [HttpGet("GetPosts/{userId}")]
+    public User GetPosts(string id)
+    {
+        return _repo.getUserPosts(id);
     }
 }

@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI.csproj", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeakHub", "..\PeakHub\PeakHub.csproj", "{1FD9133C-061B-4E91-B238-F95CA73E7E5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminPortal", "..\..\AdminPortal\AdminPortal\AdminPortal.csproj", "{07A469E7-A7E0-4C0C-AD41-9705DF79E113}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{1FD9133C-061B-4E91-B238-F95CA73E7E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FD9133C-061B-4E91-B238-F95CA73E7E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FD9133C-061B-4E91-B238-F95CA73E7E5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07A469E7-A7E0-4C0C-AD41-9705DF79E113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07A469E7-A7E0-4C0C-AD41-9705DF79E113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07A469E7-A7E0-4C0C-AD41-9705DF79E113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07A469E7-A7E0-4C0C-AD41-9705DF79E113}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

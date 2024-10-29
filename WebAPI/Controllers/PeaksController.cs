@@ -34,6 +34,14 @@ public class PeaksController : ControllerBase
         return _repo.Get(id);
     }
 
+    //// GET api/peaks/1
+    //// Returns a specific peak by name
+    //[HttpGet("GetPeak/{peakName}")]
+    //public Peak GetPeak(string peakName)
+    //{
+    //    return _repo.Get(peakName);
+    //}
+
     // POST api/peaks
     // Adds a new peak to the collection
     [HttpPost]

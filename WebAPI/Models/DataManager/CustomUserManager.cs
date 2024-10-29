@@ -1,4 +1,5 @@
-﻿using WebAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
 using WebAPI.Models.Repository;
 
 namespace WebAPI.Models.DataManager;
@@ -80,6 +81,11 @@ public class CustomUserManager : IDataRepository<User, int>
     public List<User> GetByUsernameAndEmail(String username, String email)
     {
         return _context.Users.Where(u => u.UserName == username || u.Email == email).Take(2).ToList();
+    }
+
+    public User getUserPosts(string id)
+    {
+        return _context.Users.Include(u => u.Posts).FirstOrDefault(u => u.Id == id);
     }
 
 }
