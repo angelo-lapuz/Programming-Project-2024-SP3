@@ -1,4 +1,22 @@
-﻿$(function () { loadPosts(); });
+﻿$(function () {
+    loadPosts();
+
+    // Load remaining Post text
+    $("#postsForBoard").on("click", "[id*='_more']", function () {
+        const id = $(this).attr("id").split("_")[0];
+        $(`#${id}_all`).show();
+        $(`#${id}_hide`).show();
+        $(this).hide();
+    });
+
+    // Hide remaining Post text
+    $("#postsForBoard").on("click", "[id*='_hide']", function () {
+        const id = $(this).attr("id").split("_")[0];
+        $(`#${id}_all`).hide();
+        $(`#${id}_more`).show();
+        $(this).hide();
+    });
+});
 
 // Handle Inifnite Scroll
 let pageIndex = 1, loading = false, limit = false;
@@ -6,16 +24,15 @@ const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
 
 function postHTML(post) {
     var content = post.content ? "" : "display: none;";
-    var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
-
     var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
+    var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
 
     return `
         <div class='forumPost'>
             <div class='leftBar'>
                 <img src='${post.user.profileImg}' alt="Poster's Image" />
 
-                <p>
+                <p class='dt'>
                     ${new Date(post.transactionTimeUTC).toLocaleDateString('en-US', {
                         day: '2-digit', month: '2-digit', year: 'numeric'
                     })}
@@ -30,7 +47,13 @@ function postHTML(post) {
                 <p> <strong> ${post.user.username} </strong> </p>
 
                 <div class="post">
-                    <p style='${content}'>${post.content}</p> 
+                    <p style='${content}'>
+                        ${post.content.length > 500 ? `${post.content.slice(0, 500)}
+                        <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
+                        <span id="${post.postID}_more" class='textView'>... [Display All]</span>
+                        <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
+                        : post.content}
+                    </p> 
                     ${media} 
                 </div>
             </div>
@@ -59,7 +82,7 @@ function loadPosts() {
     if (loading || limit) return;
 
     loading = true;
-    $('#loading').html("Searching for more Posts").show();
+    $('#loading').html("Searching For Posts... Please Wait").show();
 
     $.ajax({
         url: `/Forum/GetForumPosts?boardID=${boardID}&userID=${userID}&pageSize=${pageSize}&pageIndex=${pageIndex}`,
@@ -70,11 +93,13 @@ function loadPosts() {
                 appendPosts(posts);
                 $('#loading').hide();
             } else {
-                var message = "No More Posts Available";
-                if (pageIndex === 1) { message = "No Posts! Please Populate"; }
-
                 limit = true;
-                $('#loading').html(message).show();
+
+                if (pageIndex === 1) {
+                    $('#loading').html("No Posts! Please Populate").show();
+                } else {
+                    $("#loading").html("").hide();
+                }
             }
         },
         error: function (response) {
@@ -91,19 +116,25 @@ function detectAspectRatio(newImages) {
         const contentContainer = img.closest('.post');
 
         img.on('load', function () {
-            if (this.naturalWidth < this.naturalHeight) {
-                contentContainer.addClass('portrait');
-            } else if (this.naturalWidth === this.naturalHeight) {
-                contentContainer.addClass('square');
+            const squareThreshold = 0.15,
+                aspectRatio = this.naturalWidth / this.naturalHeight;
+
+            if (Math.abs(aspectRatio - 1) <= squareThreshold) {
+                contentContainer.addClass("square");
+            } else if (aspectRatio >= 2) {
+                contentContainer.addClass("long-landscape");
+            } else if (aspectRatio > 1) {
+                contentContainer.addClass("landscape");
+            } else if (aspectRatio <= 0.5) {
+                contentContainer.addClass("tall-portrait");
             } else {
-                contentContainer.addClass('landscape');
+                contentContainer.addClass("portrait");
             }
         });
 
         if (this.complete) { img.trigger('load'); }
     });
 }
-
 
 $('#postsForBoard').on('scroll', function () {
     const container = $(this);
