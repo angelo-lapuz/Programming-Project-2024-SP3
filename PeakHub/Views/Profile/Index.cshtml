@@ -31,7 +31,9 @@
 
 <div class="container">
     <div id="awardsSection" class="col-md-3">
+        <div class="headerSearchWrapper">
         <h2>AWARDS  &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
+        </div>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
         {
                     <span>No awards</span>
@@ -82,27 +84,29 @@
         </div>
     </div>
 
-<div id="completedAbelsSection" class="col-md-6">
-    <h2>COMPLETED</h2>
-    <div class="search-bar-container">
-        <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
-    </div>
-    @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
-    {
-        <span>No peaks</span>
-    }
-    else
-    {
-        <div id="boardItems">
-            @foreach (var peak in ViewBag.Peaks)
-            {
-                <div class="itemBox" data-peak="@peak.Name" data-id="@peak.PeakID">
-                    @peak.Name
-                </div>
-            }
+    <div id="completedAbelsSection" class="col-md-6">
+        <div class="headerSearchWrapper">
+            <h2>COMPLETED</h2>
+            <div class="search-bar-container">
+                <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
+            </div>
         </div>
-    }
-</div>
+        @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
+        {
+            <span>No peaks</span>
+        }
+        else
+        {
+            <div id="boardItems">
+                @foreach (var peak in ViewBag.Peaks)
+                {
+                    <div class="itemBox" data-peak="@peak.Name" data-id="@peak.PeakID">
+                        @peak.Name
+                    </div>
+                }
+            </div>
+        }
+    </div>
 
     <div id="awardModel" class="model">
         <div class="model-content">
@@ -243,3 +247,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
