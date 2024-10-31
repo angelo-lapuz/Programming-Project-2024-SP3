@@ -19,6 +19,7 @@ public class AwardsController : ControllerBase
     }
 
     // GET: api/awards
+    // Returns a list of all awards
     [HttpGet]
     public IEnumerable<Award> Get()
     {
@@ -26,6 +27,7 @@ public class AwardsController : ControllerBase
     }
 
     // GET api/awards/1
+    // Returns a specific award by ID
     [HttpGet("{id}")]
     public Award Get(int id)
     {
@@ -33,6 +35,7 @@ public class AwardsController : ControllerBase
     }
 
     // POST api/awards
+    // Adds a new award to the collection
     [HttpPost]
     public void Post([FromBody] Award award)
     {
@@ -40,6 +43,7 @@ public class AwardsController : ControllerBase
     }
 
     // PUT api/awards
+    // Updates an existing award
     [HttpPut]
     public void Put([FromBody] Award award)
     {
@@ -47,13 +51,18 @@ public class AwardsController : ControllerBase
     }
 
     // DELETE api/awards/1
+    // Deletes an award by its ID
     [HttpDelete("{id}")]
     public long Delete(int id)
     {
         return _repo.Delete(id);
     }
+
+    // DELETE api/awards/DeleteAll
+    // Deletes multiple awards based on a list of IDs
+    [HttpDelete("DeleteAll")]
+    public void DeleteAll(List<int> ids)
+    {
+        _repo.DeleteAll(ids);
+    }
 }
-
-
-
-

@@ -21,6 +21,7 @@ namespace WebAPI.Models
         [Display(Name = "Difficulty")]
         public string Difficulty { get; set; }
 
+        // prevents cyclic import error with lazy loading
         [JsonIgnore]
         public virtual ICollection<UserPeak> UserPeaks { get; set; }
 

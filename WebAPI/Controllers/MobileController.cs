@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System.Security.Cryptography.Pkcs;
-using WebAPI.Controllers;
 using WebAPI.Data;
 using WebAPI.Models;
-using WebAPI.Models.DataManager;
-using WebAPI.Utilities;
+
 
 namespace WebAPI.Controllers
 {
@@ -33,68 +28,67 @@ namespace WebAPI.Controllers
         // will check that details are coorrect and will update the user accordingly 
         // will check for potential awards to be earned by the user
         [HttpPost("CheckIn")]
-        public IActionResult CheckIn([FromBody] ScannedData scannedData)
+        public async Task<IActionResult> CheckIn([FromBody] ScannedData scannedData)
         {
-            // Failed to receive data
+            // check if the scanned data is not null
             if (scannedData == null)
             {
                 return BadRequest(new { Message = "Invalid data" });
             }
 
-            var peak = _repo.Peaks.FirstOrDefault(p => p.PeakID == scannedData.Id && p.Name == scannedData.peak);
-
-            // Peak not found
+            // attmempt to find the peak in the database else return error
+            var peak = await _repo.Peaks.FirstOrDefaultAsync(p => p.PeakID == scannedData.Id && p.Name == scannedData.peak);
             if (peak == null)
             {
                 return NotFound(new { Message = "Invalid peak" });
             }
 
-            var user = _repo.Users.FirstOrDefault(u => u.Id == scannedData.UserID);
-
-            // User not found
+            // attempt to find the user in the database else return error
+            var user = await _repo.Users.FirstOrDefaultAsync(u => u.Id == scannedData.UserID);
             if (user == null)
             {
                 return NotFound(new { Message = "Invalid user" });
             }
 
-            var completedPeak = _repo.UserPeaks.Any(up => up.UserID == user.Id && up.PeakID == peak.PeakID);
-
-            // Peak already completed by the user
+            // attmept to find if the user has already completed the peak else return error
+            var completedPeak = await _repo.UserPeaks.AnyAsync(up => up.UserID == user.Id && up.PeakID == peak.PeakID);
             if (completedPeak)
             {
                 return Conflict(new { Message = "Peak already completed by user" });
             }
 
-            // Check in the peak for the user
+            // adding the new user peak to the user
             user.UserPeaks.Add(new UserPeak { UserID = user.Id, PeakID = peak.PeakID });
 
-            var totalPeaks = user.UserPeaks.Count;
+            // required number of peaks for the user to get an award
             List<int> awardMilestone = new List<int> { 0, 1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 158 };
 
-            // checking if user has 'earned' an award
+            // check if the user has reached the required number of peaks for an award
             foreach (int milestone in awardMilestone)
             {
-                if (totalPeaks == milestone)
+                if (user.UserPeaks.Count == milestone)
                 {
-                    var userAward = _repo.UserAwards.Any(ua => ua.UserID == user.Id && ua.AwardID == milestone);
-
+                    // check if the user ahs the award already
+                    var userAward = await _repo.UserAwards.AnyAsync(ua => ua.UserID == user.Id && ua.AwardID == milestone);
                     if (!userAward)
                     {
+                        // add the award to the user
                         _repo.UserAwards.Add(new UserAward { UserID = user.Id, AwardID = milestone });
                     }
                 }
             }
 
-            _repo.SaveChanges();
+            // save changes and return success message
+            await _repo.SaveChangesAsync();
             return Ok(new { Message = "Peak checked in successfully" });
         }
 
 
+        // scanned data DTO - data contained within the QR code
         public class ScannedData
         {
             public int Id { get; set; }
             public string peak { get; set; }
-
             public string UserID { get; set; }
         }
     }

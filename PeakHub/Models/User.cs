@@ -22,6 +22,7 @@ namespace PeakHub.Models
         public string Address { get; set; }
 
         public string Routes { get; set; }
+        public bool IsBanned { get; set; }
         public virtual List<UserPeak> UserPeaks { get; set; }
         public virtual List<Post> Posts { get; set; }
         public virtual List<Like> Likes { get; set; }
