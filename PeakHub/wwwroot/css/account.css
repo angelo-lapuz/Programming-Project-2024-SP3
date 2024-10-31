@@ -1,4 +1,25 @@
-﻿/* Body */
+﻿/* custom variables */
+:root {
+    --grey: #e1daca;
+    --grey-glass: rgb(225,218,202,0.5);
+    --lightgreen-glass: rgb(19,100,68, 0.5);
+    --lightgreen: #2f6546;
+    --darkgreen: #133234;
+    --yellow: #f3e147;
+    --planner-blue: #aae0fa;
+    --planner-blue-rgb: rgba(170,224,252,0.5);
+    --black-glass-50: rgb(0,0,0,0.5);
+    --red: #912f45;
+    --animation-timing: 0.25s ease-in-out;
+    --max-width: 1300px;
+    --temp: black;
+    --navbar-height-s: 8rem;
+    --shadow-down: 0px 2px 2px black;
+    --who-what-where: 4rem;
+    --sidebar: calc(50vw - 700px);
+    --sidebar-blend: calc(var(--sidebar) + 100px);
+}
+/* Body */
 body {
     background: url("../img/background2.svg") no-repeat center fixed;
     background-size: cover;
@@ -29,11 +50,14 @@ form {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 400px; 
+    max-width: 400px;
     padding: 2%;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 15px;
+    background: #e1daca80;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    color: white;
+    overflow: hidden;
+    padding-top: 30px;
 }
 
 
@@ -71,7 +95,9 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: "Roboto", sans-serif;
     margin-bottom: 1rem;
+    color: var(--grey);
 }
 
     .brand-logo-container img {
@@ -83,88 +109,120 @@ form {
     }
 
     .brand-logo-container span {
-        font-size: 1.5rem; 
+        font-size: 2rem; 
         font-weight: 700;
         text-shadow: var(--shadow-down);
         margin-left: 0.5rem; 
     }
 
-/* Input Fields */
 input[type="text"], input[type="password"], input[type="email"] {
-    width: 100%;
+    width: 80%; 
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.7); 
     border-radius: 5px;
     font-size: 1rem;
-}
-
-/* Button Layout */
-.btn-primary {
-    width: 100%;
-    background-color: #008800; /
+    background-color: rgba(255, 255, 255, 0.1); 
     color: white;
-    border: 2px solid #000000;
-    padding: 0.75rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
 }
 
-.btn-secondary {
-    width: 100%;
-    background-color: #5CA15C; 
-    color: white;
-    border: 2px solid #000000;
-    padding: 0.75rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-    .btn-primary:hover, .btn-secondary:hover {
-        background-color: #005F2A; 
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        outline: none;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
 
-/* Button rows */
+/* Adjust Button Layout */
+.btn-primary, .btn-secondary {
+    width: 60%;
+    background: var(--lightgreen-glass);
+    color: floralwhite;
+    border: 1.5px solid var(--darkgreen);
+    padding: 15px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s linear;
+}
+
+    /* Hover effect */
+    .btn-primary:hover, .btn-secondary:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+    }
+
+
 .btn-row, .btn-col {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; 
+    align-items: center;
+    gap: 20px; 
 }
 
 
-/* Forgot password link */
 .forgot-password {
     color: #990000;
     text-decoration: none;
     margin-top: 0.5rem;
+    display: none;
+    font-family: "Roboto", sans-serif;
 }
+
+    .forgot-password.active {
+        display: block; 
+    }
 
     .forgot-password:hover {
         color: #FF0000;
         text-decoration: underline;
     }
 
-/* Validation error messages */
+a {
+    text-decoration: none;
+}
+.brand-logo-container span:hover {
+    transform: scale(1.05);
+}
+
+
+
 .text-danger {
-    color: #FF0000;
+    width: 100%;
+    text-align:center;
+    color: #ff4d4d;
     font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", sans-serif;
 }
 
-/* Mobile responsiveness */
+
 @media only screen and (max-width: 750px) {
-    form {
-        width: 90%; 
+    .right-form {
+        width: 80%;
     }
 }
 
-/* Tablet responsiveness */
-@media only screen and (min-width: 751px) and (max-width: 1000px) {
-    body {
-        flex-direction: column;
-    }
 
-    form {
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+    .right-form {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 1001px) and (max-width: 1300px) {
+    .right-form {
         width: 80%;
     }
 }

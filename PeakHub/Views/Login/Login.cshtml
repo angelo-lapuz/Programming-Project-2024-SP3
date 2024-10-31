@@ -18,7 +18,8 @@
         <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
 
         <input type="submit" value="Sign In" class="btn btn-primary" />
-        <a href="#" id="forgotBtn" class="forgot-password">Forgot Password?</a>
+
+        <a href="#" id="forgotBtn" class="forgot-password" style="display: @(ViewData.ModelState.IsValid ? "none" : "block");">Forgot Password?</a>
 
         <div class="btn-row">
             <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
@@ -36,14 +37,13 @@
         <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Email" />
         <span asp-validation-for="ForgotPasswordModel.Email" class="text-danger"></span>
 
-        <div class="btn-col btn-row">
+        <div class="btn-row">
             <input type="submit" value="Change Password" class="btn btn-primary" />
             <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     </form>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/account.js"></script>

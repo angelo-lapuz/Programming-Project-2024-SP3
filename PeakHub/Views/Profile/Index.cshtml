@@ -3,6 +3,19 @@
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+@functions {
+    public string ExtractQuantity(string name)
+    {
+        return new string(name.TakeWhile(char.IsDigit).ToArray());
+    }
+
+    public string ExtractNameWithoutQuantity(string name)
+    {
+        string quantity = ExtractQuantity(name);
+        return name.Substring(quantity.Length).Trim();
+    }
+}
+
 <body style="
     background: url('../img/background2.svg') no-repeat center fixed;
     background-size: cover;
@@ -15,26 +28,69 @@
     align-items: center;
     height: 100vh;">
 </body>
-    <div class="container">
+
+<div class="container">
     <div id="awardsSection" class="col-md-3">
-        <h3>Awards</h3>
+        <div class="headerSearchWrapper">
+        <h2>AWARDS  &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
+        </div>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
         {
-            <span>no awards</span>
+                    <span>No awards</span>
         }
         else
         {
-            foreach (var award in ViewBag.Awards)
-            {
-                <div class="award-item">
-                    <p><strong>@award.Name</strong><br>@award.Condition <br> </p>
-                </div>
-            }
+                    <div class="awards-grid">
+                @foreach (var award in ViewBag.Awards)
+                {
+                    string quantity = ExtractQuantity(award.Condition);
+                                    <div class="award-wrapper">
+                                        <div class="award-tile">
+                                            <div class="award-number">@quantity</div>
+                                        </div>
+                                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
+                                    </div>
+                }
+                    </div>
         }
     </div>
 
+    <div id="userSection" class="col-md-3">
+        <div class="user-info">
+            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
+            <h2>@ViewBag.UserName</h2>
+        </div>
+
+        <p>
+            <i class="fa-regular fa-envelope"></i> &nbsp; &nbsp;@ViewBag.Email<br />
+        </p>
+
+    <div class="peaks-bagged">
+        <span>ABELS BAGGED</span>
+        <div class="counter-slots">
+            <div class="counter" id="hundreds">@((ViewBag.TotalCompleted / 100) % 10)</div>
+            <div class="counter" id="tens">@((ViewBag.TotalCompleted / 10) % 10)</div>
+            <div class="counter" id="units">@((ViewBag.TotalCompleted) % 10)</div>
+        </div>
+    </div>
+
+        <div class="user-actions">
+            <a href="/Profile/EditDetails" class="btn btn-secondary">
+                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;EDIT DETAILS
+            </a>
+            <a href="/Profile/ChangePassword" class="btn btn-secondary">
+                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;CHANGE PASSWORD
+            </a>
+        </div>
+    </div>
+
     <div id="completedAbelsSection" class="col-md-6">
-        <h3>Completed Abels</h3>
+        <div class="headerSearchWrapper">
+            <h2>COMPLETED</h2>
+            <div class="search-bar-container">
+                <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
+            </div>
+        </div>
         @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
         {
             <span>No peaks</span>
@@ -44,33 +100,76 @@
             <div id="boardItems">
                 @foreach (var peak in ViewBag.Peaks)
                 {
-                    <div class="itemBox" data-id="@peak.PeakID">
-                        @peak.Name - @peak.Region
+                    <div class="itemBox" data-peak="@peak.Name" data-id="@peak.PeakID">
+                        @peak.Name
                     </div>
                 }
             </div>
         }
     </div>
 
-    <div id="userSection" class="col-md-3">
-        <div class="user-info">
-            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
-            <h3>@ViewBag.UserName</h3>
-            <p>
-                User Details:<br />
-                @ViewBag.UserName<br />
-                @ViewBag.Email<br />
-                Total Completed: @ViewBag.TotalCompleted
-            </p>
-
-            <div class="user-actions">
-                <a href="/Profile/ChangePassword" class="btn btn-secondary">Change Password</a>
-                <a href="/Profile/EditDetails" class="btn btn-secondary">Edit Details</a>
-            </div>
+    <div id="awardModel" class="model">
+        <div class="model-content">
+            <span class="close-btn">&times;</span>
+            <h2>AWARDS</h2>
+            <table class="awards-table">
+                <tr>
+                    <td><strong>Student</strong></td>
+                    <td>No Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Beginner</strong></td>
+                    <td>1 Mountain Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Beginner 1</strong></td>
+                    <td>10 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Beginner 2</strong></td>
+                    <td>20 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Beginner 3</strong></td>
+                    <td>30 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Experienced</strong></td>
+                    <td>40 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Experienced 1</strong></td>
+                    <td>50 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Experienced 2</strong></td>
+                    <td>60 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Experienced 3</strong></td>
+                    <td>70 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Master</strong></td>
+                    <td>80 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Master 1</strong></td>
+                    <td>90 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand Master</strong></td>
+                    <td>100 Mountains Completed</td>
+                </tr>
+                <tr>
+                    <td><strong>Legend</strong></td>
+                    <td>158 Mountains Completed</td>
+                </tr>
+            </table>
         </div>
     </div>
-</div>
-</div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -82,5 +181,70 @@
             }
         });
     });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const hundreds = document.querySelector(".counter-slots #hundreds");
+        const tens = document.querySelector(".counter-slots #tens");
+        const units = document.querySelector(".counter-slots #units");
+
+        function spinCounter(counter, finalValue, delay) {
+            counter.classList.add("spin-animation");
+            setTimeout(() => {
+                counter.textContent = finalValue;
+                counter.classList.remove("spin-animation");
+            }, delay);
+        }
+
+        const finalHundreds = parseInt((@ViewBag.TotalCompleted / 100) % 10);
+        const finalTens = parseInt((@ViewBag.TotalCompleted / 10) % 10);
+        const finalUnits = parseInt(@ViewBag.TotalCompleted % 10);
+
+        setTimeout(() => spinCounter(hundreds, finalHundreds, 1000), 0);
+        setTimeout(() => spinCounter(tens, finalTens, 1000), 200);
+        setTimeout(() => spinCounter(units, finalUnits, 1000), 400);
+    });
+</script>
+
+<script>
+document.getElementById('peakSearchInput').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const items = document.querySelectorAll('#boardItems .itemBox');
+
+    items.forEach(item => {
+        const peakName = item.getAttribute('data-peak').toLowerCase();
+        if (peakName.includes(searchTerm)) {
+            item.style.order = -1; 
+            item.style.display = "block"; 
+        } else {
+            item.style.order = 0; 
+            item.style.display = searchTerm ? "none" : "block"; 
+        }
+    });
+});
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById("awardModel");
+    const openModalButton = document.querySelector("#awardsSection h2");
+    const closeModalButton = document.querySelector(".close-btn");
+
+    openModalButton.addEventListener("click", function() {
+        modal.style.display = "flex";
+    });
+
+    closeModalButton.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+});
 </script>
 
