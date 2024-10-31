@@ -70,5 +70,5 @@ function autoloadBoards() {
 
 $("#listOfBoards").on("click", ".itemBox", function () {
     var boardID = $(this).data("id");
-    window.location.href = `/Forum/Index?boardID=${boardID}`;
+    window.location.href = `/Forum/${boardID}`;
 });

@@ -102,6 +102,13 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Custom Route - Forums
+app.MapControllerRoute(
+    name: "forum",
+    pattern: "Forum/{boardID:int}",
+    defaults: new { controller = "Forum", action = "Index" }
+);
+
 // Map default route
 app.MapControllerRoute(
     name: "default",

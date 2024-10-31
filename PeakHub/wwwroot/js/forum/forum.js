@@ -1,56 +1,88 @@
-﻿$(function () { loadPosts(); });
+﻿$(function () {
+    loadPosts();
+
+    // Load remaining Post text
+    $("#postsForBoard").on("click", "[id*='_more']", function () {
+        const id = $(this).attr("id").split("_")[0];
+        $(`#${id}_all`).show();
+        $(`#${id}_hide`).show();
+        $(this).hide();
+    });
+
+    // Hide remaining Post text
+    $("#postsForBoard").on("click", "[id*='_hide']", function () {
+        const id = $(this).attr("id").split("_")[0];
+        $(`#${id}_all`).hide();
+        $(`#${id}_more`).show();
+        $(this).hide();
+    });
+});
 
 // Handle Inifnite Scroll
 let pageIndex = 1, loading = false, limit = false;
 const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
 
+function postHTML(post) {
+    var content = post.content ? "" : "display: none;";
+    var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
+    var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
+
+    return `
+        <div class='forumPost'>
+            <div class='leftBar'>
+                <img src='${post.user.profileImg}' alt="Poster's Image" />
+
+                <p class='dt'>
+                    ${new Date(post.transactionTimeUTC).toLocaleDateString('en-US', {
+                        day: '2-digit', month: '2-digit', year: 'numeric'
+                    })}
+                    <br>
+                    ${new Date(post.transactionTimeUTC).toLocaleTimeString('en-US', {
+                        hour: '2-digit', minute: '2-digit', hour12: true
+                    })}
+                </p>
+            </div>
+
+            <div class='content'>
+                <p> <strong> ${post.user.username} </strong> </p>
+
+                <div class="post">
+                    <p style='${content}'>
+                        ${post.content.length > 500 ? `${post.content.slice(0, 500)}
+                        <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
+                        <span id="${post.postID}_more" class='textView'>... [Display All]</span>
+                        <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
+                        : post.content}
+                    </p> 
+                    ${media} 
+                </div>
+            </div>
+
+            <div class='rightBar'>
+                <div class='like'>
+                    <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
+                    <p id="count_${post.postID}">${post.likeCount}</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 function appendPosts(posts) {
     const container = $("#postsForBoard");
 
     posts.forEach(post => {
-        var media = "";
-        if (post.media !== "" && post.media !== null) {
-            media = `<img src="${post.media}" alt="Poster's Media Image" />`;
-        }
-
-        var likeActivity = "inactiveLike";
-        if (post.hasUserLiked) { likeActivity = ""; }
-
-        container.append(`
-                <div class="forumPost">
-                    <div class="header">
-                        <img src="${post.user.profileImg}" alt="Poster's Profile Image" />
-                        <p> <strong> ${post.user.username} </strong> </p>
-                    </div>
-
-                    <div class="content"> <p>${post.content}</p> ${media} </div>
-
-                    <div class="footer">
-                        <p>${new Date(post.transactionTimeUTC)
-                            .toLocaleString('en-US', { 
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: true
-                            })}</p>
-
-                        <a class="icon">
-                            <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
-                            <p id="count_${post.postID}">${post.likeCount}</p>
-                        </a>
-                    </div>
-                </div>
-            `);
+        container.append(postHTML(post));
     });
+
+    detectAspectRatio(container.find('.postImg').slice(-posts.length));
 }
 
 function loadPosts() {
     if (loading || limit) return;
 
     loading = true;
-    $('#loading').html("Searching for more Posts").show();
+    $('#loading').html("Searching For Posts... Please Wait").show();
 
     $.ajax({
         url: `/Forum/GetForumPosts?boardID=${boardID}&userID=${userID}&pageSize=${pageSize}&pageIndex=${pageIndex}`,
@@ -61,11 +93,13 @@ function loadPosts() {
                 appendPosts(posts);
                 $('#loading').hide();
             } else {
-                var message = "No More Posts Available";
-                if (pageIndex === 1) { message = "No Posts! Please Populate"; }
-
                 limit = true;
-                $('#loading').html(message).show();
+
+                if (pageIndex === 1) {
+                    $('#loading').html("No Posts! Please Populate").show();
+                } else {
+                    $("#loading").html("").hide();
+                }
             }
         },
         error: function (response) {
@@ -73,6 +107,32 @@ function loadPosts() {
             console.log(response);
         },
         complete: function () { loading = false; }
+    });
+}
+
+function detectAspectRatio(newImages) {
+    newImages.each(function () {
+        const img = $(this);
+        const contentContainer = img.closest('.post');
+
+        img.on('load', function () {
+            const squareThreshold = 0.15,
+                aspectRatio = this.naturalWidth / this.naturalHeight;
+
+            if (Math.abs(aspectRatio - 1) <= squareThreshold) {
+                contentContainer.addClass("square");
+            } else if (aspectRatio >= 2) {
+                contentContainer.addClass("long-landscape");
+            } else if (aspectRatio > 1) {
+                contentContainer.addClass("landscape");
+            } else if (aspectRatio <= 0.5) {
+                contentContainer.addClass("tall-portrait");
+            } else {
+                contentContainer.addClass("portrait");
+            }
+        });
+
+        if (this.complete) { img.trigger('load'); }
     });
 }
 
