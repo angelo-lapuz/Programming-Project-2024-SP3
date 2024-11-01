@@ -166,6 +166,23 @@
                     <td>158 Mountains Completed</td>
                 </tr>
             </table>
+    <div id="userSection" class="col-md-3">
+        <div class="user-info">
+            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
+            <h3>@ViewBag.UserName</h3>
+            <p>
+                User Details:<br />
+               UserName: @ViewBag.UserName<br />
+                Email: @ViewBag.Email<br />
+                Name: @ViewBag.Name <br />
+                Phone
+                Ables Completed: @ViewBag.TotalCompleted
+            </p>
+
+            <div class="user-actions">
+                <a href="/Profile/ChangePassword" class="btn btn-secondary">Change Password</a>
+                <a href="/Profile/EditDetails" class="btn btn-secondary">Edit Details</a>
+            </div>
         </div>
     </div>
 

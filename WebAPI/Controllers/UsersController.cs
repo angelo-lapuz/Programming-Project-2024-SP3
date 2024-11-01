@@ -63,7 +63,6 @@ public class UsersController : ControllerBase
 
         // ensurethat the email is valid
         var user = await _userManager.FindByEmailAsync(model.Email);
-
         if (user == null)
         {
             return BadRequest("User not found.");
@@ -126,6 +125,7 @@ public class UsersController : ControllerBase
             Email = model.Email,
             EmailConfirmed = false
         };
+        await _userManager.AddToRoleAsync(user, "USER");
 
         // creating the user in the database and assigning a user role
         var result = await _userManager.CreateAsync(user, model.Password);

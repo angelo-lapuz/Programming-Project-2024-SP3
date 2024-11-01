@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PeakHub.Models;
 using System.Diagnostics;
 using PeakHub.ViewModels;
@@ -11,7 +10,9 @@ namespace PeakHub.Controllers {
         private readonly IHttpClientFactory _clientFactory;
         private HttpClient Client => _clientFactory.CreateClient("api");
 
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory) {
+
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
+        {
             _logger = logger;
             _clientFactory = clientFactory;
         }
@@ -25,6 +26,7 @@ namespace PeakHub.Controllers {
             return View();
         }
 
+        // displays errror page
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

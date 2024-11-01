@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
 
 namespace PeakHub.Models
 {
     public class Peak
-    { 
+    {
         public int PeakID { get; set; }
         public string Name { get; set; }
         public string IMG { get; set; }
@@ -14,10 +16,14 @@ namespace PeakHub.Models
         public int Elevation { get; set; }
         public string Routes { get; set; }
 
+
         [Required]
-        [Column(TypeName = "char")]
         [StringLength(1)]
         [Display(Name = "Difficulty")]
-        public char Difficulty { get; set; }
+        public string Difficulty { get; set; }
+
+        // prevents cyclic import error with lazy loading
+        [JsonIgnore]
+        public virtual ICollection<UserPeak> UserPeaks { get; set; }
     }
 }

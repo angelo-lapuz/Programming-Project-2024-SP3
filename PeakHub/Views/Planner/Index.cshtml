@@ -2,6 +2,8 @@
     @using PeakHub.Models;
     @using Newtonsoft.Json;
     Layout = "_Layout";
+
+    // all peaks and user routes
     var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
     var userroutes = JsonConvert.SerializeObject(ViewBag.Routes);
 

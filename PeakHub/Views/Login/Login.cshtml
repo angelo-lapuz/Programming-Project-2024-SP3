@@ -37,8 +37,8 @@
         <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Email" />
         <span asp-validation-for="ForgotPasswordModel.Email" class="text-danger"></span>
 
-        <div class="btn-row">
-            <input type="submit" value="Change Password" class="btn btn-primary" />
+        <div class="btn-col btn-row">
+            <input type="submit" value="Reset Password" class="btn btn-primary" />
             <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

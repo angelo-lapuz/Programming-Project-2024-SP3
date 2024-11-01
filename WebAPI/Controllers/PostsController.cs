@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
-using X.PagedList;
 
 namespace WebAPI.Controllers;
 
@@ -84,3 +83,4 @@ public class PostsController : ControllerBase
         return _repo.GetPagedList(userID, page);
     }
 }
+

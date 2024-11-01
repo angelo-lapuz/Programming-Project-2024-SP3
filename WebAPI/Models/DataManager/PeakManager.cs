@@ -19,12 +19,6 @@ public class PeakManager : IDataRepository<Peak, int>
         return _context.Peaks.Find(id);
     }
 
-    //// get a specific peak by Name
-    //public Peak Get(string name)
-    //{
-    //    return (Peak)_context.Peaks.Where(u => u.Name == name);
-    //}
-
     // gets all Peaks from the database
     public IEnumerable<Peak> GetAll()
     {

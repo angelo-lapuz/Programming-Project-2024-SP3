@@ -52,12 +52,11 @@ form {
     width: 100%;
     max-width: 400px;
     padding: 2%;
-    border-radius: 15px;
-    background: #e1daca80;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    color: white;
-    overflow: hidden;
-    padding-top: 30px;
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 
