@@ -17,18 +17,7 @@ namespace PeakHub.Controllers {
             _httpClient = httpClientFactory.CreateClient("api");
         }
     // index displays the planner page - with the map
-    public async Task<IActionResult> Index()
-        {
-            // get all the peaks from the api - serialize them and pass them to the viewbag
-            var getAllPeaksResponse = await _httpClient.GetAsync("api/Peaks");
-            if (getAllPeaksResponse.IsSuccessStatusCode)
-            {
-                var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
-                var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
-
-                ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
-            } 
-
+   
     public async Task<IActionResult> Index() {
             HttpContext.Session.SetString("LastPage", "Planner");
 
@@ -82,7 +71,7 @@ namespace PeakHub.Controllers {
             // Save the updated routes back to the user data
             user.Routes = JsonConvert.SerializeObject(routes);
 
-            var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
+            var result = await _httpClient.PutAsJsonAsync("api/users", user);
 
             // Return the appropriate response
             if (result.IsSuccessStatusCode) {
@@ -116,7 +105,7 @@ namespace PeakHub.Controllers {
             routes.RemoveAt(routeIndex);
             user.Routes = JsonConvert.SerializeObject(routes);
 
-            var result = await _httpClient.PostAsJsonAsync("api/users/UpdateUser", user);
+            var result = await _httpClient.PutAsJsonAsync("api/users", user);
 
             // this should never fail - but just in case
             if (!result.IsSuccessStatusCode) {

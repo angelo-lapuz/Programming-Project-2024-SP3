@@ -1,5 +1,4 @@
-﻿@model PeakHub.ViewModels.HomeViewModel;
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -119,11 +118,3 @@
     </div>
 </secion>
 <script src="~/js/home-page.js" asp-append-version="true"></script>
-@{
-    Console.WriteLine("Hello world");
-    if (Model != null)
-    {
-        <span>@Model.UserID</span>
-        <span>@Model.UserName</span>
-    }
-}

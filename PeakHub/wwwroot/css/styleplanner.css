@@ -753,11 +753,14 @@ input[type="range"] {
         background-color: rgba(0, 0, 0, 0.8);
     }
 
-    .info h2{
+    .info h2 {
         justify-content: center;
-        text-align:center;
+        text-align: center;
     }
 
+    .crosshair-cursor {
+        cursor: crosshair !important;
+    }
 
 
 

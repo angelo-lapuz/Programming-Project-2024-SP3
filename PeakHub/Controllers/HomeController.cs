@@ -19,7 +19,7 @@ namespace PeakHub.Controllers {
 
         public async Task<IActionResult> Index() {
             HttpContext.Session.SetString("LastPage", "Home");
-            return View(new HomeViewModel());
+            return View();
         }
 
         public IActionResult Privacy() {
