@@ -6,8 +6,6 @@ using WebAPI.ViewModels;
 using WebAPI.Utilities;
 using System.Text;
 
-
-
 namespace WebAPI.Controllers;
 
 // See here for more information:
@@ -62,7 +60,6 @@ public class UsersController : ControllerBase
 
         // ensurethat the email is valid
         var user = await _userManager.FindByEmailAsync(model.Email);
-
         if (user == null)
         {
             return BadRequest("User not found.");
@@ -125,10 +122,10 @@ public class UsersController : ControllerBase
             Email = model.Email,
             EmailConfirmed = false
         };
+        await _userManager.AddToRoleAsync(user, "USER");
 
         // creating the user in the database and assigning a user role
         var result = await _userManager.CreateAsync(user, model.Password);
-        await _userManager.AddToRoleAsync(user, "USER");
 
         // creating user should never fail anyway
         if (result.Succeeded)
@@ -142,7 +139,6 @@ public class UsersController : ControllerBase
 
             // creating the callback url the user must click to confirm their email
             var confirmationLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
-
             // creating the email
             var emailBody = $@"
             <html>
@@ -298,6 +294,4 @@ public class UsersController : ControllerBase
         await _signInManager.SignOutAsync();
         return Ok();
     }
-
-
 }

@@ -1,4 +1,5 @@
-﻿using WebAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPI.Data;
 using WebAPI.Models.Repository;
 
 namespace WebAPI.Models.DataManager;
