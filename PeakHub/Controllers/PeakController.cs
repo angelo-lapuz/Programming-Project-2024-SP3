@@ -20,8 +20,7 @@ namespace PeakHub.Controllers {
             _httpClient = httpClientFactory.CreateClient("api");
         }
 
-        public async Task<IActionResult> Index(int ID)
-        {
+      
             // ensuring all viewbag items are null
         public async Task<IActionResult> Index(int ID) {
             HttpContext.Session.SetString("LastPage", "Peak");
@@ -88,5 +87,5 @@ namespace PeakHub.Controllers {
         }
 
     }
-    }
+}
 

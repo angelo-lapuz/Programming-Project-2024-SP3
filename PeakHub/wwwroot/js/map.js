@@ -13,26 +13,224 @@ var currentPolyline = null; // used when drawing on the map - editing the curren
 var elevations = []; // used to store elevation data for a route
 var sectionPolygons = {}; // used to store polygons for each section
 var selectedSection = null; // used to store the currently selected section
+
 try {
     var peaksData = JSON.parse(peaksData); // used to store the peaks data - pulled from Viewbag in index.cshtml
     var userRoutes = userRoutes; // used to store the user's saved routes - pulled from Viewbag in index.cshtml
-    var userPeaks = JSON.parse(userPeaks);
+    var userPeaks = JSON.parse(userPeaks); // used to store all the peaks a given user has completed
 } catch (Exception) {
 
 }
 
 var markerLayer = L.layerGroup().addTo(map); // used to store the markers for the peaks
 var drawnItems = new L.FeatureGroup(); // used to store the drawn routes
-
-
 map.addLayer(drawnItems);
 
-// ddefining buttons, boxes
+// defining buttons, boxes
 var drawRouteBtn = document.getElementById('draw-route');
 var undoBtn = document.getElementById('undo');
 var finishBtn = document.getElementById('finish');
 var clearBtn = document.getElementById('clear');
 var routeBox = document.getElementById('route-box');
+
+
+
+// Reference marker and slider elements
+var placeMarkerBtn = document.getElementById('place-marker-btn');
+var radiusSlider = document.getElementById('radius-slider');
+var radiusSliderContainer = document.getElementById('radius-slider-container');
+var radiusValueDisplay = document.getElementById('radius-value');
+var routeLengthSlider = document.getElementById('filter-length-slider');
+var routeLengthDisplay = document.getElementById('filter-length-value');
+
+// used to determine if the user has placed a marker, or is in the process of placing one to prevent issues with other
+// functions
+var userMarker = null;
+var radiusCircle = null;
+var isPlacingMarker = false;
+
+// event listener for the radius slider - adjusts depending on user input
+radiusSlider.addEventListener('input', function () {
+    // ddisplaying the value and drawing any peaks within range if a marker has been placed
+    radiusValueDisplay.textContent = radiusSlider.value + ' km';
+    if (userMarker) {
+        var latlng = userMarker.getLatLng();
+        filterPeaksWithinRadius(latlng, radiusSlider.value);
+    }
+});
+
+//even listener for the route lengthh slider - used to determine the minimum length of peak routes
+routeLengthSlider.addEventListener('input', function () {
+    routeLengthDisplay.textContent = routeLengthSlider.value + 'km';
+    applyFilters();
+});
+
+
+// Event listener for the "Place Marker" button - used when making the radius for 'pekas in range' feature
+placeMarkerBtn.addEventListener('click', function () {
+    // Enable marker placement mode
+    isPlacingMarker = true;
+    removePopups();
+
+    // changing the cursor for the polygons to allow for more intuative placing of marker
+    Object.values(sectionPolygons).forEach((polygon) => {
+        polygon.on('mouseover', function () {
+            polygon.getElement().style.cursor = 'crosshair';
+
+        })
+        polygon.on('mouseout', function () {
+            polygon.getElement().style.cursor = '';
+        });
+    });
+});
+
+// Listen for map clicks to place a marker
+map.on('click', function (e) {
+
+    // if the user is placing a marker 
+    if (isPlacingMarker) {
+        var latlng = e.latlng;
+        
+        // Remove any existing marker and circle
+        if (userMarker) {
+            map.removeLayer(userMarker);
+        }
+        if (radiusCircle) {
+            map.removeLayer(radiusCircle);
+        }
+
+        // Place a new marker different from others so user can easily see 
+        var Icon = L.icon({
+            iconUrl: 'img/manIcon.png',
+            iconSize: [45, 45]
+        });
+
+        // adding the icon to theh map
+        userMarker = L.marker(latlng,{ icon: Icon}).addTo(map);
+
+        // Show the slider for radius adjustment
+        radiusSliderContainer.style.display = 'block';
+
+        // Initial filter for peaks within the default radius
+        filterPeaksWithinRadius(latlng, radiusSlider.value);
+
+        // Disable marker placement mode and remove popups
+        isPlacingMarker = false;
+        removePopups();
+
+        // restting the polygon mouse hover effects
+        Object.values(sectionPolygons).forEach((polygon) => {
+
+            // resetting the mouseover effect
+            polygon.on('mouseover', function () {
+                polygon.getElement().style.cursor = '';
+
+            })
+
+            // resetting the mouseout effect
+            polygon.on('mouseout', function () {
+                polygon.getElement().style.cursor = '';
+            });
+        });
+
+        // Reset cursor to default
+        map.getContainer().style.cursor = '';
+    }
+});
+
+
+// Function to filter peaks within the given radius (in kilometers)
+function filterPeaksWithinRadius(latlng, radius) {
+    var radiusInMeters = radius * 1000;  // Convert radius to meters
+
+    // Clear previous radius circle and markers
+    if (radiusCircle) {
+        map.removeLayer(radiusCircle);
+    }
+    markerLayer.clearLayers();
+
+    // Draw a circle around the marker representing the search radius
+    radiusCircle = L.circle(latlng, { radius: radiusInMeters, color: 'blue', fillOpacity: 0.2, interactive: false }).addTo(map);
+
+    // Filter peaks based on their distance from the marker
+    var filteredPeaks = peaksData.filter(function (peak) {
+        var peakCoords = peak.Coords.split(',');
+        var peakLatLng = L.latLng(parseFloat(peakCoords[0]), parseFloat(peakCoords[1]));
+        var distance = latlng.distanceTo(peakLatLng);  // Calculate distance between marker and peak
+
+        return distance <= radiusInMeters;  // Only include peaks within the radius
+    });
+
+    // Show the filtered peaks on the map
+    /*showSectionPeaks(filteredPeaks);*/
+    applyFilters();
+}
+
+// removes all popups from polygons - used when placing marker
+function removePopups() {
+
+    // for every sectionpolygon
+    Object.keys(sectionPolygons).forEach(sectionName => {
+
+        var polygon = sectionPolygons[sectionName];
+        // removing or adding the popup back depending on whether the user is placing a marker
+        if (!isPlacingMarker) {
+
+            polygon.bindPopup("Section: " + sectionName);
+        } else {
+            polygon.unbindPopup();
+        }
+    })
+}
+
+// Function to show section peaks
+function showSectionPeaks(peaks) {
+    // Clear any existing markers
+    markerLayer.clearLayers();
+
+    // For each peak, create a marker and add it to the map
+    peaks.forEach(function (peak) {
+
+        // parse the coordinates
+        var coords = peak.Coords.split(',');
+        var lat = parseFloat(coords[0]);
+        var lng = parseFloat(coords[1]);
+
+        /// checking that the values are valid 
+        if (!isNaN(lat) && !isNaN(lng)) {
+
+            // setting default color as blue
+            var filterValue = 'hue-rotate(0deg)';
+            var data = "";
+
+            // checking that the user is logged in and that they have completed this current peak
+            if (user && userPeaks) {
+                let completedPeak = userPeaks.some(function (userPeak) {
+                    return userPeak.PeakID === peak.PeakID;
+                });
+                // changing color to red or green if the user has / has not completed a peak
+                if (completedPeak) {
+                    // must use hue-rotate as leaflet dodes not support rgb / hex values
+                    filterValue = 'hue-rotate(260deg)';
+                    data = "You have completed this Peak";
+                } else {
+                    filterValue = 'hue-rotate(-220deg)';
+                    data = "You have not completed this Peak";
+                }
+            }
+            // adding the marker to the map - with the popup
+            let marker = L.marker([lat, lng]).bindPopup(`
+                <b>${peak.Name}</b><br> Elevation: ${peak.Elevation}m <br> Difficulty: ${peak.Difficulty} <br>
+                ${data} <br>
+                <a href="/Peak/Index/${peak.PeakID}" onclick="window.location='/Peak/Index/${peak.PeakID}'; return false;">View Peak</a>
+            `).addTo(markerLayer);
+
+            // Apply inline style to change marker color
+            marker._icon.style.filter = filterValue;
+        }
+    });
+}
+
 
 // sections used for this map
 var sectionsData = {
@@ -48,15 +246,16 @@ var sectionsData = {
     "The South West": [{ "lat": -43.52465500687186, "lng": 146.49993896484378 }, { "lat": -43.53062917044242, "lng": 146.05773925781253 }, { "lat": -43.209179690393555, "lng": 145.98358154296878 }, { "lat": -43.28720268480439, "lng": 145.86547851562503 }, { "lat": -42.70060440808084, "lng": 145.37796020507815 }, { "lat": -42.67738750800697, "lng": 146.34887695312503 }, { "lat": -42.7278479565962, "lng": 146.4573669433594 }]
 };
 
-
 // used on individual peak page to center the map on the peak andd circle it
 if (window.location.href.includes("Peak/Index/")) {
-    /*map = L.map('map').setView([-41.5, 146.5], 7);*/
+
+    // setting current peak and getting its coordinates
     var currentPeak = currentPeak;
     var coords = currentPeak.Coords.split(',');
     var lat = parseFloat(coords[0]);
     var lng = parseFloat(coords[1]);
 
+    // setting the map to focus on the current peak
     if (!isNaN(lat) && !isNaN(lng)) {
         map.setView([lat, lng], 11);
         L.circle([lat, lng], { color: 'red', radius: 500 }).addTo(map);
@@ -65,25 +264,31 @@ if (window.location.href.includes("Peak/Index/")) {
         console.log('Invalid coordinates for current peak: ', currentPeak.Name);
     }
 
+    // removing the route drawing functionality
     drawRouteBtn.disabled = true;
     undoBtn.disabled = true;
     finishBtn.disabled = true;
     clearBtn.disabled = true;
     routeBox.disabled = true;
 
+    // removing the route drawing functionality
+
     document.querySelector('.filter-container').style.display = 'none';
     document.querySelector('.sections-container').style.display = 'none';
     document.querySelector('.routeList-container').style.display = 'none';
     document.querySelector('.route-container').style.display = 'none';
+
+    // ddrawing the peak/s for this particular peak
+    drawRoute(currentPeak.Routes);
+    
+    
 } else {
+
+    // check the users routes and disabling the route box if they are not logged in
     checkRoutes();
     checkUser();
 }
   
-
-// checking if the user has routes and if they are logged in
-
-
 // defining the color and thickness of the polyline - used when drawing routes
 var polylineDrawer = new L.Draw.Polyline(map,{
     shapeOptions: {
@@ -200,9 +405,9 @@ function clear() {
     polylines = [];
     points = [];
     currentPolyline = null;
-    markers = []; // used to show peaks on the map
-    elevations = []; // used to store elevation data for a route
-
+    markers = []; 
+    elevations.length = 0;
+    elevations = []; 
 }
 // saves the user route to the database - stored as JSON objects as string in user class to avoid another m:m table
 saveBtn.addEventListener('click', function () {
@@ -240,7 +445,7 @@ saveBtn.addEventListener('click', function () {
                     alert("Route saved successfully");
 
                     // Add the newly saved route to the userRoutes array
-                    userRoutes.push(JSON.stringify(routeData)); // Add the route data to userRoutes
+                    userRoutes.push(JSON.stringify(routeData)); 
 
                     // Clear all existing route boxes/spans
                     clearRouteBoxes();
@@ -334,8 +539,44 @@ function createRouteBox(routeName, routeCoords, index) {
     // adding event listeners to the routeSpan and deleteRouteBtn
     routeSpan.addEventListener('click', function () {
         drawRoute(routeCoords)
+
+        // we will need to format the coordinates passed in here - namely because we are passing in a string of JSON objects
+        // and we need to convert it back into an array so it can be used in the elevation method 
+        let formattedCoords = [];
+
+        if (typeof routeCoords === 'string') {
+            try {
+                routeCoords = JSON.parse(routeCoords);
+            } catch (error) {
+                return;
+            }
+        }
+
+        // After parsing, process routeCoords as array of arrays
+        if (Array.isArray(routeCoords) && Array.isArray(routeCoords[0])) {
+            formattedCoords = routeCoords[0].map(point => ({
+                lat: point.Lat,
+                lng: point.Lng
+            }));
+        } else {
+            console.error("Unexpected structure for routeCoords after parsing:", routeCoords);
+        }
+
+        console.log("Final formattedCoords:", formattedCoords);
+
+        // ensurign the formatted coordinates are valid 
+        if (formattedCoords.length > 0) {
+
+            // mapping the previously formatted coords
+            const latLngCoords = formattedCoords.map(coord => L.latLng(coord.lat, coord.lng));
+
+            // drawing the route and displaying the coordinates 
+            drawRoute([latLngCoords]); 
+            calculateDistanceAndElevation(latLngCoords);
+        }
     });
 
+    // delete route button declaration
     deleteRouteBtn.addEventListener('click', function () {
         deleteRoute(index, box);
     });
@@ -345,49 +586,41 @@ function createRouteBox(routeName, routeCoords, index) {
 }
 
 // used to ddraw routes on the map - takes in a JSON object of coordinates
-function drawRoute(coordsJson) {
+function drawRoute(routeData) {
+
+    // clear the existing routes and clearing any items if they exist
     clear();
     if (drawnItems) {
         drawnItems.clearLayers();
     }
 
-    // will try to draw new coordinates on the map
     try {
+        // Parse routeData if it's a JSON string
+        let routes = typeof routeData === 'string' ? JSON.parse(routeData) : routeData;
 
-        // splitting in the coordinates into an array
-        const routes = JSON.parse(coordsJson);
-        console.log(routes);
-        // ror every route split into further array
+        // Check if the format is an array of single routes or multiple routes
+        if (!Array.isArray(routes[0])) {
+            // If it's a single route, wrap it in an array for consistency
+            routes = [routes];
+        }
+
+        // Iterate through each route
         routes.forEach(routeSet => {
-            var latlngs = [];
+            let latlngs = routeSet.map(coord => ({
+                lat: parseFloat(coord.lat || coord.Lat),
+                lng: parseFloat(coord.lng || coord.Lng)
+            })).filter(coord => !isNaN(coord.lat) && !isNaN(coord.lng));
 
-            // assign lat and long coorodiantes pulled from the object
-            routeSet.forEach(coord => {
-                var lat = parseFloat(coord.Lat);
-                var lng = parseFloat(coord.Lng);
-
-                // checking if coordiantes are valid
-                if (!isNaN(lat) && !isNaN(lng)) {
-                    latlngs.push([lat, lng]);
-                }
-            });
-
-            // if there are any coordinates, draw the polyline on the map
+            // Draw the polyline if we have valid coordinates
             if (latlngs.length > 0) {
-                var polyline = L.polyline(latlngs, { color: '#FF0000', weight: 5 }).addTo(drawnItems);
-
-                // zoom to the position of the route on the map with the fitBounds built in method
-                map.fitBounds(polyline.getBounds());
+                const polyline = L.polyline(latlngs, { color: '#FF0000', weight: 5 }).addTo(drawnItems);
+                map.fitBounds(polyline.getBounds()); 
             }
         });
-        // /rare incase of corrupted data
     } catch (error) {
-        console.error("Error parsing the route JSON:", error);
+        console.error("Error parsing route data:", error);
     }
 }
-
-
-//////                                   END OF USER BASED ROUTE DRAWING FUNCTIONALITY                       //////
 
 // draws the routes / lines on the map
 function drawPolyline() {
@@ -410,33 +643,56 @@ function drawPolyline() {
 
 // calculates the total distance and elevation over the course of the route
 async function calculateDistanceAndElevation(points) {
-    elevations.clear();
+
+    // setting all values to 0 - wipes any previous values
     var totalDistance = 0;
     elevations = [];
+    let elevationRequests = [];  
+    let distances = [];  
 
-    // for every point in the points array, calculate the distance between the points
+    // for every point placed
     for (var i = 0; i < points.length - 1; i++) {
         var segmentDistance = points[i].distanceTo(points[i + 1]);
         totalDistance += segmentDistance;
 
-        // numPoints is the number of points to interpolate between the two points
-        // used to make the graph smoother - however each point will slow the process down significantly 
-        var numPoints = 4;
+        // number of interpolated points - will be between 2-4 depending on route length - used to
+        // increase speed of getting elevation data
+        let numPoints;
+        if (points.length >= 6) {
+            numPoints = 2;  
+        } else if (points.length >= 4) {
+            numPoints = 3;  
+        } else {
+            numPoints = 4;  
+        }
+
+        // getting the coordinates of the interpolated points
         var interpolatedPoints = interpolatePoints(points[i], points[i + 1], numPoints);
 
-        // for each interpolated point, get the elevation and add it to the elevations array
+        // for each interpolatedPoint
         for (var point of interpolatedPoints) {
-            var elevation = await getElevation(point.lat, point.lng);
-            // distance is returned in meters, so divide by 1000 to get kilometers
-            var currentDistance = (totalDistance * (elevations.length / interpolatedPoints.length)) / 1000;
-            elevations.push({
-                distance: currentDistance,
-                elevation: elevation
-            });
+
+            /// calculating distance data before api call 
+            distances.push((totalDistance * (elevationRequests.length / interpolatedPoints.length)) / 1000); 
+            elevationRequests.push({ lat: point.lat, lng: point.lng });
         }
     }
-    // drawing the elevation chart
-    drawElevationChart(elevations);
+
+    try {
+        // Batch request for elevations
+        let batchedElevations = await getElevationsBatch(elevationRequests);
+
+        // Combine distance and elevation data
+        elevations = batchedElevations.map((elevation, idx) => ({
+            distance: distances[idx],
+            elevation: elevation
+        }));
+
+        // ddrawing the elevation chart
+        drawElevationChart(elevations);  
+    } catch (error) {
+        console.error('Error calculating distance and elevation:', error);
+    }
 }
 
 // interpolates points between two latlng points
@@ -453,28 +709,30 @@ function interpolatePoints(startLatLng, endLatLng, numPoints) {
     return points;
 }
 
-// gets the elevation from open-elevation API - takes in the latitude and longitude of a given point as parameters
-async function getElevation(lat, lon) {
-    const url = `https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lon}`;
+// gets the elevation from open-elevation in a batch (all data at once)
+async function getElevationsBatch(locations) {
+
+    // mapping the location paramaters to be in the correct format for batch requesting
+    const locationParams = locations.map(({ lat, lng }) => `${lat},${lng}`).join('|');
+
+    // open-elevation api url
+    const url = `https://api.open-elevation.com/api/v1/lookup?locations=${locationParams}`;
 
     try {
-        /// call the api
+        // getting response form api call
         const response = await fetch(url);
-
-        // parse response
         const data = await response.json();
 
-        // if there is data and the results array is not empty, return the elevation
-        if (data && data.results && data.results.length > 0) {
-            return data.results[0].elevation;
-            // not every lat, long has an elevation - can return null - especially if travesing lakes / water
+        //mapping data if call was successful otherwise return empty array, display error
+        if (data && data.results) {
+            return data.results.map(result => result.elevation);
         } else {
-            console.error('Elevation data not available for this point.');
-            return null;
+            console.error('No elevation data available');
+            return Array(locations.length).fill(null);
         }
     } catch (error) {
-        console.error('Error fetching elevation data:', error);
-        return null;
+        console.error('Error in batch fetching elevation data:', error);
+        return Array(locations.length).fill(null);
     }
 }
 
@@ -575,9 +833,6 @@ function showSectionPeaks(peaks) {
     });
 }
 
-
-
-/// SECTION BOXES
 var sectionBoxContainer = document.getElementById('section-boxes');
 
 // shows the sectionData withing the sectionBoxContainer
@@ -596,9 +851,9 @@ function createSectionBox(sectionName, sectionCoords) {
 
     // if the polygon is valid, add the hover effect and click event to the box
     if (polygon) {
-        sectionPolygons[sectionName] = polygon;
         addHoverEffect(box, polygon);
         addClickEvent(box, polygon, sectionName);
+        sectionPolygons[sectionName] = polygon;
     }
 }
 
@@ -632,9 +887,7 @@ function createPolygon(sectionCoords, sectionName) {
 
     // if there are any valid coords, create a polygon with the coords and add it to the map
     if (polygonCoords.length > 0) {
-        return L.polygon(polygonCoords, { color: "#0080fE", fillOpacity: 0 })
-            .bindPopup("Section: " + sectionName)
-            .addTo(map);
+        return L.polygon(polygonCoords, { color: "#0080fE", fillOpacity: 0 }).bindPopup("Section: " + sectionName).addTo(map);
     } else {
         return null;
     }
@@ -649,15 +902,17 @@ function addHoverEffect(box, polygon) {
    
 }
 
-
+// click event for box, polygon and section
 function addClickEvent(box, polygon, sectionName) {
 
+    // event listener for box - shows peaks beloning to the box clickedo n
     box.addEventListener('click', () => {
         selectSection(polygon);
         var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
         showSectionPeaks(sectionPeaks);
     });
 
+    // event listener for the section on the map - shows peaks belonging to the section clicked on
     polygon.on('click', () => {
         selectSection(polygon);
         var sectionPeaks = peaksData.filter(peak => peak.Region === sectionName);
@@ -665,13 +920,14 @@ function addClickEvent(box, polygon, sectionName) {
     });
 }
 
+// used when a box / section is selected - used to set the current selected section anddto 'pan' to that section
 function selectSection(polygon) {
     if (selectedSection) selectedSection.setStyle({ fillOpacity: 0 });
     selectedSection = polygon;
     map.fitBounds(polygon.getBounds());
 }
 
-
+// apply filters event listener - calls appy filters function when the button is clicked
 document.getElementById('apply-filters').addEventListener('click', function () {
     applyFilters();
 });
@@ -694,34 +950,71 @@ document.getElementById('filter-elevation').addEventListener('input', function (
 
 });
 
+/// apply filters function filters peaks based off user input
 function applyFilters() {
+
+    // filter values that can hold values set by the user
     var nameFilter = document.getElementById('search-name').value.toLowerCase();
     var difficultyFilter = document.getElementById('filter-difficulty').value;
     var elevationFilter = document.getElementById('filter-elevation').value;
+    var radius = parseFloat(radiusSlider.value) * 1000;
+    var minRouteLength = parseFloat(routeLengthSlider.value) * 1000;
 
+    // clearing anythign exisiting on the map
     markerLayer.clearLayers();
 
     var filteredPeaks = peaksData.filter(function (peak) {
+
+        // Extract latitude and longitude of each peak
+        var [lat, lng] = peak.Coords.split(',').map(coord => parseFloat(coord));
+        var peakLatLng = L.latLng(lat, lng);
+
+        // Check if the peak matches the name filter
+        var withinRadius = !userMarker || userMarker.getLatLng().distanceTo(peakLatLng) <= radius;
         var matchesName = nameFilter === "" || peak.Name.toLowerCase().includes(nameFilter);
         var matchesDifficulty = difficultyFilter === "" || peak.Difficulty === difficultyFilter;
         var matchesElevation = elevationFilter === "" || peak.Elevation >= parseInt(elevationFilter);
-        return matchesName && matchesDifficulty && matchesElevation;
+
+        // Route length check, considering cases where Routes could be null
+        var matchesRouteLength = true;
+        if (minRouteLength > 0 && peak.Routes) {
+
+            // 
+            let routeData = peak.Routes;
+            let routes = typeof routeData === 'string' ? JSON.parse(routeData) : routeData;
+            routes = Array.isArray(routes[0]) ? routes : [routes];
+
+            var totalLength = 0;
+            routes.forEach(route => {
+                for (var i = 0; i < route.length - 1; i++) {
+                    var a = L.latLng(route[i].lat, route[i].lng);
+                    var b = L.latLng(route[i + 1].lat, route[i + 1].lng);
+                    totalLength += a.distanceTo(b);
+                }
+            });
+
+            //setting the 
+            matchesRouteLength = totalLength >= minRouteLength;
+        } else if (minRouteLength > 0 && !peak.Routes) {
+            // Exclude peaks without routes if a minimum route length is set
+            matchesRouteLength = false; 
+        }
+
+        return withinRadius && matchesName && matchesDifficulty && matchesElevation && matchesRouteLength;
     });
 
     showSectionPeaks(filteredPeaks);
 
+
     const tableBody = document.querySelector('.filter-results-table').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = '';
-
 
     filteredPeaks.forEach(function (peak) {
         var coords = peak.Coords.split(',');
         var lat = parseFloat(coords[0]);
         var lng = parseFloat(coords[1]);
 
-
         var newRow = tableBody.insertRow();
-
         var nameCell = newRow.insertCell(0);
         var sectionCell = newRow.insertCell(1);
 

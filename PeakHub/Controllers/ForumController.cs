@@ -56,6 +56,7 @@ namespace PeakHub.Controllers {
             };
         }
         // -------------------------------------------------------------------------------- //
+
         [HttpPost]
         public async Task<IActionResult> LikePost(int postID) {
             var result = await _httpClient.PutAsJsonAsync($"api/likes/add/{postID}/{UserID}", new { });
@@ -65,6 +66,7 @@ namespace PeakHub.Controllers {
             else 
                 return Json(new { success = false, message = "Failure! A Devastating Failure!" });
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> UnlikePost(int postID) {
