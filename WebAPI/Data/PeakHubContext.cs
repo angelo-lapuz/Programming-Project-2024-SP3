@@ -24,7 +24,7 @@ namespace WebAPI.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:taspeaksdb.database.windows.net,1433;Initial Catalog=tas-peaks;Persist Security Info=False;User ID=Smomppteam5;Password=Smolppteam5;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;\"\r\n")
+                optionsBuilder.UseSqlite("Data Source=../PeakHub.db")
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
         }

@@ -40,7 +40,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<PeakHubContext>(options =>
 {
     options.UseLazyLoadingProxies();
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PeakDBD"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD"));
 });
 
 // Add Identity services for user authentication

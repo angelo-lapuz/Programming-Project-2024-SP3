@@ -76,11 +76,5 @@ public class PostsController : ControllerBase
         if (response != null || response.Any()) return Ok(response);
         return BadRequest(new { Message = "Issue Fetching Posts" });
     }
-
-    [HttpGet("PagedList/{userID}/{page}")]
-    public IPagedList<Post> GetPagedList(string userID, int page = 1)
-    {
-        return _repo.GetPagedList(userID, page);
-    }
 }
 
