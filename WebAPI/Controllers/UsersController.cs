@@ -193,7 +193,12 @@ public class UsersController : ControllerBase
         if (signInResult.Succeeded)
         {
             var user = await _userManager.FindByNameAsync(login.Username);
-            return Ok(user);
+            if (user.IsBanned == false) 
+            {
+                return Ok(user);
+            }
+            return Unauthorized("Your account has been locked");
+            
         }
         // If email confirmation is required but hasn't been confirmed
         else if (signInResult.IsNotAllowed)
