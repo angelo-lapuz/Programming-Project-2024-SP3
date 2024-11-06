@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\colors.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\_nav.css" />
     <_ContentIncludedByDefault Remove="wwwroot\js\account.js" />
   </ItemGroup>
 
