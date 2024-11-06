@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PeakHubContext>(options =>
 {
     options.UseLazyLoadingProxies();
-    options.UseSqlite(builder.Configuration.GetConnectionString("PeakDBD"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PeakDBD"));
 });
 
 
