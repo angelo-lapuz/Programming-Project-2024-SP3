@@ -76,6 +76,5 @@ public class PostsController : ControllerBase
         if (response != null || response.Any()) return Ok(response);
         return BadRequest(new { Message = "Issue Fetching Posts" });
     }
-
 }
 

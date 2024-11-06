@@ -23,7 +23,6 @@ let pageIndex = 1, loading = false, limit = false;
 const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
 
 function postHTML(post) {
-    var content = post.content ? "" : "display: none;";
     var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
     var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
 
@@ -47,13 +46,14 @@ function postHTML(post) {
                 <p> <strong> ${post.user.username} </strong> </p>
 
                 <div class="post">
-                    <p style='${content}'>
-                        ${post.content.length > 500 ? `${post.content.slice(0, 500)}
-                        <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
-                        <span id="${post.postID}_more" class='textView'>... [Display All]</span>
-                        <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
-                        : post.content}
-                    </p> 
+                    ${post.content ? `<p>
+                        ${post.content.length > 500 ?
+                            `${post.content.slice(0, 500)}
+                            <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
+                            <span id="${post.postID}_more" class='textView'>... [Display All]</span>
+                            <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
+                    : post.content} </p>` : ""}
+
                     ${media} 
                 </div>
             </div>

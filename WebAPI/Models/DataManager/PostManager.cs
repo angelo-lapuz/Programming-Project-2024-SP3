@@ -1,8 +1,6 @@
 ﻿using WebAPI.Data;
 using WebAPI.Models.Repository;
 using WebAPI.ViewModels;
-using X.PagedList;
-using X.PagedList.Extensions;
 
 namespace WebAPI.Models.DataManager;
 
@@ -81,39 +79,5 @@ public class PostManager : IDataRepository<Post, int>
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToList();
-    }
-
-    public IEnumerable<PostViewModel> GetUserPosts(int boardID, string userID, int pageSize, int pageIndex)
-    {
-        return _context.Posts
-            .Where(p => p.BoardID == boardID)
-            .Select(p => new PostViewModel
-            {
-                PostID = p.PostID,
-                Content = p.Content,
-                Media = p.MediaLink,
-                LikeCount = p.Likes.Count(),
-                TransactionTimeUTC = p.TransactionTimeUtc,
-                HasUserLiked = p.Likes.Any(l => l.User.Id == userID),
-                User = new UserViewModel
-                {
-                    UserID = p.User.Id,
-                    Username = p.User.UserName,
-                    ProfileImg = p.User.ProfileIMG ?? "https://peakhub-user-content.s3.amazonaws.com/default.jpg"
-                }
-            })
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-    }
-
-    // uses x.PageList to get number of posts based on page number
-    public IPagedList<Post> GetPagedList(string userID, int page = 1)
-    {
-        const int pageSize = 5;
-        return _context.Posts
-            .Where(x => x.UserId == userID)
-            .OrderBy(x => x.TransactionTimeUtc)
-            .ToPagedList(page, pageSize);
     }
 }

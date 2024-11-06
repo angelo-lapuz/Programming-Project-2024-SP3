@@ -4,11 +4,6 @@
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="addContent">
-    <div class="header">
-        <img src="@Model.User.ProfileImg" alt="Your Profile Image" />
-        <p> <strong>@Model.User.Username</strong> </p>
-    </div>
-
     <form class="content" id="createPost">
         @Html.AntiForgeryToken()
         <input type="hidden" id="boardID" value="@Model.BoardID" />

@@ -1,0 +1,103 @@
+﻿/* GENERAL STYLING */
+
+#nav-area {
+    padding: 0 2%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-height: var(--navbar-height-s);
+    background: linear-gradient(to bottom, var(--black-glass-50), transparent);
+}
+
+.brand-logo-container {
+    color: white;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+.brand-logo-container img { max-height: 8rem; }
+
+#brand-name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.nav-link { color: #FFF; }
+
+/* DESKTOP NAV */
+@media screen and (min-width: 769px) {
+    #mobile-nav { display: none; }
+
+    #desktop-nav {
+        gap: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    #profile-toggle {
+        color: white;
+        cursor: pointer;
+        font-size: 2rem;
+    }
+    #profile-toggle:hover { font-size: 2.5rem; }
+
+    #feature-links, #profile-links {
+        gap: 1.5rem;
+        display: flex;
+    }
+
+    #profile-links { display: none; }
+
+    .nav-link:hover, #profile-toggle:hover {
+        color: var(--yellow);
+        text-shadow: 2px 2px 5px var(--darkgreen);
+    }
+}
+
+/* MOBILE NAV */
+@media screen and (max-width: 768px) {
+    #desktop-nav { display: none; }
+
+    #mobile-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    #hamburger-toggle {
+        color: white;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    #mobile-nav .navbar-list {
+        top: 0;
+        width: 80%;
+        z-index: 99;
+        gap: 1.5rem;
+        right: -100%;
+        height: 100vh;
+        display: flex;
+        position: fixed;
+        max-width: 300px;
+        padding-top: 2rem;
+        padding-left: 1rem;
+        flex-direction: column;
+        border-radius: 15px 0 0 0;
+        background: var(--darkgreen);
+        transition: transform 0.5s ease;
+    }
+
+    #mobile-nav .navbar-list.open {
+        transform: translateX(-100%);
+    }
+
+    .navbar-list {
+        margin-top: 100px;
+    }
+
+    .nav-link {
+        padding: 1% 0;
+        border-bottom: 2px groove black;
+    }
+}
