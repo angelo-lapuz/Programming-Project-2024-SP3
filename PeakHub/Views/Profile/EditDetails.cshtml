@@ -16,6 +16,13 @@
 <div class="changeContainer">
     <div id="detailsSection">
         <h2>Edit Details</h2>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div style="color: yellow; font-weight: bold; margin-bottom: 15px;">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+ 
         <form asp-action="EditDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

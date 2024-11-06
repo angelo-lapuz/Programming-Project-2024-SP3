@@ -21,23 +21,32 @@ namespace PeakHub.Controllers {
     public async Task<IActionResult> Index() {
             HttpContext.Session.SetString("LastPage", "Planner");
 
-            var getAllPeaksResponse = await _httpClient.GetAsync("api/Peaks");
-            if (getAllPeaksResponse.IsSuccessStatusCode) {
-                var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
-                var peaks = JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
+            var userTask = Task.Run(async () =>
+            {
+                // Get the current user (if logged in) and set the ViewBag values accordingly
+                User user = await _tools.GetUser(userID);
 
-                ViewBag.Peaks = JsonConvert.SerializeObject(peaks);
-            }
+                if (user != null)
+                {
+                    ViewBag.Routes = user.Routes;
+                    ViewBag.userL = true;
+                    ViewBag.userPeaks = Newtonsoft.Json.JsonConvert.SerializeObject(user.UserPeaks.Select(up => up.Peak));
+                }
+            });
 
+            var peaksTask = Task.Run(async () =>
+            {
+                var getAllPeaksResponse = await _httpClient.GetAsync("api/Peaks");
+                if (getAllPeaksResponse.IsSuccessStatusCode)
+                {
+                    var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
+                    var peaks = JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
+                    ViewBag.Peaks = JsonConvert.SerializeObject(peaks);
+                }
+            });
 
-            // getthe current user (if logged in) and set the viewbag values accordingly
-            User user =  await _tools.GetUser(userID);
+            await Task.WhenAll(userTask, peaksTask);
 
-            if (user != null) {
-                ViewBag.Routes = user.Routes;
-                ViewBag.userL = true;
-                ViewBag.userPeaks = Newtonsoft.Json.JsonConvert.SerializeObject(user.UserPeaks.Select(up=>up.Peak));
-            }
             return View();
         }
 

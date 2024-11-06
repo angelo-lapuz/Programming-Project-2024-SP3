@@ -63,9 +63,17 @@ namespace PeakHub.Controllers {
                 // if the user was not created successfully, add an error to the model state - normally No API
                 else
                 {
-                    ModelState.AddModelError("Register.UserName", "An unexpected error occurred, please try again.");
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    ModelState.AddModelError(string.Empty,errorMessage);
+
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var errors = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(errorContent);
+
+                    foreach (var error in errors)
+                    {
+                        foreach (var errorMessage in error.Value)
+                        {
+                            ModelState.AddModelError(error.Key, errorMessage);
+                        }
+                    }
                 }
             }
            
