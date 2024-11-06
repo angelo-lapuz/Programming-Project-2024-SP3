@@ -3,21 +3,6 @@
 
 // Write your JavaScript code.
 
-// Nav List On/Off
-$(function () {
-    let showingProfileNav = false;
-    $("#profile-toggle").on("click", function () {
-        showingProfileNav = !showingProfileNav;
-        $("#profile-links").toggle(); 
-        $("#feature-links").toggle();
-    });
-
-    $("#hamburger-toggle").on("click", function () {
-        $(this).find("i").toggleClass("fa-bars fa-times");
-        $("#mobile-nav .navbar-list").toggleClass("open"); 
-    });
-});
-
 let resizeTimer;
 
 window.addEventListener('resize', function () {
@@ -36,13 +21,18 @@ window.addEventListener('resize', function () {
 });
 
 let prevScrollPos = window.scrollY;
+var header = document.getElementById('nav-area')
+
 window.addEventListener('scroll', function () {
+
     var currentScrollPos = window.scrollY;
 
+    //console.log(currentScrollPos);
+
     if (prevScrollPos < currentScrollPos) {
-        $("#nav-area").addClass("hide");
+        header.classList.add('hide');
     } else {
-        $("#nav-area").removeClass("hide");
+        header.classList.remove('hide');
     }
 
     prevScrollPos = currentScrollPos;
