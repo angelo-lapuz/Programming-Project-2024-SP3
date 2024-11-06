@@ -10,64 +10,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/_nav.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div id="nav-area">
-            <!-- Brand Logo -->
+    <header id="nav-area" class="transition">
+        <nav id="nav-container">
             <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
                 <img src="/img/logo2.png" />
                 <span id="brand-name">TAS PEAKS</span>
             </a>
-
-            <!-- Desktop Nav -->
-            <div id="desktop-nav">
-                <div id="profile-toggle"> <i class="fa-solid fa-user"></i> </div>
-
-                <nav id="feature-links" class="navbar-list">
-                    <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
-                    <a class="nav-link" asp-area="" asp-controller="Board" asp-action="Index">FORUM</a>
-                </nav>
-
-                <nav id="profile-links" class="navbar-list"> @{
-                    if (Context.Session.GetString("UserId") != null) {
-                        <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
-                        <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
-                    } else {
-                        <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
-                        <a class="nav-link" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
-                    }
-                } </nav>
+            <label class="hamburger-menu">
+                <input id="hamburger-menu-checkbox" type="checkbox" />
+            </label>
+            <div id="navlinks-container" class="transition">
+                <ul class="navbar-list">
+                    <li class="nav-item">
+                        <a class="nav-link transition absolute-center" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
+                        <div class="nav-link-hover transition absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link transition absolute-center" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
+                        <div class="nav-link-hover transition absolute-center"></div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
+                        <div class="nav-link-hover absolute-center"></div>
+                    </li>
+                    <li class="nav-item nav-profile">
+                        <div class="transition absolute-center">
+                            <i class="fa-solid fa-user"></i>
+                        </div>                      
+                    </li>         
+                </ul>
             </div>
-
-            <!-- Mobile Nav -->
-            <div id="mobile-nav">
-                <div id="hamburger-toggle"> <i class="fa-solid fa-bars"></i> </div>
-
-                <nav class="navbar-list">
-                    <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
-                    <a class="nav-link" asp-area="" asp-controller="Board" asp-action="Index">FORUM</a>
-
+            <div class="nav-login-list">
+                <ul>
                     @{
-                        if (Context.Session.GetString("UserId") != null) {
-                            <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
-                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
-                        } else {
-                            <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
-                            <a class="nav-link" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
+                        if (Context.Session.GetString("UserId") != null)
+                        {
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
                         }
-                    }
-                </nav>
-            </div>
-        </div>
-    </header>
+                        else
+                        {
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
+                            <li class="nav-item nav-login-li">
+                                <a class="nav-link absolute-center" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
+                                <div class="nav-link-hover absolute-center"></div>
+                            </li>
 
+                        }
+                        
+                    }
+
+                </ul>
+            </div>
+        </nav>
+    </header>
     <main>
         @RenderBody()
     </main>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
