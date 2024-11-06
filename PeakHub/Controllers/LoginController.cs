@@ -64,6 +64,11 @@ namespace PeakHub.Controllers
             // invalid username or password
             else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest) {
                 ModelState.AddModelError("LoginModel.UserName", "Invalid username or password.");
+            } 
+
+            else if(response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                ModelState.AddModelError("LoginModel.UserName", "Your account has been Banned");
             }
 
             // unexpected error could be various things, no api, db error, etc.

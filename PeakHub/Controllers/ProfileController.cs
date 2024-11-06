@@ -55,6 +55,7 @@ namespace PeakHub.Controllers {
             return View();
         }
 
+
         // called when the user is attempting to edit their details from the front
         [HttpPost]
         public async Task<IActionResult> EditDetails(EditDetailsViewModel model)
@@ -71,7 +72,8 @@ namespace PeakHub.Controllers {
 
             // if the user was updated successfully, return the view else return an error
             if (result.IsSuccessStatusCode)
-            {                
+            {
+                TempData["SuccessMessage"] = "Your details have been successfully updated.";
                 return View(model);
             }
             else
@@ -106,19 +108,13 @@ namespace PeakHub.Controllers {
             // if password failed to change display error message
             if (!response.IsSuccessStatusCode)
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                ModelState.AddModelError(string.Empty, errorMessage);
-            }
-
-            else
-            {
                 _logger.LogInformation("here");
                 ModelState.AddModelError("OldPassword", "Failed to change password");
             }
+
             // display Password changed successfully message
-            ViewBag.PasswordChangeStatus = "Password changed successfully.";
+            TempData["SuccessMessage"] = "Password Changed Successfully.";
             return View(model);
         }
-
     }
 }

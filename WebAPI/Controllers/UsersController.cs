@@ -113,7 +113,7 @@ public class UsersController : ControllerBase
     [HttpPost("Create")]
     public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 
     {
-        // ensuring viewmodel is valid - returning error
+        // ensuring viewmodel is valid - returning error, should never happen but helps against malformed requests
         if (model == null || !ModelState.IsValid)
         {
             return BadRequest("Invalid user registration data.");
@@ -125,7 +125,17 @@ public class UsersController : ControllerBase
             Email = model.Email,
             EmailConfirmed = false
         };
-        await _userManager.AddToRoleAsync(user, "USER");
+
+        // password Validation - ensures users password meets the criterea eg. length, symbols, ect
+        var passwordValidationResult = await _userManager.PasswordValidators[0].ValidateAsync(_userManager, user, model.Password);
+        if (!passwordValidationResult.Succeeded)
+        {
+            foreach (var error in passwordValidationResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return BadRequest(ModelState);
+        }
 
         // creating the user in the database and assigning a user role
         var result = await _userManager.CreateAsync(user, model.Password);
@@ -142,7 +152,7 @@ public class UsersController : ControllerBase
             var base64Token = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(token));
 
             // creating the callback url the user must click to confirm their email
-            var confirmationLink = $"https://localhost:7234/ManageUser/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
+            var confirmationLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
             // creating the email
             var emailBody = $@"
             <html>
@@ -193,12 +203,12 @@ public class UsersController : ControllerBase
         if (signInResult.Succeeded)
         {
             var user = await _userManager.FindByNameAsync(login.Username);
-            if (user.IsBanned == false) 
+            if (user.IsBanned)
             {
-                return Ok(user);
+                return StatusCode(403, "Your Account has been banned");
+
             }
-            return Unauthorized("Your account has been locked");
-            
+            return Ok(user);
         }
         // If email confirmation is required but hasn't been confirmed
         else if (signInResult.IsNotAllowed)

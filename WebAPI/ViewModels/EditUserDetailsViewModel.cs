@@ -15,7 +15,6 @@
         // ban or unban user
         public bool BanUser { get; set; }
 
-        //public int PhoneNumber { get; set; }
     }
 }
 
