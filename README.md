@@ -38,6 +38,17 @@ Interactive Mapping & Route Planning
   - Open another instance of Visual Studio and open the solution for the WebAPI project
   - Run the instance of Visual Studio that has the WebAPI project first and then run the instance that has the PeakHub project
 
+## Deploy The Project
+  - To deploy the project: ensure that the webApi appsettings.json is renamed to : appsettings.WebAPI.json, right click on the 'Admin Portal' or 'Peakhub'  project file and click publish
+  - Select to make an azure project (windows application) and create a new 'profile' (values auto filled)
+  - Take the URL from the site information presented and circled in the first image and paste it in the 'Admin portal or Peakhub' program.cs file over the localhost:5164 seen in the 2nd image.
+  - Once that is done click 'Publish' once the app is deployed andd published it should automatically load in the default browser
+
+
+![image](https://github.com/user-attachments/assets/3d190f88-3b71-43c3-be6a-4933ccfe48bf) 
+
+![image2](https://github.com/user-attachments/assets/3b479233-8e12-4d51-b681-b6ac8d9b8c90)
+
 ## Requirements
 
   - Visual Studio
