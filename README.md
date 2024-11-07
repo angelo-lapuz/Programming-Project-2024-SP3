@@ -44,6 +44,11 @@ Interactive Mapping & Route Planning
   - PC / MAC
   - Android Mobile
 
+## Important Links
+- Main Portal - https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/
+- Admin Portal - https://adminportal20241107122703.azurewebsites.net/ 
+- GitHub Repository URL - https://github.com/angelo-lapuz/Programming-Project-2024-SP3/
+
 ## Contributing
 
 Feel free to contribute by providing feedback, reporting bugs, or suggesting features through the in-app feedback system.
