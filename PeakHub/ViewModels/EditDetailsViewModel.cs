@@ -6,6 +6,8 @@
         public string LastName { get; set; }
         public string Address { get; set; }
 
+        public string ProfileIMG { get; set; }
+
         //public int PhoneNumber { get; set; }
     }
 }

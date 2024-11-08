@@ -16,6 +16,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\colors.css" />
     <_ContentIncludedByDefault Remove="wwwroot\css\_nav.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\_profile.css" />
     <_ContentIncludedByDefault Remove="wwwroot\css\_shared.css" />
     <_ContentIncludedByDefault Remove="wwwroot\js\account.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\home.js" />

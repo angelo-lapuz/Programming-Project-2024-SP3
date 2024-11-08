@@ -1,23 +1,30 @@
 ﻿@model PeakHub.ViewModels.EditDetailsViewModel
 
+<link rel="stylesheet" href="~/css/_profile.css" />
+<link href="https://unpkg.com/cropperjs@latest/dist/cropper.css" rel="stylesheet">
+
 <body style="
     background: url('../img/background2.svg') no-repeat center fixed;
     background-size: cover;
     background-position: center top;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;">
+    background-attachment: fixed; ">
 </body>
+
 
 <div class="changeContainer">
     <div id="detailsSection">
         <h2>Edit Details</h2>
         <form asp-action="EditDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="ProfileIMG" id="imgLink" type="hidden" />
+
+            <input type="file" id="imageSelector" accept="image/*" style="display: none;">
+            <a id="addImage" href="#">Change Profile Image &nbsp;<i class="fa-solid fa-pen"></i></a>
+
+            <div id="progressContainer" style="display: none;">
+                <p>Uploading, please wait...</p>
+                <progress id="progressBar" value="0" max="100"></progress>
+            </div>
 
             <div class="form-group">
                 <label for="FirstName">First Name
@@ -47,3 +54,17 @@
         </form>
     </div>
 </div>
+
+<div id="mediaView" style="display: none;">
+    <img id="cropImage" />
+    
+    <div class="icon-row">
+        <a id="saveImage" href="#">Save &nbsp;<i class="fas fa-cloud-upload-alt"></i></a>
+        <a id="cancelImage" href="#">Cancel &nbsp;<i class="fas fa-times"></i></a>
+    </div>
+</div>
+
+<!-- 'Add an Image' Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/cropperjs@latest/dist/cropper.js"></script>
+<script type="module" src="~/js/profileEdit.js"></script>
