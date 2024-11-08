@@ -1,16 +1,44 @@
-﻿// Cancel Add Post
-$("#cancelPost").on("click", function () {
-    window.location.href = `/Forum/Index?boardID=${ $("#boardID").val() }`;
+﻿// -------------------------------------------------------------------------------- //
+
+// Setup Quill.JS
+var quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            [{ 'color': [] }, { 'background': [] }]
+        ]
+    }
+});
+
+quill.on('text-change', function () {
+    toggleSubmitBtn();
+    var text = quill.getText().trim();
+    $('#charCount').text(`Characters: [${text.length}]`);
 });
 
 // Toggle 'Submit' Button on and off
 function toggleSubmitBtn() {
-    var content = $("#addPostContent").val().trim();
     var media = $("#addPostMedia")[0].files.length > 0;
-    var btn = $("#addPostSubmit");
 
-    btn.toggleClass("deactivate", content === '' && !media);
+    var content = quill.root.innerHTML.trim();
+    var isContentEmpty = content === '<p><br></p>' || content.length === 0;
+
+    $("#addPostSubmit").toggleClass("deactivate", isContentEmpty && !media);
 }
+
+// -------------------------------------------------------------------------------- //
+
+// Cancel Add Post
+$("#cancelPost").on("click", function () {
+    window.location.href = `/Forum/Index?boardID=${ $("#boardID").val() }`;
+});
+
+// -------------------------------------------------------------------------------- //
 
 // Generate File Preview
 function filePreview(file) {
@@ -22,9 +50,6 @@ function filePreview(file) {
 
     reader.readAsDataURL(file);
 }
-
-// Toggle 'Submit' on content
-$("#addPostContent").on("keyup", toggleSubmitBtn);
 
 // Preview File then Toggle 'Submit' on content
 $("#addPostMedia").on("change", function () {
@@ -132,7 +157,7 @@ $("#createPost").on("submit", function (e) {
 
     const boardID = $("#boardID").val();
     const file = $("#addPostMedia")[0].files[0];
-    const content = $("#addPostContent").val().trim();
+    const content = quill.root.innerHTML.trim();
     const sanitizedContent = (content === null || content === '') ? "NULL" : content;
 
     if (file) {

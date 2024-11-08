@@ -1,0 +1,286 @@
+﻿/* SHARED */
+
+section {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+/* HERO SECTION */
+
+#hero {
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+#hero_background {
+    z-index: -1;
+    width: 100%;
+    position: fixed;
+    object-fit: cover;
+    min-height: 100%;
+    transform: translateX(calc((100% - 100vw) / 2));
+}
+
+/* Typewriter Effect */
+
+#typewriter {
+    z-index: 10;
+    font-size: 9vw;
+    display: block;
+    margin: 0 auto;
+    font-weight: 800;
+    line-height: 15vw;
+    text-align: center;
+    text-shadow: var(--shadow-down);
+}
+
+#message {
+    overflow-x: hidden;
+    white-space: nowrap;
+    letter-spacing: 0.1rem;
+    border-right: 0.5rem solid orange;
+    animation: typing 1s steps(13, end), blink-caret .55s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--yellow); }
+}
+
+/* WWW Buttons */
+
+#anchors {
+    gap: 4vw;
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+}
+
+.wwwBtn {
+    cursor: pointer;
+    align-items: center;
+    text-decoration: none;
+    text-shadow: 2px 2px 5px var(--lightgreen);
+}
+.wwwBtn p { display: none; }
+.wwwBtn h1 { color: var(--grey); }
+
+.wwwBtn:hover p { 
+    display: block; 
+    font-weight: bold;
+    color: var(--yellow);
+}
+
+.wwwBtn:hover h3 { color: var(--blue); }
+
+/* WWW SHARED */
+
+[id*='WW_'] {
+    align-items: center;
+    background: var(--grey);
+}
+#WW_Where { background: var(--lightgreen); }
+
+[id*='WW_'] h1 { 
+    margin: 0;
+    width: 100%;
+    font-size: 7vh;
+    padding-top: 2%;
+    color: var(--grey); 
+    background: var(--lightgreen);
+}
+
+#WW_Where h1 {
+    color: var(--lightgreen);
+    background: var(--grey);
+}
+
+[id*='WW_'] .content {
+    width: 70%;
+    margin: 2% 0;
+    display: flex;
+}
+
+/* WW WHAT */
+
+#WW_What h2 { color: var(--lightgreen); }
+
+[class*='info-'] {
+    text-align: left;
+    justify-content: space-between;
+}
+.info-right { flex-direction: row-reverse; }
+
+[class*='info-'] p {
+    width: 44ch;
+    padding: 0 2%;
+    line-height: 4vh;
+    color: var(--lightgreen);
+}
+
+[class*='info-'] img {
+    width: 40%;
+    aspect-ratio: 1.5 / 1;
+    box-shadow: 2px 2px 5px var(--black-glass);
+}
+
+/* WW WHERE */
+
+.hideSide { display: none !important; }
+
+.front {
+    color: var(--grey);
+    align-items: center;
+    flex-direction: column;
+    background: url("../img/tasmania-base.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.front p { 
+    width: 40ch; 
+    line-height: 3vh;
+}
+.front p a { color: var(--blue); }
+
+.front .wwwBtn {
+    width: 40ch;
+    font-size: 1vw;
+}
+
+.back { align-items: center; }
+
+.back .list {
+    gap: 1.5vh;
+    width: 30%;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+}
+
+.back .list a { padding: 1%; }
+.back .list a:hover { color: var(--yellow); }
+
+[id*='R_']:before { content: "> "; }
+.selected { text-shadow: 1px 1px 5px var(--blue); }
+
+.back .display {
+    width: 70%;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    text-shadow: 2px 2px 5px var(--darkgreen);
+}
+
+#abel_info { 
+    width: 50ch; 
+    line-height: 2rem;
+}
+
+#facts {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.fact { 
+    padding: 2% 0;
+    display: flex; 
+}
+
+.factHead {
+    width: 25%;
+    font-weight: bold;
+}
+.factText { width: 75%; }
+
+/* WW WHO */
+#WW_Who .text { width: 50%; }
+#WW_Who .text * { width: 100%; }
+
+#WW_Who .image {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#WW_Who img {
+    width: 95%;
+    margin-bottom: 2%;
+    aspect-ratio: 1 / 1;
+}
+
+/* MOBILE DISPLAY */
+
+@media screen and (max-width: 768px) {
+    p { font-size: 3vw; }
+    h3 { font-size: 5vw; }
+
+    /* HERO */
+
+    #anchors { flex-direction: column; }
+    #anchors * { margin: 0;  }
+
+    #anchors p {
+        display: block; 
+        color: var(--yellow);
+    }
+    #anchors h1 { font-size: 4vw; }
+    
+    /* WW WHAT */
+    
+    [class*='info-'] {
+        width: 100%;
+        flex-direction: column;
+    }
+    [class*='info-'] * { width: 100% !important; }
+
+    /* WW WHERE */
+
+    .front .wwwBtn { 
+        width: 100%;
+    }
+
+    .back { flex-direction: column; }
+
+    .back .list {
+        width: 100%;
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .back .list a {
+        font-size: 2vw;
+        text-align: left;
+    }
+
+    .back .display {
+        width: 95%;
+        align-items: center;
+    }
+
+    #facts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .fact { flex-direction: column; }
+
+    .fact div { 
+        width: 100%; 
+        font-size: 2.5vw;
+        text-align: center;
+    }
+    .full-row { grid-column: span 3; }
+    .factHead { background: var(--blue-glass); }
+}

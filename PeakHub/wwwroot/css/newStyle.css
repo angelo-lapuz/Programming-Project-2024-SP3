@@ -692,6 +692,7 @@ main {
 }
 
 #planner-bg {
+    width: 100%;
     background: var(--planner-blue);
 }
 

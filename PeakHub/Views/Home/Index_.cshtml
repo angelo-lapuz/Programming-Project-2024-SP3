@@ -1,0 +1,118 @@
+﻿@{ ViewData["Title"] = "Home"; }
+
+<section id="home-bg-parallax">
+    <video id="bg-video" autoplay muted loop>
+        <source src="~/img/TheAbels-portrait.mp4" type="video/mp4" />
+    </video>
+    <a href="#" class="to-top-btn">
+        <div class="chevron-container-up">
+            <div class="chevron"></div>
+        </div>
+    </a>
+    <div class="home-typewriter absolute-center">
+        <div class="home-msg">ARE YOU ABEL?</div>
+    </div>
+    <div class="home-3w-anchors">
+        <a class="home-3w-a buttonA" href="#what-header"><div>WHAT ARE THEY</div></a>
+        <a class="home-3w-a buttonA" href="#where-header"><div>WHERE ARE THEY</div></a>
+        <a class="home-3w-a buttonA" href="#who-header"><div>WHO WE ARE</div></a>
+    </div>
+    <div class="section-end-filler"></div>
+</section>
+
+<div id="what-header">
+    <span> WHAT </span>
+</div>
+<section id="what-container" class="full-screen">
+    <div id="what-absolute-layer" class="full-screen">
+        <div id="info-abels-container">
+
+            <div class="info-abels-grid">
+                <div class="info-text A">
+                    <h2> THE ABELS</h2>
+                    <p>The Abels are a collection of mountains in Tasmania that meet specific criteria in terms of elevation and prominence. Named after Abel Tasman, the Dutch explorer who first sighted Tasmania in 1642, these peaks must be at least 1,100 meters in elevation with a prominence of at least 150 meters to qualify as an "Abel." Prominence, in this context, refers to how much a peak stands out compared to the surrounding landscape, ensuring that Abels are not only tall but also distinctive in their rise above nearby terrain. The total list includes 158 peaks scattered across Tasmania, offering diverse hiking challenges in a range of environments.</p>
+                    <hr />
+                </div>
+                <div class="info-text B">
+                    <p>The idea of classifying Tasmanias highest peaks as Abels was inspired by the Munros of Scotland, which are similarly categorized based on height. However, the Abels are unique in their combination of ruggedness and relative isolation. Many of these mountains are located in remote, wilderness areas, offering hikers the chance to experience pristine environments. From alpine plateaus and steep cliffs to dense forests and coastal vistas, the Abels encompass a wide range of Tasmanian landscapes.</p>
+                    <hr />
+                </div>
+                <div class="info-text C">
+                    <p>Hiking the Abels has become a popular goal for adventure seekers in Tasmania and beyond. For those who love the challenge of reaching high summits, the Abels provide a rewarding pursuit, as many of the peaks are accessible only through demanding treks. The peaks can be tackled individually or as part of a lifelong challenge to "bag" all 158. Each summit rewards climbers with breathtaking views and a sense of accomplishment, making the Abels a cherished part of Tasmania's outdoor heritage.</p>
+                    <hr />
+                </div>
+                <div class="info-img A"><img src="~/img/Cathedral-Mountain.jpg" alt="Cathedral Mountain The Abels Tasmania"></div>
+                <div class="info-img B"><img src="~/img/Cathedral-Mountain-evening.jpg" alt="Cathedral Mountain The Abels Tasmania evening shot"></div>
+                <div class="info-img C"><img src="~/img/Central-Plateau.jpg" alt="Central Plateau The Abels Tasmania"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="where-header">
+    <span><h2> WHERE </h2></span>
+</div>
+<section id="where-container" class="full-screen">
+    <div id="info-regions-container">
+        <div id="info-regions-data" class="absolute-center">
+            <div class="info-region-text">
+                <p>Bill Wilkinson, in his definitive works <a href="https://theabelmountains.com.au/" target="_blank"> The Abels: A Comprehensive Guide to Tasmania’s Mountains Over 1100 Metres </a>, provides an in-depth exploration of the 158 Abels. He categorizes them into 10 distinct regions across Tasmania, which are defined by their geographical and environmental diversity. </p><br />
+                <p>Wilkinson's classification helps highlight the unique character of each region, from the rugged wilderness of the South West to the alpine areas of the Central Plateau. This regional division aids hikers in understanding the varied landscapes, ecosystems, and hiking challenges that each of these mountainous areas present.</p>
+                <div class="info-regions-more transition"><h3 class="buttonA transition"> Find out more</h3></div>
+            </div>
+            <div class="info-region-selector transition">
+                <div class="region-left">
+                    <div class="chevron-container left">
+                        <div class="chevron left"></div>
+                    </div>
+                </div>
+                <div class="region-right">
+                    <div class="chevron-container right">
+                        <div class="chevron right"></div>
+                    </div>
+                </div>
+                <hr />
+                <div class="info-region-list">
+                    <ul class="info-region-ul transition">
+                        <li class="info-R01 info-region-select"><label for="1">North West Abels</label><input type="radio" name="info-region" value="1" checked><div class="content"></div></li>
+                        <li class="info-R02 info-region-select"><label for="2">North East Abels</label><input type="radio" name="info-region" value="2"><div class="content"></div></li>
+                        <li class="info-R03 info-region-select"><label for="3">South East Abels</label><input type="radio" name="info-region" value="3"><div class="content"></div></li>
+                        <li class="info-R04 info-region-select"><label for="4">Central Plateau</label><input type="radio" name="info-region" value="4"><div class="content"></div></li>
+                        <li class="info-R05 info-region-select"><label for="5">Pelion & Saint Clair</label><input type="radio" name="info-region" value="5"><div class="content"></div></li>
+                        <li class="info-R06 info-region-select"><label for="6">Mid West</label><input type="radio" name="info-region" value="6"><div class="content"></div></li>
+                        <li class="info-R07 info-region-select"><label for="7">West Abels</label><input type="radio" name="info-region" value="7"><div class="content"></div></li>
+                        <li class="info-R08 info-region-select"><label for="8">Gordon</label><input type="radio" name="info-region" value="8"><div class="content"></div></li>
+                        <li class="info-R09 info-region-select"><label for="9">South West</label><input type="radio" name="info-region" value="9"><div class="content"></div></li>
+                        <li class="info-R10 info-region-select"><label for="10">South Abels</label><input type="radio" name="info-region" value="10"><div class="content"></div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-region-img-container">
+            <img src="~/img/tasmania-base.png" class="info-region-img-base transition">
+        </div>
+    </div>
+</section>
+<div id="who-header">
+    <span>WHO</span>
+</div>
+<secion id="who-container" class="full-screen">
+    <div id="who-absolute-layer">
+
+        <div class="info-who-grid">
+            <div class="info-who-text">
+                <h2>THE TEAM</h2>
+                <p> At the heart of our team lies a deep passion for Tasmania's untamed beauty and an unwavering respect for its breathtaking landscapes. We are driven by a shared vision: to shine a spotlight on The Abels, Tasmania’s majestic mountain peaks, and inspire others to discover and cherish their extraordinary wonder. Together, we are committed to raising awareness of The Abels, ensuring their significance is recognized and celebrated by adventurers and nature lovers alike.</p><br>
+                <p>Through our collaboration with Tourism Tasmania, we aim to promote sustainable tourism, respect for the environment, and a deeper connection to nature. Our mission is to celebrate The Abels, making these extraordinary peaks accessible to a global audience while preserving the natural beauty that makes Tasmania so special.</p>
+            </div>
+            <div class="info-who-img">
+                <img src="/img/the-team.jpeg" alt="image of Tas Peaks team">
+                <a class="come-say-hi-btn buttonB" href="#">Drop us a line</a>
+            </div>
+
+
+        </div>
+
+    </div>
+</secion>
+<script src="~/js/home-page.js" asp-append-version="true"></script>

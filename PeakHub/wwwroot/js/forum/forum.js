@@ -1,21 +1,27 @@
 ﻿$(function () {
     loadPosts();
 
-    // Load remaining Post text
-    $("#postsForBoard").on("click", "[id*='_more']", function () {
+    // Toggle post content display
+    $("#postsForBoard").on("click", "[id*='_toggle']", function () {
         const id = $(this).attr("id").split("_")[0];
-        $(`#${id}_all`).show();
-        $(`#${id}_hide`).show();
-        $(this).hide();
+        const previewContent = $(`#${id}_preview`);
+        const ellipsis = $(`#${id}_ellipsis`);
+        const fullContent = $(`#${id}_full`);
+
+        if (fullContent.is(':visible')) {
+            fullContent.hide();
+            previewContent.show();
+            ellipsis.show();
+            $(this).text('[Display All]');
+        }
+        else {
+            fullContent.show();
+            previewContent.hide();
+            ellipsis.hide();
+            $(this).text('[Hide Most]');
+        }
     });
 
-    // Hide remaining Post text
-    $("#postsForBoard").on("click", "[id*='_hide']", function () {
-        const id = $(this).attr("id").split("_")[0];
-        $(`#${id}_all`).hide();
-        $(`#${id}_more`).show();
-        $(this).hide();
-    });
 });
 
 // Handle Inifnite Scroll
@@ -43,18 +49,22 @@ function postHTML(post) {
             </div>
 
             <div class='content'>
-                <p> <strong> ${post.user.username} </strong> </p>
+                <h3> ${post.user.username} </h3>
 
                 <div class="post">
-                    ${post.content ? `<p>
-                        ${post.content.length > 500 ?
-                            `${post.content.slice(0, 500)}
-                            <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
-                            <span id="${post.postID}_more" class='textView'>... [Display All]</span>
-                            <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
-                    : post.content} </p>` : ""}
+                    ${post.content ? `
+                        <div class='postText'>
+                            <p id="${post.postID}_preview">
+                                ${post.content.length > 500 ? `${ post.content.slice(0, 500) }` : post.content}
+                            </p>
 
-                    ${media} 
+                            ${post.content.length > 500 ? `
+                                <p id="${post.postID}_full" style="display: none;">${post.content}</p>
+                                <button id="${post.postID}_toggle" class="textView">[Display All]</button> 
+                            ` : ''}
+                        </div> ` : ''}
+    
+                    ${media}
                 </div>
             </div>
 

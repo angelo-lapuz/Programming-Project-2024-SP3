@@ -1,37 +1,44 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PeakHub</title>
+
+    <title>[TasPeaks] @ViewData["Title"]</title>
+    <link rel="icon" type="image/png" href="~/img/logo2.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/_shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/_nav.css" asp-append-version="true" />
 </head>
-<body>
+
+<body class="column">
     <header>
         <div id="nav-area">
             <!-- Brand Logo -->
-            <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+            <a id="brand-logo" class="row" asp-controller="Home" asp-action="Index">
                 <img src="/img/logo2.png" />
-                <span id="brand-name">TAS PEAKS</span>
+                <h1>TAS PEAKS</h1>
             </a>
 
             <!-- Desktop Nav -->
-            <div id="desktop-nav">
+            <div id="desktop-nav" class="row">
                 <div id="profile-toggle"> <i class="fa-solid fa-user"></i> </div>
 
-                <nav id="feature-links" class="navbar-list">
+                <nav id="feature-links" class="navbar-list row">
                     <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
                     <a class="nav-link" asp-area="" asp-controller="Board" asp-action="Index">FORUM</a>
                 </nav>
 
-                <nav id="profile-links" class="navbar-list"> @{
+                <nav id="profile-links" class="navbar-list row"> @{
                     if (Context.Session.GetString("UserId") != null) {
                         <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
                         <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
@@ -43,10 +50,10 @@
             </div>
 
             <!-- Mobile Nav -->
-            <div id="mobile-nav">
+            <div id="mobile-nav" class="row">
                 <div id="hamburger-toggle"> <i class="fa-solid fa-bars"></i> </div>
 
-                <nav class="navbar-list">
+                <nav class="navbar-list column">
                     <a class="nav-link" asp-area="" asp-controller="Planner" asp-action="Index">PLANNER</a>
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">GUIDES</a>
                     <a class="nav-link" asp-area="" asp-controller="Board" asp-action="Index">FORUM</a>
@@ -65,7 +72,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="column">
         @RenderBody()
     </main>
 
@@ -73,4 +80,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
