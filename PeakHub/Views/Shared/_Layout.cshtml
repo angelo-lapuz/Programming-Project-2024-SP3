@@ -18,6 +18,37 @@
                 <img src="/img/logo2.png" />
                 <span id="brand-name">TAS PEAKS</span>
             </a>
+
+            <div class="nav-profile-list">
+                <div class="transition">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="nav-login-list">
+                    <ul>
+                        @{
+                            if (Context.Session.GetString("UserId") != null)
+                            {
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
+                                </li>
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
+                                </li>
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
+                                </li>
+
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
             <label class="hamburger-menu">
                 <input id="hamburger-menu-checkbox" type="checkbox" />
             </label>
@@ -34,43 +65,7 @@
                     <li class="nav-item">
                         <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
                         <div class="nav-link-hover absolute-center"></div>
-                    </li>
-                    <li class="nav-item nav-profile">
-                        <div class="transition absolute-center">
-                            <i class="fa-solid fa-user"></i>
-                        </div>                      
-                    </li>         
-                </ul>
-            </div>
-            <div class="nav-login-list">
-                <ul>
-                    @{
-                        if (Context.Session.GetString("UserId") != null)
-                        {
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-
-                        }
-                        
-                    }
-
+                    </li>  
                 </ul>
             </div>
         </nav>
