@@ -17,13 +17,13 @@
         <input asp-for="LoginModel.Password" type="password" class="form-control" placeholder="Password" />
         <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
 
-        <input type="submit" value="Sign In" class="btn btn-primary" />
+        <div class="button-container">
+            <input type="submit" value="Sign In" class="btn btn-primary" />
+            <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
+        </div>
 
         <a href="#" id="forgotBtn" class="forgot-password" style="display: @(ViewData.ModelState.IsValid ? "none" : "block");">Forgot Password?</a>
 
-        <div class="btn-row">
-            <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
-        </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     </form>
 
@@ -34,13 +34,16 @@
             <span id="brand-name">TAS PEAKS</span>
         </a>
 
-        <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Email" />
+        <h2>Forgot Password</h2>
+
+        <input asp-for="ForgotPasswordModel.Email" class="form-control" placeholder="Enter your Email" />
         <span asp-validation-for="ForgotPasswordModel.Email" class="text-danger"></span>
 
-        <div class="btn-col btn-row">
+        <div class="button-container">
             <input type="submit" value="Reset Password" class="btn btn-primary" />
             <input id="cancelForgot" type="button" value="Cancel" class="btn btn-secondary" />
         </div>
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     </form>
 </div>

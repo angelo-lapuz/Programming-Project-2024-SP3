@@ -30,30 +30,35 @@
 </body>
 
 <div class="container">
+
     <div id="awardsSection" class="col-md-3">
         <div class="headerSearchWrapper">
-        <h2>AWARDS  &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
+            <h2>AWARDS &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
         </div>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
         {
-                    <span>No awards</span>
+            <span>No awards</span>
         }
         else
         {
-                    <div class="awards-grid">
+            <div class="awards-grid">
                 @foreach (var award in ViewBag.Awards)
                 {
-                    string quantity = ExtractQuantity(award.Condition);
-                                    <div class="award-wrapper">
-                                        <div class="award-tile">
-                                            <div class="award-number">@quantity</div>
-                                        </div>
-                                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                                    </div>
+                    if (award.Name != "No peaks completed" && award.Name != "Student")
+                    {
+                        string quantity = ExtractQuantity(award.Condition);
+                        <div class="award-wrapper">
+                            <div class="award-tile">
+                                <div class="award-number">@quantity</div>
+                            </div>
+                            <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
+                        </div>
+                    }
                 }
-                    </div>
+            </div>
         }
     </div>
+
 
     <div id="userSection" class="col-md-3">
         <div class="user-info">
@@ -166,25 +171,13 @@
                     <td>158 Mountains Completed</td>
                 </tr>
             </table>
-    <div id="userSection" class="col-md-3">
-        <div class="user-info">
-            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
-            <h3>@ViewBag.UserName</h3>
-            <p>
-                User Details:<br />
-               UserName: @ViewBag.UserName<br />
-                Email: @ViewBag.Email<br />
-                Name: @ViewBag.Name <br />
-                Phone
-                Ables Completed: @ViewBag.TotalCompleted
-            </p>
-
-            <div class="user-actions">
-                <a href="/Profile/ChangePassword" class="btn btn-secondary">Change Password</a>
-                <a href="/Profile/EditDetails" class="btn btn-secondary">Edit Details</a>
             </div>
+<<<<<<< Updated upstream
         </div>
     </div>
+    </div>
+=======
+>>>>>>> Stashed changes
 
 
 
