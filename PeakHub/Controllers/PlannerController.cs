@@ -34,6 +34,7 @@ namespace PeakHub.Controllers {
                 }
             });
 
+
             var peaksTask = Task.Run(async () =>
             {
                 var getAllPeaksResponse = await _httpClient.GetAsync("api/Peaks");

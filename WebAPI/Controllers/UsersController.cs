@@ -70,7 +70,7 @@ public class UsersController : ControllerBase
 
         // generate reset token (.net Identity) andd the reset link for the user
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var resetLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/Login/ResetPassword?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+        var resetLink = $"https://localhost:7103/Login/ResetPassword?userId={user.Id}&token={Uri.EscapeDataString(token)}";
 
         // creating basic email body
         var emailBody = $@"<html>
@@ -85,26 +85,35 @@ public class UsersController : ControllerBase
         return Ok("Password reset link sent successfully.");
     }
 
-    // reset password is called by the link generated in the ForgotPassword method above 
     [HttpPost("ResetPassword")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
     {
-
-        // check that the user is valid from the model passed in
+        // Check that the user is valid from the model passed in
         var user = await _userManager.FindByIdAsync(model.UserId);
         if (user == null)
         {
             return BadRequest("User not found.");
         }
 
-        // reset the password using the token and the new password
+        // Validate the new password against the password constraints
+        var passwordValidationResult = await _userManager.PasswordValidators[0].ValidateAsync(_userManager, user, model.Password);
+        if (!passwordValidationResult.Succeeded)
+        {
+            foreach (var error in passwordValidationResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return BadRequest(ModelState);
+        }
+
+        // Reset the password using the token and the new password
         var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
         if (result.Succeeded)
         {
             return Ok("Password reset successfully.");
         }
 
-        // can occur if the url is corrupted or the token is invalid
+        // This can occur if the URL is corrupted or the token is invalid
         return BadRequest("Failed to reset password.");
     }
 
@@ -169,14 +178,18 @@ public class UsersController : ControllerBase
         return BadRequest(result.Errors);
     }
 
+    // changes the user to an admin 
     [HttpPost("ChangeToAdminRole")]
     public async Task<IActionResult> ChangeToAdminRole(string userId, string currentUserId)
     {
+        // gets user and current user
         var user = await _userManager.FindByIdAsync(userId);
         var currentUser = await _userManager.FindByIdAsync(currentUserId);
 
+        // checks that the current user is an admin
         var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
 
+        // if the current user is an admin make the desired user and admin, else return error
         if (isAdmin)
         {
             await _userManager.AddToRoleAsync(user, "ADMIN");
@@ -278,22 +291,40 @@ public class UsersController : ControllerBase
     }
 
     // called when the user is changing their password
+   
     [HttpPost("ChangePassword")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
     {
-        // get the user from the model passed in - change the password and return the result
-        var user =  await GetUser(model.ID);
-        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+        // Get the user from the model passed in
+        var user = await GetUser(model.ID);
+        if (user == null)
+        {
+            return BadRequest("User not found.");
+        }
 
+        // Validate the new password against the password constraints
+        var passwordValidationResult = await _userManager.PasswordValidators[0].ValidateAsync(_userManager, user, model.Password);
+        if (!passwordValidationResult.Succeeded)
+        {
+            foreach (var error in passwordValidationResult.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return BadRequest(ModelState);
+        }
+
+        // Change the password
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
         if (result.Succeeded)
         {
-            return Ok("Successfully changed password");
+            return Ok("Successfully changed password.");
         }
         else
         {
             return BadRequest(result.Errors);
         }
     }
+
 
     // DELETE api/Users/1
     // Deletes a specific User by ID

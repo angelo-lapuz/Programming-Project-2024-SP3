@@ -120,6 +120,19 @@ namespace PeakHub.Controllers
             {
                  return View("Confirm");
             }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errors = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(errorContent);
+
+                foreach (var error in errors)
+                {
+                    foreach (var errorMessage in error.Value)
+                    {
+                        ModelState.AddModelError(error.Key, errorMessage);
+                    }
+                }
+            }
 
             return View(model);
         }

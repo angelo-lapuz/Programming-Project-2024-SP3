@@ -22,7 +22,7 @@
         <a href="#" id="forgotBtn" class="forgot-password" style="display: @(ViewData.ModelState.IsValid ? "none" : "block");">Forgot Password?</a>
 
         <div class="btn-row">
-            <a href="@Url.Action("Create", "Signup")" class="btn btn-secondary">Sign Up</a>
+            <a href="@Url.Action("Create", "Signup")" class="btn btn-primary">Sign Up</a>
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     </form>

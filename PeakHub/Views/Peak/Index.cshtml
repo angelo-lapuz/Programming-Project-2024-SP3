@@ -1,8 +1,8 @@
 ﻿@{
     @using PeakHub.Models;
     @using Newtonsoft.Json;
-    Layout = "_Layout";
-    var tasks = JsonConvert.SerializeObject(ViewBag.Peaks);
+   
+    var peaks = JsonConvert.SerializeObject(ViewBag.Peaks);
     var peak = JsonConvert.SerializeObject(ViewBag.peak);
     if (ViewBag.user == null)
     {
@@ -23,6 +23,8 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="~/css/peak.css" asp-append-version="true" />
+
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
@@ -31,7 +33,7 @@
 <body>
 
     <script>
-        var peaksData = @Html.Raw(tasks);
+        var peaksData = @Html.Raw(peaks);
         var currentPeak = @Html.Raw(peak);
         var user = @ViewBag.user.ToString().ToLower();
     </script>
@@ -71,7 +73,7 @@
                     </div>
 
 
-                    <!-- New Slider for route lenght here Phi -->
+                    <!-- New Slider for route length here Phi -->
                     
                     <div id="filter-length-container">
                         <label for="filter-length"> Minimum route length</label>
@@ -143,10 +145,6 @@
         <button class="carosel-control right" onclick="nextImg()"> &#10095; </button>
         </div>
         
-  
-  
-
-
 
     <script src="~/js/Info.js"></script>
     <script src="~/js/map.js"></script>
