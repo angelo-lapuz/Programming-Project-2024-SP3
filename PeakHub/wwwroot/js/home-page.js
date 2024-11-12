@@ -49,6 +49,11 @@ function setHighRes() {
 
 }
 
+
+window.addEventListener('resize', function () {
+    setResStyles(window.innerWidth);
+});
+
 let vid = document.getElementById("bg-video");
 vid.playbackRate = 0.75;
 

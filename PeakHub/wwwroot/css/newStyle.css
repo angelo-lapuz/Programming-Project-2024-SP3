@@ -1693,7 +1693,9 @@ input[type="range"] {
         bottom: 0.4rem;
     }
 
-
+    #where-header span h2 {
+        bottom: -0.7rem;
+    }
 
     .home-3w-a div {
         width: 5rem;
