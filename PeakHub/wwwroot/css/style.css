@@ -213,3 +213,10 @@ html, body {
         background-color: #238458;
     }
 
+
+.general-info{
+    display: flex;
+    flex-direction:column;
+    row-gap: 50px;
+}
+
