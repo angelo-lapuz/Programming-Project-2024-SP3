@@ -19,8 +19,6 @@ function setResStyles(width) {
     }
 }
 
-
-
 var rootvar = document.querySelector(':root');
 var regions = document.querySelectorAll('.info-region-select');
 function setLowRes() {
@@ -49,12 +47,32 @@ function setHighRes() {
 
 }
 
+
+window.addEventListener('resize', function () {
+    setResStyles(window.innerWidth);
+});
+
 let vid = document.getElementById("bg-video");
 vid.playbackRate = 0.75;
 
 var regionSelect = document.getElementsByName('info-region');
 var infoRegionBtnList = document.querySelector('.info-region-ul');
 var whereRegions = document.querySelectorAll('.info-region-select label');
+
+
+window.addEventListener('scroll', function () {
+
+
+    if (window.scrollY > 300) {
+        document.querySelector('.to-top-btn').classList.add('show');
+    } else {
+        document.querySelector('.to-top-btn').classList.remove('show');
+    }
+
+});
+
+
+
 
 
 whereRegions.forEach((element, index) => {

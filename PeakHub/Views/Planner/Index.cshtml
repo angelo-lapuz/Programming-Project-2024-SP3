@@ -58,33 +58,21 @@
                 <div class="filter-options">
 
                     <div class="filter-selections absolute-center ">
+
                         <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
                         <span id="difficulty-value">Difficulty</span>
                         <input type="range" id="filter-elevation" min="1100" max="1600" step="100" value="0">
                         <span id="elevation-value">Elevation</span>
+                        <input type="range" id="filter-length-slider" min="0" max="25" step="1" value="0">
+                        <span id="filter-length-value">Min.Route </span>
+                        <!-- Slider container for adjusting radius (initially hidden) -->
+                        <div class="radius-slider-component">
+                            <button id="place-marker-btn" title="Click Marker > Click Map"><i class="fa-solid fa-person"></i></button>
+                            <input style="visibility:hidden;" type="range" id="radius-slider" min="1" max="50" value="0">
+                        </div>
+                        <span id="radius-value" style="visibility:hidden;">Radius</span>
                         <input type="text" id="search-name" placeholder="Enter Peak name">
                         <input type="hidden" id="filter-difficulty" />
-
-                        <button id="place-marker-btn">Place Marker</button>
-
-                        <!-- Slider container for adjusting radius (initially hidden) -->
-                        <div id="radius-slider-container" style="display:none;">
-                            <label for="radius-slider">Radius (km): </label>
-                            <input type="range" id="radius-slider" min="1" max="50" value="0">
-                            <span id="radius-value">10</span>
-                        </div>
-
-
-                        <!-- New Slider for route lenght here Phi -->
-
-                        <div id="filter-length-container">
-                            <label for="filter-length"> Minimum route length</label>
-                            <input type="range" id="filter-length-slider" min="0" max="50" step="1">
-                            <span id="filter-length-value">0 km </span>
-                        </div>
-
-
-
                         <button id="apply-filters" class="buttonB">Apply</button>
                     </div>
                     <div class="filter-results">
@@ -107,10 +95,17 @@
                     </div>
                     <div class="filter-open-overlay">
                         <div class="filter-overlay-sliders">1</div>
-                        <div class="filter-overlay-input">2</div>
-                        <p> To filter results use:</p>
-                        <p> 1 - Sliders</p>
-                        <p> 2 - Text input</p>
+                        <div class="filter-overlay-markerA">2a</div>
+                        <div class="filter-overlay-markerB">2b</div>
+                        <div class="filter-overlay-input">3</div>
+                        <p>To filter results use:</p>
+                        <p>1 - use Sliders</p>
+                        <p>or</p>
+                        <p>2a - Place Marker</p>
+                        <p>2b - use Radius Slider</p>
+                        <p>1 - use other Sliders</p>
+                        <p>or</p>
+                        <p> 3 - Name search</p>
                     </div>
                 </div>
             </div>

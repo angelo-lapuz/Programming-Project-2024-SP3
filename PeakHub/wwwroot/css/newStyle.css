@@ -242,11 +242,52 @@ body {
 }
 
 
+.nav-profile-list {
+    position: absolute;
+    right: 0;
+    top: 3rem;
+    color: white;
+    font-size: 2rem;
+    filter: drop-shadow(var(--shadow-down));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 100;
+}
+
+.nav-profile-list:hover .nav-login-list {
+    display: block;
+}
+
+.fa-user {
+    padding-right: 1.5rem;
+}
+
+.nav-login-list {
+    text-align: right;
+    font-size: 1.25rem;
+    display: none;
+}
+
+.nav-login-list ul {
+    list-style: none;
+    margin-top: 1rem;
+    overflow: hidden;
+    transition: all var(--animation-timing);
+}
+
+.nav-login-li {
+    padding: 0.5rem;
+    background: var(--grey-glass);
+    z-index: 100;
+
+}
+
 /* Hamburger icon styling */
 
 .hamburger-menu {
     position: absolute;
-    right: 5vw;
+    right: 5rem;
     bottom: 1rem;
     transform: translateY(-50%);
     display: flex;
@@ -271,7 +312,7 @@ body {
     height: 3px;
     background-color: white;
     transition: all var(--animation-timing);
-    box-shadow: 0px 2px 2px var(--black-glass-50);
+    box-shadow: var(--shadow-down);
 }
 
 .hamburger-menu input {
@@ -293,8 +334,7 @@ body {
 
 /* turns the 3 dashes to the X */
 .hamburger-menu input:checked {
-    rotate: 45deg;
-    transform: translate(-1.25rem, -0.4rem);
+    transform: rotate(45deg) translate(-1.25rem, -0.4rem);
     transform-origin: left;
     z-index: -1;
     box-shadow: 2px 2px 2px var(--black-glass-50);
@@ -353,28 +393,7 @@ body {
     width: 100%;
     margin: 0 auto;
     list-style: none;
-}
-
-.nav-login-list {
-    position: absolute;
-    top: 7rem;
-    right: 4%;
-    display: flex;
-    flex-direction: column;
-    width: 10rem;
-    height: auto;
     overflow: hidden;
-    transition: all var(--animation-timing);
-    border: 1px solid red;
-}
-
-.nav-login-list ul li {
-    text-align: right;
-}
-
-
-.nav-login-list.show {
-    height: 0;
 }
 
 .nav-item div .fa-user {
@@ -402,12 +421,19 @@ body {
     text-shadow: var(--shadow-down);
     display: block;
     z-index: 5;
-    letter-spacing: 0.25rem;
+    transition: all var(--animation-timing);
 }
 
-    .nav-link:hover {
-        color: var(--darkgreen);
-    }
+.nav-login-li .nav-link:hover {
+    font-size: 1.5rem;
+    
+}
+
+
+
+.nav-link:hover {
+    color: var(--red);
+}
 
 .nav-link-hover {
     width: 0%;
@@ -424,10 +450,133 @@ main {
     height: auto;
 }
 
+
+
+/* FOOTER */
+
+footer {
+    background: var(--lightgreen);
+}
+
+.footer-section {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    width: 100%;
+    grid-template-areas:
+        'logo'
+        'contact'
+        'links'
+        'social'
+        'acknowledgement'
+        'bottom';
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.footer-section * {
+    text-align: center;
+    color: var(--grey);
+}
+
+.footer-logo-section {
+    grid-area: logo;
+}
+
+#brand-name {
+    color: white;
+}
+
+.footer-logo-section .brand-logo-container {
+    left: 40%;
+    transform: translateX(-50%);
+}
+
+.footer-contact-section {
+    grid-area: contact;
+    line-height: 3rem;
+}
+
+.footer-links-section {
+    grid-area: links;
+    font-size: 1.5rem;
+}
+
+.footer-links-section ul li a{
+    line-height: 3rem;
+}
+
+.footer-links-section li {
+    list-style: none;
+}
+
+.footer-social-section {
+    grid-area:social;
+}
+
+.acknowledgement-section {
+    grid-area: acknowledgement;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.acknowledgement-section p {
+    text-align: left;
+}
+
+.flag-img-container {
+    width: 15rem;
+    height: auto;
+    margin: 0 auto;
+}
+
+.flag-img-container img {
+    width: 100%;
+}
+
+.footer-bottom {
+    grid-area: bottom;
+}
+
+.footer-bottom hr {
+    width: 90%;
+    border: 2px solid white;
+    margin: 0.5rem auto;  
+}
+
+.footer-bottom p:last-child {
+    font-size: 0.75rem;
+}
+
+.footer-logo-section {
+    width: 100%;
+    height: 8rem;
+    position: relative;
+}
+
+.footer-section h3 {
+    color: white;
+}
+
+.footer-links-section a:hover, .footer-contact-section a:hover, footer-social-section a:hover {
+    color: var(--yellow);
+}
+
+.footer-social-section a {
+    font-size: 4rem;
+    margin: 0 1rem;
+    filter: drop-shadow(var(--shadow-down));
+}
+
+.footer-social-section i:hover {
+    color: var(--yellow);
+}
+
+
+
 /*
     HOME PAGE 
-
-
 */
 
 #home-bg-parallax {
@@ -452,6 +601,11 @@ main {
     right: 10%;
     z-index: 10000;
     opacity: 50%;
+    display: none;
+}
+
+.to-top-btn.show {
+    display:block;
 }
 
 .to-top-btn:hover {
@@ -565,6 +719,7 @@ main {
 
 #what-container {
     position: relative;
+    min-height: 100vh;
     background: var(--grey);
     z-index: 100;
 }
@@ -668,6 +823,7 @@ main {
 #where-container {
     position: relative;
     background: var(--lightgreen);
+    min-height: 800px;
 }
 
 /* region info map section */
@@ -708,7 +864,7 @@ main {
 
 .info-regions-more {
     position: absolute;
-    bottom: 20%;
+    bottom: 20vh;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -856,14 +1012,15 @@ main {
 /* WHO section */
 
 #who-container {
+    display: block;
     position: relative;
-    height: 100vh;
+    min-height: auto;
     width: 100%;
     background: var(--lightgreen);
 }
 
 #who-absolute-layer {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 100;
@@ -1018,7 +1175,7 @@ main {
 }
 
 .filter-container.show {
-    height: 12rem;
+    height: 15.5rem;
 }
 
 .filter-options {
@@ -1027,7 +1184,7 @@ main {
     width: 95%;
     left: 50%;
     transform: translateX(-50%);
-    height: 10rem;
+    height: 14rem;
     background: var(--grey-glass);
     box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
     backdrop-filter: blur(3px);
@@ -1047,6 +1204,10 @@ main {
     gap: 1rem;
     font-weight: 600;
     padding: 0.5rem;
+}
+
+.radius-slider-component {
+    display: flex;
 }
 
 #filter-options > * {
@@ -1073,6 +1234,20 @@ main {
     box-shadow: none;
     border: 2px solid var(--darkgreen)
 }
+
+#place-marker-btn {
+    width: 3rem;
+    font-size: 1.5rem;
+    border-radius: 5555px;
+    box-shadow: var(--shadow-down);
+    margin-right: 0.25rem;
+}
+
+#place-marker-btn.click {
+    color: var(--grey);
+    background: var(--red);
+}
+
 
 /* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
 input[type="range"] {
@@ -1163,7 +1338,7 @@ input[type="range"] {
     display: initial;
 }
 
-.filter-overlay-sliders, .filter-overlay-input {
+.filter-overlay-sliders, .filter-overlay-input, .filter-overlay-markerA, .filter-overlay-markerB {
     position: absolute;
     right: 50%;
     border: 3px solid var(--darkgreen);
@@ -1173,11 +1348,21 @@ input[type="range"] {
 }
 
 .filter-overlay-sliders {
-    top: -10rem;
+    top: -14rem;
 }
 
 .filter-overlay-input {
     top: -5.5rem;
+}
+
+.filter-overlay-markerA {
+    top: -10.5rem;
+    right: 15rem;
+}
+
+.filter-overlay-markerB {
+    top: -9.5rem;
+    right: 8rem;
 }
 
 .filter-overlay-container .fa-arrow-up {
@@ -1671,10 +1856,13 @@ input[type="range"] {
         bottom: 0.4rem;
     }
 
-
+    #where-header span h2 {
+        bottom: -0.7rem;
+    }
 
     .home-3w-a div {
         width: 5rem;
+        line-height: 1.2;
     }
 
     /* button stretches on hover */
@@ -1691,7 +1879,7 @@ input[type="range"] {
         height: 5rem;
     }
 
-    .nav-link:hover {
+    .nav-item .nav-link:hover {
         font-size: 2.25rem;
     }
 
@@ -1714,6 +1902,13 @@ input[type="range"] {
         font-size: 1.5rem;
     }
 
+    .filter-container.show {
+        height: 18.5rem;
+    }
+
+    .filter-options {
+        height: 17rem;
+    }
 
     .route-overlay-buttons {
 
@@ -1731,6 +1926,13 @@ input[type="range"] {
     .route-overlay-B {
         top: 2rem;
         right: 1rem;
+    }
+}
+
+
+@media only screen and (max-height:800px) {
+    .info-regions-more {
+        bottom: 5vh;
     }
 }
 
@@ -1755,6 +1957,7 @@ input[type="range"] {
         width: 50%;
         height: var(--navbar-height-s);
         top: 0;
+        margin-right: 4rem;
         display: flex;
         flex-direction: row;
         float: right;
@@ -1767,19 +1970,39 @@ input[type="range"] {
     .nav-link {
         letter-spacing: 0rem;
         width: 100%;
-        transition: all 0.5s ease-out;
+        transition: all var(--animation-timing);
     }
 
-    .nav-link:hover {
+    .nav-item .nav-link:hover {
         color: white;
         font-size: 2rem;
         border-bottom: 5px solid white;
         box-shadow: 0px 3px 0px var(--black-glass-50);
     }
 
+
     .nav-link-hover {
         display: none;
     }
+
+    .footer-section {
+        grid-template-areas:
+            'logo links'
+            'contact links'
+            'contact social'
+            'acknowledgement acknowledgement'
+            'bottom bottom';
+    }
+
+    .acknowledgement-section {
+        flex-direction: row;
+    }
+
+    .flag-img-container {
+        width: 20rem;
+        margin: 0.5rem 1rem 0 0;
+    }
+
 
     .info-abels-grid {
         grid-template-areas:
@@ -1860,10 +2083,6 @@ input[type="range"] {
         margin: 0 auto;
     }
 
-    .info-regions-more {
-        bottom: 20%;
-    }
-
     .region-left {
         left: calc(50% - 19rem);
     }
@@ -1912,6 +2131,7 @@ input[type="range"] {
         rotate: -90deg;
     }
 
+
     .filter-container.show {
         width: 25rem;
         height: calc(100% - 17rem);
@@ -1922,6 +2142,9 @@ input[type="range"] {
         height: auto;
         grid-template-columns: 90%;
         color: var(--darkgreen);
+        font-size: 1rem;
+        line-height: 1.5rem;
+        gap: 0.25rem;
     }
 
 
@@ -1950,8 +2173,28 @@ input[type="range"] {
         right: -8rem;
     }
 
+    .filter-overlay-markerA {
+        top: -2rem;
+        right: -7rem;
+    }
+
+    .filter-overlay-markerB {
+        top: -1rem;
+        right: -15rem;
+    }
+
+    #search-name {
+        font-size: 1rem;
+    }
+
+    #apply-filters {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+    }
+
+
     .filter-overlay-input {
-        top: 1rem;
+        top: 2rem;
         right: -8rem;
     }
 
@@ -1998,9 +2241,9 @@ input[type="range"] {
         border-radius: 10rem 10rem 0 0;
     }
 
-    navbar-links a, a:visited {
+/*    navbar-links a, a:visited {
         color: var(--grey);
-    }
+    }*/
 
     navbar-links a:hover {
         display: block;
@@ -2066,9 +2309,6 @@ input[type="range"] {
         transform: translateX(50px);
     }
 
-    .info-regions-more {
-        bottom: 20%;
-    }
 
     .info-region-selector {
         width: 25%;
