@@ -75,7 +75,10 @@ if (elevationSlider) {
     });
 }
 
+//document.getElementById('place-marker-btn').addEventListener('click', function () {
+//    document.getElementById('place-marker-btn').classList.toggle('click');
 
+//});
 
 
 var infoToggle = document.querySelector('.info-toggle');

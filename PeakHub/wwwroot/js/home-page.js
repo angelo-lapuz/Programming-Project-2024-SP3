@@ -19,8 +19,6 @@ function setResStyles(width) {
     }
 }
 
-
-
 var rootvar = document.querySelector(':root');
 var regions = document.querySelectorAll('.info-region-select');
 function setLowRes() {
@@ -65,7 +63,7 @@ var whereRegions = document.querySelectorAll('.info-region-select label');
 window.addEventListener('scroll', function () {
 
 
-    if (window.scrollY > 100) {
+    if (window.scrollY > 300) {
         document.querySelector('.to-top-btn').classList.add('show');
     } else {
         document.querySelector('.to-top-btn').classList.remove('show');

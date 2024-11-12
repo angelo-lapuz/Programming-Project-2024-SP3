@@ -1040,7 +1040,7 @@ main {
 }
 
 .filter-container.show {
-    height: 12rem;
+    height: 15.5rem;
 }
 
 .filter-options {
@@ -1049,7 +1049,7 @@ main {
     width: 95%;
     left: 50%;
     transform: translateX(-50%);
-    height: 10rem;
+    height: 14rem;
     background: var(--grey-glass);
     box-shadow: 0 4px 20px rgba(0, 0, 100, 0.2);
     backdrop-filter: blur(3px);
@@ -1069,6 +1069,10 @@ main {
     gap: 1rem;
     font-weight: 600;
     padding: 0.5rem;
+}
+
+.radius-slider-component {
+    display: flex;
 }
 
 #filter-options > * {
@@ -1095,6 +1099,20 @@ main {
     box-shadow: none;
     border: 2px solid var(--darkgreen)
 }
+
+#place-marker-btn {
+    width: 3rem;
+    font-size: 1.5rem;
+    border-radius: 5555px;
+    box-shadow: var(--shadow-down);
+    margin-right: 0.25rem;
+}
+
+#place-marker-btn.click {
+    color: var(--grey);
+    background: var(--red);
+}
+
 
 /* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
 input[type="range"] {
@@ -1185,7 +1203,7 @@ input[type="range"] {
     display: initial;
 }
 
-.filter-overlay-sliders, .filter-overlay-input {
+.filter-overlay-sliders, .filter-overlay-input, .filter-overlay-markerA, .filter-overlay-markerB {
     position: absolute;
     right: 50%;
     border: 3px solid var(--darkgreen);
@@ -1195,11 +1213,21 @@ input[type="range"] {
 }
 
 .filter-overlay-sliders {
-    top: -10rem;
+    top: -14rem;
 }
 
 .filter-overlay-input {
     top: -5.5rem;
+}
+
+.filter-overlay-markerA {
+    top: -10.5rem;
+    right: 15rem;
+}
+
+.filter-overlay-markerB {
+    top: -9.5rem;
+    right: 8rem;
 }
 
 .filter-overlay-container .fa-arrow-up {
@@ -1739,6 +1767,13 @@ input[type="range"] {
         font-size: 1.5rem;
     }
 
+    .filter-container.show {
+        height: 18.5rem;
+    }
+
+    .filter-options {
+        height: 17rem;
+    }
 
     .route-overlay-buttons {
 
@@ -1946,6 +1981,7 @@ input[type="range"] {
         rotate: -90deg;
     }
 
+
     .filter-container.show {
         width: 25rem;
         height: calc(100% - 17rem);
@@ -1956,6 +1992,9 @@ input[type="range"] {
         height: auto;
         grid-template-columns: 90%;
         color: var(--darkgreen);
+        font-size: 1rem;
+        line-height: 1.5rem;
+        gap: 0.25rem;
     }
 
 
@@ -1984,8 +2023,28 @@ input[type="range"] {
         right: -8rem;
     }
 
+    .filter-overlay-markerA {
+        top: -2rem;
+        right: -7rem;
+    }
+
+    .filter-overlay-markerB {
+        top: -1rem;
+        right: -15rem;
+    }
+
+    #search-name {
+        font-size: 1rem;
+    }
+
+    #apply-filters {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+    }
+
+
     .filter-overlay-input {
-        top: 1rem;
+        top: 2rem;
         right: -8rem;
     }
 

@@ -38,7 +38,7 @@ var routeBox = document.getElementById('route-box');
 // Reference marker and slider elements
 var placeMarkerBtn = document.getElementById('place-marker-btn');
 var radiusSlider = document.getElementById('radius-slider');
-var radiusSliderContainer = document.getElementById('radius-slider-container');
+//var radiusSliderContainer = document.getElementById('radius-slider-container');
 var radiusValueDisplay = document.getElementById('radius-value');
 var routeLengthSlider = document.getElementById('filter-length-slider');
 var routeLengthDisplay = document.getElementById('filter-length-value');
@@ -61,13 +61,17 @@ radiusSlider.addEventListener('input', function () {
 
 //even listener for the route lengthh slider - used to determine the minimum length of peak routes
 routeLengthSlider.addEventListener('input', function () {
-    routeLengthDisplay.textContent = routeLengthSlider.value + 'km';
+    routeLengthDisplay.textContent = routeLengthSlider.value + ' km';
     applyFilters();
 });
 
 
 // Event listener for the "Place Marker" button - used when making the radius for 'pekas in range' feature
 placeMarkerBtn.addEventListener('click', function () {
+
+    if (isPlacingMarker === false) {
+        placeMarkerBtn.classList.toggle('click');
+    }
     // Enable marker placement mode
     isPlacingMarker = true;
     removePopups();
@@ -89,6 +93,8 @@ map.on('click', function (e) {
 
     // if the user is placing a marker 
     if (isPlacingMarker) {
+
+        placeMarkerBtn.classList.toggle('click');
         var latlng = e.latlng;
         
         // Remove any existing marker and circle
@@ -109,7 +115,8 @@ map.on('click', function (e) {
         userMarker = L.marker(latlng,{ icon: Icon}).addTo(map);
 
         // Show the slider for radius adjustment
-        radiusSliderContainer.style.display = 'block';
+        radiusSlider.style.visibility = 'visible';
+        document.getElementById('radius-value').style.visibility = 'visible';
 
         // Initial filter for peaks within the default radius
         filterPeaksWithinRadius(latlng, radiusSlider.value);
@@ -313,7 +320,7 @@ map.on('click', function (event) {
 // disables the route box if user is not logged in
 function checkUser() {
     if (!user) {
-        document.querySelector('.route-container').style.display = 'none';
+        document.getElementById('route-toggle-checkbox').disabled = 'true';
     }
     
 }
