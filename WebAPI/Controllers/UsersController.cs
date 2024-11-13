@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using WebAPI.Models;
 using WebAPI.Models.DataManager;
-using WebAPI.ViewModels;
 using WebAPI.Utilities;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+using WebAPI.ViewModels;
 
 
 
@@ -24,7 +23,7 @@ public class UsersController : ControllerBase
     private readonly SignInManager<User> _signInManager;
     private readonly EmailSender _emailSender;
 
-    public UsersController( CustomUserManager repo, ILogger<UsersController> logger, UserManager<User> userManager, EmailSender emailSender, SignInManager<User> signInManager)
+    public UsersController(CustomUserManager repo, ILogger<UsersController> logger, UserManager<User> userManager, EmailSender emailSender, SignInManager<User> signInManager)
     {
 
         _repo = repo;
@@ -120,7 +119,7 @@ public class UsersController : ControllerBase
 
     // called when creating a new user from the front end
     [HttpPost("Create")]
-    public async Task<IActionResult> Create([FromBody] RegisterViewModel model) 
+    public async Task<IActionResult> Create([FromBody] RegisterViewModel model)
     {
         // ensuring viewmodel is valid - returning error, should never happen but helps against malformed requests
         if (model == null || !ModelState.IsValid)
@@ -161,7 +160,7 @@ public class UsersController : ControllerBase
             var base64Token = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(token));
 
             // creating the callback url the user must click to confirm their email
-            var confirmationLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
+            var confirmationLink = $"https://localhost:7103/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
             // creating the email
             var emailBody = $@"
             <html>
@@ -174,7 +173,7 @@ public class UsersController : ControllerBase
             // sending the email to the user returning the confirmation of successful account creation
             await _emailSender.SendEmailAsync(user.Email, "Confirm your Email", emailBody);
             return Ok("User created successfully. Please check your email for confirmation.");
-        }   
+        }
         return BadRequest(result.Errors);
     }
 
@@ -246,9 +245,9 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> ConfirmEmail(string userId, string token)
     {
         // get the user by the id passed in
-        var user = await _userManager.FindByIdAsync(userId); 
+        var user = await _userManager.FindByIdAsync(userId);
         // if user hasn't been found 
-        if (user == null) 
+        if (user == null)
         {
             return NotFound($"User with ID '{userId}' not found.");
         }
@@ -256,7 +255,7 @@ public class UsersController : ControllerBase
         // decode the token and confirm the email return the appropriate response
         var decodedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
         var result = await _userManager.ConfirmEmailAsync(user, Uri.UnescapeDataString(decodedToken));
-        if (result.Succeeded) 
+        if (result.Succeeded)
         {
             return Ok("Email confirmed successfully.");
         }
@@ -272,7 +271,7 @@ public class UsersController : ControllerBase
         var usernameExists = await _userManager.FindByNameAsync(username) != null;
         var emailExists = await _userManager.FindByEmailAsync(email) != null;
 
-        return Ok(new { UsernameExists = usernameExists, EmailExists = emailExists });   
+        return Ok(new { UsernameExists = usernameExists, EmailExists = emailExists });
     }
 
 
@@ -291,7 +290,7 @@ public class UsersController : ControllerBase
     }
 
     // called when the user is changing their password
-   
+
     [HttpPost("ChangePassword")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
     {
@@ -350,7 +349,7 @@ public class UsersController : ControllerBase
     [HttpPost("DeleteUsers")]
     public void DeleteUsers(List<string> ids)
     {
-         _repo.DeleteAll(ids);
+        _repo.DeleteAll(ids);
     }
 
     // POST api/users/logout
@@ -371,7 +370,7 @@ public class UsersController : ControllerBase
 
     // Checks Users role by using UserManager
     [HttpGet("CheckUserRole/{roleType}/{userName}")]
-    public async Task<bool> CheckUserRole(string roleType , string userName)
+    public async Task<bool> CheckUserRole(string roleType, string userName)
     {
         var user = GetUserByUserManager(userName);
         return await _userManager.IsInRoleAsync(await user, roleType);
