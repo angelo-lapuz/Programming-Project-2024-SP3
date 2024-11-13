@@ -462,7 +462,7 @@ saveBtn.addEventListener('click', function () {
     // checks that there is an existing polyline to save
     if (polylines.length > 0) {
 
-        /// getting the coordinates of the route to be saved
+        // getting the coordinates of the route to be saved
         var routeData = polylines.map(polyline => polyline.getLatLngs());
 
         // Send the route data to the Planner Controller (not webAPI)
@@ -474,7 +474,6 @@ saveBtn.addEventListener('click', function () {
             // as route data is an array of arrays, it needs to be stringified back into JSON 
             body: JSON.stringify({ route: routeData })
         })
-            // getting the response from the /Planner/SaveRoute endpoint
             .then(response => {
 
                 // checking if the response is ok (could be Unauthorized, Forbidden, etc.)
@@ -483,7 +482,8 @@ saveBtn.addEventListener('click', function () {
                     return response.json().then(data => {
                         throw new Error(data.error || 'Failed to save route');
                     });
-                }// Parse the response as JSON
+                }
+                // Parse the response as JSON
                 return response.json();
             })
             .then(data => {
@@ -491,8 +491,16 @@ saveBtn.addEventListener('click', function () {
                 if (data.ok) {
                     alert("Route saved successfully");
 
-                    // Add the newly saved route to the userRoutes array
-                    userRoutes.push(JSON.stringify(routeData)); 
+                    // formatting the route so it can be displayed instantly 
+                    const formattedRouteData = JSON.stringify(routeData.map(route =>
+                        route.map(point => ({
+                            Lat: point.lat,
+                            Lng: point.lng
+                        }))
+                    ));
+
+                    // Add the newly saved formatted route to the userRoutes array
+                    userRoutes.push(formattedRouteData);
 
                     // Clear all existing route boxes/spans
                     clearRouteBoxes();
@@ -739,29 +747,32 @@ function interpolatePoints(startLatLng, endLatLng, numPoints) {
 
 // gets the elevation from open-elevation in a batch (all data at once)
 async function getElevationsBatch(locations) {
+    const chunkSize = 10; // Adjust based on API limits, such as 10 coordinates per request
+    let elevations = [];
 
-    // mapping the location paramaters to be in the correct format for batch requesting
-    const locationParams = locations.map(({ lat, lng }) => `${lat},${lng}`).join('|');
+    // Split locations into smaller chunks
+    for (let i = 0; i < locations.length; i += chunkSize) {
+        const locationChunk = locations.slice(i, i + chunkSize);
+        const locationParams = locationChunk.map(({ lat, lng }) => `${lat},${lng}`).join('|');
+        const url = `https://api.open-elevation.com/api/v1/lookup?locations=${locationParams}`;
 
-    // open-elevation api url
-    const url = `https://api.open-elevation.com/api/v1/lookup?locations=${locationParams}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
 
-    try {
-        // getting response form api call
-        const response = await fetch(url);
-        const data = await response.json();
-
-        //mapping data if call was successful otherwise return empty array, display error
-        if (data && data.results) {
-            return data.results.map(result => result.elevation);
-        } else {
-            console.error('No elevation data available');
-            return Array(locations.length).fill(null);
+            if (data && data.results) {
+                elevations = elevations.concat(data.results.map(result => result.elevation));
+            } else {
+                console.error('No elevation data available for chunk:', i / chunkSize + 1);
+                elevations = elevations.concat(Array(locationChunk.length).fill(null)); // Fallback if no data
+            }
+        } catch (error) {
+            console.error('Error fetching elevation data for chunk:', i / chunkSize + 1, error);
+            elevations = elevations.concat(Array(locationChunk.length).fill(null)); // Fallback if request fails
         }
-    } catch (error) {
-        console.error('Error in batch fetching elevation data:', error);
-        return Array(locations.length).fill(null);
     }
+
+    return elevations;
 }
 
 // function draws the elevation chart from an array of elevations
