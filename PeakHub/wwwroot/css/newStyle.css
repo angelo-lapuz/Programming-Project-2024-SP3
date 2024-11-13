@@ -455,7 +455,7 @@ main {
 /* FOOTER */
 
 footer {
-    background: var(--lightgreen);
+    background: linear-gradient(var(--darkgreen), var(--lightgreen) 15%);
 }
 
 .footer-section {
@@ -702,7 +702,7 @@ footer {
     position: relative;
     height: var(--who-what-where);
     width: 100%;
-    background: var(--lightgreen);
+    background: linear-gradient(to bottom, var(--lightgreen), var(--darkgreen));
 }
 
 #what-header span, #who-header span, #where-header span {
@@ -806,15 +806,14 @@ footer {
 }
 
 #where-header span {
-    color: var(--lightgreen);
+    color: var(--darkgreen);
     width: 100%;
-
     text-align: center;
 }
 
 #where-container {
     position: relative;
-    background: var(--lightgreen);
+    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 15%);
     min-height: 800px;
 }
 
