@@ -1,9 +1,13 @@
 ﻿@{ ViewData["Title"] = "Boards"; }
+
 <link rel="stylesheet" href="~/css/_forum.css" asp-append-version="true" />
 
 <div id="boardContent">
-    <p id="loadMsg">Looking for More...  Please Wait</p>
-    <input type="text" id="searchInput" placeholder="Search by Name or Section" />
+    <div class="header">
+        <input type="text" id="searchInput" placeholder="Search by Name or Section" />
+        <i id="searchIcon" class="fas fa-search"></i>
+    </div>
+
     <div class="content" id="listOfBoards"> </div>
 </div>
 

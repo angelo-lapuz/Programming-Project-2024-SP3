@@ -1,169 +1,166 @@
-﻿// -------------------------------------------------------------------------------- //
-import { getPresignedURL, filePreview } from '../s3Upload.js';
-
-// Setup Quill.JS
-var quill = new Quill('#editor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'align': [] }],
-            [{ 'color': [] }, { 'background': [] }]
-        ]
-    }
-});
-
-quill.on('text-change', function () {
-    toggleSubmitBtn();
-    var text = quill.getText().trim();
-    $('#charCount').text(`Characters: [${text.length}]`);
+﻿// Cancel Add Post
+$("#cancelPost").on("click", function () {
+    window.location.href = `/Forum/Index?boardID=${ $("#boardID").val() }`;
 });
 
 // Toggle 'Submit' Button on and off
 function toggleSubmitBtn() {
+    var content = $("#addPostContent").val().trim();
     var media = $("#addPostMedia")[0].files.length > 0;
+    var btn = $("#addPostSubmit");
 
-    var content = quill.root.innerHTML.trim();
-    var isContentEmpty = content === '<p><br></p>' || content.length === 0;
-
-    $("#addPostSubmit").toggleClass("deactivate", isContentEmpty && !media);
+    btn.toggleClass("deactivate", content === '' && !media);
 }
 
-// -------------------------------------------------------------------------------- //
-// Cancel Add Post
-$("#cancelPost").on("click", function () {
-    window.location.href = `/Forum/${ $("#boardID").val() }`;
-});
+// Generate File Preview
+function filePreview(file) {
+    const reader = new FileReader();
 
-// -------------------------------------------------------------------------------- //
-// Drag 'n' Drop
-$("#uploadArea").on("dragover", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).addClass("drag-over");
-});
-$("#uploadArea").on("dragleave", function () {
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).removeClass("drag-over");
-});
-
-$("#uploadArea").on("drop", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).removeClass("drag-over");
-
-    const file = e.originalEvent.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-        $("#addPostMedia")[0].files = e.originalEvent.dataTransfer.files;
-        $("#errorMsg").text("").hide();
-
-        filePreview(file);
-        toggleSubmitBtn();
-    } else {
-        $("#errorMsg").text("Invalid file type. Only images are allowed.").show();
+    reader.onload = function (e) {
+        $("#mediaView").html(`<img src="${e.target.result}" alt="Image Preview" />`).show();
     }
-});
 
-// -------------------------------------------------------------------------------- //
+    reader.readAsDataURL(file);
+}
+
+// Toggle 'Submit' on content
+$("#addPostContent").on("keyup", toggleSubmitBtn);
+
 // Preview File then Toggle 'Submit' on content
 $("#addPostMedia").on("change", function () {
     const file = $(this)[0].files[0];
 
     if (file) {
-        if (file.size > 20 * 1024 * 1024) {
-            $("#errorMsg").text("File size exceeds 20 MB").show();
-            $(this).val('');
-            return;
-        }
-        if (!file.type.startsWith('image/')) {
-            $("#errorMsg").text("Invalid file type. Only images allowed").show();
-            $(this).val('');
-            return;
-        }
-
         filePreview(file);
-        toggleSubmitBtn();
-        $("#errorMsg").hide();
+        $("#addMediaFile").addClass("deactivate");
+        $("#removeMediaFile").removeClass("deactivate");
     }
+
+    toggleSubmitBtn();
 });
+
+// Allows User to select file [img for now [TEMP]]
+$("#addMediaFile").on("click", function () { $("#addPostMedia").click(); });
 
 // Removes selected file 
 $("#removeMediaFile").on("click", function () {
     $("#addPostMedia").val('');
     $("#mediaView").hide().empty();
 
+    $("#removeMediaFile").addClass("deactivate");
+    $("#addMediaFile").removeClass("deactivate");
+
     toggleSubmitBtn();
 });
 
 // -------------------------------------------------------------------------------- //
-// Submit to DB
-async function submitPost(boardID, content, media, mediaType) {
-    try {
-        const response = await $.ajax({
-            url: "AddPost/CreatePost",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                BoardID: boardID,
-                Content: content,
-                Media: media,
-                MediaType: mediaType
-            })
-        });
 
-        if (response.success) { window.location.href = `/Forum/${response.boardID}`; }
-        else {
-            $("#errorMsg").show().text(response.message);
-            throw new Error(response.message);
+// Upload File to S3 
+function uploadFile(key, url, file, callback) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("PUT", url, true);
+    xhr.setRequestHeader("Content-Type", file.type);
+
+    $("#progressContainer").show();
+
+    xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            $("#progressBar").val(percentComplete);
         }
     }
-    catch (xhr) {
-        if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON.error) {
-            $("#errorMsg").text(xhr.responseJSON.error).show();
+
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            callback(`https://peakhub-post-content.s3.amazonaws.com/${key}`);
         } else {
-            console.error(`Error: [${xhr.status}] - ${xhr.statusText}`);
+            callback(null);
         }
-
-        $("#removeMediaFile").removeClass("deactivate");
-        $("#addMediaFile").removeClass("deactivate");
-        $("#cancelPost").removeClass("deactivate");
-        toggleSubmitBtn();
-        throw xhr;
     }
+
+    xhr.onerror = function () { alert("An Error Occured"); }
+    xhr.send(file);
+}
+
+// Submit to DB
+function submitPost(boardID, content, media = "NULL", mediaType = "NULL") {
+    $.ajax({
+        url: "AddPost/CreatePost",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            BoardID: boardID,
+            Content: content,
+            Media: media,
+            MediaType: mediaType
+        }),
+        success: function (response) {
+            if (response.success) {
+                window.location.href = `/Forum/Index?boardID=${response.boardID}`;
+            } else {
+                $("#errorMsg").show().text(response.message);
+            }
+        },
+        error: function (xhr) {
+            // Set Error
+            if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON.error) {
+                $("#errorMsg").text(xhr.responseJSON.error).show();
+            } else {
+                console.log(`Error: [${xhr.status}] - ${xhr.statusText}`);
+            }
+
+            // Enable Buttons
+            if (Media != null) {
+                $("#removeMediaFile").removeClass("deactivate");
+            } else {
+                $("#addMediaFile").removeClass("deactivate");
+            }
+
+            $("#cancelPost").removeClass("deactivate");
+            toggleSubmitBtn();
+        }
+    });
 }
 
 // Handle Form Submit
-$("#addContent").on("submit", async function (e) {
+$("#createPost").on("submit", function (e) {
     e.preventDefault();
 
     $("#errorMsg").text('').hide();
     $("button").addClass("deactivate");
 
-    let media = "NULL", mediaType = "NULL";
-
     const boardID = $("#boardID").val();
     const file = $("#addPostMedia")[0].files[0];
-    const content = quill.root.innerHTML.trim();
-    const sanitizedContent = content === '' ? "NULL" : content;
+    const content = $("#addPostContent").val().trim();
+    const sanitizedContent = (content === null || content === '') ? "NULL" : content;
 
-    try {
-        if (file) {
-            media = await getPresignedURL(boardID, file, "AddPost");
-            mediaType = file.type;
-        }
+    if (file) {
+        const fileType = file.type || "application/octet-stream";
 
-        await submitPost(boardID, sanitizedContent, media, mediaType);
+        $.ajax({
+            url: "/AddPost/GetPresignedURL",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ BoardID: boardID, FileType: fileType }),
+            success: function (response) {
+                if (response.success) {
+                    uploadFile(response.key, response.url, file, function (url) {
+                        if (url) {
+                            console.log(`Upload Complete: [${url}]`);
+                            submitPost(boardID, sanitizedContent, url, response.type);
+                        }
+                        else { console.log("Upload Error!"); }
+                    });
+                }
+                else {
+                    console.log(`Signed URL Error: [${response.message}]`);
+                }
+            },
+            error: function (response) {
+                console.log(`Get URL Error: [${response.message}]`);
+            }
+        });
     }
-    catch (error) {
-        $("#removeMediaFile").removeClass("deactivate");
-        $("#cancelPost").removeClass("deactivate");
-        toggleSubmitBtn();
-
-        console.log(`Error During Upload: ${error}`);
-        $("#errorMsg").show().text("An error occurred during the upload.");
-    }
+    else { submitPost(boardID, sanitizedContent); }
 });

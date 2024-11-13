@@ -5,10 +5,14 @@ using PeakHub.ViewModels.Forum;
 using Amazon.S3;
 using Amazon.S3.Model;
 using System.ComponentModel.DataAnnotations;
-using PeakHub.ViewModels;
 
 namespace PeakHub.Controllers {
     // -------------------------------------------------------------------------------- //
+    public class SignedURLRequestData {
+        public string BoardID { get; set; }
+        public string FileType { get; set; }
+    }
+
     public class AddPostRequestData {
         [Required] public string BoardID { get; set; }
         public string Content { get; set; }
@@ -58,8 +62,8 @@ namespace PeakHub.Controllers {
         }
         // -------------------------------------------------------------------------------- //
         [HttpPost]
-        public IActionResult GetPresignedURL([FromBody] PresignedURLDataModel data) {
-            string boardID = data.ID, fileType = data.FileType;
+        public IActionResult GetPresignedURL([FromBody] SignedURLRequestData data) {
+            string boardID = data.BoardID, fileType = data.FileType;
 
             Console.WriteLine("SignedURL START");
             Console.WriteLine($"Board = [{boardID}] | File Type = [{fileType}]");
