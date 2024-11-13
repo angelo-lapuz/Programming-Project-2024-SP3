@@ -2549,6 +2549,14 @@ input[type="range"] {
     z-index: 2;
 }
 
+.awards-grid-container {
+    width: 100%;
+    max-height: calc(100% - 60px); 
+    overflow-y: auto;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 2) 5%);
+    scrollbar-width: none; 
+}
+
 /* Completed Section */
 #completedAbelsSection {
     display: flex;
@@ -2617,7 +2625,7 @@ input[type="range"] {
 .itemBox.grey-scale {
     filter: grayscale(100%);
     background: #d3d3d3;
-    color: #a9a9a9;
+    color: dimgrey;
     border: 1.5px solid #888888;
 }
 
@@ -2649,7 +2657,9 @@ input[type="range"] {
         border: 0.5px solid black;
         background: rgba(255, 255, 255, 0.7);
         font-size: 1rem;
+        text-align: center; 
     }
+
 
 #boardItems::-webkit-scrollbar {
     display: none;
@@ -2894,14 +2904,12 @@ input[type="range"] {
     font-family: "Roboto", sans-serif;
 }
 
-#awardsSection h2,
-#completedAbelsSection h2 {
+#awardsSection h2{
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
-    #awardsSection h2:hover,
-    #completedAbelsSection h2:hover {
+    #awardsSection h2:hover{
         color: var(--red);
         text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
     }
