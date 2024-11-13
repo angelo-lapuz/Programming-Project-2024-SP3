@@ -189,7 +189,7 @@ public class UsersController : ControllerBase
         // checks that the current user is an admin
         var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
 
-        // if the current user is an admin make the desired user and admin, else return error
+        // if the current user is an admin make the desired user and admin, elk
         if (isAdmin)
         {
             await _userManager.AddToRoleAsync(user, "ADMIN");

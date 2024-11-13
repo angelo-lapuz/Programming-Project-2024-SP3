@@ -104,6 +104,7 @@ h2 {
     display: none;
     opacity: 0;
     transition: opacity 0.5s ease, width 0.5s ease;
+    background-color: var(--grey-glass);
 }
 
 /* Adjust the logo size */
@@ -137,16 +138,28 @@ input[type="text"], input[type="password"], input[type="email"] {
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: Black;
+    background-color: rgba(255, 255, 255, 0.1) !important; 
+    color: black !important;
     text-align: center;
 }
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
         outline: none;
         border: 1px solid rgba(255, 255, 255, 0.9);
-        background-color: rgba(255, 255, 255, 0.2);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.1) !important; 
+        color: black !important;
+    }
+
+    /* Override browser autofill styling */
+    input[type="text"]:-webkit-autofill,
+    input[type="password"]:-webkit-autofill,
+    input[type="email"]:-webkit-autofill {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset !important;
+        color: black !important;
+        font-size: 1rem;
+        transition: background-color 5000s ease-in-out 0s;
     }
 
 /* Adjust Button Layout */

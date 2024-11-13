@@ -42,6 +42,7 @@ var radiusSliderContainer = document.getElementById('radius-slider-container');
 var radiusValueDisplay = document.getElementById('radius-value');
 var routeLengthSlider = document.getElementById('filter-length-slider');
 var routeLengthDisplay = document.getElementById('filter-length-value');
+var infoBtn = document.getElementById('info-button')
 
 // used to determine if the user has placed a marker, or is in the process of placing one to prevent issues with other
 // functions
@@ -265,23 +266,62 @@ if (window.location.href.includes("Peak/Index/")) {
     }
 
     // removing the route drawing functionality
-    drawRouteBtn.disabled = true;
-    undoBtn.disabled = true;
-    finishBtn.disabled = true;
-    clearBtn.disabled = true;
+   
     routeBox.disabled = true;
-
+    
     // removing the route drawing functionality
 
     document.querySelector('.filter-container').style.display = 'none';
     document.querySelector('.sections-container').style.display = 'none';
     document.querySelector('.routeList-container').style.display = 'none';
-    document.querySelector('.route-container').style.display = 'none';
+    document.querySelector('.info-button').style.display = 'none';
+    document.querySelector('.plannerBtns').style.display = 'none';
+    document.querySelector('.route-toggle').style.display = 'none';
+
 
     // ddrawing the peak/s for this particular peak
     drawRoute(currentPeak.Routes);
-    
-    
+    let formattedCoords = [];
+    let routeCoords = currentPeak.Routes;
+
+    // Step 1: Parse routeCoords if it's a JSON string
+    if (typeof routeCoords === 'string') {
+        try {
+            routeCoords = JSON.parse(routeCoords);
+        } catch (error) {
+            console.error("Error parsing routeCoords:", error);
+        }
+    }
+
+    // Step 2: Check if routeCoords is an array of objects with lat/lng properties
+    if (Array.isArray(routeCoords) && routeCoords.every(point => point.lat !== undefined && point.lng !== undefined)) {
+        // Map each point to ensure it has lat and lng as numbers
+        formattedCoords = routeCoords.map(point => ({
+            lat: parseFloat(point.lat || point.Lat),
+            lng: parseFloat(point.lng || point.Lng)
+        }));
+    } else {
+        console.error("Unexpected structure for routeCoords after parsing:", routeCoords);
+    }
+
+    // Step 3: Log the formatted coordinates for debugging
+    console.log("Final formattedCoords:", formattedCoords);
+
+    // Step 4: Ensure the formatted coordinates are valid before proceeding
+    if (formattedCoords.length > 0) {
+        // Convert formatted coordinates to Leaflet LatLng objects
+        const latLngCoords = formattedCoords.map(coord => L.latLng(coord.lat, coord.lng));
+
+        // Draw the route on the map
+        drawRoute([latLngCoords]);
+
+        // Calculate distance and elevation for the route
+        calculateDistanceAndElevation(latLngCoords);
+    } else {
+        console.error("No valid coordinates to process.");
+    }
+
+
 } else {
 
     // check the users routes and disabling the route box if they are not logged in
@@ -562,8 +602,6 @@ function createRouteBox(routeName, routeCoords, index) {
             console.error("Unexpected structure for routeCoords after parsing:", routeCoords);
         }
 
-        console.log("Final formattedCoords:", formattedCoords);
-
         // ensurign the formatted coordinates are valid 
         if (formattedCoords.length > 0) {
 
@@ -643,57 +681,40 @@ function drawPolyline() {
 
 // calculates the total distance and elevation over the course of the route
 async function calculateDistanceAndElevation(points) {
-
-    // setting all values to 0 - wipes any previous values
     var totalDistance = 0;
     elevations = [];
-    let elevationRequests = [];  
-    let distances = [];  
+    let elevationRequests = [];
+    let distances = [];
 
-    // for every point placed
+    // Loop over each segment and calculate the direct distance between points
     for (var i = 0; i < points.length - 1; i++) {
         var segmentDistance = points[i].distanceTo(points[i + 1]);
         totalDistance += segmentDistance;
 
-        // number of interpolated points - will be between 2-4 depending on route length - used to
-        // increase speed of getting elevation data
-        let numPoints;
-        if (points.length >= 6) {
-            numPoints = 2;  
-        } else if (points.length >= 4) {
-            numPoints = 3;  
-        } else {
-            numPoints = 4;  
-        }
-
-        // getting the coordinates of the interpolated points
+        // Number of interpolated points based on the length of the route
+        let numPoints = (points.length >= 6) ? 2 : (points.length >= 4) ? 3 : 4;
         var interpolatedPoints = interpolatePoints(points[i], points[i + 1], numPoints);
 
-        // for each interpolatedPoint
+        // Push each interpolated point's distance from the start, not scaled by request length
         for (var point of interpolatedPoints) {
-
-            /// calculating distance data before api call 
-            distances.push((totalDistance * (elevationRequests.length / interpolatedPoints.length)) / 1000); 
+            distances.push(totalDistance / 1000); // Add distance in kilometers
             elevationRequests.push({ lat: point.lat, lng: point.lng });
         }
     }
 
     try {
-        // Batch request for elevations
+        // Fetch batch elevations and draw the chart
         let batchedElevations = await getElevationsBatch(elevationRequests);
-
-        // Combine distance and elevation data
         elevations = batchedElevations.map((elevation, idx) => ({
             distance: distances[idx],
             elevation: elevation
         }));
-
-        // ddrawing the elevation chart
-        drawElevationChart(elevations);  
+        drawElevationChart(elevations);
     } catch (error) {
         console.error('Error calculating distance and elevation:', error);
     }
 }
+
 
 // interpolates points between two latlng points
 function interpolatePoints(startLatLng, endLatLng, numPoints) {
@@ -738,19 +759,24 @@ async function getElevationsBatch(locations) {
 
 // function draws the elevation chart from an array of elevations
 function drawElevationChart(elevations) {
+    // Check if the URL includes "Peak/Index/"
+    const isPeakIndexPage = window.location.href.includes("Peak/Index/");
 
-    // get the elevation chart canvas element
+    // Get the elevation chart canvas element
     var ctx = document.getElementById('elevationChart').getContext('2d');
-    // if there is an existing elevation chart, destroy it
+
+    // If there is an existing elevation chart, destroy it
     if (window.elevationChart && typeof window.elevationChart.destroy === 'function') {
         window.elevationChart.destroy();
     }
-    // create a new elevation chart
+
+    // Define the color based on the URL check
+    const textColor = isPeakIndexPage ? 'white' : 'black'; 
+
+    // Create a new elevation chart
     window.elevationChart = new Chart(ctx, {
-        // type can be line, bar, ect
         type: 'line',
         data: {
-            // getting the lables of the elevation - in this instance distance and elevation
             labels: elevations.map(function (e) { return e.distance.toFixed(2) + ' km'; }),
             datasets: [{
                 label: 'Elevation (m)',
@@ -762,26 +788,48 @@ function drawElevationChart(elevations) {
         },
         options: {
             // makes the graph fill the canvas
-            Response: true,
+            responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor 
+                    }
+                },
+                tooltip: {
+                    titleColor: textColor, 
+                    bodyColor: textColor, 
+                    footerColor: textColor 
+                }
+            },
             scales: {
                 // x,y axis labelling
                 x: {
                     title: {
                         display: true,
-                        text: 'Distance (kilometers)'
+                        text: 'Distance (kilometers)',
+                        color: textColor 
+                    },
+                    ticks: {
+                        color: textColor
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Elevation (meters)'
+                        text: 'Elevation (meters)',
+                        color: textColor 
+                    },
+                    ticks: {
+                        color: textColor 
                     }
                 }
             }
         }
     });
 }
+
+
 
 function showSectionPeaks(peaks) {
 
