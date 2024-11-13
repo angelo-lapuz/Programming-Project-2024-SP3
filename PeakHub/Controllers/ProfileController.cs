@@ -74,6 +74,7 @@ namespace PeakHub.Controllers {
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.Address = model.Address;
+
             var result = await _httpClient.PutAsJsonAsync("api/users", user);
 
             // if the user was updated successfully, return the view else return an error
@@ -114,12 +115,21 @@ namespace PeakHub.Controllers {
             // if password failed to change display error message
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogInformation("here");
-                ModelState.AddModelError("OldPassword", "Failed to change password");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var errors = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(errorContent);
+
+                foreach (var error in errors)
+                {
+                    foreach (var errorMessage in error.Value)
+                    {
+                        ModelState.AddModelError(error.Key, errorMessage);
+                    }
+                }
+            }
+            else{
+                TempData["SuccessMessage"] = "Password Changed Successfully.";
             }
 
-            // display Password changed successfully message
-            TempData["SuccessMessage"] = "Password Changed Successfully.";
             return View(model);
         }
     }

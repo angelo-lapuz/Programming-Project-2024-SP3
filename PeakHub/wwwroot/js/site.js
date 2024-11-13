@@ -38,3 +38,17 @@ window.addEventListener('scroll', function () {
     prevScrollPos = currentScrollPos;
 });
 
+//let profileList = document.querySelector('.nav-profile-list');
+//profileList.addEventListener('click', function () {
+//    document.querySelector('.nav-login-list ul').classList.toggle('show');
+//});
+
+
+//var test = document.querySelector('.transition .fa-user');
+//test.addEventListener('onmouseover', function () {
+//    document.querySelector('.nav-login-list ul').style.height='6rem';
+//});
+
+//test.addEventListener('onmouseout', function () {
+//    document.querySelector('.nav-login-list ul').style.height = '0rem';
+//});
