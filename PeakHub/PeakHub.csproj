@@ -18,9 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\AddPost\Index.cshtml" />
+    <None Include="Views\Board\Index.cshtml" />
+    <None Include="Views\Forum\Index.cshtml" />
     <None Include="wwwroot\img\background.JPG" />
     <None Include="wwwroot\img\logo.png" />
     <None Include="wwwroot\img\peakhub.png" />
+    <None Include="wwwroot\js\forum\addPost.js" />
+    <None Include="wwwroot\js\forum\board.js" />
+    <None Include="wwwroot\js\forum\forum.js" />
     <None Include="wwwroot\js\Info.js" />
     <None Include="wwwroot\js\account.js" />
   </ItemGroup>

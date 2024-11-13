@@ -1,5 +1,6 @@
 ﻿@import url('colors.css');
 
+<<<<<<< HEAD
 /* Body Background */
 body {
     background: url('../img/background2.svg') no-repeat center fixed;
@@ -8,6 +9,8 @@ body {
     background-position: center top;
 }
 
+=======
+>>>>>>> parent of d776706 (revert)
 /* Container*/
 .container {
     display: flex;

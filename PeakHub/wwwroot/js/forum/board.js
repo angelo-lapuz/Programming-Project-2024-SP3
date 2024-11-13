@@ -17,7 +17,7 @@ $("#searchInput").on("keyup", function () {
     });
 });
 // -------------------------------------------------------------------------------- //
-// Moving to Forum Page\
+// Load Boards
 var page = 1;
 var allBoardsLoaded = false;
 
@@ -50,7 +50,9 @@ function loadBoards() {
                 page++;
             } else {
                 allBoardsLoaded = true;
-                console.log("No Boards Found");
+
+                $("#loadMsg").text("All Boards Found");
+                setInterval(function () { $("#loadMsg").hide(); }, 1000);
             }
         },
         error: function (response) {
@@ -67,7 +69,8 @@ function autoloadBoards() {
         setInterval(function () { loadBoards(); }, 500);
     }
 }
-
+// -------------------------------------------------------------------------------- //
+// Move to Forum
 $("#listOfBoards").on("click", ".itemBox", function () {
     var boardID = $(this).data("id");
     window.location.href = `/Forum/${boardID}`;
