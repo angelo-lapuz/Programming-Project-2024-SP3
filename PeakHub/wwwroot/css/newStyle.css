@@ -2465,6 +2465,19 @@ input[type="range"] {
     height: auto;
 }
 
+.profileBody {
+    background: url('../img/background2.svg') no-repeat center fixed;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 
 /*User Section*/
 #userSection {
@@ -2595,7 +2608,7 @@ input[type="range"] {
     position: relative;
 }
 
-/*Award Section*/
+/* Award Section */
 #awardsSection {
     display: flex;
     flex-direction: column;
@@ -2623,16 +2636,18 @@ input[type="range"] {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 0 20px; /
+    padding: 0 20px;
+}
+
+.award-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .award-tile {
-    background-color: #a0444c;
-    background: linear-gradient(rgba(160, 68, 76, 0.7), rgba(160, 68, 76, 0.7)), url('../img/award.png');
-    background-size: cover;
-    background-position: center;
-    color: goldenrod;
-    border-radius: 15px;
+    border-radius: 50%;
     padding: 10px;
     width: 90px;
     height: 90px;
@@ -2641,14 +2656,95 @@ input[type="range"] {
     align-items: center;
     font-weight: bold;
     font-size: 1em;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-    border: 2px solid var(--yellow);
     text-align: center;
     margin-bottom: 5px;
+    border: 3px solid transparent;
+    position: relative;
+    box-shadow: inset 0 5px 8px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-size: cover;
+}
+
+    .award-tile:hover {
+        transform: scale(1.1);
+        box-shadow: inset 0 8px 12px rgba(0, 0, 0, 0.7), 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .award-tile:before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+        opacity: 0.6;
+        z-index: 1;
+    }
+
+    .award-tile.bronze {
+        background: linear-gradient(135deg, #cd7f32, #8c4b21);
+        border: 4px solid #b87333;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(255, 125, 50, 0.5), inset 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .award-tile.silver {
+        background: linear-gradient(135deg, #c0c0c0, #858585);
+        border: 4px solid #a9a9a9;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(200, 200, 200, 0.5), inset 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .award-tile.gold {
+        background: linear-gradient(135deg, #ffd700, #b8860b);
+        border: 4px solid #daa520;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5), inset 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .award-tile.platinum {
+        background: linear-gradient(135deg, #e5e4e2, #b2b2b2);
+        border: 4px solid #ccc;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(230, 230, 230, 0.5), inset 0 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+        .award-tile.platinum .award-crown {
+            position: absolute;
+            top: -15px;
+            font-size: 1.5em;
+            color: #ffd700;
+            background: linear-gradient(135deg, #ffd700, #ffaf1a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 2px 2px 4px rgba(255, 223, 0, 0.6), -1px -1px 2px rgba(255, 255, 255, 0.3);
+            z-index: 3;
+            transform: scale(1.2);
+        }
+
+            .award-tile.platinum .award-crown:hover {
+                animation: bounce 0.5s ease-in-out infinite alternate;
+            }
+
+@keyframes bounce {
+    from {
+        transform: scale(1.2) translateY(0);
+    }
+
+    to {
+        transform: scale(1.2) translateY(-3px);
+    }
 }
 
 .award-number {
-    font-size: 1.4em;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8), 0 0 8px rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 2;
 }
 
 .award-name {
@@ -2662,17 +2758,11 @@ input[type="range"] {
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
     font-weight: bold;
     text-transform: uppercase;
+    position: relative;
+    z-index: 2;
 }
 
-.award-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-/*Completed Section*/
-
+/* Completed Section */
 #completedAbelsSection {
     display: flex;
     flex-direction: column;
@@ -2681,7 +2771,7 @@ input[type="range"] {
     text-align: center;
     width: 30%;
     height: 800px;
-    background: linear-gradient(180deg,var(--grey-glass), rgb(225,218,202,0.2));
+    background: linear-gradient(180deg, var(--grey-glass), rgba(225, 218, 202, 0.2));
     border-radius: 0px 15px 70px 0px;
     padding-top: 40px;
     color: white;
@@ -2697,15 +2787,15 @@ input[type="range"] {
 
 #boardItems {
     width: 80%;
-    max-height: calc(100% - 60px); 
+    max-height: calc(100% - 60px);
     overflow-y: auto;
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 2) 5%);
     scrollbar-width: none; /* Firefox */
 }
 
 .itemBox {
-    width: 80%; 
-    max-width: none; 
+    width: 80%;
+    max-width: none;
     text-decoration: none;
     margin: 15px auto;
     padding: 15px;
@@ -2725,27 +2815,31 @@ input[type="range"] {
     font-weight: 500;
 }
 
-.itemBox:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
-}
-
+    .itemBox:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+    }
 
 #completedAbelsSection .itemBox {
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
-        flex: 0 1 auto; 
-}
+    flex: 0 1 auto;
 }
 
-
-#completedAbelsSection {
-    position: relative;
-    margin-top: 0;
-    padding-top: 0;
-    overflow: hidden; 
+.itemBox.grey-scale {
+    filter: grayscale(100%);
+    background: #d3d3d3;
+    color: #a9a9a9;
+    border: 1.5px solid #888888;
 }
+
+    .itemBox.grey-scale:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+    }
+
 .headerSearchWrapper {
     position: sticky;
     top: 0;
@@ -2754,7 +2848,6 @@ input[type="range"] {
     padding-bottom: 10px;
     width: 100%;
 }
-
 
 .search-bar-container {
     display: flex;
@@ -2770,10 +2863,11 @@ input[type="range"] {
         background: rgba(255, 255, 255, 0.7);
         font-size: 1rem;
     }
-    
-    #boardItems::-webkit-scrollbar {
+
+#boardItems::-webkit-scrollbar {
     display: none;
 }
+
 
 /*Model*/
 
@@ -2932,9 +3026,9 @@ input[type="range"] {
     font-size: 2.5rem;
     letter-spacing: 0.10rem;
     font-family: "Roboto", sans-serif;
-    font-weight: 500 !important; /* Explicitly set font weight */
-    line-height: normal; /* Ensure line-height consistency */
-    margin: 0; /* Remove any potential margin inconsistencies */
+    font-weight: 500 !important; 
+    line-height: normal; 
+    margin: 0; 
     display: block;
 }
 
@@ -3013,15 +3107,18 @@ input[type="range"] {
     font-family: "Roboto", sans-serif;
 }
 
-#awardsSection h2 {
+#awardsSection h2,
+#completedAbelsSection h2 {
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
-    #awardsSection h2:hover {
-        color: var(--custom-yellow); 
+    #awardsSection h2:hover,
+    #completedAbelsSection h2:hover {
+        color: var(--red);
         text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
     }
+
 
 @media only screen and (max-width: 750px) {
     .container {

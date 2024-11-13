@@ -3,16 +3,19 @@
 }
 
 <div id="form-container">
-   
-    <form>
-    
+    <form id="passwordChangedForm">
+        <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+            <img src="/img/logo2.png" />
+            <span id="brand-name">TAS PEAKS</span>
+        </a>
+
         <h2>Password Changed</h2>
-            <img src="~/img/greentick.png" height="100px">
-        <p>Your Password has been changed! You can now Login.</p>
-            <div class="btn-row">
-                <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
-            </div>
-    
-    
+        <img src="~/img/greentick.png" height="100px" />
+
+        <p>Your password has been changed! You can now login.</p>
+
+        <div class="button-container">
+            <a href="@Url.Action("Login", "Login")" class="btn btn-primary">Sign In</a>
+        </div>
     </form>
 </div>

@@ -120,7 +120,6 @@ h2 {
         height: 100px;
         width: 100px; 
         border-radius: 50%;
-        box-shadow: var(--shadow-down);
         cursor: pointer;
     }
 
@@ -139,7 +138,7 @@ input[type="text"], input[type="password"], input[type="email"] {
     font-size: 1rem;
     background-color: rgba(255, 255, 255, 0.1);
     color: Black;
-    text-align: center;
+    text-align: center; 
 }
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
@@ -149,25 +148,40 @@ input[type="text"], input[type="password"], input[type="email"] {
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
 
+
 /* Adjust Button Layout */
+
+.button-container {
+    width: 80%; 
+    max-width: 400px; 
+    margin: 0 auto; 
+    display: flex;
+    gap: 10px; 
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+/* Button Styling */
 .btn-primary, .btn-secondary {
     width: 60%;
-    background: var(--lightgreen-glass);
-    color: floralwhite;
-    border: 1.5px solid var(--darkgreen);
+    text-decoration: none;
+    margin: 0 auto;
     padding: 15px;
     border-radius: 40px;
-    font-size: 18px;
-    font-weight: 500;
-    font-family: "Roboto", sans-serif;
-    text-decoration: none;
+    color: floralwhite;
+    background: var(--lightgreen-glass);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
     transition: all 0.25s linear;
+    overflow: hidden;
+    font-size: 18px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    border: 1.5px solid var(--darkgreen);
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
 }
+
 
     /* Hover effect */
     .btn-primary:hover, .btn-secondary:hover {
@@ -175,16 +189,6 @@ input[type="text"], input[type="password"], input[type="email"] {
         transform: scale(1.05);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
-
-
-.btn-row, .btn-col {
-    width: 100%;
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    gap: 20px; 
-}
-
 
 .forgot-password {
     color: #990000;
@@ -210,6 +214,40 @@ a {
     transform: scale(1.05);
 }
 
+h2 {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 0;
+    color: var(--grey);
+    text-shadow: var(--shadow-down);
+    font-size: 1.5rem;
+    letter-spacing: 0.10rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500 !important;
+    line-height: normal;
+    margin: 0;
+    display: block;
+}
+
+p {
+    text-align: center;
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+    color: floralwhite;
+    margin-bottom: 15px;
+    text-shadow: var(--shadow-down);
+}
+
+.success-message {
+    text-align: center;
+    font-size: 1rem;
+    font-family: "Roboto", sans-serif;
+    color: floralwhite;
+    margin-bottom: 15px;
+    text-shadow: var(--shadow-down);
+    font-weight: bold;
+}
 
 
 .text-danger {
@@ -224,12 +262,20 @@ a {
     font-family: "Roboto", sans-serif;
 }
 
-
 @media only screen and (max-width: 750px) {
     .right-form {
         width: 80%;
     }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        gap: 10px; 
+        width: 100%; 
+    }
 }
+
 
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {

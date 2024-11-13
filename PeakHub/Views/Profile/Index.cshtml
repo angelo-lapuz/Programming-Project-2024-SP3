@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_Layout";
 }
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 @functions {
     public string ExtractQuantity(string name)
@@ -16,44 +16,46 @@
     }
 }
 
-<body style="
-    background: url('../img/background2.svg') no-repeat center fixed;
-    background-size: cover;
-    background-position: center top;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;">
-</body>
+<body class="profileBody"></body>
 
 <div class="container">
+
     <div id="awardsSection" class="col-md-3">
         <div class="headerSearchWrapper">
-        <h2>AWARDS  &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
+            <h2>AWARDS &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
         </div>
         @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
         {
-                    <span>No awards</span>
+            <span>No awards</span>
         }
         else
         {
-                    <div class="awards-grid">
+            <div class="awards-grid">
                 @foreach (var award in ViewBag.Awards)
                 {
+                    if (award.Name.Contains("Student")) continue;
+
                     string quantity = ExtractQuantity(award.Condition);
-                                    <div class="award-wrapper">
-                                        <div class="award-tile">
-                                            <div class="award-number">@quantity</div>
-                                        </div>
-                                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                                    </div>
-                }
+                    string awardClass = award.Name.Contains("Beginner") ? "bronze" :
+                    award.Name.Contains("Experienced") ? "silver" :
+                    (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
+                    award.Name.Contains("Legend") ? "platinum" : "";
+
+                    <div class="award-wrapper">
+                        <div class="award-tile @awardClass">
+                            @if (awardClass == "platinum")
+                            {
+                                <i class="fa-solid fa-crown award-crown"></i>
+                            }
+                            <div class="award-number">@quantity</div>
+                        </div>
+                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
                     </div>
+                }
+            </div>
         }
     </div>
+
 
     <div id="userSection" class="col-md-3">
         <div class="user-info">
@@ -65,14 +67,14 @@
             <i class="fa-regular fa-envelope"></i> &nbsp; &nbsp;@ViewBag.Email<br />
         </p>
 
-    <div class="peaks-bagged">
-        <span>ABELS BAGGED</span>
-        <div class="counter-slots">
-            <div class="counter" id="hundreds">@((ViewBag.TotalCompleted / 100) % 10)</div>
-            <div class="counter" id="tens">@((ViewBag.TotalCompleted / 10) % 10)</div>
-            <div class="counter" id="units">@((ViewBag.TotalCompleted) % 10)</div>
+        <div class="peaks-bagged">
+            <span>ABELS BAGGED</span>
+            <div class="counter-slots">
+                <div class="counter" id="hundreds">@((ViewBag.TotalCompleted / 100) % 10)</div>
+                <div class="counter" id="tens">@((ViewBag.TotalCompleted / 10) % 10)</div>
+                <div class="counter" id="units">@((ViewBag.TotalCompleted) % 10)</div>
+            </div>
         </div>
-    </div>
 
         <div class="user-actions">
             <a href="/Profile/EditDetails" class="btn btn-secondary">
@@ -86,14 +88,17 @@
 
     <div id="completedAbelsSection" class="col-md-6">
         <div class="headerSearchWrapper">
-            <h2>COMPLETED</h2>
+            <a href="/Planner">
+                <h2>COMPLETED <i class="fa-regular fa-circle-question"></i></h2>
+            </a>
             <div class="search-bar-container">
                 <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
             </div>
         </div>
-        @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
+
+        @if (ViewBag.AllPeaks == null || ((List<Peak>)ViewBag.AllPeaks).Count == 0)
         {
-            <span>No peaks</span>
+            <span>No peaks available</span>
         }
         else
         {
@@ -104,9 +109,22 @@
                         @peak.Name
                     </div>
                 }
+
+                @foreach (var peak in (List<Peak>)ViewBag.AllPeaks)
+                {
+                    bool isCompleted = ((List<Peak>)ViewBag.Peaks).Any(p => p.PeakID == peak.PeakID);
+
+                    if (!isCompleted)
+                    {
+                        <div class="itemBox grey-scale" data-peak="@peak.Name" data-id="@peak.PeakID">
+                            @peak.Name
+                        </div>
+                    }
+                }
             </div>
         }
     </div>
+
 
     <div id="awardModel" class="model">
         <div class="model-content">
@@ -166,29 +184,17 @@
                     <td>158 Mountains Completed</td>
                 </tr>
             </table>
-    <div id="userSection" class="col-md-3">
-        <div class="user-info">
-            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
-            <h3>@ViewBag.UserName</h3>
-            <p>
-                User Details:<br />
-               UserName: @ViewBag.UserName<br />
-                Email: @ViewBag.Email<br />
-                Name: @ViewBag.Name <br />
-                Phone
-                Ables Completed: @ViewBag.TotalCompleted
-            </p>
-
-            <div class="user-actions">
-                <a href="/Profile/ChangePassword" class="btn btn-secondary">Change Password</a>
-                <a href="/Profile/EditDetails" class="btn btn-secondary">Edit Details</a>
-            </div>
         </div>
+
     </div>
+</div>
+
+
 
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $("#completedAbelsSection").on("click", ".itemBox", function () {
@@ -201,7 +207,7 @@
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const hundreds = document.querySelector(".counter-slots #hundreds");
         const tens = document.querySelector(".counter-slots #tens");
         const units = document.querySelector(".counter-slots #units");
@@ -215,8 +221,8 @@
         }
 
         const finalHundreds = parseInt((@ViewBag.TotalCompleted / 100) % 10);
-        const finalTens = parseInt((@ViewBag.TotalCompleted / 10) % 10);
-        const finalUnits = parseInt(@ViewBag.TotalCompleted % 10);
+            const finalTens = parseInt((@ViewBag.TotalCompleted / 10) % 10);
+            const finalUnits = parseInt(@ViewBag.TotalCompleted % 10);
 
         setTimeout(() => spinCounter(hundreds, finalHundreds, 1000), 0);
         setTimeout(() => spinCounter(tens, finalTens, 1000), 200);
@@ -225,43 +231,43 @@
 </script>
 
 <script>
-document.getElementById('peakSearchInput').addEventListener('input', function () {
-    const searchTerm = this.value.toLowerCase();
-    const items = document.querySelectorAll('#boardItems .itemBox');
+    document.getElementById('peakSearchInput').addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const items = document.querySelectorAll('#boardItems .itemBox');
 
-    items.forEach(item => {
-        const peakName = item.getAttribute('data-peak').toLowerCase();
-        if (peakName.includes(searchTerm)) {
-            item.style.order = -1; 
-            item.style.display = "block"; 
-        } else {
-            item.style.order = 0; 
-            item.style.display = searchTerm ? "none" : "block"; 
-        }
+        items.forEach(item => {
+            const peakName = item.getAttribute('data-peak').toLowerCase();
+            if (peakName.includes(searchTerm)) {
+                item.style.order = -1;
+                item.style.display = "block";
+            } else {
+                item.style.order = 0;
+                item.style.display = searchTerm ? "none" : "block";
+            }
+        });
     });
-});
 
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const modal = document.getElementById("awardModel");
-    const openModalButton = document.querySelector("#awardsSection h2");
-    const closeModalButton = document.querySelector(".close-btn");
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("awardModel");
+        const openModalButton = document.querySelector("#awardsSection h2");
+        const closeModalButton = document.querySelector(".close-btn");
 
-    openModalButton.addEventListener("click", function() {
-        modal.style.display = "flex";
-    });
+        openModalButton.addEventListener("click", function () {
+            modal.style.display = "flex";
+        });
 
-    closeModalButton.addEventListener("click", function() {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener("click", function(event) {
-        if (event.target == modal) {
+        closeModalButton.addEventListener("click", function () {
             modal.style.display = "none";
-        }
+        });
+
+        window.addEventListener("click", function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
     });
-});
 </script>
 
