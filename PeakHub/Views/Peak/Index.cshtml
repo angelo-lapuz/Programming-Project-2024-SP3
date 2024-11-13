@@ -1,7 +1,7 @@
 ﻿@{
     @using PeakHub.Models;
     @using Newtonsoft.Json;
-   
+
     var peaks = JsonConvert.SerializeObject(ViewBag.Peaks);
     var peak = JsonConvert.SerializeObject(ViewBag.peak);
     if (ViewBag.user == null)
@@ -12,6 +12,7 @@
     {
         ViewBag.user = true;
     }
+    
 }
 
 <!DOCTYPE html>
@@ -38,9 +39,9 @@
         var user = @ViewBag.user.ToString().ToLower();
     </script>
 
-
+    <div class="main-content">
     <div class="container">
-        <div class="info" style="width: 50%; height: 500px; position: relative; float: left;">
+        <div class="info" style="width: 50%; height: 500px; position: relative;">
             <h2> @ViewBag.peak.Name</h2>
 
             @{
@@ -101,7 +102,9 @@
             </div>
         </div>
 
-        <div class="map-container" style="width: 50%; height: 500px; position: relative; float: right;">
+
+
+        <div class="map-container">
             <button class="info-button">i</button>
             <div class="info-data"></div>
             <div id="map"></div>
@@ -138,12 +141,16 @@
         </div>
 
     </div>
+    </div>
 
-        <div class="carosel-images" id="carosel-images">
-            <!-- Images will be dynamically added here -->
+    <div class="Gallery">
+        <h2> Gallery</h2>
         <button class="carosel-control left" onclick="prevImg()"> &#10094; </button>
         <button class="carosel-control right" onclick="nextImg()"> &#10095; </button>
+        <div class="carosel-images" id="carosel-images">
         </div>
+    </div>
+    
         
 
     <script src="~/js/Info.js"></script>
