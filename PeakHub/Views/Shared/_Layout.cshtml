@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/newStyle.css" asp-append-version="true" />
 </head>
 <body>
@@ -18,6 +19,37 @@
                 <img src="/img/logo2.png" />
                 <span id="brand-name">TAS PEAKS</span>
             </a>
+
+            <div class="nav-profile-list">
+                <div class="transition">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="nav-login-list">
+                    <ul>
+                        @{
+                            if (Context.Session.GetString("UserId") != null)
+                            {
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
+                                </li>
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
+                                </li>
+                                <li class="nav-login-li">
+                                    <a class="nav-link" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
+                                </li>
+
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
             <label class="hamburger-menu">
                 <input id="hamburger-menu-checkbox" type="checkbox" />
             </label>
@@ -33,44 +65,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
-                        <div class="nav-link-hover absolute-center"></div>
-                    </li>
-                    <li class="nav-item nav-profile">
-                        <div class="transition absolute-center">
-                            <i class="fa-solid fa-user"></i>
-                        </div>                      
-                    </li>         
-                </ul>
-            </div>
-            <div class="nav-login-list">
-                <ul>
-                    @{
-                        if (Context.Session.GetString("UserId") != null)
-                        {
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-                            <li class="nav-item nav-login-li">
-                                <a class="nav-link absolute-center" asp-area="" asp-controller="Signup" asp-action="Create">REGISTER</a>
-                                <div class="nav-link-hover absolute-center"></div>
-                            </li>
-
-                        }
-                        
-                    }
-
+                        <div class="nav-link-hover transition absolute-center"></div>
+                    </li>  
                 </ul>
             </div>
         </nav>
@@ -78,10 +74,64 @@
     <main>
         @RenderBody()
     </main>
+    <footer id="footer-container" class="transition">
+        <section class="footer-section">
+        
+            <div data-aos="flip-left"  class="footer-logo-section">
+                <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
+                    <img src="~/img/logo2.png" alt="TAS PEAKS Logo" />
+                    <span id="brand-name">TAS PEAKS</span>
+                </a>
+            </div>
 
+            <div data-aos="fade-left"  class="footer-links-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Planner" asp-action="Index">Planner</a></li>
+                    <li><a asp-area="" asp-controller="Forum" asp-action="Index">Forum</a></li>
+                    <li><a asp-area="" asp-controller="About" asp-action="Index">About Us</a></li>
+                    <li><a asp-area="" asp-controller="Contact" asp-action="Index">Contact</a></li>
+                </ul>
+            </div>
+
+            <div data-aos="fade-right" class="footer-contact-section">
+                <h3>Contact Us</h3>
+                <p>123 Mountain View Rd, Hobart, TAS</p>
+                <p>Email: <a href="mailto:info@taspeaks.com">info@taspeaks.com</a></p>
+                <p>Phone: <a href="tel:+61123456789">+61 123 456 789</a></p>
+            </div>
+
+            <div data-aos="flip-right" class="footer-social-section">
+                <h3>Follow Us</h3>
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+
+            <div data-aos="zoom-in"  class="acknowledgement-section">
+                <div class="flag-img-container">
+                    <img src="~/img/aboriginal_flag.png" alt="Aboriginal Flag" />
+                </div>
+                <p>We acknowledge the Traditional Custodians of the land on which we work and explore, the Tasmanian Aboriginal people. We pay our respects to their Elders past and present, and we acknowledge their enduring connection to this land, sea, and community.</p>
+            </div>
+
+            <div data-aos="fade-down" class="footer-bottom">
+                <hr />
+                <p>&copy; 2024 TAS PEAKS RMIT University Team SmolPP. All rights reserved.</p>
+                <hr />
+                <p>TasPeaks is a student-developed project created solely for educational purposes. The information, features, and services provided on this app are for demonstration only and may not be accurate or up-to-date. Users should exercise caution when relying on the data provided, especially in outdoor or safety-related contexts, as this app may not reflect the latest conditions or professional guidance.</p>
+            </div>
+        </section>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

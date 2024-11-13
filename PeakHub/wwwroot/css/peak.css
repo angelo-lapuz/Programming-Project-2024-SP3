@@ -1,0 +1,53 @@
+﻿/* Container for the main layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Left side info box */
+.info {
+    width: 50%;
+    height: 500px;
+    position: relative;
+    float: left;
+}
+
+/* Right side map container */
+.map-container {
+    width: 50%;
+    height: 500px;
+    position: relative;
+    float: right;
+}
+
+/* Carousel container under both sections */
+.carosel-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    background-color: #f0f0f0;
+}
+
+/* Carousel control buttons */
+.carosel-control {
+    position: absolute;
+    top: 50%;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+    .carosel-control.left {
+        left: 10px;
+    }
+
+    .carosel-control.right {
+        right: 10px;
+    }

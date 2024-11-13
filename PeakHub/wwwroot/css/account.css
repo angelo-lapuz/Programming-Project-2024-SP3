@@ -61,6 +61,23 @@ form {
 
 
 
+h2 {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 0;
+    color: var(--grey);
+    text-shadow: var(--shadow-down);
+    font-size: 2.5rem;
+    letter-spacing: 0.10rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500 !important;
+    line-height: normal;
+    margin: 0;
+    display: block;
+}
+
+
 .right-form {
     width: 45%;
 }
@@ -235,7 +252,7 @@ p {
 
 .text-danger {
     width: 100%;
-    text-align:center;
+    text-align: center;
     color: #ff4d4d;
     font-size: 0.9rem;
     font-weight: bold;
