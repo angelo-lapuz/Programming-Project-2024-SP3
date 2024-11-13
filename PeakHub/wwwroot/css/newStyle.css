@@ -2343,12 +2343,12 @@ input[type="range"] {
 
     .region-left {
         left: 165%;
-        top: 95%;
+        top: 105%;
     }
 
     .region-right {
         left: 215%;
-        top: 95%;
+        top: 105%;
     }
 
     .info-region-select:has(input:checked) {
