@@ -3,16 +3,14 @@
     Layout = "_AccountLayout";
 }
 
+
 <div id="form-container">
-    <!-- Sign Up Form -->
-    <form id="signUpForm" asp-action="Create" method="post">
+    <form asp-action="Create" method="post">
         <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
             <img src="/img/logo2.png" />
             <span id="brand-name">TAS PEAKS</span>
         </a>
-
         <h2>Signup</h2>
-
         <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
         <span asp-validation-for="UserName" class="text-danger"></span>
 
@@ -25,11 +23,13 @@
         <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
-        <div class="button-container">
-            <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Create" class="btn btn-primary" />
+
+        <div class="btn-row">
             <a href="@Url.Action("Login", "Login")" class="btn btn-secondary">Sign In</a>
         </div>
-
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     </form>
+
 </div>
