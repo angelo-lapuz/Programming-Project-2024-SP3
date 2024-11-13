@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure API client
 builder.Services.AddHttpClient("api", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5164");
+    client.BaseAddress = new Uri("https://taspeak-bba5hncge9f0e5c0.australiaeast-01.azurewebsites.net");
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });

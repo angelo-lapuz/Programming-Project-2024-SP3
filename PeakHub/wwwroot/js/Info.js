@@ -3,10 +3,8 @@ let totalImages = 0;
 
 
 async function getPeakImages(ID) {
-    console.log("called");
     try {
         const peakName = currentPeak.Name.replace(/ /g, "_");
-        console.log("peakname was: " + peakName);
 
         // Fetch all image URLs in a single request
         const peakResponse = await fetch(`/GetPeakImages`, {
@@ -61,7 +59,8 @@ async function getPeakImages(ID) {
 
         // Append all loaded image divs to the carousel
         imageElements.forEach((imgDiv) => {
-            if (imgDiv) caroselImages.appendChild(imgDiv); // Append only if the image loaded successfully
+            // Append only if the image loaded successfully
+            if (imgDiv) caroselImages.appendChild(imgDiv); 
         });
 
         updateCarosel(); // Ensure the first image is displayed
