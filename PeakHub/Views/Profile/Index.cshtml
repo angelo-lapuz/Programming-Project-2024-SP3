@@ -30,30 +30,42 @@
 </body>
 
 <div class="container">
-    <div id="awardsSection" class="col-md-3">
-        <div class="headerSearchWrapper">
-        <h2>AWARDS  &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
-        </div>
-        @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
-        {
-                    <span>No awards</span>
-        }
-        else
-        {
-                    <div class="awards-grid">
-                @foreach (var award in ViewBag.Awards)
-                {
-                    string quantity = ExtractQuantity(award.Condition);
-                                    <div class="award-wrapper">
-                                        <div class="award-tile">
-                                            <div class="award-number">@quantity</div>
-                                        </div>
-                                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                                    </div>
-                }
-                    </div>
-        }
+
+<div id="awardsSection" class="col-md-3">
+    <div class="headerSearchWrapper">
+        <h2>AWARDS &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
     </div>
+    @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
+    {
+        <span>No awards</span>
+    }
+    else
+    {
+        <div class="awards-grid">
+            @foreach (var award in ViewBag.Awards)
+            {
+                if (award.Name.Contains("Student")) continue;
+
+                string quantity = ExtractQuantity(award.Condition);
+                string awardClass = award.Name.Contains("Beginner") ? "bronze" :
+                                    award.Name.Contains("Experienced") ? "silver" :
+                                    (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
+                                    award.Name.Contains("Legend") ? "platinum" : "";
+
+                <div class="award-wrapper">
+                    <div class="award-tile @awardClass">
+                        @if (awardClass == "platinum") 
+                        {
+                            <i class="fa-solid fa-crown award-crown"></i>
+                        }
+                        <div class="award-number">@quantity</div>
+                    </div>
+                    <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
+                </div>
+            }
+        </div>
+    }
+</div>
 
     <div id="userSection" class="col-md-3">
         <div class="user-info">
@@ -91,9 +103,9 @@
                 <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
             </div>
         </div>
-        @if (ViewBag.Peaks == null || ViewBag.Peaks.Count == 0)
+        @if (ViewBag.AllPeaks == null || ((List<Peak>)ViewBag.AllPeaks).Count == 0)
         {
-            <span>No peaks</span>
+            <span>No peaks available</span>
         }
         else
         {
@@ -104,19 +116,28 @@
                         @peak.Name
                     </div>
                 }
+
+                @foreach (var peak in (List<Peak>)ViewBag.AllPeaks)
+                {
+                    bool isCompleted = ((List<Peak>)ViewBag.Peaks).Any(p => p.PeakID == peak.PeakID);
+
+                    if (!isCompleted)
+                    {
+                        <div class="itemBox grey-scale" data-peak="@peak.Name" data-id="@peak.PeakID">
+                            @peak.Name
+                        </div>
+                    }
+                }
             </div>
         }
     </div>
+
 
     <div id="awardModel" class="model">
         <div class="model-content">
             <span class="close-btn">&times;</span>
             <h2>AWARDS</h2>
             <table class="awards-table">
-                <tr>
-                    <td><strong>Student</strong></td>
-                    <td>No Mountains Completed</td>
-                </tr>
                 <tr>
                     <td><strong>Beginner</strong></td>
                     <td>1 Mountain Completed</td>
@@ -168,7 +189,7 @@
             </table>
         </div>
     </div>
-
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

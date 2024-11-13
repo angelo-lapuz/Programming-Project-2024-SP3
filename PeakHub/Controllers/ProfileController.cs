@@ -1,10 +1,9 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PeakHub.ViewModels;
 using PeakHub.Models;
-using System.Text;
 using PeakHub.Utilities;
+using PeakHub.ViewModels;
+using System.Text;
 
 namespace PeakHub.Controllers
 {
@@ -22,18 +21,23 @@ namespace PeakHub.Controllers
         {
             _clientFactory = clientFactory;
             _logger = logger;
-            _tools =  tools;
+            _tools = tools;
 
         }
 
         public async Task<IActionResult> Index()
         {
             // gets user object from db
-            if(userID == null)
+            if (userID == null)
             {
                 return RedirectToAction("Login", "Login");
             }
             User user = await _tools.GetUser(userID);
+
+            // get peaks
+            var getPeakResponse = await _httpClient.GetAsync("api/peaks");
+            var peakData = await getPeakResponse.Content.ReadAsStringAsync();
+            var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(peakData);
 
             string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
             string profileImg = !string.IsNullOrEmpty(user.ProfileIMG) ? user.ProfileIMG : defaultImg;
@@ -44,7 +48,7 @@ namespace PeakHub.Controllers
             ViewBag.Awards = user.UserAwards.Select(ua => ua.Award).ToList();
             ViewBag.ProfileImg = profileImg;
             ViewBag.totalCompleted = user.UserPeaks.Count;
-
+            ViewBag.AllPeaks = peaks;
 
             return View();
         }
@@ -72,7 +76,7 @@ namespace PeakHub.Controllers
             {
 
                 _logger.LogInformation("success");
-                
+
                 return View(model);
             }
             else
