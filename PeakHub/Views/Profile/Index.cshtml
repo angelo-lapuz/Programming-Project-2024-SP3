@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_Layout";
 }
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 @functions {
     public string ExtractQuantity(string name)
@@ -99,11 +99,14 @@
 
     <div id="completedAbelsSection" class="col-md-6">
         <div class="headerSearchWrapper">
-            <h2>COMPLETED</h2>
+            <a href="/Planner">
+                <h2>COMPLETED <i class="fa-regular fa-circle-question"></i></h2>
+            </a>
             <div class="search-bar-container">
                 <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
             </div>
         </div>
+
         @if (ViewBag.AllPeaks == null || ((List<Peak>)ViewBag.AllPeaks).Count == 0)
         {
             <span>No peaks available</span>
@@ -132,6 +135,7 @@
             </div>
         }
     </div>
+
 
     <div id="awardModel" class="model">
         <div class="model-content">
@@ -201,6 +205,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $("#completedAbelsSection").on("click", ".itemBox", function () {
