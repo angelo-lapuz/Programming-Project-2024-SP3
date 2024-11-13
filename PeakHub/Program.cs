@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure API client
 builder.Services.AddHttpClient("api", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5164");
+    client.BaseAddress = new Uri("https://peakhub20241114064311.azurewebsites.net");
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });
