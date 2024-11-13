@@ -1,20 +1,73 @@
-﻿$(function () {
+﻿var liking = false;
+
+$(function () {
     loadPosts();
 
-    // Load remaining Post text
-    $("#postsForBoard").on("click", "[id*='_more']", function () {
+    // Move to AddPost Page
+    $("#addPostForm").on("click", function () { $(this).submit(); });
+
+    // Toggle post content display
+    $("#postsForBoard").on("click", "[id*='_toggle']", function () {
         const id = $(this).attr("id").split("_")[0];
-        $(`#${id}_all`).show();
-        $(`#${id}_hide`).show();
-        $(this).hide();
+        const previewContent = $(`#${id}_preview`);
+        const ellipsis = $(`#${id}_ellipsis`);
+        const fullContent = $(`#${id}_full`);
+
+        if (fullContent.is(':visible')) {
+            fullContent.hide();
+            previewContent.show();
+            ellipsis.show();
+            $(this).text('[Display All]');
+        }
+        else {
+            fullContent.show();
+            previewContent.hide();
+            ellipsis.hide();
+            $(this).text('[Hide Most]');
+        }
     });
 
-    // Hide remaining Post text
-    $("#postsForBoard").on("click", "[id*='_hide']", function () {
-        const id = $(this).attr("id").split("_")[0];
-        $(`#${id}_all`).hide();
-        $(`#${id}_more`).show();
-        $(this).hide();
+    // Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
+    $("#postsForBoard").on("click", "[id*='like_']", function () {
+        if ("@addPost" === "deactivate" || liking) return;
+
+        const likeIcon = $(this);
+        liking = true;
+
+        const postID = likeIcon.attr("id").split("_")[1];
+        const likeField = $(`#count_${postID}`);
+
+        var likeCount = parseInt(likeField.text());
+        const hasNotLiked = likeIcon.hasClass("inactiveLike");
+
+        const type = hasNotLiked ? "POST" : "DELETE";
+        const action = hasNotLiked ? "LikePost" : "UnlikePost";       
+
+        // AJAX Request
+        $.ajax({
+            url: `/Forum/${action}`,
+            type: `${type}`,
+            data: { postID: parseInt(postID) },
+            success: function (response) {
+                console.log(`Like Update: ${response.message}`);
+
+                if (response.success) {
+                    if (hasNotLiked) {
+                        likeCount++;
+                        $("#like_" + postID).removeClass("inactiveLike");
+
+                        likeIcon.addClass("pop-effect");
+                        setTimeout(() => { likeIcon.removeClass("pop-effect"); }, 300); 
+                    } else {
+                        likeCount--;
+                        $("#like_" + postID).addClass("inactiveLike");
+                    }
+
+                    likeField.text(likeCount.toString());
+                }
+            },
+            complete: function () { liking = false; }
+        });
     });
 });
 
@@ -23,46 +76,47 @@ let pageIndex = 1, loading = false, limit = false;
 const pageSize = 2, boardID = $("#BoardID").val(), userID = $("#UserID").val();
 
 function postHTML(post) {
-    var content = post.content ? "" : "display: none;";
     var likeActivity = post.hasUserLiked ? "" : "inactiveLike";
     var media = post.media ? `<img class='postImg' src="${post.media}" alt="Poster's Media Image" />` : "";
 
+    var formattedDate = new Date(post.transactionTimeUTC).toLocaleDateString('en-US', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+    var formattedTime = new Date(post.transactionTimeUTC).toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit', hour12: true
+    });
+
+    var content = "<p style='display: none;'> </p>";
+
+    if (post.content) {
+        if (post.content.length >= 500) {
+            content =
+            `<div>
+                <p id='${post.postID}_preview'>${post.content.slice(0, 500)}...</p>
+                <p id='${post.postID}_full' style='display: none;'> ${post.content}</p>
+                <button id='${post.postID}_toggle' class='textView'>[Read More]</button>
+            </div>`;
+        }
+        else {
+            content = `<p>${post.content}</p>`;
+        }
+    }
+
     return `
         <div class='forumPost'>
-            <div class='leftBar'>
-                <img src='${post.user.profileImg}' alt="Poster's Image" />
-
-                <p class='dt'>
-                    ${new Date(post.transactionTimeUTC).toLocaleDateString('en-US', {
-                        day: '2-digit', month: '2-digit', year: 'numeric'
-                    })}
-                    <br>
-                    ${new Date(post.transactionTimeUTC).toLocaleTimeString('en-US', {
-                        hour: '2-digit', minute: '2-digit', hour12: true
-                    })}
-                </p>
-            </div>
-
-            <div class='content'>
-                <p> <strong> ${post.user.username} </strong> </p>
-
-                <div class="post">
-                    <p style='${content}'>
-                        ${post.content.length > 500 ? `${post.content.slice(0, 500)}
-                        <span id="${post.postID}_all" style="display: none;">${post.content.slice(500)}</span>
-                        <span id="${post.postID}_more" class='textView'>... [Display All]</span>
-                        <span id="${post.postID}_hide" class='textView' style="display: none;">[Hide Most]</span>`
-                        : post.content}
-                    </p> 
-                    ${media} 
+            <div class='postHead'>
+                <img src='${post.user.profileImg}' alt="User's Profile Image" class='postUser' loading="lazy" />
+                <div class='userContent'>
+                    <h3>${post.user.username}</h3>
+                    <p> ${formattedDate}, ${formattedTime} </p>
                 </div>
             </div>
 
-            <div class='rightBar'>
-                <div class='like'>
-                    <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
-                    <p id="count_${post.postID}">${post.likeCount}</p>
-                </div>
+            <div class='postContent'> ${content} ${media} </div>
+
+            <div class='postFoot'>
+                <i id="like_${post.postID}" class="fas fa-thumbs-up ${likeActivity}"></i>
+                <p id="count_${post.postID}">${post.likeCount}</p>
             </div>
         </div>
     `;
@@ -82,7 +136,7 @@ function loadPosts() {
     if (loading || limit) return;
 
     loading = true;
-    $('#loading').html("Searching For Posts... Please Wait").show();
+    $('#loadMsg').html("<div class='spinner'></div>").show();
 
     $.ajax({
         url: `/Forum/GetForumPosts?boardID=${boardID}&userID=${userID}&pageSize=${pageSize}&pageIndex=${pageIndex}`,
@@ -91,20 +145,21 @@ function loadPosts() {
             if (posts.length > 0) {
                 pageIndex++;
                 appendPosts(posts);
-                $('#loading').hide();
+                setTimeout(() => { $('#loadMsg').hide(); }, 300);
             } else {
                 limit = true;
 
                 if (pageIndex === 1) {
-                    $('#loading').html("No Posts! Please Populate").show();
+                    $('#loadMsg').html("<p>No Posts! Please Populate</p>").show();
                 } else {
-                    $("#loading").html("").hide();
+                    $("#loadMsg").empty().hide();
                 }
             }
         },
         error: function (response) {
             limit = true;
             console.log(response);
+            $('#loadMsg').html("<p>An Error Occured.Please Reload</p>").show();
         },
         complete: function () { loading = false; }
     });
@@ -113,7 +168,7 @@ function loadPosts() {
 function detectAspectRatio(newImages) {
     newImages.each(function () {
         const img = $(this);
-        const contentContainer = img.closest('.post');
+        const contentContainer = img.closest('.postContent');
 
         img.on('load', function () {
             const squareThreshold = 0.15,
@@ -142,43 +197,4 @@ $('#postsForBoard').on('scroll', function () {
     if (container.scrollTop() + container.innerHeight() >= container[0].scrollHeight - 50) {
         loadPosts();
     }
-});
-
-// Move to AddPost Page
-$("#addPostForm").on("click", function () { $(this).submit(); });
-
-// Updating a Like Count on Click IF UserID is not "0" [Not Logged In]
-$("#postsForBoard").on("click", "[id*='like_']", function () {
-    if ("@addPost" === "deactivate") return;
-
-    const postID = $(this).attr("id").split("_")[1];
-    const likeField = $(`#count_${postID}`);
-
-    var likeCount = parseInt(likeField.text());
-
-    const hasNotLiked = $(this).hasClass("inactiveLike");
-    const action = hasNotLiked ? "LikePost" : "UnlikePost";
-    const type = hasNotLiked ? "POST" : "DELETE";
-
-    // AJAX Request
-    $.ajax({
-        url: `/Forum/${action}`,
-        type: `${type}`,
-        data: { postID: parseInt(postID) },
-        success: function (response) {
-            console.log(`Like Update: ${response.message}`);
-
-            if (response.success) {
-                if (hasNotLiked) {
-                    likeCount++;
-                    $("#like_" + postID).removeClass("inactiveLike").addClass("activeLike");
-                } else {
-                    likeCount--;
-                    $("#like_" + postID).removeClass("activeLike").addClass("inactiveLike");
-                }
-
-                likeField.text(likeCount.toString());
-            }
-        }
-    });
 });
