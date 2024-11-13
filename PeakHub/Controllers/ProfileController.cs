@@ -36,7 +36,7 @@ namespace PeakHub.Controllers
             User user = await _tools.GetUser(userID);
 
             // get awards
-            var awards = await _httpClient.GetAsync("api/peaks");
+            var awards = await _httpClient.GetAsync("api/awards");
 
             string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
             string profileImg = !string.IsNullOrEmpty(user.ProfileIMG) ? user.ProfileIMG : defaultImg;
