@@ -33,6 +33,11 @@ namespace PeakHub.Controllers {
             // get the current user
             User user = await _tools.GetUser(userID);
 
+            // get peaks
+            var getPeakResponse = await _httpClient.GetAsync("api/peaks");
+            var peakData = await getPeakResponse.Content.ReadAsStringAsync();
+            var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(peakData);
+
             // set the image for the user profile
             string defaultImg = "https://peakhub-user-content.s3.amazonaws.com/default.jpg";
             string profileImg = !string.IsNullOrEmpty(user.ProfileIMG) ? user.ProfileIMG : defaultImg;
@@ -44,6 +49,7 @@ namespace PeakHub.Controllers {
             ViewBag.Awards = user.UserAwards.Select(ua => ua.Award).ToList();
             ViewBag.ProfileImg = profileImg;
             ViewBag.totalCompleted = user.UserPeaks.Count;
+            ViewBag.AllPeaks = peaks;
 
             return View();
         }
