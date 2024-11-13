@@ -1,4 +1,41 @@
 ﻿
+var rootvar = document.querySelector(':root');
+var regions = document.querySelectorAll('.info-region-select');
+var regionsList = document.querySelector('.info-region-list');
+var regionSelect = document.getElementsByName('info-region');
+var infoRegionBtnList = document.querySelector('.info-region-ul');
+var whereRegions = document.querySelectorAll('.info-region-select label');
+function setLowRes() {
+
+    rootvar.style.setProperty('--who-what-where', '4rem');
+}
+
+function setMidRes() {
+
+    rootvar.style.setProperty('--who-what-where', '6rem');
+    regionsList.style.height = '100%';
+
+    regions.forEach((element) => {
+        element.classList.remove('buttonB');
+    });
+
+    var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
+
+    infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex - 1})`;
+
+}
+function setHighRes() {
+
+    regionsList.style.height = 'fit-content';
+
+    regions.forEach((element) => {
+        element.classList.add('buttonB');
+    });
+
+    infoRegionBtnList.style.left = `calc(100vw * -0)`
+
+    
+}
 
 let screenwidth = window.innerWidth;
 setResStyles(screenwidth);
@@ -17,51 +54,30 @@ function setResStyles(width) {
         setMidRes();
         setHighRes();
     }
+
+    moveMap(parseInt(regionSelect[findChecked()].value));
 }
 
-var rootvar = document.querySelector(':root');
-var regions = document.querySelectorAll('.info-region-select');
-function setLowRes() {
 
-    var rootvar = document.querySelector(':root');
-    rootvar.style.setProperty('--who-what-where', '4rem');
-}
+// Save the scroll position before the page reloads
+window.addEventListener("beforeunload", function () {
+    sessionStorage.setItem("scrollPosition", window.scrollY);
+});
 
-function setMidRes() {
-
-    var rootvar = document.querySelector(':root');
-    var regions = document.querySelectorAll('.info-region-select');
-    rootvar.style.setProperty('--who-what-where', '6rem');
-
-    regions.forEach((element) => {
-        element.classList.remove('buttonB');
-    });
-}
-function setHighRes() {
-
-    var regions = document.querySelectorAll('.info-region-select');
-
-    regions.forEach((element) => {
-        element.classList.add('buttonB');
-    });
-
-}
-
+// Restore the scroll position after the page reloads
+window.addEventListener("load", function () {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition));
+        sessionStorage.removeItem("scrollPosition"); // Clean up after restoring
+    }
+});
 
 window.addEventListener('resize', function () {
     setResStyles(window.innerWidth);
 });
 
-let vid = document.getElementById("bg-video");
-vid.playbackRate = 0.75;
-
-var regionSelect = document.getElementsByName('info-region');
-var infoRegionBtnList = document.querySelector('.info-region-ul');
-var whereRegions = document.querySelectorAll('.info-region-select label');
-
-
 window.addEventListener('scroll', function () {
-
 
     if (window.scrollY > 300) {
         document.querySelector('.to-top-btn').classList.add('show');
@@ -71,9 +87,8 @@ window.addEventListener('scroll', function () {
 
 });
 
-
-
-
+let vid = document.getElementById("bg-video");
+vid.playbackRate = 0.75;
 
 whereRegions.forEach((element, index) => {
     if (screenwidth > 1200) {
@@ -103,7 +118,7 @@ document.querySelector('.region-right').addEventListener('click', function () {
     var checkedRadioIndex = parseInt(regionSelect[findChecked()].value);
 
     if (window.innerWidth < 1201) {
-        infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`
+        infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`;
     }
     regionSelect[checkedRadioIndex].checked = true; 
 
@@ -124,7 +139,7 @@ document.querySelector('.region-left').addEventListener('click', function () {
 
     var newCheck = checkedRadioIndex - 2;
     if (window.innerWidth < 1201) {
-        infoRegionBtnList.style.left = `calc(100vw * -${newCheck})`
+        infoRegionBtnList.style.left = `calc(100vw * -${newCheck})`;
     }
     regionSelect[newCheck].checked = true;
 
