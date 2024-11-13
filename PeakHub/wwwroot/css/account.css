@@ -30,7 +30,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
 }
 
 /* Form Container */
@@ -82,7 +82,7 @@ h2 {
     width: 45%;
 }
 
- .right-form {
+.right-form {
     height: 100%;
     display: flex;
     align-items: center;
@@ -94,16 +94,17 @@ h2 {
         padding: 2%;
     }
 
-    /* Spacing between elements */
-    form * {
-        margin: 0.5rem 0;
-    }
+/* Spacing between elements */
+form * {
+    margin: 0.5rem 0;
+}
 
 /* Hide the forgot password form initially */
 #forgotForm {
     display: none;
     opacity: 0;
     transition: opacity 0.5s ease, width 0.5s ease;
+    background-color: var(--grey-glass);
 }
 
 /* Adjust the logo size */
@@ -118,17 +119,17 @@ h2 {
 
     .brand-logo-container img {
         height: 100px;
-        width: 100px; 
+        width: 100px;
         border-radius: 50%;
         box-shadow: var(--shadow-down);
         cursor: pointer;
     }
 
     .brand-logo-container span {
-        font-size: 2rem; 
+        font-size: 2rem;
         font-weight: 700;
         text-shadow: var(--shadow-down);
-        margin-left: 0.5rem; 
+        margin-left: 0.5rem;
     }
 
 input[type="text"], input[type="password"], input[type="email"] {
@@ -137,16 +138,28 @@ input[type="text"], input[type="password"], input[type="email"] {
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: Black;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: black !important;
     text-align: center;
 }
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
         outline: none;
         border: 1px solid rgba(255, 255, 255, 0.9);
-        background-color: rgba(255, 255, 255, 0.2);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: black !important;
+    }
+
+    /* Override browser autofill styling */
+    input[type="text"]:-webkit-autofill,
+    input[type="password"]:-webkit-autofill,
+    input[type="email"]:-webkit-autofill {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset !important;
+        color: black !important;
+        font-size: 1rem;
+        transition: background-color 5000s ease-in-out 0s;
     }
 
 /* Adjust Button Layout */
@@ -180,9 +193,9 @@ input[type="text"], input[type="password"], input[type="email"] {
 .btn-row, .btn-col {
     width: 100%;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
-    gap: 20px; 
+    gap: 20px;
 }
 
 
@@ -195,7 +208,7 @@ input[type="text"], input[type="password"], input[type="email"] {
 }
 
     .forgot-password.active {
-        display: block; 
+        display: block;
     }
 
     .forgot-password:hover {
@@ -206,6 +219,7 @@ input[type="text"], input[type="password"], input[type="email"] {
 a {
     text-decoration: none;
 }
+
 .brand-logo-container span:hover {
     transform: scale(1.05);
 }

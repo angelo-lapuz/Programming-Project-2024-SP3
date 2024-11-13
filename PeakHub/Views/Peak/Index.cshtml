@@ -1,7 +1,7 @@
-﻿@{
+﻿﻿@{
     @using PeakHub.Models;
     @using Newtonsoft.Json;
-   
+
     var peaks = JsonConvert.SerializeObject(ViewBag.Peaks);
     var peak = JsonConvert.SerializeObject(ViewBag.peak);
     if (ViewBag.user == null)
@@ -12,6 +12,7 @@
     {
         ViewBag.user = true;
     }
+
 }
 
 <!DOCTYPE html>
@@ -38,113 +39,119 @@
         var user = @ViewBag.user.ToString().ToLower();
     </script>
 
+    <div class="main-content">
+        <div class="container">
+            <div class="info" style="width: 50%; height: 500px; position: relative;">
+                <h2> @ViewBag.peak.Name</h2>
 
-    <div class="container">
-        <div class="info" style="width: 50%; height: 500px; position: relative; float: left;">
-            <h2> @ViewBag.peak.Name</h2>
+                @{
+                    <p>Region: @ViewBag.Peak.Region </p>
+                    <p>Coordinates: @ViewBag.Peak.Coords </p>
+                    <p>Elevation: @ViewBag.Peak.Elevation </p>
+                    <p>@ViewBag.Peak.Details</p>
+                }
+            </div>
+            <div class="filter-container">
+                <div class="filter-options">
+                    <button class="filter-toggle">Filters</button>
+                    <div class="filter-selections">
+                        <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
+                        <span id="difficulty-value">Difficulty</span>
+                        <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
+                        <span id="elevation-value">Elevation</span>
+                        <input type="text" id="search-name" placeholder="Enter Peak name">
+                        <input type="hidden" id="filter-difficulty" />
 
-            @{
-                <p>Region: @ViewBag.Peak.Region </p>
-                <p>Coordinates: @ViewBag.Peak.Coords </p>
-                <p>Elevation: @ViewBag.Peak.Elevation </p>
-                <p>@ViewBag.Peak.Details</p>
-            }
-        </div>
-        <div class="filter-container">
-            <div class="filter-options">
-                <button class="filter-toggle">Filters</button>
-                <div class="filter-selections">
-                    <input type="range" id="filter-difficultySlider" min="1" max="4" step="1" value="1">
-                    <span id="difficulty-value">Difficulty</span>
-                    <input type="range" id="filter-elevation" min="0" max="1600" step="100" value="0">
-                    <span id="elevation-value">Elevation</span>
-                    <input type="text" id="search-name" placeholder="Enter Peak name">
-                    <input type="hidden" id="filter-difficulty" />
+                        <!-- New Place marker stuff here Phi-->
 
-                    <!-- New Place marker stuff here Phi-->
-             
-                    <button id="place-marker-btn">Place Marker</button>
+                        <button id="place-marker-btn">Place Marker</button>
 
-                    <!-- Slider container for adjusting radius (initially hidden) -->
-                    <div id="radius-slider-container" style="display:none;">
-                        <label for="radius-slider">Radius (km): </label>
-                        <input type="range" id="radius-slider" min="1" max="50" value="10">
-                        <span id="radius-value">10</span> 
+                        <!-- Slider container for adjusting radius (initially hidden) -->
+                        <div id="radius-slider-container" style="display:none;">
+                            <label for="radius-slider">Radius (km): </label>
+                            <input type="range" id="radius-slider" min="1" max="50" value="10">
+                            <span id="radius-value">10</span>
+                        </div>
+
+
+                        <!-- New Slider for route length here Phi -->
+
+                        <div id="filter-length-container">
+                            <label for="filter-length"> Minimum route length</label>
+                            <input type="range" id="filter-length-slider" min="0" max="50" step="1">
+                            <span id="filter-length-value">0 km </span>
+                        </div>
+
+
+
+
+                        <button id="apply-filters">Apply</button>
                     </div>
-
-
-                    <!-- New Slider for route length here Phi -->
-                    
-                    <div id="filter-length-container">
-                        <label for="filter-length"> Minimum route length</label>
-                        <input type="range" id="filter-length-slider" min="0" max="50" step="1">
-                        <span id="filter-length-value">0 km </span>
-                    </div>  
-
-
-
-
-                    <button id="apply-filters">Apply</button>
-                </div>
-                <div class="filter-results">
-                    <table class="filter-results-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Region</th>
-                            </tr>
-                        </thead>
-                        <tbody class="filter-table-body">
-                        </tbody>
-                    </table>
+                    <div class="filter-results">
+                        <table class="filter-results-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Region</th>
+                                </tr>
+                            </thead>
+                            <tbody class="filter-table-body">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="map-container" style="width: 50%; height: 500px; position: relative; float: right;">
-            <button class="info-button">i</button>
-            <div class="info-data"></div>
-            <div id="map"></div>
-        </div>
 
-        <div class="route-container">
-            <div class="route-content">
-                <div class="plannerBtns">
-                    <button id="draw-route" class="planner-buttos">Draw Route</button>
-                    <button id="undo" class="planner-button">Undo</button>
-                    <button id="finish" class="planner-button">Finish</button>
-                    <button id="clear" class="planner-button">Clear</button>
-                    <button id="saveBtn" class="saveBtn">Save</button>
+
+            <div class="map-container">
+                <button class="info-button">i</button>
+                <div class="info-data"></div>
+                <div id="map"></div>
+            </div>
+
+            <div class="route-container">
+                <div class="route-content">
+                    <div class="plannerBtns">
+                        <button id="draw-route" class="planner-buttos">Draw Route</button>
+                        <button id="undo" class="planner-button">Undo</button>
+                        <button id="finish" class="planner-button">Finish</button>
+                        <button id="clear" class="planner-button">Clear</button>
+                        <button id="saveBtn" class="saveBtn">Save</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="elevationChart"></canvas>
+                    </div>
                 </div>
-                <div class="chart-container">
-                    <canvas id="elevationChart"></canvas>
+                <div class="route-toggle-component">
+                    <button class="route-toggle">Routing</button>
                 </div>
             </div>
-            <div class="route-toggle-component">
-                <button class="route-toggle">Routing</button>
+
+            <div class="sections-container">
+                <span>REGION LINKS</span>
+                <div id="section-boxes" class="regions-box"></div>
+                <button class="region-links-toggle">Regions</button>
             </div>
-        </div>
 
-        <div class="sections-container">
-            <span>REGION LINKS</span>
-            <div id="section-boxes" class="regions-box"></div>
-            <button class="region-links-toggle">Regions</button>
-        </div>
+            <div class="routeList-container">
+                <span>ROUTE LIST</span>
+                <div id="route-box" class="route-box"></div>
+                <button class="routeList-toggle">My Routes</button>
+            </div>
 
-        <div class="routeList-container">
-            <span>ROUTE LIST</span>
-            <div id="route-box" class="route-box"></div>
-            <button class="routeList-toggle">My Routes</button>
         </div>
-
     </div>
 
-        <div class="carosel-images" id="carosel-images">
-            <!-- Images will be dynamically added here -->
+    <div class="Gallery">
+        <h2> Gallery</h2>
         <button class="carosel-control left" onclick="prevImg()"> &#10094; </button>
         <button class="carosel-control right" onclick="nextImg()"> &#10095; </button>
+        <div class="carosel-images" id="carosel-images">
         </div>
-        
+    </div>
+
+
 
     <script src="~/js/Info.js"></script>
     <script src="~/js/map.js"></script>

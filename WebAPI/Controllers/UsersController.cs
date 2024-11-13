@@ -70,7 +70,7 @@ public class UsersController : ControllerBase
 
         // generate reset token (.net Identity) andd the reset link for the user
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var resetLink = $"https://localhost:7103/Login/ResetPassword?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+        var resetLink = $"https://peakhub20241114064311.azurewebsites.net/Login/ResetPassword?userId={user.Id}&token={Uri.EscapeDataString(token)}";
 
         // creating basic email body
         var emailBody = $@"<html>
@@ -161,7 +161,7 @@ public class UsersController : ControllerBase
             var base64Token = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(token));
 
             // creating the callback url the user must click to confirm their email
-            var confirmationLink = $"https://taspeaks-fpf6hdaqgyazduge.canadacentral-01.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
+            var confirmationLink = $"https://peakhub20241114064311.azurewebsites.net/SignUp/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(base64Token)}";
             // creating the email
             var emailBody = $@"
             <html>
@@ -189,7 +189,7 @@ public class UsersController : ControllerBase
         // checks that the current user is an admin
         var isAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
 
-        // if the current user is an admin make the desired user and admin, else return error
+        // if the current user is an admin make the desired user and admin, elk
         if (isAdmin)
         {
             await _userManager.AddToRoleAsync(user, "ADMIN");
