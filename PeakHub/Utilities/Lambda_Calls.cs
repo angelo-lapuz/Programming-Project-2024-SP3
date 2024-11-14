@@ -12,37 +12,6 @@ namespace PeakHub.Utilities {
             _logger = logger;
         }
 
-        public async Task<string> UploadToS3(string bucket, string ID, byte[] fileContent, string mimeType) {
-            try {
-                var payload = new {
-                    Bucket = bucket,
-                    ID = ID,
-                    FileContent = fileContent,
-                    MimeType = mimeType
-                };
-
-
-                var requst = new InvokeRequest {
-                    FunctionName = "peakhub-upload-content",
-                    Payload = System.Text.Json.JsonSerializer.Serialize(payload),
-                };
-
-                var response = await _client.InvokeAsync(requst);
-                var responseString = System.Text.Json.JsonSerializer.Deserialize<string>(response.Payload);
-
-                if (responseString == null) throw new Exception("Error Occured!");
-
-                else if (responseString.Contains("[Error]")) throw new Exception(responseString);
-
-                _logger.LogInformation($"Success! A Brilliant Success! Link: [{responseString}]");
-                return responseString;
-            }
-            catch (Exception ex) {
-                _logger.LogError($"[{ex.Message}]");
-                return null;
-            }
-        }
-
         public async Task<List<string>> GetPeakPics(string mountName) {
             
             try {
