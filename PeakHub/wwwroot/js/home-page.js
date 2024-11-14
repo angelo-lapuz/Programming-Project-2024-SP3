@@ -54,7 +54,10 @@ function setResStyles(width) {
         setHighRes();
     }
 
-    moveMap(parseInt(regionSelect[findChecked()].value));
+    if (!document.querySelector('.info-regions-more')) {
+        moveMap(parseInt(regionSelect[findChecked()].value));
+    }
+    
 }
 
 
