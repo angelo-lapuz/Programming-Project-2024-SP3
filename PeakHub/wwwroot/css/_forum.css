@@ -90,15 +90,16 @@ img { border-radius: var(--radius); }
 
 #postsForBoard {
     gap: 20px;
-    width: 50%;
+    width: 100%;
     padding: 1%;
     display: flex;
     overflow-y: auto;
+    align-items: center;
     flex-direction: column;
 }
 
 .forumPost {
-    width: 100%;
+    width: 50%;
     border-radius: var(--radius);
     background: var(--grey-glass);
     box-shadow: 0 2px 5px var(--black-glass);
@@ -412,10 +413,11 @@ img { border-radius: var(--radius); }
     /* Forum */
     #postsForBoard {
         padding: 0;
-        width: 100%;
         margin-bottom: 15px;
     }
     #postsForBoard div { border-radius: 0; }
+
+    .forumPost { width: 100%; }
 
     .postHead { gap: 5px; }
     .postHead p { font-size: 1rem; }
@@ -465,7 +467,7 @@ img { border-radius: var(--radius); }
     }
 
     /* Forum */
-    #postsForBoard { width: 85%; }
+    .forumPost { width: 85%; }
     .mini-nav { bottom: 35px; }
 
     .mini-nav-icon {

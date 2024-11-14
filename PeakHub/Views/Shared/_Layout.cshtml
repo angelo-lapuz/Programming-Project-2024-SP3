@@ -27,8 +27,7 @@
                 <div class="nav-login-list">
                     <ul>
                         @{
-                            if (Context.Session.GetString("UserId") != null)
-                            {
+                            if (Context.Session.GetString("UserId") != null) {
                                 <li class="nav-login-li">
                                     <a class="nav-link" asp-area="" asp-controller="Profile" asp-action="Index">PROFILE</a>
                                 </li>
@@ -36,8 +35,7 @@
                                     <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">LOGOUT</a>
                                 </li>
                             }
-                            else
-                            {
+                            else {
                                 <li class="nav-login-li">
                                     <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Login">LOGIN</a>
                                 </li>
@@ -66,7 +64,7 @@
                     <li class="nav-item">
                         <a class="nav-link absolute-center" asp-area="" asp-controller="Forum" asp-action="Index">FORUM</a>
                         <div class="nav-link-hover transition absolute-center"></div>
-                    </li>  
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -76,20 +74,20 @@
     </main>
     <footer id="footer-container" class="transition">
         <section class="footer-section">
-        
-            <div data-aos="flip-left"  class="footer-logo-section">
+
+            <div data-aos="flip-left" class="footer-logo-section">
                 <a class="brand-logo-container" asp-controller="Home" asp-action="Index">
                     <img src="~/img/logo2.png" alt="TAS PEAKS Logo" />
                     <span id="brand-name">TAS PEAKS</span>
                 </a>
             </div>
 
-            <div data-aos="fade-left"  class="footer-links-section">
+            <div data-aos="fade-left" class="footer-links-section">
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Planner" asp-action="Index">Planner</a></li>
-                    <li><a asp-area="" asp-controller="Forum" asp-action="Index">Forum</a></li>
+                    <li><a asp-area="" asp-controller="Board" asp-action="Index">Forum</a></li>
                     <li><a asp-area="" asp-controller="About" asp-action="Index">About Us</a></li>
                     <li><a asp-area="" asp-controller="Contact" asp-action="Index">Contact</a></li>
                 </ul>
@@ -110,7 +108,7 @@
                 <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
             </div>
 
-            <div data-aos="zoom-in"  class="acknowledgement-section">
+            <div data-aos="zoom-in" class="acknowledgement-section">
                 <div class="flag-img-container">
                     <img src="~/img/aboriginal_flag.png" alt="Aboriginal Flag" />
                 </div>

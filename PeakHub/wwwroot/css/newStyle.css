@@ -5,9 +5,6 @@
 
     PLANNER PAGE
 
-
-
-
     BREAK PT MAX-600PX
 
     BREAK PT MIN-601PX
@@ -18,21 +15,16 @@
 
 */
 
-
-
-*,
-*::before,
-*::after {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     border: 0;
     box-sizing: border-box;
     
 }
+
 /* removes anchor link decorations */
-a {
-    text-decoration: none;
-}
+a { text-decoration: none; }
 
 /* disables transition effect */
 .no-transition * {
@@ -42,6 +34,7 @@ a {
 /* custom variables */
 :root {
     --grey: #e1daca;
+    --darkgrey: #cfc3a9;
     --grey-glass: rgb(225,218,202,0.5);
     --lightgreen-glass: rgb(19,100,68, 0.5);
     --lightgreen: #2f6546;
@@ -455,7 +448,7 @@ main {
 /* FOOTER */
 
 footer {
-    background: var(--lightgreen);
+    background: linear-gradient(var(--darkgreen), var(--lightgreen) 15%);
 }
 
 .footer-section {
@@ -702,7 +695,7 @@ footer {
     position: relative;
     height: var(--who-what-where);
     width: 100%;
-    background: var(--lightgreen);
+    background: linear-gradient(to bottom, var(--lightgreen), var(--darkgreen));
 }
 
 #what-header span, #who-header span, #where-header span {
@@ -712,7 +705,7 @@ footer {
     transform: translateX(-50%);
     font-size: var(--who-what-where);
     font-weight: 700;
-    color: var(--grey);
+    color: var(--darkgrey);
     z-index: 10;
 }
 
@@ -720,7 +713,7 @@ footer {
 #what-container {
     position: relative;
     min-height: 100vh;
-    background: var(--grey);
+    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%);
     z-index: 100;
 }
 
@@ -800,20 +793,19 @@ footer {
 /* WHERE section */
 
 #where-header {
-    background: var(--grey);
+    background: linear-gradient(to bottom, var(--grey), var(--darkgrey));
     z-index: 100;
 }
 
 #where-header span {
-    color: var(--lightgreen);
+    color: var(--darkgreen);
     width: 100%;
-
     text-align: center;
 }
 
 #where-container {
     position: relative;
-    background: var(--lightgreen);
+    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 15%);
     min-height: 800px;
 }
 
@@ -858,6 +850,17 @@ footer {
     bottom: 20vh;
     left: 50%;
     transform: translateX(-50%);
+    border-radius: 555px;
+    transition: none;
+}
+
+.info-regions-more:hover {
+    background: var(--darkgreen);
+}
+
+.info-regions-more:active {
+    background: var(--grey);
+    color: var(--darkgreen);
 }
 
 /* container for the region selector (LEFt and RIGHT) in WHERE */
@@ -967,6 +970,11 @@ footer {
     right: 50%;
     transform: translate(50%, -50%);
     z-index: 1;
+    filter: drop-shadow(0px 0px 10px rgb(0,0,0,0.75));
+}
+
+.info-region-img-base {
+    transition: all var(--animation-timing);
 }
 
 /* WHERE map img */
@@ -1017,7 +1025,7 @@ footer {
     z-index: 100;
     width: 100vw;
     min-height: auto;
-    background: var(--grey);
+    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%, var(--grey) 85%, var(--darkgrey));
 }
 
 .info-who-grid {
@@ -2307,7 +2315,7 @@ input[type="range"] {
         transform-origin: left;
         position: absolute;
         left: calc(80% + 2vw);
-        top: 25%;
+        top: 20%;
     }
 
     .info-region-list {
