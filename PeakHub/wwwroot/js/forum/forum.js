@@ -98,7 +98,7 @@ function postHTML(post) {
             </div>`;
         }
         else {
-            content = `<p>${post.content}</p>`;
+            content = `<div> <p>${post.content}</p> </div>`;
         }
     }
 

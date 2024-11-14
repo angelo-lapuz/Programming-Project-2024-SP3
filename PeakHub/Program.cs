@@ -78,8 +78,8 @@ builder.Services.AddScoped<Tools>();
 builder.Services.AddDistributedMemoryCache();
 
 
-// [NEW] Add AWS S3 // getting the credentials from environment variables
-builder.Services.AddSingleton<IAmazonS3>(service => {
+// AWS Credentials - appSettings
+builder.Services.AddSingleton<AWSCredentials>(service => {
     var config = builder.Configuration.GetSection("AwsSettings");
     var awsAccessKeyId = config["AWS_ACCESS_KEY_ID"];
     var awsSecretAccessKey = config["AWS_SECRET_ACCESS_KEY"];
@@ -88,8 +88,20 @@ builder.Services.AddSingleton<IAmazonS3>(service => {
         throw new Exception("AWS Credentials Missing! Check appsettings JSON");
     }
 
-    var credentials = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
-    return new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1); 
+    return new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
+    
+});
+
+// AWS S3
+builder.Services.AddSingleton<IAmazonS3>(services => {
+    var credentials = services.GetRequiredService<AWSCredentials>();
+    return new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1);
+});
+
+// AWS Lambda
+builder.Services.AddSingleton<IAmazonLambda>(services => {
+    var credentials = services.GetRequiredService<AWSCredentials>();
+    return new AmazonLambdaClient(credentials, Amazon.RegionEndpoint.USEast1);
 });
 
 // configuring controllers - ignore reference loops - prevent infinite loops when loading from database

@@ -21,6 +21,9 @@
     <None Include="Views\AddPost\Index.cshtml" />
     <None Include="Views\Board\Index.cshtml" />
     <None Include="Views\Forum\Index.cshtml" />
+    <None Include="Views\Profile\ChangePassword.cshtml" />
+    <None Include="Views\Profile\EditDetails.cshtml" />
+    <None Include="Views\Profile\Index.cshtml" />
     <None Include="wwwroot\img\background.JPG" />
     <None Include="wwwroot\img\logo.png" />
     <None Include="wwwroot\img\peakhub.png" />
@@ -46,7 +49,6 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
-    <Folder Include="HTML-CSS-REBUILD\" />
   </ItemGroup>
 
   <ItemGroup>
