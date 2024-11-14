@@ -291,7 +291,7 @@ if (window.location.href.includes("Peak/Index/")) {
     let formattedCoords = [];
     let routeCoords = currentPeak.Routes;
 
-    // Step 1: Parse routeCoords if it's a JSON string
+    //  Parse routeCoords if it's a JSON string
     if (typeof routeCoords === 'string') {
         try {
             routeCoords = JSON.parse(routeCoords);
@@ -300,7 +300,7 @@ if (window.location.href.includes("Peak/Index/")) {
         }
     }
 
-    // Step 2: Check if routeCoords is an array of objects with lat/lng properties
+    //  Check if routeCoords is an array of objects with lat/lng properties
     if (Array.isArray(routeCoords) && routeCoords.every(point => point.lat !== undefined && point.lng !== undefined)) {
         // Map each point to ensure it has lat and lng as numbers
         formattedCoords = routeCoords.map(point => ({
@@ -311,10 +311,8 @@ if (window.location.href.includes("Peak/Index/")) {
         console.error("Unexpected structure for routeCoords after parsing:", routeCoords);
     }
 
-    // Step 3: Log the formatted coordinates for debugging
-    console.log("Final formattedCoords:", formattedCoords);
 
-    // Step 4: Ensure the formatted coordinates are valid before proceeding
+    // Ensure the formatted coordinates are valid before proceeding
     if (formattedCoords.length > 0) {
         // Convert formatted coordinates to Leaflet LatLng objects
         const latLngCoords = formattedCoords.map(coord => L.latLng(coord.lat, coord.lng));
@@ -447,7 +445,6 @@ clearBtn.addEventListener('click', function () {
 });
 // if there are any drawn items, clear them, and reset the polylines and points arrays
 function clear() {
-    console.log("clearing");
     drawnItems.clearLayers();
     polylines = [];
     points = [];
@@ -764,11 +761,11 @@ async function getElevationsBatch(locations) {
                 elevations = elevations.concat(data.results.map(result => result.elevation));
             } else {
                 console.error('No elevation data available for chunk:', i / chunkSize + 1);
-                elevations = elevations.concat(Array(locationChunk.length).fill(null)); // Fallback if no data
+                elevations = elevations.concat(Array(locationChunk.length).fill(null)); 
             }
         } catch (error) {
             console.error('Error fetching elevation data for chunk:', i / chunkSize + 1, error);
-            elevations = elevations.concat(Array(locationChunk.length).fill(null)); // Fallback if request fails
+            elevations = elevations.concat(Array(locationChunk.length).fill(null)); 
         }
     }
 
