@@ -17,10 +17,8 @@
     }
 }
 
-<body class="profileBody"></body>
 
 <div class="container">
-
     <div id="awardsSection" class="col-md-3">
         <div class="headerSearchWrapper">
             <h2>AWARDS &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
@@ -31,31 +29,34 @@
         }
         else
         {
-            <div class="awards-grid">
-                @foreach (var award in ViewBag.Awards)
-                {
-                    if (award.Name.Contains("Student")) continue;
+            <div class="awards-grid-container">
+                <div class="awards-grid">
+                    @foreach (var award in ViewBag.Awards)
+                    {
+                        if (award.Name.Contains("Student")) continue;
 
-                    string quantity = ExtractQuantity(award.Condition);
-                    string awardClass = award.Name.Contains("Beginner") ? "bronze" :
-                    award.Name.Contains("Experienced") ? "silver" :
-                    (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
-                    award.Name.Contains("Legend") ? "platinum" : "";
+                        string quantity = ExtractQuantity(award.Condition);
+                        string awardClass = award.Name.Contains("Beginner") ? "bronze" :
+                        award.Name.Contains("Experienced") ? "silver" :
+                        (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
+                        award.Name.Contains("Legend") ? "platinum" : "";
 
-                    <div class="award-wrapper">
-                        <div class="award-tile @awardClass">
-                            @if (awardClass == "platinum")
-                            {
-                                <i class="fa-solid fa-crown award-crown"></i>
-                            }
-                            <div class="award-number">@quantity</div>
+                        <div class="award-wrapper">
+                            <div class="award-tile @awardClass">
+                                @if (awardClass == "platinum")
+                                {
+                                    <i class="fa-solid fa-crown award-crown"></i>
+                                }
+                                <div class="award-number">@quantity</div>
+                            </div>
+                            <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
                         </div>
-                        <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         }
     </div>
+
 
 
     <div id="userSection" class="col-md-3">
@@ -89,9 +90,7 @@
 
     <div id="completedAbelsSection" class="col-md-6">
         <div class="headerSearchWrapper">
-            <a href="/Planner">
-                <h2>COMPLETED <i class="fa-regular fa-circle-question"></i></h2>
-            </a>
+                <h2>COMPLETED</h2>
             <div class="search-bar-container">
                 <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
             </div>
@@ -192,10 +191,15 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!--This script handles taking users to the forum for a completed peak-->
 <script>
     $(document).ready(function () {
         $("#completedAbelsSection").on("click", ".itemBox", function () {
             var peakID = $(this).data("id");
+
+            if ($(this).hasClass("grey-scale")) {
+                return;
+            }
             if (peakID) {
                 window.location.href = `/Forum/Index?boardID=${peakID}`;
             }
@@ -203,6 +207,9 @@
     });
 </script>
 
+
+
+<!--This script handles the completed peaks counter-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const hundreds = document.querySelector(".counter-slots #hundreds");
@@ -226,7 +233,7 @@
         setTimeout(() => spinCounter(units, finalUnits, 1000), 400);
     });
 </script>
-
+<!--This script handles case sensitivty when searching-->
 <script>
     document.getElementById('peakSearchInput').addEventListener('input', function () {
         const searchTerm = this.value.toLowerCase();
@@ -267,4 +274,6 @@
         });
     });
 </script>
+
+
 

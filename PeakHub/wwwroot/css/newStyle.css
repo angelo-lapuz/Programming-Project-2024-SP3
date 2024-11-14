@@ -42,7 +42,6 @@ a {
 /* custom variables */
 :root {
     --grey: #e1daca;
-    --darkgrey: #cfc3a9;
     --grey-glass: rgb(225,218,202,0.5);
     --lightgreen-glass: rgb(19,100,68, 0.5);
     --lightgreen: #2f6546;
@@ -456,7 +455,7 @@ main {
 /* FOOTER */
 
 footer {
-    background: linear-gradient(var(--darkgreen), var(--lightgreen) 15%);
+    background: var(--lightgreen);
 }
 
 .footer-section {
@@ -478,7 +477,6 @@ footer {
 .footer-section * {
     text-align: center;
     color: var(--grey);
-    font-size: 1.25rem;
 }
 
 .footer-logo-section {
@@ -513,7 +511,7 @@ footer {
 }
 
 .footer-social-section {
-    grid-area: social;
+    grid-area:social;
 }
 
 .acknowledgement-section {
@@ -559,15 +557,14 @@ footer {
 
 .footer-section h3 {
     color: white;
-    font-size: 2rem;
 }
 
 .footer-links-section a:hover, .footer-contact-section a:hover, footer-social-section a:hover {
     color: var(--yellow);
 }
 
-.fab {
-    font-size: 3.5rem;
+.footer-social-section a {
+    font-size: 4rem;
     margin: 0 1rem;
     filter: drop-shadow(var(--shadow-down));
 }
@@ -705,7 +702,7 @@ footer {
     position: relative;
     height: var(--who-what-where);
     width: 100%;
-    background: linear-gradient(to bottom, var(--lightgreen), var(--darkgreen));
+    background: var(--lightgreen);
 }
 
 #what-header span, #who-header span, #where-header span {
@@ -715,7 +712,7 @@ footer {
     transform: translateX(-50%);
     font-size: var(--who-what-where);
     font-weight: 700;
-    color: var(--darkgrey);
+    color: var(--grey);
     z-index: 10;
 }
 
@@ -723,7 +720,7 @@ footer {
 #what-container {
     position: relative;
     min-height: 100vh;
-    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%);
+    background: var(--grey);
     z-index: 100;
 }
 
@@ -804,19 +801,20 @@ footer {
 /* WHERE section */
 
 #where-header {
-    background: linear-gradient(to bottom, var(--grey), var(--darkgrey));
+    background: var(--grey);
     z-index: 100;
 }
 
 #where-header span {
-    color: var(--darkgreen);
+    color: var(--lightgreen);
     width: 100%;
+
     text-align: center;
 }
 
 #where-container {
     position: relative;
-    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 15%);
+    background: var(--lightgreen);
     min-height: 800px;
 }
 
@@ -861,17 +859,6 @@ footer {
     bottom: 20vh;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 555px;
-    transition: none;
-}
-
-.info-regions-more:hover {
-    background: var(--darkgreen);
-}
-
-.info-regions-more:active {
-    background: var(--grey);
-    color: var(--darkgreen);
 }
 
 /* container for the region selector (LEFt and RIGHT) in WHERE */
@@ -981,11 +968,6 @@ footer {
     right: 50%;
     transform: translate(50%, -50%);
     z-index: 1;
-    filter: drop-shadow(0px 0px 10px rgb(0,0,0,0.75));
-}
-
-.info-region-img-base {
-    transition: all var(--animation-timing);
 }
 
 /* WHERE map img */
@@ -1036,7 +1018,7 @@ footer {
     z-index: 100;
     width: 100vw;
     min-height: auto;
-    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%, var(--grey) 85%, var(--darkgrey));
+    background: var(--grey);
 }
 
 .info-who-grid {
@@ -1932,6 +1914,7 @@ input[type="range"] {
 
     #what-header span, #who-header span, #where-header span {
         bottom: 0.35rem;
+
     }
 }
 
@@ -2325,7 +2308,7 @@ input[type="range"] {
         transform-origin: left;
         position: absolute;
         left: calc(80% + 2vw);
-        top: 20%;
+        top: 25%;
     }
 
     .info-region-list {
@@ -2439,5 +2422,9 @@ input[type="range"] {
 
     .route-overlay-buttons.slide {
         right: 10rem;
+    }
+
+    .info-who-text h2 {
+        text-align: center;
     }
 }
