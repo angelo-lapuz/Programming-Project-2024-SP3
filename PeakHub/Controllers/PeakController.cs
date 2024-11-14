@@ -31,14 +31,7 @@ namespace PeakHub.Controllers {
             ViewBag.Routes = null;
             ViewBag.user = userID;
 
-            // get used (if logged in) and load the user routes - set user LoggedIn to true - used in front
-            User user = await _tools.GetUser(userID);
-            if (user != null)
-            {
-                ViewBag.Routes = user.Routes;
-                ViewBag.userL = true;
-            }
-
+        
             // get peak for this page:
             var getPeakResponse = await _httpClient.GetAsync($"api/Peaks/{ID}");
 
@@ -49,16 +42,6 @@ namespace PeakHub.Controllers {
                 var peak = Newtonsoft.Json.JsonConvert.DeserializeObject<Peak>(peakData);
                 ViewBag.Peak = peak;
 
-
-                // get all the Peaks to be displayed on map if user zooms out serialize and add to viewbag
-                var getAllPeaksResponse = await _httpClient.GetAsync("api/Peak");
-                if (getAllPeaksResponse.IsSuccessStatusCode) {
-                    var allpeaks = await getAllPeaksResponse.Content.ReadAsStringAsync();
-                    var peaks = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Peak>>(allpeaks);
-
-                    ViewBag.Peaks = Newtonsoft.Json.JsonConvert.SerializeObject(peaks);
-                }
-                // display view or return to home if peak not found -- should never happen anyway
                 return View();
             }
             else

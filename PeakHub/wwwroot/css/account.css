@@ -30,7 +30,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
 }
 
 /* Form Container */
@@ -82,7 +82,7 @@ h2 {
     width: 45%;
 }
 
- .right-form {
+.right-form {
     height: 100%;
     display: flex;
     align-items: center;
@@ -94,16 +94,17 @@ h2 {
         padding: 2%;
     }
 
-    /* Spacing between elements */
-    form * {
-        margin: 0.5rem 0;
-    }
+/* Spacing between elements */
+form * {
+    margin: 0.5rem 0;
+}
 
 /* Hide the forgot password form initially */
 #forgotForm {
     display: none;
     opacity: 0;
     transition: opacity 0.5s ease, width 0.5s ease;
+    background-color: var(--grey-glass);
 }
 
 /* Adjust the logo size */
@@ -118,16 +119,17 @@ h2 {
 
     .brand-logo-container img {
         height: 100px;
-        width: 100px; 
+        width: 100px;
         border-radius: 50%;
+        box-shadow: var(--shadow-down);
         cursor: pointer;
     }
 
     .brand-logo-container span {
-        font-size: 2rem; 
+        font-size: 2rem;
         font-weight: 700;
         text-shadow: var(--shadow-down);
-        margin-left: 0.5rem; 
+        margin-left: 0.5rem;
     }
 
 input[type="text"], input[type="password"], input[type="email"] {
@@ -136,52 +138,49 @@ input[type="text"], input[type="password"], input[type="email"] {
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: Black;
-    text-align: center; 
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: black !important;
+    text-align: center;
 }
 
     input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
         outline: none;
         border: 1px solid rgba(255, 255, 255, 0.9);
-        background-color: rgba(255, 255, 255, 0.2);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: black !important;
     }
 
+    /* Override browser autofill styling */
+    input[type="text"]:-webkit-autofill,
+    input[type="password"]:-webkit-autofill,
+    input[type="email"]:-webkit-autofill {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 0.1) inset !important;
+        color: black !important;
+        font-size: 1rem;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 
 /* Adjust Button Layout */
-
-.button-container {
-    width: 80%; 
-    max-width: 400px; 
-    margin: 0 auto; 
-    display: flex;
-    gap: 10px; 
-    justify-content: center;
-    padding-bottom: 10px;
-}
-
-/* Button Styling */
 .btn-primary, .btn-secondary {
     width: 60%;
-    text-decoration: none;
-    margin: 0 auto;
+    background: var(--lightgreen-glass);
+    color: floralwhite;
+    border: 1.5px solid var(--darkgreen);
     padding: 15px;
     border-radius: 40px;
-    color: floralwhite;
-    background: var(--lightgreen-glass);
+    font-size: 18px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.25s linear;
-    overflow: hidden;
-    font-size: 18px;
+    margin: 0 auto;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-    border: 1.5px solid var(--darkgreen);
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
+    transition: all 0.25s linear;
 }
-
 
     /* Hover effect */
     .btn-primary:hover, .btn-secondary:hover {
@@ -189,6 +188,16 @@ input[type="text"], input[type="password"], input[type="email"] {
         transform: scale(1.05);
         box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
     }
+
+
+.btn-row, .btn-col {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 
 .forgot-password {
     color: #990000;
@@ -199,7 +208,7 @@ input[type="text"], input[type="password"], input[type="email"] {
 }
 
     .forgot-password.active {
-        display: block; 
+        display: block;
     }
 
     .forgot-password:hover {
@@ -210,44 +219,11 @@ input[type="text"], input[type="password"], input[type="email"] {
 a {
     text-decoration: none;
 }
+
 .brand-logo-container span:hover {
     transform: scale(1.05);
 }
 
-h2 {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 10px 0;
-    color: var(--grey);
-    text-shadow: var(--shadow-down);
-    font-size: 1.5rem;
-    letter-spacing: 0.10rem;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500 !important;
-    line-height: normal;
-    margin: 0;
-    display: block;
-}
-
-p {
-    text-align: center;
-    font-size: 1rem;
-    font-family: "Roboto", sans-serif;
-    color: floralwhite;
-    margin-bottom: 15px;
-    text-shadow: var(--shadow-down);
-}
-
-.success-message {
-    text-align: center;
-    font-size: 1rem;
-    font-family: "Roboto", sans-serif;
-    color: floralwhite;
-    margin-bottom: 15px;
-    text-shadow: var(--shadow-down);
-    font-weight: bold;
-}
 
 
 .text-danger {
@@ -262,20 +238,12 @@ p {
     font-family: "Roboto", sans-serif;
 }
 
+
 @media only screen and (max-width: 750px) {
     .right-form {
         width: 80%;
     }
-
-    .button-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center; 
-        gap: 10px; 
-        width: 100%; 
-    }
 }
-
 
 
 @media only screen and (min-width: 751px) and (max-width: 1000px) {

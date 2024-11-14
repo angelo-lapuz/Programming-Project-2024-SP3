@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure API client
 builder.Services.AddHttpClient("api", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5164");
+    client.BaseAddress = new Uri("https://taspeak-bba5hncge9f0e5c0.australiaeast-01.azurewebsites.net");
     client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });
@@ -78,35 +78,37 @@ builder.Services.AddScoped<Tools>();
 builder.Services.AddDistributedMemoryCache();
 
 
-// [NEW] Add AWS S3 // getting the credentials from environment variables
-builder.Services.AddSingleton<IAmazonS3>(service => {
-    var awsAccessKeyId = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
-    var awsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+// AWS Credentials - appSettings
+builder.Services.AddSingleton<AWSCredentials>(service => {
+    var config = builder.Configuration.GetSection("AwsSettings");
+    var awsAccessKeyId = config["AWS_ACCESS_KEY_ID"];
+    var awsSecretAccessKey = config["AWS_SECRET_ACCESS_KEY"];
 
     if (string.IsNullOrEmpty(awsAccessKeyId) || string.IsNullOrEmpty(awsSecretAccessKey)) {
-        throw new Exception("AWS credentials are missing in environment variables.");
+        throw new Exception("AWS Credentials Missing! Check appsettings JSON");
     }
 
-    var credentials = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
-    return new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1); 
+    return new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
+    
 });
 
-// [TEMP]
-// Add AWS Lambda with credentials
-builder.Services.AddAWSService<IAmazonLambda>(new AWSOptions {
-    Credentials = new BasicAWSCredentials(
-        "AKIA47CRV67K66X4TPO5",
-        "/Ytm1pyEEjdAnvDPttBJ8rCuwpRG13laV0jXTe7q"
-    ),
-    Region = Amazon.RegionEndpoint.USEast1
+// AWS S3
+builder.Services.AddSingleton<IAmazonS3>(services => {
+    var credentials = services.GetRequiredService<AWSCredentials>();
+    return new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1);
+});
+
+// AWS Lambda
+builder.Services.AddSingleton<IAmazonLambda>(services => {
+    var credentials = services.GetRequiredService<AWSCredentials>();
+    return new AmazonLambdaClient(credentials, Amazon.RegionEndpoint.USEast1);
 });
 
 // configuring controllers - ignore reference loops - prevent infinite loops when loading from database
 builder.Services.AddControllers()
-        .AddJsonOptions(options =>
-        {
-            options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-        });
+    .AddJsonOptions(options => {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 
 // Add controllers with views
