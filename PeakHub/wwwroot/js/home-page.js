@@ -1,5 +1,4 @@
-﻿
-var rootvar = document.querySelector(':root');
+﻿var rootvar = document.querySelector(':root');
 var regions = document.querySelectorAll('.info-region-select');
 var regionsList = document.querySelector('.info-region-list');
 var regionSelect = document.getElementsByName('info-region');
@@ -34,7 +33,7 @@ function setHighRes() {
 
     infoRegionBtnList.style.left = `calc(100vw * -0)`
 
-    
+
 }
 
 let screenwidth = window.innerWidth;
@@ -109,7 +108,7 @@ whereRegions.forEach((element, index) => {
             } else {
                 document.querySelector('.region-right').style.display = "block";
             }
-        
+
         });
     }
 });
@@ -120,10 +119,10 @@ document.querySelector('.region-right').addEventListener('click', function () {
     if (window.innerWidth < 1201) {
         infoRegionBtnList.style.left = `calc(100vw * -${checkedRadioIndex})`;
     }
-    regionSelect[checkedRadioIndex].checked = true; 
+    regionSelect[checkedRadioIndex].checked = true;
 
     var moveMapIndex = checkedRadioIndex + 1;
-    
+
     moveMap(moveMapIndex);
     updateRegionText(moveMapIndex);
 
@@ -158,9 +157,9 @@ document.querySelector('.region-left').addEventListener('click', function () {
 
 function findChecked() {
 
-    for ( i = 0; i < regionSelect.length; i++) {
+    for (i = 0; i < regionSelect.length; i++) {
         if (regionSelect[i].checked) {
-            return i ;
+            return i;
         }
     }
 }
@@ -214,7 +213,7 @@ function moveMap(index) {
                 image.style.right = "-30%";
                 image.style.top = "-120%";
                 break;
-        } 
+        }
     } else {
         image.style.width = "100%";
 
@@ -277,7 +276,7 @@ document.querySelector('.info-regions-more').addEventListener('click', function 
         regions.forEach((element) => {
             element.classList.add('buttonB');
         });
-    } 
+    }
     moveMap(1);
     updateRegionText(1);
 });
