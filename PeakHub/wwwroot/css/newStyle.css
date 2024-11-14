@@ -456,7 +456,7 @@ main {
 /* FOOTER */
 
 footer {
-    background: linear-gradient( to bottom, var(--darkgreen), var(--lightgreen) 15%);
+    background: linear-gradient(var(--darkgreen), var(--lightgreen) 15%);
 }
 
 .footer-section {
@@ -705,25 +705,25 @@ footer {
     position: relative;
     height: var(--who-what-where);
     width: 100%;
-    background: linear-gradient(to top, var(--darkgreen), var(--lightgreen));
+    background: linear-gradient(to bottom, var(--lightgreen), var(--darkgreen));
 }
 
-    #what-header span, #who-header span, #where-header span {
-        position: absolute;
-        bottom: 0.65rem;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: var(--who-what-where);
-        font-weight: 700;
-        color: var(--darkgrey);
-        z-index: 10;
-    }
+#what-header span, #who-header span, #where-header span {
+    position: absolute;
+    bottom: 0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--who-what-where);
+    font-weight: 700;
+    color: var(--darkgrey);
+    z-index: 10;
+}
 
 
 #what-container {
     position: relative;
     min-height: 100vh;
-    background: linear-gradient( to bottom, var(--darkgrey), var(--grey) 10%);
+    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%);
     z-index: 100;
 }
 
@@ -810,13 +810,12 @@ footer {
 #where-header span {
     color: var(--darkgreen);
     width: 100%;
-
     text-align: center;
 }
 
 #where-container {
     position: relative;
-    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 10%);
+    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 15%);
     min-height: 800px;
 }
 
@@ -861,6 +860,17 @@ footer {
     bottom: 20vh;
     left: 50%;
     transform: translateX(-50%);
+    border-radius: 555px;
+    transition: none;
+}
+
+.info-regions-more:hover {
+    background: var(--darkgreen);
+}
+
+.info-regions-more:active {
+    background: var(--grey);
+    color: var(--darkgreen);
 }
 
 /* container for the region selector (LEFt and RIGHT) in WHERE */
@@ -970,6 +980,11 @@ footer {
     right: 50%;
     transform: translate(50%, -50%);
     z-index: 1;
+    filter: drop-shadow(0px 0px 10px rgb(0,0,0,0.75));
+}
+
+.info-region-img-base {
+    transition: all var(--animation-timing);
 }
 
 /* WHERE map img */
@@ -1020,7 +1035,7 @@ footer {
     z-index: 100;
     width: 100vw;
     min-height: auto;
-    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%, var(--grey) 90%, var(--darkgrey));
+    background: linear-gradient(to bottom, var(--darkgrey), var(--grey) 15%, var(--grey) 85%, var(--darkgrey));
 }
 
 .info-who-grid {
@@ -2309,7 +2324,7 @@ input[type="range"] {
         transform-origin: left;
         position: absolute;
         left: calc(80% + 2vw);
-        top: 25%;
+        top: 20%;
     }
 
     .info-region-list {

@@ -350,7 +350,7 @@ const regionSummary = {
         elevation: "1123m - 1278m",
         difficulty: "Hard",
         hikeSeason: "Summer",
-        terrain: "Quartzite cliffs, rocky ascents, untamed wilderness"
+        terrain: "Quartzite cliffs, rocky ascents, wilderness"
 
     },
     8: {
@@ -370,7 +370,7 @@ const regionSummary = {
         elevation: "1106m - 1423m",
         difficulty: "Hard",
         hikeSeason: "Summer",
-        terrain: "Alpine meadows, jagged cliffs, untouched wilderness"
+        terrain: "Alpine meadows, jagged cliffs, wilderness"
 
     },
     10: {
