@@ -2536,7 +2536,7 @@ body {
 }
 
 .user-actions a {
-    width: 17.5rem;
+    width: 19rem;
     margin: 0 auto;
 }
 
@@ -2581,8 +2581,12 @@ body {
 
 }
 
-.awards-header .fa-chevron-up.flip {
+.awards-header .fa-chevron-up {
     transform: rotate(180deg);
+}
+
+.awards-header .fa-chevron-up.flip {
+    transform: none;
 }
 
 .headerSearchWrapper i:last-child {
@@ -2682,7 +2686,7 @@ body {
     }
 
     .user-actions a {
-        width: 17.5rem;
+        width: 19rem;
     }
 
     .awardsSection, .awardsSection.show {
@@ -2752,4 +2756,8 @@ body {
     .complete-header {
         top: 0;
     }
+}
+
+.fa-pen-to-square {
+    font-size: 1.5rem;
 }

@@ -15,7 +15,7 @@ awardsHeader.addEventListener('click', function () {
 
         let checkRotate = getComputedStyle(document.querySelector('.awards-header .fa-chevron-up')).transform;
 
-        if (checkRotate !== 'none') {
+        if (checkRotate === 'none') {
             awardsSection.classList.toggle('show');
             awardsChevron.classList.toggle('flip');
             awardsHeader.style.background = 'linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 25%, var(--lightgreen) 75%, var(--darkgreen))';
@@ -36,7 +36,7 @@ completedHeader.addEventListener('click', function () {
 
         let checkRotate = getComputedStyle(document.querySelector('.awards-header .fa-chevron-up')).transform;
 
-        if (checkRotate === 'none') {
+        if (checkRotate !== 'none') {
             awardsSection.classList.toggle('show');
             awardsChevron.classList.toggle('flip');
             awardsHeader.style.background = 'linear-gradient(to bottom, silver, grey 25%, grey 75%, black)';
