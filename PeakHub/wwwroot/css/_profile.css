@@ -2,35 +2,13 @@
 
 /* Container*/
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
-    border-radius: 15px;
-    width: 80vw;
-    padding-top: 150px;
-    padding-bottom: 100px;
-    padding-left: 30px;
-    padding-right: 30px;
-    margin: 0 auto;
-    height: auto;
+    margin: var(--navbar-height-s) auto 0;
+    max-width: 1300px;
+    border: 1px solid red;
+    display: grid;
 }
 
-.changeContainer {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 20px;
-    background: var(--custom-glass);
-    border-radius: 15px;
-    width: 80vw;
-    padding-top: 100px;
-    margin: 0 auto;
-    height: auto;
-}
+
 
 /*User Section*/
 #userSection {

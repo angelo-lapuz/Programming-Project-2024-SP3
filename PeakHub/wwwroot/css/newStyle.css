@@ -2435,3 +2435,321 @@ input[type="range"] {
         text-align: center;
     }
 }
+
+
+
+
+
+
+/* PROFILE */
+
+.container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    height: auto;
+    
+}
+
+/* Container*/
+.profile-grid {
+    margin: 8rem auto 0;
+    width: 100%;
+    display: grid;
+    grid-template-areas: 
+        'profile' 
+        'awards' 
+        'complete';
+    overflow-x: hidden;
+}
+
+.awardsSection, #userSection, .completedAbelsSection {
+    width: 100%;
+}
+
+#userSection {
+    grid-area: profile;
+    margin: 7rem auto 0;
+    background: var(--grey-glass);
+    backdrop-filter: blur(3px);
+    box-shadow: 0px 0px 10px 5px rgb(0,0,0,0.5);
+    text-align: center;
+    color: white;
+    height: calc(100vh - 15rem);
+}
+
+
+
+
+/* PROFILE */
+
+
+body {
+    background: url("../img/background2.svg") no-repeat center fixed;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.user-info {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.user-info img {
+    height: 12rem;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -1rem;
+    box-shadow: 0px 0px 10px 2px rgb(0,0,0,0.5);
+}
+
+.user-info h2 {
+    padding-top: 2rem;
+    width: 100%;
+    text-align: center;
+    font-size: 4rem;
+    z-index: 10;
+    transform: rotate(-3deg);
+    filter: drop-shadow(0px 0px 10px rgb(0,0,0,0.5));
+}
+
+#userSection p {
+    margin: 5rem 0;
+    font-size: 1.5rem;
+}
+
+.user-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.user-actions a {
+    width: 17.5rem;
+    margin: 0 auto;
+}
+
+.profile-btn:hover {
+    background: var(--darkgreen);
+}
+
+.profile-btn:visited, profile-btn {
+    color: #ffffff;
+    transition: all 0s linear;
+}
+
+.profile-btn:active {
+    color: var(--darkgreen);
+    background: #ffffff;
+}
+
+
+/* AWARDS */
+
+.awardsSection {
+    grid-area: awards;
+    position: absolute;
+    bottom: var(--who-what-where);
+    z-index: 100;
+    background: var(--grey);
+    height: var(--who-what-where);
+    transition: all var(--animation-timing);
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.awardsSection.show {
+    height: calc(100vh - 12rem);
+}
+
+.headerSearchWrapper {
+    background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 25%, var(--lightgreen) 75%, var(--darkgreen));
+    height: var(--who-what-where);
+    color: white;
+
+}
+
+.awards-header .fa-chevron-up.flip {
+    transform: rotate(180deg);
+}
+
+.headerSearchWrapper i:last-child {
+    float: right;
+    margin-right: 4rem;
+    transition: all var(--animation-timing);
+}
+
+
+/* COMPLETE PEAKS */
+
+.completedAbelsSection {
+    grid-area: complete;
+    position: absolute;
+    height: var(--who-what-where);
+    bottom: 0;
+    overflow-y: scroll;
+    transition: all var(--animation-timing);
+    z-index: 100;
+    cursor: pointer;
+}
+
+.completedAbelsSection::-webkit-scrollbar {
+    display: none;
+}
+
+.completedAbelsSection {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.completedAbelsSection.show {
+    height: calc(100vh - 8rem);
+    background: var(--grey);
+}
+
+.complete-header .fa-chevron-up.flip {
+    transform: rotate(180deg);
+}
+
+.complete-header {
+    position: sticky;
+    top: 0;
+}
+
+
+@media only screen and (min-width:601px) {
+
+    .user-actions a {
+        width: 24rem;
+    }
+
+    #userSection p {
+        font-size: 2rem;
+    }
+
+    #userSection {
+        margin-left: 0;
+    }
+}
+
+
+@media only screen and (min-width:901px) {
+
+
+    .profile-grid {
+        grid-template-areas:
+            'profile awards'
+            'profile complete';
+        grid-template-columns: 1fr 1fr;
+        padding: 0 1rem 1rem;
+    }
+
+    #userSection {
+        width: calc(50vw - 2rem);
+        border-radius: 1rem;
+    }
+
+    .awardsSection, .completedAbelsSection {
+        width: calc(50vw - 2rem); 
+        left: 50%;
+        transform: translateX(0.5rem);
+        background: var(--grey-glass);
+        backdrop-filter: blur(3px);
+    }
+
+    .awardsSection {
+        top: 15rem;
+    }
+
+    #userSection p {
+        font-size: 1.5rem;
+    }
+
+    .user-actions {
+        font-size: 1rem;
+    }
+
+    .user-actions a {
+        width: 17.5rem;
+    }
+
+    .awardsSection, .awardsSection.show {
+
+        height: calc(100vh - 19rem);
+        border-radius: 1rem 1rem 0 0;
+        box-shadow: 0px 0px 10px 5px rgb(0,0,0,0.5);
+    }
+
+
+    .completedAbelsSection {
+        border-radius: 0 0 1rem 1rem;
+        box-shadow: 0px 0px 10px 5px rgb(0,0,0,0.5);
+        display:flex;
+        flex-direction: column-reverse;
+    }
+
+    .completedAbelsSection .headerSearchWrapper {
+        background: linear-gradient(to bottom, silver, grey 25%, grey 75%, black);
+    }
+
+    .completedAbelsSection.show {
+        height: calc(100vh - 19rem);
+    }
+
+    .complete-header {
+        top: 100%;
+    }
+
+
+
+}
+
+@media only screen and (min-width:1201px) {
+
+    #userSection {
+        margin-left: auto;
+    }
+
+    .profile-grid {
+        grid-template-areas:'awards profile complete';
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 0 1rem 1rem;
+    }
+
+    .awardsSection, .completedAbelsSection, #userSection {
+        position: static;
+        width: calc(100% - 1rem);
+        padding: 0;
+        border-radius: 1rem;
+    }   
+
+    .awardsSection, .completedAbelsSection {
+        height: calc(100vh - 11rem);
+        margin: 3rem auto 0;
+        transform: translateX(0);
+    }
+
+    .completedAbelsSection {
+        flex-direction: column;
+    }
+
+    .complete-header, .completedAbelsSection .headerSearchWrapper {
+        background: linear-gradient(to bottom, var(--darkgreen), var(--lightgreen) 25%, var(--lightgreen) 75%, var(--darkgreen));
+    }
+
+    .complete-header {
+        top: 0;
+    }
+}

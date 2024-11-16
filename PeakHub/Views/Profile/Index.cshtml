@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "_Layout";
 }
-<link rel="stylesheet" href="~/css/_profile.css" asp-append-version="true" />
 
 
 @functions {
@@ -19,169 +18,171 @@
 
 
 <div class="container">
-    <div id="awardsSection" class="col-md-3">
-        <div class="headerSearchWrapper">
-            <h2>AWARDS &nbsp;<i class="fa-regular fa-circle-question"></i></h2>
-        </div>
-        @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
-        {
-            <span>No awards</span>
-        }
-        else
-        {
-            <div class="awards-grid-container">
-                <div class="awards-grid">
-                    @foreach (var award in ViewBag.Awards)
-                    {
-                        if (award.Name.Contains("Student")) continue;
+    <div class="profile-grid">
+        <div class="awardsSection" class="col-md-3">
+            <div class="headerSearchWrapper awards-header">
+                <h2><i class="fa-solid fa-trophy" style="color: #FFD43B;"></i>&nbsp AWARDS &nbsp; <i class="fa-solid fa-chevron-up"></i></h2>
+            </div>
+            @if (ViewBag.Awards == null || ViewBag.Awards.Count == 0)
+            {
+                <span>No awards</span>
+            }
+            else
+            {
+                <div class="awards-grid-container">
+                    <div class="awards-grid">
+                        @foreach (var award in ViewBag.Awards)
+                        {
+                            if (award.Name.Contains("Student")) continue;
 
-                        string quantity = ExtractQuantity(award.Condition);
-                        string awardClass = award.Name.Contains("Beginner") ? "bronze" :
-                        award.Name.Contains("Experienced") ? "silver" :
-                        (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
-                        award.Name.Contains("Legend") ? "platinum" : "";
+                            string quantity = ExtractQuantity(award.Condition);
+                            string awardClass = award.Name.Contains("Beginner") ? "bronze" :
+                            award.Name.Contains("Experienced") ? "silver" :
+                            (award.Name.Contains("Master") || award.Name.Contains("Grand Master")) ? "gold" :
+                            award.Name.Contains("Legend") ? "platinum" : "";
 
-                        <div class="award-wrapper">
-                            <div class="award-tile @awardClass">
-                                @if (awardClass == "platinum")
-                                {
-                                    <i class="fa-solid fa-crown award-crown"></i>
-                                }
-                                <div class="award-number">@quantity</div>
+                            <div class="award-wrapper">
+                                <div class="award-tile @awardClass">
+                                    @if (awardClass == "platinum")
+                                    {
+                                        <i class="fa-solid fa-crown award-crown"></i>
+                                    }
+                                    <div class="award-number">@quantity</div>
+                                </div>
+                                <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
                             </div>
-                            <div class="award-name">@ExtractNameWithoutQuantity(award.Name)</div>
-                        </div>
-                    }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+
+
+        <div id="userSection" class="col-md-3">
+            <div class="user-info">
+                <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
+                <h2>@ViewBag.UserName</h2>
+            </div>
+
+            <p>
+                <i class="fa-regular fa-envelope"></i> &nbsp; &nbsp;@ViewBag.Email<br />
+            </p>
+            <!--
+            <div class="peaks-bagged">
+                <span>ABELS BAGGED</span>
+                <div class="counter-slots">
+                    <div class="counter" id="hundreds">@((ViewBag.TotalCompleted / 100) % 10)</div>
+                    <div class="counter" id="tens">@((ViewBag.TotalCompleted / 10) % 10)</div>
+                    <div class="counter" id="units">@((ViewBag.TotalCompleted) % 10)</div>
+                </div>
+            </div> -->
+
+            <div class="user-actions">
+                <a href="@Url.Action("EditDetails", "Profile")" class="buttonA profile-btn">
+                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;EDIT DETAILS
+                </a>
+                <a href="@Url.Action("ChangePassword", "Profile")" class="buttonA profile-btn">
+                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;CHANGE PASSWORD
+                </a>
+            </div>
+        </div>
+
+        <div class="completedAbelsSection">
+            <div class="headerSearchWrapper complete-header">
+                <h2><i class="fa-regular fa-square-check" style="color: #912f45;"></i></i>&nbsp COMPLETED &nbsp; <i class="fa-solid fa-chevron-up"></i></h2>
+                <div class="search-bar-container">
+                    <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
                 </div>
             </div>
-        }
-    </div>
 
-
-
-    <div id="userSection" class="col-md-3">
-        <div class="user-info">
-            <img src="@ViewBag.ProfileImg" alt="User Avatar" class="avatar" />
-            <h2>@ViewBag.UserName</h2>
-        </div>
-
-        <p>
-            <i class="fa-regular fa-envelope"></i> &nbsp; &nbsp;@ViewBag.Email<br />
-        </p>
-
-        <div class="peaks-bagged">
-            <span>ABELS BAGGED</span>
-            <div class="counter-slots">
-                <div class="counter" id="hundreds">@((ViewBag.TotalCompleted / 100) % 10)</div>
-                <div class="counter" id="tens">@((ViewBag.TotalCompleted / 10) % 10)</div>
-                <div class="counter" id="units">@((ViewBag.TotalCompleted) % 10)</div>
-            </div>
-        </div>
-
-        <div class="user-actions">
-            <a href="/Profile/EditDetails" class="btn btn-secondary">
-                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;EDIT DETAILS
-            </a>
-            <a href="/Profile/ChangePassword" class="btn btn-secondary">
-                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;CHANGE PASSWORD
-            </a>
-        </div>
-    </div>
-
-    <div id="completedAbelsSection" class="col-md-6">
-        <div class="headerSearchWrapper">
-                <h2>COMPLETED</h2>
-            <div class="search-bar-container">
-                <input type="text" id="peakSearchInput" placeholder="Search Peaks...">
-            </div>
-        </div>
-
-        @if (ViewBag.AllPeaks == null || ((List<Peak>)ViewBag.AllPeaks).Count == 0)
-        {
-            <span>No peaks available</span>
-        }
-        else
-        {
-            <div id="boardItems">
-                @foreach (var peak in ViewBag.Peaks)
-                {
-                    <div class="itemBox" data-peak="@peak.Name" data-id="@peak.PeakID">
-                        @peak.Name
-                    </div>
-                }
-
-                @foreach (var peak in (List<Peak>)ViewBag.AllPeaks)
-                {
-                    bool isCompleted = ((List<Peak>)ViewBag.Peaks).Any(p => p.PeakID == peak.PeakID);
-
-                    if (!isCompleted)
+            @if (ViewBag.AllPeaks == null || ((List<Peak>)ViewBag.AllPeaks).Count == 0)
+            {
+                <span>No peaks available</span>
+            }
+            else
+            {
+                <div id="boardItems">
+                    @foreach (var peak in ViewBag.Peaks)
                     {
-                        <div class="itemBox grey-scale" data-peak="@peak.Name" data-id="@peak.PeakID">
+                        <div class="itemBox" data-peak="@peak.Name" data-id="@peak.PeakID">
                             @peak.Name
                         </div>
                     }
-                }
-            </div>
-        }
-    </div>
 
+                    @foreach (var peak in (List<Peak>)ViewBag.AllPeaks)
+                    {
+                        bool isCompleted = ((List<Peak>)ViewBag.Peaks).Any(p => p.PeakID == peak.PeakID);
 
-    <div id="awardModel" class="model">
-        <div class="model-content">
-            <span class="close-btn">&times;</span>
-            <h2>AWARDS</h2>
-            <table class="awards-table">
-                <tr>
-                    <td><strong>Beginner</strong></td>
-                    <td>1 Mountain Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Beginner 1</strong></td>
-                    <td>10 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Beginner 2</strong></td>
-                    <td>20 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Beginner 3</strong></td>
-                    <td>30 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Experienced</strong></td>
-                    <td>40 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Experienced 1</strong></td>
-                    <td>50 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Experienced 2</strong></td>
-                    <td>60 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Experienced 3</strong></td>
-                    <td>70 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Master</strong></td>
-                    <td>80 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Master 1</strong></td>
-                    <td>90 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Grand Master</strong></td>
-                    <td>100 Mountains Completed</td>
-                </tr>
-                <tr>
-                    <td><strong>Legend</strong></td>
-                    <td>158 Mountains Completed</td>
-                </tr>
-            </table>
+                        if (!isCompleted)
+                        {
+                            <div class="itemBox grey-scale" data-peak="@peak.Name" data-id="@peak.PeakID">
+                                @peak.Name
+                            </div>
+                        }
+                    }
+                </div>
+            }
         </div>
 
+        <!--
+        <div id="awardModel" class="model">
+            <div class="model-content">
+                <span class="close-btn">&times;</span>
+                <h2>AWARDS</h2>
+                <table class="awards-table">
+                    <tr>
+                        <td><strong>Beginner</strong></td>
+                        <td>1 Mountain Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beginner 1</strong></td>
+                        <td>10 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beginner 2</strong></td>
+                        <td>20 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beginner 3</strong></td>
+                        <td>30 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experienced</strong></td>
+                        <td>40 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experienced 1</strong></td>
+                        <td>50 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experienced 2</strong></td>
+                        <td>60 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experienced 3</strong></td>
+                        <td>70 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Master</strong></td>
+                        <td>80 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Master 1</strong></td>
+                        <td>90 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grand Master</strong></td>
+                        <td>100 Mountains Completed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Legend</strong></td>
+                        <td>158 Mountains Completed</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>  -->
     </div>
 </div>
 
@@ -209,7 +210,7 @@
 
 
 
-<!--This script handles the completed peaks counter-->
+<!--This script handles the completed peaks counter
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const hundreds = document.querySelector(".counter-slots #hundreds");
@@ -232,7 +233,7 @@
         setTimeout(() => spinCounter(tens, finalTens, 1000), 200);
         setTimeout(() => spinCounter(units, finalUnits, 1000), 400);
     });
-</script>
+</script>-->
 <!--This script handles case sensitivty when searching-->
 <script>
     document.getElementById('peakSearchInput').addEventListener('input', function () {
@@ -252,8 +253,7 @@
     });
 
 </script>
-
-<script>
+<!--<script>
     document.addEventListener("DOMContentLoaded", function () {
         const modal = document.getElementById("awardModel");
         const openModalButton = document.querySelector("#awardsSection h2");
@@ -273,7 +273,9 @@
             }
         });
     });
-</script>
 
+    
+</script>-->
 
+<script src="~/js/profile.js" asp-append-version="true"></script>
 
