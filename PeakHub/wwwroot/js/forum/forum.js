@@ -57,10 +57,13 @@ $(function () {
                         $("#like_" + postID).removeClass("inactiveLike");
 
                         likeIcon.addClass("pop-effect");
-                        setTimeout(() => { likeIcon.removeClass("pop-effect"); }, 300); 
+                        setTimeout(() => { likeIcon.removeClass("pop-effect"); }, 500); 
                     } else {
                         likeCount--;
                         $("#like_" + postID).addClass("inactiveLike");
+
+                        likeIcon.addClass("pop-r-effect");
+                        setTimeout(() => { likeIcon.removeClass("pop-r-effect"); }, 500); 
                     }
 
                     likeField.text(likeCount.toString());
@@ -86,7 +89,7 @@ function postHTML(post) {
         hour: '2-digit', minute: '2-digit', hour12: true
     });
 
-    var content = "<p style='display: none;'> </p>";
+    var content = "<div style='display: none;'> </div>";
 
     if (post.content) {
         if (post.content.length >= 500) {
