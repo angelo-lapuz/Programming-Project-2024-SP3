@@ -184,7 +184,20 @@ img { border-radius: var(--radius); }
     }
 }
 
+@keyframes pop-r {
+    0%, 100% {
+        color: inherit;
+        transform: scale(1);
+    }
+
+    50% {
+        color: var(--red);
+        transform: scale(0.5);
+    }
+}
+
 .pop-effect { animation: pop 0.3s ease-in-out; }
+.pop-r-effect { animation: pop-r 0.3s ease-in-out; }
 
 /* Posts Content */
 
@@ -195,12 +208,16 @@ img { border-radius: var(--radius); }
     min-height: 20vh;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
 }
 
-.postContent img.postImg {
-    width: 80%;
-    border-radius: var(--radius);
+.postContent h1, .postContent h2, .postContent h3, .postContent h4, .postContent h5, .postContent h6 {
+    margin-bottom: 15px;
 }
+
+.square img { width: 75%; }
+[class*='portrait'] img { width: 60%; }
+[class*='landscape'] img { width: 95%; }
 
 .textView {
     font-size: 1.5rem;
@@ -246,7 +263,7 @@ img { border-radius: var(--radius); }
 #editor {
     width: 100%;
     border: none;
-    font-size: 1vw;    
+    font-size: 1.5rem;    
     background: var(--blue-glass);
 }
 
